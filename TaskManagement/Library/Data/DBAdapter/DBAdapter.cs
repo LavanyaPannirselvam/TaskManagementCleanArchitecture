@@ -11,7 +11,6 @@ namespace TaskManagementLibrary.Data.DBAdapter
     public class DBAdapter : IDBAdapter
     {
         private static SQLiteConnection connection;
-        private static DatabaseConnection dbConn;
 
         public DBAdapter(DatabaseConnection dbConn)
         {
@@ -21,9 +20,12 @@ namespace TaskManagementLibrary.Data.DBAdapter
                 connection = conn.GetDbConnection();
                 lock (connection)
                 {
-                    LibraryInitialization libraryInitialization;
-                    libraryInitialization = LibraryInitialization.GetInstance();
-                    libraryInitialization.InitializeDb();
+                    if (connection == null)
+                    {
+                        LibraryInitialization libraryInitialization;
+                        libraryInitialization = LibraryInitialization.GetInstance();
+                        libraryInitialization.InitializeDb();
+                    }
                 }
             }
         }
@@ -51,6 +53,11 @@ namespace TaskManagementLibrary.Data.DBAdapter
         public IEnumerable<T> GetList<T>() where T : new()
         {
             return connection.Table<T>();
+        }
+
+        public List<T> GetFromQuery<T>(string query, params object[] value) where T : new()
+        {
+            return connection.Query<T>(query, value);
         }
     }
 }

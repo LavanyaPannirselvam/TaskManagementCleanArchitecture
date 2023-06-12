@@ -13,5 +13,6 @@ namespace TaskManagementLibrary.Data.DBAdapter
         int Delete<T>(T value) where T : new();
         int Update<T>(T value) where T : new();
         IEnumerable<T> GetList<T>() where T:new();
+        List<T> GetFromQuery<T>(string query,params object[] values) where T:new();
     }
 }
