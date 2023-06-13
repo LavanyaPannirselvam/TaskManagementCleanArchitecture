@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="TaskManagementCleanArchitecture.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaskManagementCleanArchitecture"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:library="using:TaskManagementLibrary.Models" xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:FirstPageViewModel}"
+    mc:Ignorable ="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Name="Hamburger_ViewAssigned"
+                Content="View Assigned"
+                FontSize="10" 
+                HorizontalAlignment="Center" 
+                Height="38"
+                Margin="2,2"/>
+        <!--Click="Hamburger_ViewAssigned"-->
+        <SplitView Grid.Row="1" 
+                   Name="mySplitView" 
+                   DisplayMode="CompactOverlay" 
+                   OpenPaneLength="88" 
+                   CompactPaneLength="88" 
+                   HorizontalAlignment="Left">
+            <SplitView.Pane>
+                <ListView SelectionMode="Single"
+                        Width="88"
+                         HorizontalAlignment="Left">
+                    <ListViewItem Name="AssignedProject">
+                        <StackPanel Orientation="Horizontal">
+                            <Image />
+                            <TextBlock Text="Projects"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </SplitView.Pane>
+        </SplitView>
+        <MenuBar Grid.Column="1"
+                 Grid.Row="0"
+                 Margin="10,0,0,0">
+            <MenuBarItem Title="Create">
+                <MenuFlyoutItem Text="Project"/>
+                <MenuFlyoutItem Text="Task"/>
+            </MenuBarItem>
+        </MenuBar>
+        <Frame Name="MyFrame"
+               Grid.Row="1"
+               Grid.Column="1">
+            <controls:ListDetailsView x:Name="ProjectListDetailsView"
+                                      ItemsSource="{x:Bind _firstPageViewModel.ProjectsList}"
+                                      SelectionChanged="ProjectListDetailsView_SelectionChanged">
+                <controls:ListDetailsView.ItemTemplate>
+                    <DataTemplate x:DataType="library:Project">
+                        <StackPanel Margin="0,8">
+                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                       />
+                            <TextBlock Text="{x:Bind Desc,Mode=OneWay}"
+                                       
+                                       MaxLines="2"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:ListDetailsView.ItemTemplate>
+                <controls:ListDetailsView.DetailsTemplate>
+                    <DataTemplate x:DataType="library:Project">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Margin="2,3"/>
+                            <TextBlock Text="{x:Bind Desc,Mode=OneWay}"
+                                       FontSize="12"
+                                       Margin="2,3"/>
+                            <TextBlock Text="{x:Bind CreatedBy,Mode=OneWay}"
+                                       FontSize="12"
+                                       Margin="2,3"/>
+                            <ListView>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="library:User">
+                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:ListDetailsView.DetailsTemplate>
+            </controls:ListDetailsView>
+        </Frame>
+    </Grid>
+</Page>
