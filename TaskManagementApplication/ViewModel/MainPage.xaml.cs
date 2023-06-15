@@ -29,19 +29,24 @@ namespace TaskManagementCleanArchitecture
     public sealed partial class MainPage : Page
     {
         public FirstPageViewModelBase _firstPageViewModel;
-        private int projectId;
+        private int projectId = 0;
         public MainPage()
         {
             this.InitializeComponent();
             _firstPageViewModel = PresenterService.GetInstance().Services.GetService<FirstPageViewModelBase>();
-            _firstPageViewModel.GetProjectsList();
-            _firstPageViewModel.GetUsersList(projectId);
+            _firstPageViewModel.GetProjectsList();           
         }
 
         private void ProjectListDetailsView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var data = sender as ListDetailsView;
-            //projectId = e.AddedItems;   
+            Project project = (sender as ListDetailsView).SelectedItem as Project;
+            projectId = project.Id;
+            _firstPageViewModel.GetUsersList(projectId);
+        }
+
+        private void Hamburger_ViewAssigned_Click(object sender, RoutedEventArgs e)
+        {
+            mySplitView.IsPaneOpen = !mySplitView.IsPaneOpen;
         }
     }
 }
