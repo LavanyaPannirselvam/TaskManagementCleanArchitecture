@@ -48,5 +48,8 @@ namespace TaskManagementCleanArchitecture
         {
             mySplitView.IsPaneOpen = !mySplitView.IsPaneOpen;
         }
+
+        
+        
     }
 }
