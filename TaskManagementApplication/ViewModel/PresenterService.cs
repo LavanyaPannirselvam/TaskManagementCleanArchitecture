@@ -29,6 +29,7 @@ namespace TaskManagementCleanArchitecture
         {
             var services = new ServiceCollection();
             services.AddSingleton<FirstPageViewModelBase, FirstPageViewModel>();
+            services.AddSingleton<LoginViewModelBase, LoginViewModel>();
             return services.BuildServiceProvider();
         }
     }
