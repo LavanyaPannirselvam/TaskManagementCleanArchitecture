@@ -11,7 +11,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public static async Task SwitchToMainThread(Action action)
         {
-            //await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
             Windows.UI.Core.CoreDispatcherPriority.Normal, () => action());
         }

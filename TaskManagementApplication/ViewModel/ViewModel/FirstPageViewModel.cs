@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Collections;
+using NSwag.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         private GetProjectsList _getProjectsList;
         private GetUsersList _getUsersList; 
+        
         public override void GetProjectsList()
         {
             _getProjectsList = new GetProjectsList(new PresenterGetProjectsList(this),new GetProjectListRequest(new CancellationTokenSource()));
@@ -48,9 +50,13 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
         }
 
-        public void OnSuccessAsync(ZResponse<GetProjectListResponse> response)
+        public async void OnSuccessAsync(ZResponse<GetProjectListResponse> response)
         {
-            PopulateData(response.Data.Projects);
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                PopulateData(response.Data.Projects);
+            });
+            //PopulateData(response.Data.Projects);
         }
 
         private void PopulateData(List<Project> data)
@@ -82,16 +88,20 @@ namespace TaskManagementCleanArchitecture.ViewModel
             
         }
 
-        public void OnSuccessAsync(ZResponse<GetUsersListResponse> response)
+        public async void OnSuccessAsync(ZResponse<GetUsersListResponse> response)
         {
-            PopulateData(response.Data.AssignedUserList);
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                PopulateData(response.Data.AssignedUserList);
+            });
         }
 
         private void PopulateData(List<User> data)
         {
+            //TODO : if no users,msg that no users were assigned yet
             foreach (var p in data)
             {
-                _firstPageViewModel.UsersList.Add(p);
+                _firstPageViewModel.UsersList.Add(p);               
             }
         }
     }
@@ -101,8 +111,10 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public ObservableCollection<Project> ProjectsList = new ObservableCollection<Project>();
         public ObservableCollection<User> UsersList = new ObservableCollection<User>();
+        public ObservableCollection<ProjectWithUsersBO> projectWithUsersList = new ObservableCollection<ProjectWithUsersBO>();
         public abstract void GetUsersList(int projectId);
         public abstract void GetProjectsList();
     }
 
 }
+//need to do ProjectWithUsersBO
