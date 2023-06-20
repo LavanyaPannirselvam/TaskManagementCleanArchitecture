@@ -27,6 +27,7 @@ namespace TaskManagementCleanArchitecture
     public sealed partial class FirstPage : Page
     {
         public FirstPageViewModelBase _firstPageViewModel;
+        public MainPage _mainPage;
         private int projectId = 0;
         public FirstPage()
         {

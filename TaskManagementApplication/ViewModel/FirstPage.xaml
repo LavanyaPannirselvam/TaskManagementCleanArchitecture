@@ -139,12 +139,22 @@
     IsBackEnabled="False"
     PaneDisplayMode="Left"
     OpenPaneLength="150"
-    Header="Welcome"
+    VerticalAlignment="Top"
     AlwaysShowHeader="True"
+    Header="Welcome"
     ExpandedModeThresholdWidth="200"
     SelectionFollowsFocus="Disabled"
-    IsTabStop="False">
-
+    IsTabStop="False"
+    HorizontalAlignment="Stretch">
+        <NavigationView.HeaderTemplate>
+            <DataTemplate x:Name="Welcome">
+                <PersonPicture DisplayName="Lavanya" 
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Height ="50"
+                               Width="50"/>
+            </DataTemplate>
+        </NavigationView.HeaderTemplate>
         <NavigationView.MenuItems>
             <NavigationViewItemHeader Content="View Assigned"/>
             <NavigationViewItem Content="Projects" x:Name="ProjectsTab">
@@ -165,9 +175,8 @@
                                       ItemsSource="{x:Bind _firstPageViewModel.ProjectsList}"
                                       SelectionChanged="ProjectListDetailsView_SelectionChanged" 
                                       VerticalAlignment="Top"
-                                      Height="800" 
-                                      CornerRadius="30"
-                                      >
+                                      Height="838" 
+                                      CornerRadius="30">
                 <controls:ListDetailsView.ItemTemplate>
                     <DataTemplate x:DataType="library:Project">
                         <StackPanel Margin="0,10,0,0">

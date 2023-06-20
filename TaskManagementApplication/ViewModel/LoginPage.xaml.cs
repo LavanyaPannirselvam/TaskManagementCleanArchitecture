@@ -31,6 +31,7 @@ namespace TaskManagementCleanArchitecture
         {
             this.InitializeComponent();
             _loginBaseViewModel = PresenterService.GetInstance().Services.GetService<LoginViewModelBase>();
+            _loginBaseViewModel.loginView = this;
         }
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
@@ -47,22 +48,18 @@ namespace TaskManagementCleanArchitecture
 
         private void Verify_Click(object sender, RoutedEventArgs e)
         {
-            //if(UserId.Text == "")
-            //{
-            //    _loginBaseViewModel.TextBoxVisibility = Visibility.Visible;
-            //    ResultText.Text = "Enter User ID";
-            //}
-            //else if(Password.Password == "")
-            //{
-            //    _loginBaseViewModel.TextBoxVisibility = Visibility.Visible;
-            //    ResultText.Text = "Enter Password";
-            //}
-            //else
-            //{
-               _loginBaseViewModel.ValidateUser(UserId.Text, Password.Password);
+            if (UserId.Text == "")
+            {
+                _loginBaseViewModel.TextBoxVisibility = Visibility.Visible;
+                ResultText.Text = "Enter User ID";
+            }
+
+            else
+            {
+                _loginBaseViewModel.ValidateUser(UserId.Text, Password.Password);
                 UserId.Text = ""; 
                 Password.Password = "";
-            //}
+            }
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e)

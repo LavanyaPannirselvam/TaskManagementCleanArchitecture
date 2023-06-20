@@ -28,6 +28,7 @@ namespace TaskManagementCleanArchitecture
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private User _currentUser;
         public FirstPageViewModelBase _firstPageViewModel;
         public MainPage()
         {
@@ -42,6 +43,7 @@ namespace TaskManagementCleanArchitecture
 
         public void NavigateToFirstPage(User currentUser)
         {
+            _currentUser = currentUser;
             MainFrame.Navigate(typeof(FirstPage));
         }
     }
