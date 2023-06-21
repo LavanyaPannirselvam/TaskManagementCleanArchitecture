@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
-    xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" xmlns:library="using:TaskManagementLibrary.Models"
+    xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" 
+    xmlns:library="using:TaskManagementLibrary.Models"
     d:DataContext="{d:DesignInstance Type=viewmodel:FirstPageViewModel}"
     mc:Ignorable ="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
@@ -16,6 +17,8 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="BorderBrush" Value="#2e86c9"/>
         </Style>
+        <TextBlock Text="{Binding CurrentUser,Mode=OneWay}" x:Key="CurrentUserName"/>
+
     </Page.Resources>
     <!--<Grid>
         <Grid.ColumnDefinitions>
@@ -132,7 +135,6 @@
             </controls:ListDetailsView>
         </Frame>
     </Grid>-->
-
     <NavigationView x:Name="MainPageNV"
     IsSettingsVisible="False"
     IsBackButtonVisible="Collapsed"
@@ -146,15 +148,16 @@
     SelectionFollowsFocus="Disabled"
     IsTabStop="False"
     HorizontalAlignment="Stretch">
-        <NavigationView.HeaderTemplate>
-            <DataTemplate x:Name="Welcome">
-                <PersonPicture DisplayName="Lavanya" 
+        <!--<NavigationView.HeaderTemplate>
+            <DataTemplate x:Name="Welcome" x:DataType="viewmodel:LoginViewModel">
+                --><!--<PersonPicture DisplayName="{Binding CurrentUser,Mode=OneWay}" 
                                HorizontalAlignment="Right"
                                VerticalAlignment="Top"
                                Height ="50"
-                               Width="50"/>
+                               Width="50"/>--><!--
+                <TextBlock Text="{x:Bind CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
-        </NavigationView.HeaderTemplate>
+        </NavigationView.HeaderTemplate>-->
         <NavigationView.MenuItems>
             <NavigationViewItemHeader Content="View Assigned"/>
             <NavigationViewItem Content="Projects" x:Name="ProjectsTab">
@@ -167,6 +170,7 @@
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF0E3;" FontSize="12" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+            <NavigationViewItem Content="{x:Bind CurrentUser,Mode=OneWay}"/>
         </NavigationView.MenuItems>
         <Frame x:Name="contentFrame"
                CornerRadius="10"

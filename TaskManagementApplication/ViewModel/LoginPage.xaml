@@ -6,26 +6,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    mc:Ignorable="d">
+    <Page.Background>
+        <ImageBrush ImageSource="/Assets/AppBackdrop-Light.png" />
+    </Page.Background>
     <Grid>
-        <Image HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch">
-            <Image.Source>
-                <BitmapImage UriSource="/Assets/AppBackdrop-Light.png"/>
-            </Image.Source>
-        </Image>
         <controls:DropShadowPanel Color="AliceBlue" 
-                                  OffsetX="-25" 
-                                  OffsetY="25" 
+                                  OffsetX="12" 
+                                  OffsetY="12" 
                                   BlurRadius="30" 
-                                  ShadowOpacity=".4" 
+                                  ShadowOpacity=".7"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Padding="30"  
                                   Name="LoginContainerShadow">
-            <Grid x:Name="LoginContainer" Padding="30"  Grid.Row="1">
+            <Grid x:Name="LoginContainer" Padding="30"  Grid.Row="1"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"></RowDefinition>
                     <RowDefinition Height="1*"></RowDefinition>
@@ -52,6 +49,7 @@
                                      MaxWidth="220" 
                                      CornerRadius="5"
                                      Header="Password"
+                                     PasswordRevealMode="Hidden"
                                      PasswordChanged="PasswordChanged"
                                      x:Name="Password" >
                         <ToolTipService.ToolTip >
@@ -90,8 +88,6 @@
                                 Content="Submit" Click="Verify_Click"/>
                 </StackPanel>
             </Grid>
-
         </controls:DropShadowPanel>
-
     </Grid>
 </Page>

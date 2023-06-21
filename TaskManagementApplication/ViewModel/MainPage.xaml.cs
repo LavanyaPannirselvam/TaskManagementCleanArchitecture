@@ -11,6 +11,7 @@ using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,6 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using controls = Microsoft.Toolkit.Uwp.UI.Controls;
+using User = TaskManagementLibrary.Models.User;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace TaskManagementCleanArchitecture
@@ -28,26 +30,32 @@ namespace TaskManagementCleanArchitecture
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private User _currentUser;
         public FirstPageViewModelBase _firstPageViewModel;
         public MainPage()
         {
             this.InitializeComponent();
-
         }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(LoginPage));
             LoginPage.OnLoginSuccess += NavigateToFirstPage;
         }
 
-        public void NavigateToFirstPage(User currentUser)
+        private void NavigateToFirstPage(User currentUser)
         {
-            _currentUser = currentUser;
-            MainFrame.Navigate(typeof(FirstPage));
+            //var firstPage = new FirstPage
+            //{
+            //    CurrentUser = currentUser
+            //};
+            //MainFrame.Navigate(firstPage.GetType(), firstPage);
+             MainFrame.Navigate(typeof(FirstPage),currentUser);
+
         }
+
+
     }
 }
 //CONTROL TEMPLATE -> used to create custom template for ui elements
 //RESOURCE DICTIONARY -> used when a particular customization should be used many times;definitions of some object that you expect to use more than once;
-//                     -> only shareable object can be used inside 
+//                    -> only shareable object can be used inside 
