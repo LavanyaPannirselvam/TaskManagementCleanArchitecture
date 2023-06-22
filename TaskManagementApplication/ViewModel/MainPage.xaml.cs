@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using controls = Microsoft.Toolkit.Uwp.UI.Controls;
-using User = TaskManagementLibrary.Models.User;
+using User = TaskManagementLibrary.Models;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace TaskManagementCleanArchitecture
@@ -42,7 +42,7 @@ namespace TaskManagementCleanArchitecture
             LoginPage.OnLoginSuccess += NavigateToFirstPage;
         }
 
-        private void NavigateToFirstPage(User currentUser)
+        private void NavigateToFirstPage(TaskManagementLibrary.Models.LoggedInUserBO currentUser)
         {
             //var firstPage = new FirstPage
             //{

@@ -17,8 +17,17 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="BorderBrush" Value="#2e86c9"/>
         </Style>
-        <TextBlock Text="{Binding CurrentUser,Mode=OneWay}" x:Key="CurrentUserName"/>
-
+        <!--<Style TargetType="NavigationView">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="NavigationView">
+                        <NavigationView>
+                            
+                        </NavigationView>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
     </Page.Resources>
     <!--<Grid>
         <Grid.ColumnDefinitions>
@@ -141,25 +150,33 @@
     IsBackEnabled="False"
     PaneDisplayMode="Left"
     OpenPaneLength="150"
+    PaneTitle="Projects"
     VerticalAlignment="Top"
     AlwaysShowHeader="True"
-    Header="Welcome"
+    Header="{x:Bind CUser, Mode=OneWay}"
     ExpandedModeThresholdWidth="200"
     SelectionFollowsFocus="Disabled"
     IsTabStop="False"
     HorizontalAlignment="Stretch">
-        <!--<NavigationView.HeaderTemplate>
-            <DataTemplate x:Name="Welcome" x:DataType="viewmodel:LoginViewModel">
-                --><!--<PersonPicture DisplayName="{Binding CurrentUser,Mode=OneWay}" 
+        
+        <NavigationView.HeaderTemplate>
+            <DataTemplate x:Name="Welcome" x:DataType="library:LoggedInUserBO">
+                <RelativePanel>
+                    <TextBlock RelativePanel.AlignLeftWithPanel="True">
+                        <Run FontSize="24" Text ="{Binding WelcomeText}" x:Name="WelcomeMsg"/>
+                        <Run FontSize="24" Text ="{Binding LoggedInUser.Name}"/>
+                    </TextBlock>
+                    <PersonPicture DisplayName="{Binding LoggedInUser.Name, Mode=OneWay}" 
                                HorizontalAlignment="Right"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Stretch"
                                Height ="50"
-                               Width="50"/>--><!--
-                <TextBlock Text="{x:Bind CurrentUser,Mode=OneWay}"/>
+                               Width="50"
+                                   RelativePanel.AlignRightWithPanel="True"/>
+                </RelativePanel>
+                
             </DataTemplate>
-        </NavigationView.HeaderTemplate>-->
+        </NavigationView.HeaderTemplate>
         <NavigationView.MenuItems>
-            <NavigationViewItemHeader Content="View Assigned"/>
             <NavigationViewItem Content="Projects" x:Name="ProjectsTab">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEADF;" FontSize="12" />
@@ -170,7 +187,6 @@
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF0E3;" FontSize="12" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="{x:Bind CurrentUser,Mode=OneWay}"/>
         </NavigationView.MenuItems>
         <Frame x:Name="contentFrame"
                CornerRadius="10"

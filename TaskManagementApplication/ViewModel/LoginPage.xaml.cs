@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static TaskManagementLibrary.Models.User;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,12 +27,12 @@ namespace TaskManagementCleanArchitecture
     public sealed partial class LoginPage : Page, ILoginView
     {
         private LoginViewModelBase _loginBaseViewModel;
-        public static event Action<User> OnLoginSuccess;
+        public static event Action<LoggedInUserBO> OnLoginSuccess;
         public LoginPage()
         {
             this.InitializeComponent();
             _loginBaseViewModel = PresenterService.GetInstance().Services.GetService<LoginViewModelBase>();
-            _loginBaseViewModel.loginView = this;
+            _loginBaseViewModel.LoginView = this;
         }
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
@@ -89,7 +90,7 @@ namespace TaskManagementCleanArchitecture
             return false;
         }
 
-        public void UpdateLoginPage(User user)
+        public void UpdateLoginPage(LoggedInUserBO user)
         {
             OnLoginSuccess.Invoke(user);
         }
