@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
+using static TaskManagementLibrary.Models.User;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
@@ -77,9 +78,9 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
     
     
-    public class LoginResponse : ZResponse<UserCredential> 
+    public class LoginResponse : ZResponse<bool> 
     {
-        public User currentUser;
+        public LoggedInUserBO currentUser;
         public Role role;
     }
 }
