@@ -9,14 +9,13 @@ using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Models;
 using Windows.UI.Xaml;
+using static TaskManagementLibrary.Models.User;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class LoginViewModel : LoginViewModelBase
     {
         Login login;
-        public string userId;
-        public string password;
         public override void ValidateUser(string userId, string password)
         {
             login = new Login(new PresenterLoginCallback(this),new LoginRequest(new CancellationTokenSource(),userId, password));
@@ -57,7 +56,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 loginViewModel.CurrentUser = response.Data.currentUser;
-                loginViewModel.loginView.UpdateLoginPage(loginViewModel.CurrentUser);
+                loginViewModel.LoginView?.UpdateLoginPage(loginViewModel.CurrentUser);
             });
         }
     }
@@ -88,46 +87,28 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        private User _currentUser;
-        public User CurrentUser
+        private LoggedInUserBO _currentUser;
+        public LoggedInUserBO CurrentUser
         {
             get { return this._currentUser; }
             set
             {
                 _currentUser = value;
-                OnPropertyChanged(nameof(_currentUser));
+                OnPropertyChanged(nameof(CurrentUser));
             }
         }
 
-        private string _resetPasswordResponseValue;
-        public string ResetPasswordResponseValue
-        {
-            get { return this._resetPasswordResponseValue; }
-            set
-            {
-                _resetPasswordResponseValue = value;
-                OnPropertyChanged(nameof(ResetPasswordResponseValue));
-            }
-        }
-
-        private bool _redirect = true;
-        public bool Redirect
-        {
-            get { return this._redirect; }
-            set
-            {
-                _redirect = value;
-                OnPropertyChanged(nameof(Redirect));
-            }
-        }
         public abstract void ValidateUser(string userId,string password);
-        public ILoginView loginView { get; set; }
+        public ILoginView LoginView { get; set; }
     }
 
 
     public interface ILoginView
     {
-        void UpdateLoginPage(User currentUser);
+        void UpdateLoginPage(LoggedInUserBO currentUser);
     }
 }
+//login view model's call back will have setuser method with current user -> loginViewModel
+//set user will invoke the event -> login.xaml.cs
+//even subscription will happen at main.xaml.cs
 
