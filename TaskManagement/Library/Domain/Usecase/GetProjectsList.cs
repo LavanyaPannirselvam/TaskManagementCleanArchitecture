@@ -42,6 +42,7 @@ namespace TaskManagementLibrary.Domain.Usecase
             _dataManager = ServiceProvider.GetInstance().Services.GetService<IGetProjectsListDataManager>();
         }
 
+        
         public override void Action()
         {
             _dataManager.GetProjects(_request, new GetProjectsListCallback(this));
