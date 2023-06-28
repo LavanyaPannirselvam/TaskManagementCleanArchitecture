@@ -171,11 +171,11 @@
                                     FontSize="16"
                                     Width="100"/>
                                     </StackPanel>
-                                    <Line Stroke="Gray"
+                                    <!--<Line Stroke="Gray"
                                 X1="0" Y1="0"
                                 X2="1500" Y2="0"
                                 StrokeThickness="1"
-                              Opacity="0.1"/>
+                              Opacity="0.1"/>-->
                                 </StackPanel>
                             </StackPanel>
                     </DataTemplate>
