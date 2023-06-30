@@ -30,7 +30,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public ProjectsViewModelBase _projectsPageViewModel;
         public TaskViewModelBase _tasksViewModel;
         private int projectId = 0;
+        private CreateProjectViewModelBase _createProjectViewModel;
         
+
 
         public ProjectsPage()
         {
@@ -45,6 +47,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //Projects = _projectsPageViewModel.ProjectsList;
             _projectsPageViewModel.ProjectsList.Clear();
             _projectsPageViewModel.GetProjectsList();
+            _createProjectViewModel = PresenterService.GetInstance().Services.GetService<CreateProjectViewModelBase>();
+
         }
 
         private ObservableCollection<Project> _projects = null;
@@ -95,7 +99,27 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 projectId = project.Id;
                 _tasksViewModel.TasksList.Clear();
                 _tasksViewModel.GetTasksList(projectId);
+                taskofaproject.Visibility = Visibility.Visible;
+                ProjectsListGrid.Visibility = Visibility.Collapsed;
             }
         }
+
+       
+        private void NewProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddProjectForm.Visibility = Visibility.Visible;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            _createProjectViewModel.CreateProject(CreateProjectForm.GetFormData());
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateProjectForm.ClearFormData();
+            AddProjectForm.Visibility = Visibility.Collapsed;
+        }
+
     }
 }

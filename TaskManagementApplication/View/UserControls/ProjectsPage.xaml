@@ -198,14 +198,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <RelativePanel Margin="0,0,0,20">
+        <RelativePanel Margin="0,0,0,20"
+                       Grid.ColumnSpan="2">
             <TextBlock Text="Projects"
                        Margin="50,10,0,0"
                        FontSize="24"
                        FontWeight="SemiBold"
                        RelativePanel.AlignLeftWithPanel="True"/>
-            <Button x:Name="NewProjectBUtton"
+            <Button x:Name="NewProjectButton"
                     Content="New Project"
                     CornerRadius="5"
                     Margin="0,0,10,0"
@@ -215,11 +217,18 @@
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center"
+                    Click="NewProjectButton_Click"/>
         </RelativePanel>
         <Grid Grid.Row="1"
-              CornerRadius="10">
-        <controls:DataGrid x:Name="ProjectsList"
+              CornerRadius="10"
+              x:Name="ProjectsListGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  MinWidth="400" MaxWidth="520" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <controls:DataGrid x:Name="ProjectsList"
                        ItemsSource="{x:Bind _projectsPageViewModel.ProjectsList}"
                        AutoGenerateColumns="True"
                        GridLinesVisibility="Horizontal"
@@ -232,6 +241,7 @@
                        AutoGeneratingColumn="ProjectsList_AutoGeneratingColumn"
                        IsReadOnly="True"
                        MinColumnWidth="200"
+                       Grid.ColumnSpan="2"
                        SelectionMode="Single"
                        Background="{ThemeResource AppForegroundBg}">
             <!--<controls:DataGrid.Columns>
@@ -241,21 +251,48 @@
             FontSize="20" />-->
         <!--</controls:DataGrid.Columns>-->
             <controls:DataGrid.ColumnHeaderStyle>
-                <Style TargetType="controlsprimitives:DataGridColumnHeader">
-                    <Setter Property="Height" Value="30"/>
-                    <Setter Property="Background" Value="LightBlue"/>
-                    <Setter Property="Foreground" Value="Blue"/>
-                    <Setter Property="FontSize" Value="18" />
-                    <Setter Property="Height" Value="20"/>
-                    <Setter Property="SeparatorVisibility" Value="Collapsed"/>
-                    <!--<Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="ToolTip" Value="Click to sort."/>
-                    </Trigger>
-                </Style.Triggers>-->
-                </Style>
-            </controls:DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="controlsprimitives:DataGridColumnHeader">
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Background" Value="LightBlue"/>
+                        <Setter Property="Foreground" Value="#000000"/>
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="SeparatorVisibility" Value="Collapsed"/>
+                    </Style>
+                </controls:DataGrid.ColumnHeaderStyle>
         </controls:DataGrid>
-    </Grid>
+
+            <Grid x:Name="AddProjectForm"
+              Visibility="Collapsed"
+              Grid.Column="1"
+                  BorderBrush="#cfd6df"
+                  BorderThickness="1">
+                <Grid>
+                <local:CreateNewProjectPage x:Name="CreateProjectForm"/>
+                </Grid>
+                <StackPanel Grid.Row="7"
+                    Orientation="Horizontal"
+                    Margin="5">
+                    <Button x:Name="AddButton"
+                    Style="{StaticResource AccentButtonStyle}"
+                    Content="Add"
+                    Click="AddButton_Click"
+                    Margin="0,0,10,0"/>
+                    <Button x:Name="CancelButton"
+                    Style="{StaticResource AccentButtonStyle}"
+                    Content="Cancel"
+                    Click="CancelButton_Click"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2"
+              Visibility="Collapsed"
+                  x:Name="taskofaproject">
+                <Grid>
+                    <local:TasksPage />
+                </Grid>
+
+            </Grid>
+        </Grid>
+        
     </Grid>
 </UserControl>
