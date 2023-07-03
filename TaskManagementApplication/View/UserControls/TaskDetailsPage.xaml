@@ -6,10 +6,40 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:library="using:TaskManagementLibrary.Models"
     d:DesignHeight="300"
     d:DesignWidth="400">
-
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Grid" x:Name="ContainerGrid">
+                <Setter Property="Background" Value="{ThemeResource AppForegroundBg}"/>
+                <Setter Property="CornerRadius" Value="30"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-
+        <!--<Grid Background="{ThemeResource AppBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="library:Tasks"/>
+            </ListView.ItemTemplate>
+            
+            <Grid Grid.Row="0"
+              Style="{StaticResource ContainerGrid}">
+            </Grid>
+        </ListView>-->
     </Grid>
 </UserControl>

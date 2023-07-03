@@ -28,11 +28,27 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     {
         private static bool _itemSelected;
         private Tasks _task = new Tasks();
-        public TaskViewModelBase _tasksViewModel;
+        public TasksViewModelBase _taskViewModel;
+        public ATaskViewModelBase _aTaskViewModel;
         public TasksPage()
         {
             this.InitializeComponent();
-            _tasksViewModel = PresenterService.GetInstance().Services.GetService<TaskViewModelBase>();
+            _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
+            _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
+        }
+
+        private Visibility _datagridVisibility;
+        public Visibility DataGridVisibility
+        {
+            get { return _datagridVisibility; }
+            set { _datagridVisibility = value; }
+        }
+
+        private Visibility _textVisibility;
+        public Visibility TextVisibility
+        {
+            get { return _textVisibility; }
+            set { _textVisibility = value; }
         }
 
         private void TasksList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -76,18 +92,41 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _itemSelected = true;
-                Grid.SetColumn(TasksList, 0);
-                Grid.SetColumn(TasksGridSplitter, 1);
-                Grid.SetColumn(TasksDetailGrid, 2);
-                Grid.SetColumnSpan(TasksList, 1);
-                Grid.SetColumnSpan(TasksGridSplitter, 1);
-                Grid.SetColumnSpan(TasksDetailGrid, 1);
-                TasksList.Visibility = Visibility.Visible;
-                TasksGridSplitter.Visibility = Visibility.Visible;
-                TasksDetailGrid.Visibility = Visibility.Visible;
+            Grid.SetColumn(TasksList, 0);
+            Grid.SetColumn(TasksGridSplitter, 1);
+            Grid.SetColumn(TasksDetailGrid, 2);
+            Grid.SetColumnSpan(TasksList, 1);
+            Grid.SetColumnSpan(TasksGridSplitter, 1);
+            Grid.SetColumnSpan(TasksDetailGrid, 1);
+            TasksList.Visibility = Visibility.Visible;
+            TasksGridSplitter.Visibility = Visibility.Visible;
+            TasksDetailGrid.Visibility = Visibility.Visible;
             _task = (sender as DataGrid).SelectedItem as Tasks;
+            _aTaskViewModel.GetATask(_task.Id);
             TasksList.DataContext = _task;
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            _ = _taskViewModel.TasksList;
+            _taskViewModel.TasksList.Clear();
+
+        }
+
+        //private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    _tasksViewModel.GetAllTaskCreatedByCurrentUser();
+        //    if (_task != null)
+        //    {
+        //        DataGridVisibility = Visibility.Visible;
+        //        TextVisibility = Visibility.Collapsed;
+        //    }
+        //    else
+        //    {
+        //        DataGridVisibility = Visibility.Collapsed;
+        //        TextVisibility = Visibility.Visible;
+        //    }
+        //}
     }
 
 

@@ -28,29 +28,27 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     public sealed partial class ProjectsPage : UserControl , INotifyPropertyChanged
     {
         public ProjectsViewModelBase _projectsPageViewModel;
-        public TaskViewModelBase _tasksViewModel;
+        public TasksViewModelBase _tasksViewModel;
         private int projectId = 0;
         private CreateProjectViewModelBase _createProjectViewModel;
         
-
-
         public ProjectsPage()
         {
             this.InitializeComponent();
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
-            _tasksViewModel = PresenterService.GetInstance().Services.GetService<TaskViewModelBase>();
+            _tasksViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
             // _usersViewModel.LoadUsers = this;
             //if (_projectsPageViewModel.ProjectsList.Count == 0)
             //{
             //    _projectsPageViewModel.GetProjectsList();
             //}
             //Projects = _projectsPageViewModel.ProjectsList;
-            _projectsPageViewModel.ProjectsList.Clear();
-            _projectsPageViewModel.GetProjectsList();
+            //_projectsPageViewModel.ProjectsList.Clear();
+            //_projectsPageViewModel.GetProjectsList();
             _createProjectViewModel = PresenterService.GetInstance().Services.GetService<CreateProjectViewModelBase>();
 
         }
-
+        
         private ObservableCollection<Project> _projects = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -98,16 +96,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 projectId = project.Id;
                 _tasksViewModel.TasksList.Clear();
-                _tasksViewModel.GetTasksList(projectId);
-                taskofaproject.Visibility = Visibility.Visible;
+                _tasksViewModel.GetTasks(projectId);
                 ProjectsListGrid.Visibility = Visibility.Collapsed;
+                taskofaproject.Visibility = Visibility.Visible;
             }
-        }
-
-       
-        private void NewProjectButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddProjectForm.Visibility = Visibility.Visible;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -121,5 +113,25 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             AddProjectForm.Visibility = Visibility.Collapsed;
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            _projectsPageViewModel.ProjectsList.Clear();
+            _projectsPageViewModel.GetProjectsList();
+        }
+
+        private void NewProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddProjectForm.IsOpen = true;
+            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 2 + 100;
+            double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2;
+            AddProjectForm.HorizontalOffset = horizontalOffset;
+            AddProjectForm.VerticalOffset = verticalOffset;
+        }
+
+        private void AddProjectForm_Closed(object sender, object e)
+        {
+            CreateProjectForm.ClearFormData();
+            //AddProjectForm.Visibility = Visibility.Collapsed;
+        }
     }
 }
