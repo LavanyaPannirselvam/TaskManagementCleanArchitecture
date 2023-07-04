@@ -219,16 +219,18 @@
             </ListView>
         </Grid>-->
     <Grid CornerRadius="10"
-          Background="{ThemeResource AppForegroundBg}">
+          Background="{ThemeResource AppForegroundBg}"
+          >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <!--<RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
         <RelativePanel Margin="0,0,0,20"
-                       Grid.ColumnSpan="2">
+                       Grid.ColumnSpan="2"
+                       Name="TopOptions">
             <TextBlock Text="Projects"
-                       Margin="50,10,0,0"
+                       Margin="30,10,0,0"
                        FontSize="24"
                        FontWeight="SemiBold"
                        RelativePanel.AlignLeftWithPanel="True"/>
@@ -345,6 +347,8 @@
 
             <Popup IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
+                   IsOpen="False"
+                   Grid.Column="1"
                    Closed="AddProjectForm_Closed"
                    Name="AddProjectForm">
                 <controls:DropShadowPanel Color="Black"
@@ -357,8 +361,7 @@
                                       Margin="5"
                                       Padding="30"
                                       Name="AddProjectContainer">
-                    <Grid Visibility="Collapsed"
-                          Grid.Column="1"
+                    <Grid Visibility="Visible"
                           BorderBrush="#cfd6df"
                           BorderThickness="1"
                           Name="AddGrid">
@@ -387,10 +390,10 @@
 
             <Grid Visibility="Collapsed"
                   Name="taskofaproject"
-                  Background="Green"
                   Grid.ColumnSpan="2">
-                <local:TasksPage Visibility="Visible"/>
+                <local:Navigation Visibility="Visible"/>
             </Grid>
         </Grid>
     </Grid>
+    
 </UserControl>

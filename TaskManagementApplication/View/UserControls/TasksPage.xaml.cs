@@ -35,6 +35,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
             _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
+            //_taskViewModel.TasksList.Clear();
+            //_taskViewModel.
         }
 
         private Visibility _datagridVisibility;
@@ -76,18 +78,19 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _itemSelected = false;
         }
 
-        private void BackToList_Click(object sender, RoutedEventArgs e)
-        {
-            TasksOfAProject.Visibility = Visibility.Visible;
-            //TasksList.Visibility = Visible
-            BackToList.Visibility = Visibility.Collapsed;
-            _itemSelected = false;
-            Grid.SetColumn(TasksList, 0);
-            Grid.SetColumnSpan(TasksList, 3);
-            TasksList.Visibility = Visibility.Visible;
-            TasksGridSplitter.Visibility = Visibility.Collapsed;
-            TasksDetailGrid.Visibility = Visibility.Collapsed;
-        }
+        //private void BackToList_Click(object sender, RoutedEventArgs e)
+        //{
+        //    TasksOfAProject.Visibility = Visibility.Visible;
+        //    //TasksList.Visibility = Visible
+        //    BackToList.Visibility = Visibility.Collapsed;
+        //    _itemSelected = false;
+        //    Grid.SetColumn(TasksList, 0);
+        //    Grid.SetColumnSpan(TasksList, 3);
+        //    TasksList.Visibility = Visibility.Visible;
+        //    TasksGridSplitter.Visibility = Visibility.Collapsed;
+        //    TasksDetailGrid.Visibility = Visibility.Collapsed;
+        //}
+
 
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -101,16 +104,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksList.Visibility = Visibility.Visible;
             TasksGridSplitter.Visibility = Visibility.Visible;
             TasksDetailGrid.Visibility = Visibility.Visible;
-            _task = (sender as DataGrid).SelectedItem as Tasks;
-            _aTaskViewModel.GetATask(_task.Id);
-            TasksList.DataContext = _task;
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            _ = _taskViewModel.TasksList;
-            _taskViewModel.TasksList.Clear();
-
+            if ((sender as DataGrid).SelectedItem is Tasks task)
+            {
+                _aTaskViewModel.GetATask(task.Id);
+                TasksList.DataContext = _task;
+            }
         }
 
         //private void UserControl_Loaded(object sender, RoutedEventArgs e)

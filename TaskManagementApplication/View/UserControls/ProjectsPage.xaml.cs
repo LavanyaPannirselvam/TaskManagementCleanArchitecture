@@ -97,7 +97,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 projectId = project.Id;
                 _tasksViewModel.TasksList.Clear();
                 _tasksViewModel.GetTasks(projectId);
-                ProjectsListGrid.Visibility = Visibility.Collapsed;
+                ProjectsList.Visibility = Visibility.Collapsed;
+                TopOptions.Visibility = Visibility.Collapsed;
                 taskofaproject.Visibility = Visibility.Visible;
             }
         }
