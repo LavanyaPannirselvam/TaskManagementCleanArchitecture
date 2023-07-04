@@ -12,7 +12,7 @@ namespace TaskManagementLibrary.Models
     {
         [PrimaryKey]
         public int UserId { get; set; }
-        [PrimaryKey]
+        //[PrimaryKey]
         public int ActivityId { get; set; }
         public ActivityType Type { get; set; }
         public Assignment(int userId, int activityId,ActivityType type)

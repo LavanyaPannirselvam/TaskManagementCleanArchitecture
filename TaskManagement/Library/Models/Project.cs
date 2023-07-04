@@ -10,7 +10,7 @@ namespace TaskManagementLibrary.Models
 {
     public class Project
     {
-        private readonly int id = 1;
+        private int id = 3;
         [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace TaskManagementLibrary.Models
 
         public Project(string name, string desc, StatusType status, PriorityType type, DateTime startDate, DateTime endDate)
         {
-            Id = id++;
+            Id = ++id;
             Name = name;
             Desc = desc;
             Status = status;

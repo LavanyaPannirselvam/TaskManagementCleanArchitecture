@@ -15,5 +15,9 @@ namespace TaskManagementLibrary.Models
             Project = p;
             AssignedUsers = u;
         }
+
+        public ProjectWithUsersBO()
+        {
+        }
     }
 }
