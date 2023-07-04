@@ -15,5 +15,6 @@ namespace TaskManagementLibrary.Data.DBHandler
         Project GetProject(int projectId);
         void UpdateProject(Project project);
         List<Project> ProjectsList();
+        List<Tasks> AssignedTasksList(int projectId);
     }
 }

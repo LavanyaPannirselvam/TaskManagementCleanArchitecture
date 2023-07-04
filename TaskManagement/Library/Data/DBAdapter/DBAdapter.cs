@@ -57,7 +57,8 @@ namespace TaskManagementLibrary.Data.DBAdapter
 
         public List<T> GetFromQuery<T>(string query, params object[] value) where T : new()
         {
-            return connection.Query<T>(query, value);
+            var a= connection.Query<T>(query, value);
+            return a;
         }
     }
 }
