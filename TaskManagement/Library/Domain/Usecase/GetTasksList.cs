@@ -17,15 +17,14 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class GetTasksListRequest : IRequest
     {
-        public CancellationTokenSource CtsSource { get ; set ; }
+        public CancellationTokenSource CtsSource { get; set; }
         public int projectId;
 
-        public GetTasksListRequest(int id,CancellationTokenSource cancellationTokenSource)
+        public GetTasksListRequest(int projectId, CancellationTokenSource cancellationTokenSource)
         {
-            projectId = id;
+            this.projectId = projectId;
             CtsSource = cancellationTokenSource;
         }
-
     }
 
     public interface IPresenterGetTasksListCallback : IPresenterCallbackBasecase<GetTasksListResponse> { };
@@ -81,3 +80,4 @@ namespace TaskManagementLibrary.Domain.Usecase
         public List<Tasks> Tasks;
     }
 }
+
