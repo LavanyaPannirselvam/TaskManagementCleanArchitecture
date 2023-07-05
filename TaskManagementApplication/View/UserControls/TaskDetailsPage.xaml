@@ -170,8 +170,13 @@
                                     ItemsSource="{x:Bind _aTaskViewModel.SelectedTask.AssignedUsers,Mode=OneWay}"
                                     Margin="5,5"
                                     HorizontalAlignment="Left">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="IsHitTestVisible" Value="false"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
-                            <DataTemplate x:Name="ContactListViewTemplate" x:DataType="library:User">
+                            <DataTemplate x:DataType="library:User">
                                         <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
                                            Margin="0,5,0,5"/>
                             </DataTemplate>
@@ -180,54 +185,33 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <!--<Grid Grid.Row="2"  Margin="10,0,0,0" Padding="10,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <TextBlock Text="Issues : " 
-                                   Margin="5" 
-                                   VerticalAlignment="Center" 
-                                   HorizontalAlignment="Left" 
-                                   FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                
+                <Grid Grid.Row="3"
+                      Margin="10,10,0,0" 
+                      Padding="10,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <DropDownButton x:Name="assignButton"
+                                Content="Assign User"
+                                RelativePanel.AlignLeftWithPanel="True">
+                        </DropDownButton>
+                        <!--Click="assignButton_Click"/>-->
+                        <DropDownButton x:Name="deassignButton"
+                                Content="Remove User"
+                                RelativePanel.AlignLeftWith="assignButton"
+                                Margin="20,0,0,0">
+                            <DropDownButton.Flyout>
+                                <Flyout>
+                                    <ListView x:Name="UsersList"
+                                              ItemsSource="{x:Bind _aTaskViewModel.SelectedTask.AssignedUsers,Mode=OneWay}">
+                                        <DataTemplate x:DataType="library:User">
+                                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
+                                        </DataTemplate>
+                                    </ListView>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
                     </StackPanel>
-                    <Grid BorderBrush="Black" 
-                          BorderThickness="0.7" 
-                          CornerRadius="10" 
-                          Padding="10" 
-                          Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"></RowDefinition>
-                            <RowDefinition Height="1*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0">
-                            <TextBlock Text="Name : " 
-                                       Margin="5" 
-                                       VerticalAlignment="Center" 
-                                       HorizontalAlignment="Left" 
-                                       FontSize="16" 
-                                       FontWeight="SemiBold"/>
-                            --><!--<TextBlock Text="" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"></TextBlock>--><!--
-                            <ListView  x:Name="UsersForIssue"
-                                    BorderThickness="1"
-                                    BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                    Width="350"
-                                    ItemsSource=""
-                                    Height="400"
-                                    HorizontalAlignment="Left">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:Name="ContactListViewTemplate" x:DataType="library:User">
-                                        <TextBlock Text="{x:Bind Name}" 
-                                           Margin="0,5,0,5"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-                    </Grid>
-                </Grid>-->
+                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>

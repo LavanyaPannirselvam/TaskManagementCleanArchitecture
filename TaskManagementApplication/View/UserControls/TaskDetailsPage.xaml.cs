@@ -40,6 +40,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             
         }
 
+        private void assignButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //private void UserControl_Loaded(object sender, RoutedEventArgs e)
         //{
         //    TaskBO taskBO = 
@@ -72,9 +77,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         //        ListVisibility = Visibility.Visible;
         //    }
         //}
-        
 
-        
+
+
 
     }
 }

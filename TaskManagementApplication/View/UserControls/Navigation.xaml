@@ -1036,9 +1036,12 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-        <Grid>
-        
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <NavigationView PaneDisplayMode="Top"
                         IsSettingsVisible="False"
                         IsBackButtonVisible="Collapsed"
@@ -1047,7 +1050,8 @@
                         SelectionFollowsFocus="Disabled"
                         IsTabStop="False"
                         Background="{ThemeResource AppForegroundBg}"
-                        SelectionChanged="NavigationView_SelectionChanged">
+                        SelectionChanged="NavigationView_SelectionChanged"
+                            Grid.Row="0">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Tasks"
                                     x:Name="tasksTab"
@@ -1059,11 +1063,12 @@
                                     Margin="5,0">
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-            
+           
             <ContentControl x:Name="DashboardContent"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Height="900"
+                            Grid.Row="1"
                             CornerRadius="30">
                 <ContentPresenter Background="{ThemeResource AppForegroundBg}">
                 </ContentPresenter>
