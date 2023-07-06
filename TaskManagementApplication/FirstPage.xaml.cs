@@ -36,24 +36,24 @@ namespace TaskManagementCleanArchitecture
         //public FirstPageViewModelBase _firstPageViewModel;
         //private int projectId = 0;
 
-        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CurrentUser", typeof(User), typeof(FirstPage), new PropertyMetadata(null));
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(FirstPage), new PropertyMetadata(null));
 
-        //public User CurrentUser
-        //{
-        //    get { return (User)GetValue(UserProperty); }
-        //    set { SetValue(UserProperty, value); }
-        //}
-
-        private LoggedInUserBO _currentUser;
-        public LoggedInUserBO CUser
+        public LoggedInUserBO CurrentUser
         {
-            get { return _currentUser; }
-            set
-            {
-                _currentUser = value;
-                NotifyPropertyChanged(nameof(CUser));
-            }
+            get { return (LoggedInUserBO)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
         }
+
+        //private LoggedInUserBO _currentUser;
+        //public LoggedInUserBO CUser
+        //{
+        //    get { return _currentUser; }
+        //    set
+        //    {
+        //        _currentUser = value;
+        //        NotifyPropertyChanged(nameof(CUser));
+        //    }
+        //}
 
         private String _headerTitle = "Projects";
         public String HeaderTitle
@@ -88,9 +88,9 @@ namespace TaskManagementCleanArchitecture
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is LoggedInUserBO pg)
+            if (e.Parameter is FirstPage pg && pg.CurrentUser!=null)
             {
-                CUser = pg;
+                CurrentUser = pg.CurrentUser;
             }
         }
 
@@ -122,13 +122,11 @@ namespace TaskManagementCleanArchitecture
             if (args.SelectedItem == ProjectsTab)
             {
                 NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
-
                 MainPageNV.AlwaysShowHeader = true;
             }
             else if (args.SelectedItem == TasksTab)
             {
                 NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
-
                 MainPageNV.AlwaysShowHeader = true;
             }
         }

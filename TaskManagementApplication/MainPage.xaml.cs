@@ -44,17 +44,12 @@ namespace TaskManagementCleanArchitecture
             //MainFrame.Navigate(typeof(FirstPage));
         }
 
-        private void NavigateToFirstPage(TaskManagementLibrary.Models.LoggedInUserBO currentUser)
+        private void NavigateToFirstPage(LoggedInUserBO currentUser)
         {
-            //var firstPage = new FirstPage
-            //{
-            //    CurrentUser = currentUser
-            //};
-            //MainFrame.Navigate(firstPage.GetType(), firstPage);
-             MainFrame.Navigate(typeof(FirstPage),currentUser);//change here to load dashboard after logging in
+            var firstpage = new FirstPage();
+            firstpage.CurrentUser = currentUser;
+            MainFrame.Navigate(firstpage.GetType(), firstpage);
         }
-
-        
     }
 }
 //CONTROL TEMPLATE -> used to create custom template for ui elements

@@ -20,10 +20,10 @@
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="UserControlTemplate1">
-                <usercontrols:ProjectsPage/>
+                <usercontrols:ProjectsPage CUser ="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
             <DataTemplate x:Key="UserControlTemplate2">
-                <usercontrols:TasksPage/>
+                <usercontrols:TasksPage CUser ="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
             
             <Style TargetType="NavigationView">
@@ -1166,10 +1166,10 @@
                         SelectionChanged="FirstPageNavigation_SelectionChanged"
                         IsBackEnabled="False"
                         PaneDisplayMode="Left"
-                        OpenPaneLength="150"
+                        OpenPaneLength="210"
                         VerticalAlignment="Top"
                         AlwaysShowHeader="True"
-                        Header="{x:Bind CUser, Mode=OneWay}"
+                        Header="{x:Bind CurrentUser, Mode=OneWay}"
                         ExpandedModeThresholdWidth="200"
                         SelectionFollowsFocus="Disabled"
                         IsTabStop="False"
@@ -1223,8 +1223,11 @@
                             <FontIcon Glyph="{x:Bind ThemeIcon,Mode=OneWay}"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>-->
-                    <ToggleSwitch Header="Theme" OnContent="Light" OffContent="Dark"
-              Toggled="ToggleSwitch_Toggled" Loaded="ToggleSwitch_Loaded"/>
+                    <ToggleSwitch Header="Theme" 
+                                  OnContent="Light" 
+                                  OffContent="Dark"
+                                  Toggled="ToggleSwitch_Toggled" 
+                                  Loaded="ToggleSwitch_Loaded"/>
                     <NavigationViewItem x:Name="Logout"
                                         Content="Logout"
                                         Tag="Logout">
@@ -1291,7 +1294,7 @@
                             VerticalContentAlignment="Stretch"
                             CornerRadius="30"
                             Height="900">
-                <ContentPresenter Background="#eff2f9"/>
+                <ContentPresenter Background="{ThemeResource AppForegroundBg}"/>
             </ContentControl>
         </NavigationView>
 
@@ -1299,3 +1302,18 @@
     </Grid>
 </Page>
 <!--//9222208888--> 
+    <!--1.util for id creation
+    2.encrypted password
+    3.after clicking project,dashboard should display -> done
+    4.logout to be functional
+    5.theme change
+    ==============
+    TODAY
+    6.tasks details page -> done
+    7.on click change in data grid -> partial (cell selection changed , NEED TO DO: Selected color)
+    8.columns of datagrid to be customized -> done
+    9.visibility of no tasks yet & datagrid to be specified and in taskdetails page as well
+    10.current user should be passed to get the list of tasks owned by that user
+    11.size of dashboard page
+    -->
+    

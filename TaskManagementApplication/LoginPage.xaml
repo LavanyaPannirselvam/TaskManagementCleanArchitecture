@@ -22,10 +22,8 @@
     </Page.Background>
     <Grid>
         <controls:DropShadowPanel Color="AliceBlue" 
-                                  OffsetX="12" 
-                                  OffsetY="12" 
                                   BlurRadius="30" 
-                                  ShadowOpacity=".9"
+                                  ShadowOpacity=".8"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Padding="30"  
