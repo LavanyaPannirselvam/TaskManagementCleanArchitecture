@@ -18,9 +18,12 @@ namespace TaskManagementLibrary.Domain.Usecase
     public class GetProjectListRequest : IRequest
     {
         public CancellationTokenSource CtsSource { get; set ; }
-        
-        public GetProjectListRequest(CancellationTokenSource ctsSource)
+        public string userName;
+        public string userEmail;
+        public GetProjectListRequest(string name,string email,CancellationTokenSource ctsSource)
         {
+            userName = name;
+            userEmail = email;
             CtsSource = ctsSource;
         }
     }

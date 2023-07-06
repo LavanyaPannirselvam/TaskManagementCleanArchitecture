@@ -40,6 +40,8 @@ namespace TaskManagementLibrary.Domain
             services.AddSingleton<ICreateUserAccountDataManager, CreateUserAccountDataManager>();
             services.AddSingleton<IGetProjectsListDataManager, GetProjectsListDataManager>();
             services.AddSingleton<IGetUsersListDataManager, GetUsersListDataManager>();
+            services.AddSingleton<IGetATaskDataManager, GetATaskDataManager>();
+            services.AddSingleton<IGetTasksListDataManager, GetTaskListDataManager>();
             services.AddSingleton<IDBHandler, DBHandler>();
             services.AddSingleton<DatabasePath>();
             services.AddSingleton<DatabaseConnection>();

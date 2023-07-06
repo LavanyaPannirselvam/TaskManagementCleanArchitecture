@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,12 +12,12 @@ namespace TaskManagementLibrary.Domain
     {
         public CancellationTokenSource Source { get; }
         private readonly CancellationToken _token;
-        private IPresenterCallbackBasecase<T> responseCallback;
+        private IPresenterCallbackBasecase<T> _responseCallback;
 
         public UsecaseBase() { }
         protected UsecaseBase(IPresenterCallbackBasecase<T> responseCallback, CancellationTokenSource CtsSource)
         {
-            this.responseCallback = responseCallback;
+            _responseCallback = responseCallback;
             Source = CtsSource;
             _token = Source.Token;
         }
@@ -33,10 +34,10 @@ namespace TaskManagementLibrary.Domain
                 {
                     Action();
                 }
-                catch (Exception ex)
+                catch(BException ex) 
                 {
-                    
-                    responseCallback?.OnError((BException)ex);
+                    //Debug.WriteLine(ex.ToString()); 
+                    _responseCallback.OnError(ex);
                 }
             }, _token);
         }
