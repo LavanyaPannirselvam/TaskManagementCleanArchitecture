@@ -3,6 +3,7 @@ using TaskManagementLibrary.Data.DBHandler;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Enums;
+using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Utils;
 
 namespace TaskManagementLibrary.Data.DBManager
@@ -16,7 +17,8 @@ namespace TaskManagementLibrary.Data.DBManager
         public void ValidateUser(LoginRequest request, IUsecaseCallbackBasecase<LoginResponse> callback)
         {
             string userId = request.userId;
-            string password = PasswordEncryption.BytesToString(PasswordEncryption.EncryptPassword(request.password));
+            //string password = PasswordEncryption.BytesToString(PasswordEncryption.EncryptPassword(request.password));
+            string password = request.password;
             Role userRole;
             string response;
             LoginResponse loginResponse = new LoginResponse();
@@ -28,20 +30,26 @@ namespace TaskManagementLibrary.Data.DBManager
                     if (DbHandler.CheckIfAdmin(userId))
                     {
                         userRole = Role.ADMIN;
-                        response = "Logged in successfully, Welcome Admin";
+                        response = "Welcome Admin";
                     }
                     else if (DbHandler.CheckIfManager(userId))
                     {
                         userRole = Role.MANAGER;
-                        response = "Logged in successfully, Welcome Manager";
+                        response = "Welcome Manager";
                     }
-                    else
+                    else 
                     {
                         userRole = Role.EMPLOYEE;
-                        response = "Logged in successfully, Welcome!";
+                        response = "Welcome!";
                     }
-                    loginResponse.currentUser = DbHandler.GetUser(userId);
+                    var user = DbHandler.GetUser(userId);
+                    LoggedInUserBO loggedUser = new LoggedInUserBO();
+                    loggedUser.LoggedInUser = user;
+                    loggedUser.WelcomeText = response;
+                    loginResponse.currentUser = loggedUser;
                     loginResponse.role = userRole;
+                    loginResponse.Response = response;
+                    loginResponse.Data = true;
                     zResponse.Data = loginResponse;
                     zResponse.Response = response;
                     callback.OnResponseSuccess(zResponse);

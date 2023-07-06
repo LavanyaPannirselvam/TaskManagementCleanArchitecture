@@ -28,7 +28,7 @@ namespace TaskManagementLibrary.Data
             _adapter.Create(new User());
             _adapter.Create(new Tasks());
             _adapter.Create(new Assignment());
-            _adapter.Create(new UserCredential());
+            _adapter.Create(new User());
         }
     }
 }

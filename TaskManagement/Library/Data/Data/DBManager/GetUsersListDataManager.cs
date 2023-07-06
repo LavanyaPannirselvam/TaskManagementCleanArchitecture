@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TaskManagementLibrary.Data.DBHandler;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
+using TaskManagementLibrary.Models.Enums;
 
 namespace TaskManagementLibrary.Data.DBManager
 {
@@ -16,7 +17,7 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetUsersList(GetUsersListRequest request, IUsecaseCallbackBasecase<GetUsersListResponse> response)
         {
-            var list = DbHandler.GetAssignedUsers(request.projectId);
+            var list = DbHandler.AssignedUsersList(request.projectId,(int)ActivityType.PROJECT);
             GetUsersListResponse userResponse = new GetUsersListResponse();
             userResponse.AssignedUserList = list;
             ZResponse<GetUsersListResponse> zResponse = new ZResponse<GetUsersListResponse>();

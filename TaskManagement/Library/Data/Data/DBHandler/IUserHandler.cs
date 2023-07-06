@@ -15,6 +15,7 @@ namespace TaskManagementLibrary.Data.DBHandler
         User GetUser(string email);
         bool CheckUser(string email);
         List<User> UsersList();
-        List<User> GetAssignedUsers(int projectId);
+        List<User> AssignedUsersList(int activityId,int activityType);
+
     }
 }

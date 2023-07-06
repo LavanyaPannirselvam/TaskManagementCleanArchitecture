@@ -25,58 +25,79 @@ namespace TaskManagementLibrary.Data.DBHandler
         }
 
         #region Project section
-        public void AddProject(Project project)
+        public int AddProject(Project project)
         {
             _adapter.Add(project);
+            return project.Id;
         }
 
         public void DeleteProject(int projectId)
         {
-            string query = "SELECT * FROM PROJECT WHERE Id = @projectId";
+            string query = "SELECT * FROM Project WHERE Id = @projectId";
             var toDelete = _adapter.GetFromQuery<Project>(query, projectId);
             _adapter.Delete(toDelete);
         }
 
         public Project GetProject(int projectId)
         {
-            return _adapter.GetList<Project>().Where(project => project.Id == projectId).FirstOrDefault();
+            string query = "SELECT * FROM Project WHERE Id = @projectId";
+            var toGet = _adapter.GetFromQuery<Project>(query, projectId);
+            return toGet.FirstOrDefault();
         }
 
-        public List<Project> ProjectsList()
+        public List<Project> ProjectsList(string userName,string userEmail)
         {
-             return _adapter.GetList<Project>().ToList();
+            var query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail)";
+            var list = _adapter.GetFromQuery<Project>(query,userName,userEmail);
+            return list.ToList();
         }
 
         public void UpdateProject(Project project)
         {
             _adapter.Update(project);
         }
+
+        public List<Tasks> AssignedTasksList(int projectId)
+        {
+            var query = "SELECT * FROM Tasks WHERE ProjectId = @projectId";
+            var toGet = _adapter.GetFromQuery<Tasks>(query, projectId);
+            return toGet;
+        }
+
+        
         #endregion
 
         #region Task section 
-        public void AddTask(Tasks task)
+        public int AddTask(Tasks task)
         {
             _adapter.Add(task);
+            return task.Id;
         }
 
         public void DeleteTask(int taskId)
         {
-            string query = "SELECT * FROM TASKS WHERE Id = @taskId";
+            string query = "SELECT * FROM Tasks WHERE Id = @taskId";
             var toDelete = _adapter.GetFromQuery<Tasks>(query, taskId);
             _adapter.Delete(toDelete);
         }
 
         public Tasks GetTask(int taskId)
         {
-            return _adapter.GetList<Tasks>().Where(task => task.Id == taskId).FirstOrDefault();
+            string query = "SELECT * FROM Tasks WHERE Id = @taskId";
+            var toGet = _adapter.GetFromQuery<Tasks>(query,taskId);
+            return toGet.FirstOrDefault();
         }
 
         public List<Tasks> TasksList()
         {
-            return _adapter.GetList<Tasks>().ToList();
+            string query = "SELECT * FROM Tasks";
+            var list = _adapter.GetFromQuery<Tasks>(query);
+            return list.ToList();
         }
+
+       
         #endregion
-        
+
         #region User section
         public void AddUser(Models.User user)
         {
@@ -85,36 +106,43 @@ namespace TaskManagementLibrary.Data.DBHandler
 
         public void DeleteUser(string email)
         {
-            string query = "SELECT * FROM USER WHERE Email = @email";
+            string query = "SELECT * FROM User WHERE Email = @email";
             var toDelete = _adapter.GetFromQuery<Models.User>(query, email);
             _adapter.Delete(toDelete);
         }
 
         public Models.User GetUser(int userId)
         {
-            return _adapter.GetList<Models.User>().Where(c => c.UserId == userId).FirstOrDefault();
+            string query = "SELECT * FROM User WHERE UserId = @userId";
+            var toGet = _adapter.GetFromQuery<Models.User>(query,userId);
+            return toGet.FirstOrDefault();
         }
 
         public Models.User GetUser(string email)
         {
-            return _adapter.GetList<Models.User>().Where(c => c.Email == email).FirstOrDefault();
+            string query = "SELECT * FROM User WHERE Email = @email";
+            var user = _adapter.GetFromQuery<Models.User>(query, email).FirstOrDefault();
+            return user;
         }
 
         public List<Models.User> UsersList()
         {
-            return _adapter.GetList<Models.User>().ToList();
+            string query = "SELECT * FROM User "; 
+            var list = _adapter.GetFromQuery<Models.User>(query); 
+            return list.ToList();
         }
 
         public bool CheckUser(string email)
         {
-            var user = _adapter.GetList<Models.User>().Where(i => i.Email == email);
-            return (user.Count() > 0);
+            var query = "SELECT * FROM USER WHERE EMAIL = @email";
+            var result = _adapter.GetFromQuery<Models.User>(query,email);
+            return result.Count != 0;
         }
 
-        public List<Models.User> GetAssignedUsers(int projectId)
+        public List<Models.User> AssignedUsersList(int activityId,int activityType)
         {
-            var query = "SELECT USER.Name FROM ASSIGNMENT JOIN USER ON ASSIGNMENT.userId = USER.Id WHERE ASSIGNMENT.assignmentId = @projectId AND ASSIGNMENT.assignmentType = PROJECT";
-            var toGet = _adapter.GetFromQuery<Models.User>(query, projectId);
+            var query = "SELECT * FROM User JOIN Assignment ON User.UserId = Assignment.UserId WHERE Assignment.ActivityId = @activityId AND Assignment.Type = @activityType";//to change
+            var toGet = _adapter.GetFromQuery<Models.User>(query, activityId,activityType);
             return toGet;
         }
         #endregion
@@ -134,31 +162,37 @@ namespace TaskManagementLibrary.Data.DBHandler
         #endregion
 
         #region User Credentials Section
-        public bool CheckUserCredential(string userId, string password)
+        public bool CheckUserCredential(string email, string password)
         {
-            var result = _adapter.GetList<UserCredential>().Where(c => c.Email == userId && c.Password == password).FirstOrDefault();
-            return (result != null);
+            string query = "SELECT * FROM UserCredential WHERE Email = @email AND Password = @password;";
+            var result = _adapter.GetFromQuery<Models.User>(query, email,password);
+            return (result.Count != 0);
+               
         }
 
         public bool CheckIfAdmin(string userId)
         {
-            var result = _adapter.GetList<UserCredential>().Where(c=> c.Email == userId && c.Role == Role.EMPLOYEE).FirstOrDefault();
-            return (result != null);
+            string query = "SELECT * FROM User WHERE Email = @userId AND Role = 2 ";
+            var result = _adapter.GetFromQuery<Models.User>(query,userId);
+            return (result.Count != 0);
+               
         }
 
         public bool CheckIfManager(string userId)
         {
-            var result = _adapter.GetList<UserCredential>().Where(c => c.Email == userId && c.Role == Role.MANAGER).FirstOrDefault();
-            return (result != null);
+            string query = "SELECT * FROM User WHERE Email = @userId AND Role = 1 ";
+            var result = _adapter.GetFromQuery<Models.User>(query,userId);
+            return (result.Count != 0);
+              
         }
 
         public void AddUserCredential(UserCredential credential)
         {
             _adapter.Update(credential);
         }
-
         
         #endregion
     }
 }
+//need to update all queries
 
