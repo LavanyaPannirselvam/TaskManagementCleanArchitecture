@@ -38,12 +38,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
         public void OnError(BException errorMessage)
         {
-
+           
         }
 
         public void OnFailure(ZResponse<GetATaskResponse> response)
         {
-
+           
         }
 
         public async void OnSuccessAsync(ZResponse<GetATaskResponse> response)
@@ -51,6 +51,21 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 PopulateData(response.Data.task);
+                if(response.Data.task.AssignedUsers != null)//if users available
+                {
+                    _aTaskViewModel.ListVisibility = Visibility.Visible;
+                    _aTaskViewModel.TextVisibility = Visibility.Collapsed;
+                    _aTaskViewModel.AssignButtonVisibility = Visibility.Visible;
+                    _aTaskViewModel.RemoveButtonVisibility = Visibility.Visible;
+                }
+                else//no users
+                {
+                    _aTaskViewModel.TextVisibility = Visibility.Visible;
+                    _aTaskViewModel.ListVisibility = Visibility.Collapsed;
+                    _aTaskViewModel.ResponseString = response.Response.ToString();
+                    _aTaskViewModel.AssignButtonVisibility = Visibility.Visible;
+                    _aTaskViewModel.RemoveButtonVisibility = Visibility.Collapsed;
+                }
             });
         }
 
@@ -86,11 +101,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _textVisibility = value; 
                 OnPropertyChanged(nameof(TextVisibility));
             }
-            
         }
 
-        private Visibility _listVisibility = Visibility.Visible;
-
+        private Visibility _listVisibility = Visibility.Collapsed;
         public Visibility ListVisibility
         {
             get { return _listVisibility; }
@@ -102,5 +115,37 @@ namespace TaskManagementCleanArchitecture.ViewModel
             
         }
 
+        private string _responseString = string.Empty;
+        public string ResponseString
+        {
+            get { return _responseString; }
+            set 
+            { 
+                _responseString =  value; 
+                OnPropertyChanged(nameof(ResponseString));
+            }
+        }
+
+        private Visibility _assignButtonVisibility = Visibility.Collapsed;
+        public Visibility AssignButtonVisibility
+        {
+            get { return _assignButtonVisibility; }
+            set
+            {
+                _assignButtonVisibility = value;
+                OnPropertyChanged(nameof(AssignButtonVisibility));
+            }
+        }
+
+        private Visibility _removeButtonVisibility = Visibility.Collapsed;
+        public Visibility RemoveButtonVisibility
+        {
+            get { return _removeButtonVisibility; }
+            set
+            {
+                _removeButtonVisibility = value;
+                OnPropertyChanged(nameof(RemoveButtonVisibility));
+            }
+        }
     }
 }

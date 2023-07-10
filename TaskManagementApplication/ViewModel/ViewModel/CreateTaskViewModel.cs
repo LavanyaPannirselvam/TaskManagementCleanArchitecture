@@ -8,6 +8,7 @@ using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary;
+using Windows.UI.Xaml;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -68,12 +69,14 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
+        
+
         public ITaskAddedView AddedView { get; set; }
     }
 
     public interface ITaskAddedView
     {
-        void UpdateNewTask(Task newTask);
+        void UpdateNewTask(Tasks newTask);
     }
 
 }
