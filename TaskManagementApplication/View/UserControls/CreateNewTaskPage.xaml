@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="TaskManagementCleanArchitecture.View.UserControls.CreateNewProjectPage"
+    x:Class="TaskManagementCleanArchitecture.View.UserControls.CreateNewTaskPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TaskManagementCleanArchitecture.View.UserControls"
@@ -15,45 +15,60 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{ThemeResource AppForegroundBg}">
+    <Grid Background="{ThemeResource AppForegroundBg}"
+          CornerRadius="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <!--for task name-->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <!--for description-->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <!--for startdate name-->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!--for enddate name-->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!--for priority-->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!--for status-->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBox Name="ProjectName" 
-                 Header="Project Name"
-                 Width="250"
-                 TextChanged="ProjectName_TextChanged"
-                 HorizontalAlignment="Left"></TextBox>
+        <TextBox Name="TaskName" 
+                 Header="Task Name"
+                 HorizontalAlignment="Stretch"
+                 TextChanged="TaskName_TextChanged"
+                 Margin="5"></TextBox>
+        <TextBlock Visibility="{x:Bind NameTextBoxVisibility,Mode=OneWay}"
+                   Name="TaskNameTextBlock"/>
         <StackPanel Grid.Row="1" Height="20">
-            
+<!--description box-->
         </StackPanel>
         <CalendarDatePicker Grid.Row="2"
                             Header="Start Date"
                             Name="startdate"
                             PlaceholderText=""
-                            Width="250"
+                            HorizontalAlignment="Stretch"
                             DateChanged="StartDate_DataChanged"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             Header="End Date"
                             Name="enddate"
                             PlaceholderText=""
-                            Width="250"
+                            HorizontalAlignment="Stretch"
                             DateChanged="EndDate_DataChanged"
                             Margin="5"/>
         <ComboBox Grid.Row="4"
                   Header="Select Priority"
-                  PlaceholderText="Choose priority"
+                  PlaceholderText="Choose a priority"
                   Name="prioritybox"
-                  Width="250"
+                  HorizontalAlignment="Stretch"
                   SelectionChanged="Priority_Selectionchanged"
                   Margin="5">
             <x:String>High</x:String>
@@ -63,8 +78,8 @@
         </ComboBox>
         <ComboBox Grid.Row="5"
                   Header="Select Status"
-                  PlaceholderText="Choose status"
-                  Width="250"
+                  PlaceholderText="Choose a status"
+                  HorizontalAlignment="Stretch"
                   Name="statusbox"
                   SelectionChanged="Status_Selectionchanged"
                   Margin="5">
@@ -81,7 +96,7 @@
             <TextBlock Text="{x:Bind CUser.Name}"
                        Margin="5"/>
         </StackPanel>-->
-        
+
     </Grid>
-    
+
 </UserControl>

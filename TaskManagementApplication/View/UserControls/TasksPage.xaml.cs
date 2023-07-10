@@ -24,17 +24,36 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class TasksPage : UserControl
+    public sealed partial class TasksPage : UserControl , INotifyPropertyChanged
     {
         private static bool _itemSelected;
         private Tasks _task = new Tasks();
         public TasksViewModelBase _taskViewModel;
         public ATaskViewModelBase _aTaskViewModel;
+
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
+
+        public LoggedInUserBO CUser
+        {
+            get { return (LoggedInUserBO)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public TasksPage()
         {
             this.InitializeComponent();
             _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
             _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
+            //if(_aTaskViewModel.ATask.Count > 0)
+            //{
+            //    DataGridVisibility.Visibility = Visibility.Collapsed;
+            //}
             //_taskViewModel.TasksList.Clear();
             //_taskViewModel.
         }
@@ -43,14 +62,22 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public Visibility DataGridVisibility
         {
             get { return _datagridVisibility; }
-            set { _datagridVisibility = value; }
+            set 
+            { 
+                _datagridVisibility = value; 
+                NotifyPropertyChanged(nameof(DataGridVisibility));
+            }
         }
 
         private Visibility _textVisibility;
         public Visibility TextVisibility
         {
             get { return _textVisibility; }
-            set { _textVisibility = value; }
+            set 
+            { 
+                _textVisibility = value;
+                NotifyPropertyChanged(nameof(TextVisibility));
+            }
         }
 
         private void TasksList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -109,6 +136,28 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _aTaskViewModel.GetATask(task.Id);
                 TasksList.DataContext = _task;
             }
+        }
+
+        private void NewTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddTaskForm.IsOpen = true;
+            AddTaskForm.Visibility = Visibility.Visible;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTaskForm.GetFormData(CUser.LoggedInUser.Name, _aTaskViewModel.ATask.FirstOrDefault().Tasks.ProjectId);
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateTaskForm.ClearFormData();
+            AddTaskForm.Visibility = Visibility.Collapsed;
+        }
+
+        private void AddTaskForm_Closed(object sender, object e)
+        {
+            CreateTaskForm.ClearFormData();
         }
 
         //private void UserControl_Loaded(object sender, RoutedEventArgs e)

@@ -31,7 +31,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public TasksViewModelBase _tasksViewModel;
         private int projectId = 0;
         private CreateProjectViewModelBase _createProjectViewModel;
-        
+
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(ProjectsPage), new PropertyMetadata(null));
+
+        public LoggedInUserBO CUser
+        {
+            get { return (LoggedInUserBO)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
+        }
+
         public ProjectsPage()
         {
             this.InitializeComponent();
@@ -63,6 +71,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 NotifyPropertyChanged(nameof(Projects));
             }
         }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get { return _currentUser; }
+            set
+            {
+                _currentUser = value; 
+                NotifyPropertyChanged(nameof(CurrentUser));
+            }
+        }
+
 
         //private void ProjectListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
@@ -105,7 +125,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            _createProjectViewModel.CreateProject(CreateProjectForm.GetFormData());
+            //Project pro = CreateProjectForm.GetFormData(CUser.LoggedInUser.Name);
+            //if (pro.Name == string.Empty)
+            //{
+            //    ErrorMessages.Text = "Fill all data";
+            //}
+            //if (pro.StartDate < DateTime.Now)
+            //    ErrorMessages.Text = "Start date should not be yesterday";
+            //if (pro.EndDate < pro.StartDate)
+            //    ErrorMessages.Text = "End date should be greater than or equal to start date";
+            _createProjectViewModel.CreateProject(CreateProjectForm.GetFormData(CUser.LoggedInUser.Name));
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -117,16 +146,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             _projectsPageViewModel.ProjectsList.Clear();
-            _projectsPageViewModel.GetProjectsList();
+            _projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name,CUser.LoggedInUser.Email);
         }
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
             AddProjectForm.IsOpen = true;
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 2 + 100;
-            double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2;
-            AddProjectForm.HorizontalOffset = horizontalOffset;
-            AddProjectForm.VerticalOffset = verticalOffset;
+            CreateProjectForm.Visibility = Visibility.Visible;
         }
 
         private void AddProjectForm_Closed(object sender, object e)

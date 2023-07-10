@@ -6,15 +6,104 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:library="using:TaskManagementLibrary.Models"
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="Grid" x:Name="ContainerGrid">
+            <Style TargetType="controls:InAppNotification">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="State">
+                                            <VisualState x:Name="Collapsed">
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                                        <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    </DoubleAnimationUsingKeyFrames>
+
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                                        <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                        <DiscreteObjectKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Collapsed</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+
+                                            <VisualState x:Name="Visible">
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
+                                                    </DoubleAnimationUsingKeyFrames>
+
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Grid x:Name="RootGrid"
+                                    RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                                    Margin="{TemplateBinding Margin}"
+                                    Padding="{TemplateBinding Padding}"
+                                    MaxWidth="{TemplateBinding MaxWidth}"
+                                    Visibility="{TemplateBinding Visibility}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                        <Grid.RenderTransform>
+                                            <CompositeTransform />
+                                        </Grid.RenderTransform>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ContentPresenter x:Name="PART_Presenter"
+                                                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        VerticalContentAlignment="Center"
+                                                        TextWrapping="WrapWholeWords" />
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="Grid" x:Name="ContainerGrid">
                 <Setter Property="Background" Value="{ThemeResource AppForegroundBg}"/>
                 <Setter Property="CornerRadius" Value="30"/>
             </Style>
@@ -30,6 +119,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" 
@@ -152,7 +242,7 @@
                             <RowDefinition Height="1*"></RowDefinition>
                             <RowDefinition Height="1*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="No users assigned yet"
+                        <TextBlock Text="{x:Bind _aTaskViewModel.ResponseString,Mode=OneWay}"
                                    Grid.Row="0"
                                    Visibility="{x:Bind _aTaskViewModel.TextVisibility,Mode=OneWay}"/>
                         <StackPanel Grid.Row="0"
@@ -176,41 +266,59 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="library:User">
+                                    <DataTemplate x:DataType="library:User">
                                         <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
                                            Margin="0,5,0,5"/>
-                            </DataTemplate>
+                                    </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackPanel>
                     </Grid>
                 </Grid>
-                
+
                 <Grid Grid.Row="3"
                       Margin="10,10,0,0" 
-                      Padding="10,0,0,0">
+                      Padding="10,0,0,0"
+                     >
                     <StackPanel Orientation="Horizontal">
                         <DropDownButton x:Name="assignButton"
                                 Content="Assign User"
+                                        Visibility="{x:Bind _aTaskViewModel.AssignButtonVisibility,Mode=OneWay}"
                                 RelativePanel.AlignLeftWithPanel="True">
                         </DropDownButton>
                         <!--Click="assignButton_Click"/>-->
                         <DropDownButton x:Name="deassignButton"
                                 Content="Remove User"
+                                        Visibility="{x:Bind _aTaskViewModel.RemoveButtonVisibility,Mode=OneWay}"
                                 RelativePanel.AlignLeftWith="assignButton"
                                 Margin="20,0,0,0">
                             <DropDownButton.Flyout>
-                                <Flyout>
+                                <Flyout Placement="Bottom">
                                     <ListView x:Name="UsersList"
+                                              SelectionMode="Single"
+                                              SelectionChanged="RemoveUser_SelectionChanged"
                                               ItemsSource="{x:Bind _aTaskViewModel.SelectedTask.AssignedUsers,Mode=OneWay}">
-                                        <DataTemplate x:DataType="library:User">
-                                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                                        </DataTemplate>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="library:User">
+                                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
                                     </ListView>
                                 </Flyout>
                             </DropDownButton.Flyout>
                         </DropDownButton>
                     </StackPanel>
+                </Grid>
+                <Grid Grid.Row="4"
+                      Visibility="{x:Bind _assignTaskToUserViewModel.NotificationVisibility,Mode=OneWay}"
+                      x:Name="NotificationGrid">
+                    <controls:InAppNotification Name="NotificationControl"
+                                                Visibility="{x:Bind _assignTaskToUserViewModel.NotificationVisibility,Mode=OneWay}"
+                                                Content="{x:Bind _assignTaskToUserViewModel.ResponseString,Mode=OneWay}"
+                                                HorizontalAlignment="Stretch"
+                                                ShowDismissButton="False"/>
+                    <!--Content="{x:Bind _assignTaskToUserViewModel.ResponseString}"
+                                                                    Visibility="{x:Bind _assignTaskToUserViewModel.NotificationVisibility}"-->
                 </Grid>
             </Grid>
         </ScrollViewer>

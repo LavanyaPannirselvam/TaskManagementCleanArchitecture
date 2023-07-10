@@ -26,11 +26,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     public sealed partial class TaskDetailsPage : UserControl
     {
         private ATaskViewModelBase _aTaskViewModel;
+        private AssignTaskToUserViewModelBase _assignTaskToUserViewModel;
+        private RemoveTaskFromUserViewModelBase _removeTaskFromUserViewModel;
         public TaskBO task;
         public TaskDetailsPage()
         {
             this.InitializeComponent();
             _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
+            _assignTaskToUserViewModel = PresenterService.GetInstance().Services.GetService<AssignTaskToUserViewModelBase>();
+            _removeTaskFromUserViewModel = PresenterService.GetInstance().Services.GetService<RemoveTaskFromUserViewModelBase>();
             //task = _aTaskViewModel.ATask.FirstOrDefault();
             //if (task!=null && task.AssignedUsers.Count!= 0)
             //{
@@ -43,6 +47,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void assignButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void RemoveUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ListView).SelectedItem is User selected)
+            {
+                // _assignTaskToUserViewModel.AssignUserToTask(selected.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
+                _removeTaskFromUserViewModel.RemoveTask(selected.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
+                //NotificationGrid.Visibility = Visibility.Visible;
+                //string Content = _removeTaskFromUserViewModel.ResponseString;
+                NotificationControl.Show(1000);
+            }
         }
 
         //private void UserControl_Loaded(object sender, RoutedEventArgs e)

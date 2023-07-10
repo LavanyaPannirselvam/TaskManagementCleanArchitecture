@@ -29,16 +29,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTime _startDate;
         private DateTime _endDate;
-        
+        private ProjectsPage _projectsPage;
         public CreateNewProjectPage()
         {
             this.InitializeComponent();
         }
-
        
         private void ProjectName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var text = (TextBox)sender;
+            var text = (TextBox)sender;//should do empty and invalid data check
             _projectName = text.Text;
         }
 
@@ -66,9 +65,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _endDate = date.Date.Value.DateTime;
         }
 
-        public Project GetFormData()
+        public Project GetFormData(string ownerName)
         {
-            return new Project(_projectName,_description,_statusType,_priorityType,_startDate,_endDate);
+            return new Project(_projectName,_description,ownerName,_statusType,_priorityType,_startDate,_endDate);
         }
 
         public void ClearFormData()
@@ -78,6 +77,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             enddate.Date = DateTime.Now;
             prioritybox.Text = string.Empty;
             statusbox.Text = string.Empty;
+        }
+
+        public void UpdateNewTask(Project newProject)
+        {
         }
     }
 }
