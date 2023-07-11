@@ -33,10 +33,10 @@ namespace TaskManagementLibrary.Domain
             services.AddSingleton<IChangeProjectPriorityDataManager, ChangeProjectPriorityDataManager>();
             services.AddSingleton<IChangeProjectStatusDataManager,ChangeProjectStatusDataManager>();
             services.AddSingleton<ILoginDataManager, LoginDataManager>();
-            services.AddSingleton<IAssignProjectToUserDataManager, AssignProjectToUserDataManager>();
+            services.AddSingleton<IAssignTaskToUserDataManager, AssignTaskToUserDataManager>();
             services.AddSingleton<ICreateProjectDataManager, CreateProjectDataManager>();
             services.AddSingleton<IDeleteProjectDataManager, DeleteProjectDataManager>();
-            services.AddSingleton<IRemoveProjectFromUserDataManager, RemoveProjectFromUserDataManager>();
+            services.AddSingleton<IRemoveTaskFromUserDataManager, RemoveTaskFromUserDataManager>();
             services.AddSingleton<ICreateUserAccountDataManager, CreateUserAccountDataManager>();
             services.AddSingleton<IGetProjectsListDataManager, GetProjectsListDataManager>();
             services.AddSingleton<IGetUsersListDataManager, GetUsersListDataManager>();

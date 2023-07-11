@@ -13,7 +13,7 @@ namespace TaskManagementLibrary.Domain.Usecase
 {
     public interface ICreateProjectDataManager
     {
-        void CreateProject(CreateProjectRequest request, IUsecaseCallbackBasecase<bool> response);
+        void CreateProject(CreateProjectRequest request, IUsecaseCallbackBasecase<CreateProjectResponse> response);
     }
 
 
@@ -30,11 +30,11 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public interface IPresenterCreateProjectCallback : IPresenterCallbackBasecase<bool>
+    public interface IPresenterCreateProjectCallback : IPresenterCallbackBasecase<CreateProjectResponse>
     { }
     
 
-    public class CreateProject : UsecaseBase<bool>
+    public class CreateProject : UsecaseBase<CreateProjectResponse>
     {
         private ICreateProjectDataManager _createProjectDataManager;
         private CreateProjectRequest _createProjectRequest;
@@ -42,7 +42,7 @@ namespace TaskManagementLibrary.Domain.Usecase
         
         public CreateProject(CreateProjectRequest request, IPresenterCreateProjectCallback response)
         {
-            _createProjectDataManager = TaskManagementLibrary.Domain.ServiceProvider.GetInstance().Services.GetService<ICreateProjectDataManager>(); ;
+            _createProjectDataManager = ServiceProvider.GetInstance().Services.GetService<ICreateProjectDataManager>(); ;
             _createProjectRequest = request;
             _presenterCreateProjectResponse = response;
         }
@@ -53,7 +53,7 @@ namespace TaskManagementLibrary.Domain.Usecase
         }
         
         
-        public class CreateProjectCallback : IUsecaseCallbackBasecase<bool>
+        public class CreateProjectCallback : IUsecaseCallbackBasecase<CreateProjectResponse>
         {
             private CreateProject _createProject;
             
@@ -67,12 +67,12 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _createProject._presenterCreateProjectResponse?.OnError(error);
             }
             
-            public void OnResponseFailure(ZResponse<bool> response)
+            public void OnResponseFailure(ZResponse<CreateProjectResponse> response)
             {
                 _createProject._presenterCreateProjectResponse?.OnFailure(response);
             }
             
-            public void OnResponseSuccess(ZResponse<bool> response)
+            public void OnResponseSuccess(ZResponse<CreateProjectResponse> response)
             {
                 _createProject._presenterCreateProjectResponse?.OnSuccessAsync(response);
             }
@@ -80,9 +80,9 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
     
     
-    public class CreateProjectResponse : ZResponse<bool>
+    public class CreateProjectResponse : ZResponse<Project>
     {
-
+        public Project NewProject { get; set; }
     }
 }
 
