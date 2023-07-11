@@ -257,7 +257,7 @@
                             <!--<TextBlock Text="" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"></TextBlock>-->
                             <ListView
                                     x:Name="UsersForTasks"
-                                    ItemsSource="{x:Bind _aTaskViewModel.SelectedTask.AssignedUsers,Mode=OneWay}"
+                                    ItemsSource="{x:Bind _aTaskViewModel.CanRemoveUsersList,Mode=OneWay}"
                                     Margin="5,5"
                                     HorizontalAlignment="Left">
                                 <ListView.ItemContainerStyle>
@@ -278,26 +278,41 @@
 
                 <Grid Grid.Row="3"
                       Margin="10,10,0,0" 
-                      Padding="10,0,0,0"
-                     >
+                      Padding="10,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <DropDownButton x:Name="assignButton"
                                 Content="Assign User"
-                                        Visibility="{x:Bind _aTaskViewModel.AssignButtonVisibility,Mode=OneWay}"
-                                RelativePanel.AlignLeftWithPanel="True">
+                                Visibility="{x:Bind _aTaskViewModel.AssignButtonVisibility,Mode=OneWay}"
+                                RelativePanel.AlignRightWith="deassignButton">
+                            <DropDownButton.Flyout>
+                                <Flyout Placement="Bottom"
+                                        x:Name="AssignFlyout">
+                                    <ListView x:Name="UsersAssignList"
+                                              SelectionMode="Single"
+                                              SelectionChanged="AssignUser_SelectionChanged"
+                                              ItemsSource="{x:Bind _aTaskViewModel.CanAssignUsersList,Mode=OneWay}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="library:User">
+                                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Flyout>
+                            </DropDownButton.Flyout>
                         </DropDownButton>
                         <!--Click="assignButton_Click"/>-->
                         <DropDownButton x:Name="deassignButton"
                                 Content="Remove User"
-                                        Visibility="{x:Bind _aTaskViewModel.RemoveButtonVisibility,Mode=OneWay}"
-                                RelativePanel.AlignLeftWith="assignButton"
+                                Visibility="{x:Bind _aTaskViewModel.RemoveButtonVisibility,Mode=OneWay}"
+                                RelativePanel.AlignRightWithPanel="True"
                                 Margin="20,0,0,0">
                             <DropDownButton.Flyout>
-                                <Flyout Placement="Bottom">
+                                <Flyout Placement="Bottom"
+                                        x:Name="DeassignFlyout">
                                     <ListView x:Name="UsersList"
                                               SelectionMode="Single"
                                               SelectionChanged="RemoveUser_SelectionChanged"
-                                              ItemsSource="{x:Bind _aTaskViewModel.SelectedTask.AssignedUsers,Mode=OneWay}">
+                                              ItemsSource="{x:Bind _aTaskViewModel.CanRemoveUsersList,Mode=OneWay}">
                                         <ListView.ItemTemplate>
                                             <DataTemplate x:DataType="library:User">
                                                 <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>

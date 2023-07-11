@@ -1064,15 +1064,19 @@
                                     Margin="2.5,0">
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-           
+            <!--<Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>-->
             <ContentControl x:Name="DashboardContent"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Height="900"
-                            Grid.Row="1">
+                           
+                            Height="900">
+                <!--Grid.Column="0"
+                            Grid.ColumnSpan="1">-->
                 <ContentPresenter Background="{ThemeResource AppForegroundBg}">
                 </ContentPresenter>
             </ContentControl>
+            <!--</Grid>-->
         </NavigationView>
     </Grid>
 </UserControl>

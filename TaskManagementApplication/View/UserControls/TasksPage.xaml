@@ -75,7 +75,7 @@
           x:Name="TaskPage">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="900"/>
         </Grid.RowDefinitions>
         <RelativePanel Margin="0,0,0,20">
             <TextBlock Text="Tasks"
@@ -98,9 +98,9 @@
         </RelativePanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition  MinWidth="400" MaxWidth="520" />
+                <ColumnDefinition MinWidth="520" MaxWidth="600"/>
                 <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="800" />
             </Grid.ColumnDefinitions>
 
             <Grid x:Name="TasksList" Grid.ColumnSpan="3">
@@ -109,11 +109,11 @@
                     <!--<RowDefinition Height="*"></RowDefinition>-->
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="No Tasks yet ;)" 
+                <TextBlock Grid.Row="0" 
+                           Text="{x:Bind _taskViewModel.ResponseString,Mode=OneWay}" 
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Center"
-                           Foreground="Red"
-                           Visibility="{x:Bind TextVisibility,Mode=OneWay}"/>
+                           Visibility="{x:Bind _taskViewModel.TextVisibility,Mode=OneWay}"/>
                 <controls:DataGrid x:Name="TasksOfAProject"
                        ItemsSource="{x:Bind _taskViewModel.TasksList}"
                        AutoGenerateColumns="False"
@@ -126,7 +126,7 @@
                        AutoGeneratingColumn="TasksList_AutoGeneratingColumn"
                        IsReadOnly="True"
                        SelectionMode="Single"
-                       Visibility="{x:Bind DataGridVisibility,Mode=OneWay}"
+                       Visibility="{x:Bind _taskViewModel.DataGridVisibility,Mode=OneWay}"
                        SelectionChanged="TasksOfAProject_SelectionChanged"
                        Background="{ThemeResource AppForegroundBg}">
                     <controls:DataGrid.Columns>
@@ -248,7 +248,6 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-
                 <Grid  Margin="10,0,0,0"
                        Grid.Row="0">
                     <Grid.ColumnDefinitions>
@@ -286,8 +285,7 @@
                 <Grid Grid.Row="1">
                     <local:TaskDetailsPage x:Name="TaskDetailsPage"/>
                 </Grid>
-            </Grid>
-            <Popup IsLightDismissEnabled="True"
+                <Popup IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
                    IsOpen="False"
                    VerticalOffset="0"
@@ -295,11 +293,11 @@
                    HorizontalOffset="200"
                    Closed="AddTaskForm_Closed"
                    Name="AddTaskForm">
-                        <Popup.ChildTransitions>
-                            <TransitionCollection>
-                                <PaneThemeTransition Edge="Right"/>
-                            </TransitionCollection>
-                        </Popup.ChildTransitions>
+                    <Popup.ChildTransitions>
+                        <TransitionCollection>
+                            <PaneThemeTransition Edge="Right"/>
+                        </TransitionCollection>
+                    </Popup.ChildTransitions>
                     <controls:DropShadowPanel Color="#cfd6df"
                                       OffsetX="-25"
                                       OffsetY="25"
@@ -343,6 +341,7 @@
                 </Popup>
             </Grid>
         </Grid>
+    </Grid>
 </UserControl>
 <!--ContentTemplate="{TemplateBinding ContentTemplate}"
                                               ContentTransitions="{TemplateBinding ContentTransitions}"

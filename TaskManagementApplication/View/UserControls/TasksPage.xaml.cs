@@ -58,28 +58,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //_taskViewModel.
         }
 
-        private Visibility _datagridVisibility;
-        public Visibility DataGridVisibility
-        {
-            get { return _datagridVisibility; }
-            set 
-            { 
-                _datagridVisibility = value; 
-                NotifyPropertyChanged(nameof(DataGridVisibility));
-            }
-        }
-
-        private Visibility _textVisibility;
-        public Visibility TextVisibility
-        {
-            get { return _textVisibility; }
-            set 
-            { 
-                _textVisibility = value;
-                NotifyPropertyChanged(nameof(TextVisibility));
-            }
-        }
-
         private void TasksList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.Column.Header.ToString() == "Id")
@@ -134,6 +112,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if ((sender as DataGrid).SelectedItem is Tasks task)
             {
                 _aTaskViewModel.GetATask(task.Id);
+                _aTaskViewModel.CanAssignUsersList.Clear();
+                _aTaskViewModel.CanRemoveUsersList.Clear();
                 TasksList.DataContext = _task;
             }
         }

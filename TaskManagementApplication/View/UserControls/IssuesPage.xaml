@@ -9,7 +9,11 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-
+    <Grid Background="Red">
+        <TextBlock Text="welcome"
+                   FontSize="34"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   />
     </Grid>
 </UserControl>
