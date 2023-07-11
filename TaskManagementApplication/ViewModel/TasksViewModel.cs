@@ -9,6 +9,7 @@ using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary;
+using Windows.UI.Xaml;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -47,7 +48,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                PopulateData(response.Data.Tasks);
+                if(response.Data.Tasks.Count > 0)
+                {
+                    PopulateData(response.Data.Tasks);
+                    _viewModel.TextVisibility = Visibility.Collapsed;
+                    _viewModel.DataGridVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _viewModel.TextVisibility = Visibility.Visible;
+                    _viewModel.DataGridVisibility = Visibility.Collapsed;
+                    _viewModel.ResponseString = response.Response;
+                }
             });
         }
 
@@ -62,6 +74,40 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public ObservableCollection<Tasks> TasksList = new ObservableCollection<Tasks>();
         public abstract void GetTasks(int projectId);
+
+        private Visibility _textVisibility = Visibility.Collapsed;
+        public Visibility TextVisibility
+        {
+            get { return _textVisibility; }
+            set
+            {
+                _textVisibility = value;
+                OnPropertyChanged(nameof(TextVisibility));
+            }
+        }
+
+        private string _responseString = string.Empty;
+        public string ResponseString
+        {
+            get { return _responseString; }
+            set
+            {
+                _responseString = value;
+                OnPropertyChanged(nameof(ResponseString));
+            }
+        }
+
+        private Visibility _dataGridVisibility = Visibility.Collapsed;
+        public Visibility DataGridVisibility
+        {
+            get { return _dataGridVisibility; }
+            set
+            {
+                _dataGridVisibility = value;
+                OnPropertyChanged(nameof(DataGridVisibility));
+            }
+
+        }
 
     }
 }

@@ -38,12 +38,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
         public void OnError(BException errorMessage)
         {
-
+           
         }
 
         public void OnFailure(ZResponse<GetATaskResponse> response)
         {
-
+           
         }
 
         public async void OnSuccessAsync(ZResponse<GetATaskResponse> response)
@@ -51,16 +51,56 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 PopulateData(response.Data.task);
+                //_aTaskViewModel.CanAssignUsersList.Clear();
+                //_aTaskViewModel.CanRemoveUsersList.Clear();
+                //if(response.Data.task.AssignedUsers != null)//if users available
+                //{
+                //    _aTaskViewModel.ListVisibility = Visibility.Visible;
+                //    _aTaskViewModel.TextVisibility = Visibility.Collapsed;
+                //    _aTaskViewModel.AssignButtonVisibility = Visibility.Visible;
+                //    _aTaskViewModel.RemoveButtonVisibility = Visibility.Visible;
+                //}
+                //else//no users
+                //{
+                //    _aTaskViewModel.TextVisibility = Visibility.Visible;
+                //    _aTaskViewModel.ListVisibility = Visibility.Collapsed;
+                //    _aTaskViewModel.ResponseString = response.Response.ToString();
+                //    _aTaskViewModel.AssignButtonVisibility = Visibility.Visible;
+                //    _aTaskViewModel.RemoveButtonVisibility = Visibility.Collapsed;
+                //}
+                foreach(var u in response.Data.task.UsersList)
+                {
+                    if(u.Value == true)
+                        _aTaskViewModel.CanRemoveUsersList.Add(u.Key);
+                    else
+                        _aTaskViewModel.CanAssignUsersList.Add(u.Key);
+                }
+                if(_aTaskViewModel.CanRemoveUsersList.Count==0)
+                {
+                    _aTaskViewModel.TextVisibility = Visibility.Visible;
+                    _aTaskViewModel.ListVisibility = Visibility.Collapsed;
+                    _aTaskViewModel.ResponseString = response.Response.ToString();
+                    _aTaskViewModel.AssignButtonVisibility = Visibility.Visible;
+                    _aTaskViewModel.RemoveButtonVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _aTaskViewModel.ListVisibility = Visibility.Visible;
+                    _aTaskViewModel.TextVisibility = Visibility.Collapsed;
+                    _aTaskViewModel.AssignButtonVisibility = Visibility.Visible;
+                    _aTaskViewModel.RemoveButtonVisibility = Visibility.Visible;
+                }
             });
         }
 
         private void PopulateData(TaskBO data)
         {
-            //TODO : if no users,msg that no users were assigned yet
             _aTaskViewModel.SelectedTask = data;
             _aTaskViewModel.ATask.Add(data);
         }
     }
+
+
     public abstract class ATaskViewModelBase : NotifyPropertyBase
     {
         public ObservableCollection<TaskBO> ATask = new ObservableCollection<TaskBO>();
@@ -77,7 +117,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        private Visibility _textVisibility = Visibility.Visible;
+        private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility
         {
             get { return _textVisibility; }
@@ -86,11 +126,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _textVisibility = value; 
                 OnPropertyChanged(nameof(TextVisibility));
             }
-            
         }
 
         private Visibility _listVisibility = Visibility.Collapsed;
-
         public Visibility ListVisibility
         {
             get { return _listVisibility; }
@@ -99,8 +137,61 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _listVisibility = value;
                 OnPropertyChanged(nameof(ListVisibility));
             }
-            
         }
 
+        private string _responseString = string.Empty;
+        public string ResponseString
+        {
+            get { return _responseString; }
+            set 
+            { 
+                _responseString =  value; 
+                OnPropertyChanged(nameof(ResponseString));
+            }
+        }
+
+        private Visibility _assignButtonVisibility = Visibility.Collapsed;
+        public Visibility AssignButtonVisibility
+        {
+            get { return _assignButtonVisibility; }
+            set
+            {
+                _assignButtonVisibility = value;
+                OnPropertyChanged(nameof(AssignButtonVisibility));
+            }
+        }
+
+        private Visibility _removeButtonVisibility = Visibility.Collapsed;
+        public Visibility RemoveButtonVisibility
+        {
+            get { return _removeButtonVisibility; }
+            set
+            {
+                _removeButtonVisibility = value;
+                OnPropertyChanged(nameof(RemoveButtonVisibility));
+            }
+        }
+
+        private ObservableCollection<User> _canAssignUsersList = new ObservableCollection<User>();
+        public ObservableCollection<User> CanAssignUsersList
+        {
+            get { return _canAssignUsersList; }
+            set 
+            { 
+                _canAssignUsersList = value;
+                OnPropertyChanged(nameof(CanAssignUsersList));
+            }
+        }
+
+        private ObservableCollection<User> _canRemoveUsersList = new ObservableCollection<User>();
+        public ObservableCollection<User> CanRemoveUsersList
+        {
+            get { return _canRemoveUsersList; }
+            set
+            {
+                _canRemoveUsersList = value;
+                OnPropertyChanged(nameof(CanRemoveUsersList));
+            }
+        }
     }
 }

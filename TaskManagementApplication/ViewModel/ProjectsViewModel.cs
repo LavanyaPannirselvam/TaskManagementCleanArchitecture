@@ -13,6 +13,7 @@ using TaskManagementLibrary;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Models;
+using Windows.UI.Xaml;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -21,9 +22,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         private GetProjectsList _getProjectsList;
         //private GetUsersList _getUsersList; 
         
-        public override void GetProjectsList()
+        public override void GetProjectsList(string name,string email)
         {
-            _getProjectsList = new GetProjectsList(new PresenterGetProjectsList(this),new GetProjectListRequest(new CancellationTokenSource()));
+            _getProjectsList = new GetProjectsList(new PresenterGetProjectsList(this),new GetProjectListRequest(name,email,new CancellationTokenSource()));
             _getProjectsList.Execute();
         }
 
@@ -56,7 +57,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                PopulateData(response.Data.Projects);
+                if(response.Data.Projects != null)
+                {
+                    projectPageViewModel.DataGridVisibility = Visibility.Visible;
+                    projectPageViewModel.TextVisibility = Visibility.Collapsed;
+                    PopulateData(response.Data.Projects);
+                }
+                else
+                {
+                    projectPageViewModel.DataGridVisibility = Visibility.Collapsed;
+                    projectPageViewModel.TextVisibility = Visibility.Visible;
+                    projectPageViewModel.ResponseString =  response.Response;
+                }
             });
         }
 
@@ -112,12 +124,41 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class ProjectsViewModelBase : NotifyPropertyBase
     {
         public ObservableCollection<Project> ProjectsList = new ObservableCollection<Project>();
-        //public ObservableCollection<User> UsersList = new ObservableCollection<User>();
-        public ObservableCollection<ProjectWithUsersBO> projectWithUsersList = new ObservableCollection<ProjectWithUsersBO>();
-        public ProjectWithUsersBO projectWithUsersBO = new ProjectWithUsersBO();
-        //public abstract void GetUsersList(int projectId);
-       
-        public abstract void GetProjectsList();
+        public abstract void GetProjectsList(string name,string email);
+
+        private Visibility _textVisibility = Visibility.Collapsed;
+        public Visibility TextVisibility
+        {
+            get { return _textVisibility; }
+            set
+            {
+                _textVisibility = value;
+                OnPropertyChanged(nameof(TextVisibility));
+            }
+        }
+
+        private string _responseString = string.Empty;
+        public string ResponseString
+        {
+            get { return _responseString; }
+            set
+            {
+                _responseString = value;
+                OnPropertyChanged(nameof(ResponseString));
+            }
+        }
+
+        private Visibility _dataGridVisibility = Visibility.Collapsed;
+        public Visibility DataGridVisibility
+        {
+            get { return _dataGridVisibility; }
+            set
+            {
+                _dataGridVisibility = value;
+                OnPropertyChanged(nameof(DataGridVisibility));
+            }
+
+        }
     }
 }
 //need to do ProjectWithUsersBO

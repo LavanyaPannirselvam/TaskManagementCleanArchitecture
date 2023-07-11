@@ -14,11 +14,11 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class CreateProjectViewModel : CreateProjectViewModelBase
     {
-        CreateProject createProject;
+        CreateProject _createProject;
         public override void CreateProject(Project project)
         {
-            createProject = new CreateProject(new CreateProjectRequest(project, new CancellationTokenSource()), new PresenterCreateProjectCallback(this));
-            createProject.Execute();
+            _createProject = new CreateProject(new CreateProjectRequest(project, new CancellationTokenSource()), new PresenterCreateProjectCallback(this));
+            _createProject.Execute();
         }
     }
 
@@ -36,16 +36,17 @@ namespace TaskManagementCleanArchitecture.ViewModel
             throw new NotImplementedException();
         }
 
-        public void OnFailure(ZResponse<bool> response)
+        public void OnFailure(ZResponse<CreateProjectResponse> response)
         {
             throw new NotImplementedException();
         }
 
-        public async void OnSuccessAsync(ZResponse<bool> response)
+        public async void OnSuccessAsync(ZResponse<CreateProjectResponse> response)
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
                 {
-
+                    _viewModel.NewProject = response.Data.NewProject;
+                    // _viewModel.AddedView.UpdateNewProject(_viewModel.NewProject);
                 });
         }
     }
@@ -55,16 +56,23 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class CreateProjectViewModelBase : NotifyPropertyBase
     {
         public abstract void CreateProject(Project project);
-        private string _response = String.Empty;
-        public string Response
+        private Project _newProject;
+        public Project NewProject
         {
-            get { return this._response; }
+            get { return this._newProject; }
             set
             {
-                _response = value;
-                OnPropertyChanged(nameof(Response));
+                _newProject = value;
+                OnPropertyChanged(nameof(NewProject));
             }
         }
+
+        public IProjectAddedView AddedView { get; set; }
+    }
+
+    public interface IProjectAddedView
+    {
+        void UpdateNewProject(Project newProject);
     }
 
 }
