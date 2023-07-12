@@ -65,7 +65,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
         private void PopulateData(List<Tasks> data)
         {
-            //TODO : if no users,msg that no users were assigned yet
             foreach (var p in data)
                 _viewModel.TasksList.Add(p);
         }

@@ -44,8 +44,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                _assignTaskToUser.NotificationVisibility = Visibility.Visible;
+               // _assignTaskToUser.NotificationVisibility = Visibility.Visible;//as event
                 _assignTaskToUser.ResponseString = response.Response.ToString();
+                _assignTaskToUser.assignUser.SuccessNotification();
             });
         }
 
@@ -61,7 +62,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class AssignTaskToUserViewModelBase : NotifyPropertyBase
     {
         public ObservableCollection<User> UsersList = new ObservableCollection<User>();
-        public IAssignUser assignUser { get; set; }
+        public IUserAssignedNotification assignUser { get; set; }
         public abstract void AssignUserToTask(int userId, int taskId);
 
         private string _responseString;
@@ -89,9 +90,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
     }
 
 
-    public interface IAssignUser
+    public interface IUserAssignedNotification
     {
-        void AssignUserToTask(int userId);
+        void SuccessNotification();
     }
 }
 
