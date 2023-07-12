@@ -42,9 +42,9 @@ namespace TaskManagementLibrary.Data.DBManager
                         userRole = Role.EMPLOYEE;
                         response = "Welcome!";
                     }
-                    var fromData = DbHandler.GetUser(userId);
+                    var user = DbHandler.GetUser(userId);
                     LoggedInUserBO loggedUser = new LoggedInUserBO();
-                    loggedUser.LoggedInUser = fromData;
+                    loggedUser.LoggedInUser = user;
                     loggedUser.WelcomeText = response;
                     loginResponse.currentUser = loggedUser;
                     loginResponse.role = userRole;
