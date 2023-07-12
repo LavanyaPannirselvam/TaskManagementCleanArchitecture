@@ -30,7 +30,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private Tasks _task = new Tasks();
         public TasksViewModelBase _taskViewModel;
         public ATaskViewModelBase _aTaskViewModel;
-
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
 
         public LoggedInUserBO CUser
@@ -122,6 +121,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             AddTaskForm.IsOpen = true;
             AddTaskForm.Visibility = Visibility.Visible;
+            //double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 2;
+            //double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2;
+            //AddTaskForm.HorizontalOffset = horizontalOffset;
+            //AddTaskForm.VerticalOffset = verticalOffset;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

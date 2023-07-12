@@ -134,7 +134,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks">
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Id}"/>
+                                               Text="{x:Bind Id}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -142,7 +143,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind ProjectId}"/>
+                                               Text="{x:Bind ProjectId}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -150,7 +152,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Name}"/>
+                                               Text="{x:Bind Name}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -158,7 +161,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Desc}"/>
+                                               Text="{x:Bind Desc}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -166,7 +170,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind CreatedBy}"/>
+                                               Text="{x:Bind CreatedBy}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -174,7 +179,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Status}"/>
+                                               Text="{x:Bind Status}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -182,7 +188,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind StartDate}"/>
+                                               Text="{x:Bind StartDate}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -190,7 +197,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind EndDate}"/>
+                                               Text="{x:Bind EndDate}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -198,7 +206,8 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="5,0,5,0" 
-                                               Text="{x:Bind Priority}"/>
+                                               Text="{x:Bind Priority}"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -251,8 +260,8 @@
                 <Grid  Margin="10,0,0,0"
                        Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <!--<Button  Grid.Column="1"
                              FontSize="20"
@@ -272,6 +281,24 @@
                                HorizontalTextAlignment="Left" 
                                FontWeight="SemiBold" 
                                FontSize="20" ></TextBlock>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Grid.Column="1">
+                    <Button CornerRadius="5"
+                                        Foreground="White"
+                                        Margin="10,0,0,0"
+                                        Background="Red" MinHeight="35" MinWidth="35" 
+                                        Content="&#xE107;" 
+                                        FontFamily="Segoe MDL2 Assets"  
+                                        Name="DeleteTask">
+                        <Button.Resources>
+                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver"
+                                                         Color="red" />
+                            <SolidColorBrush x:Key="ButtonForegroundPointerOver"
+                                                         Color="White" />
+                        </Button.Resources>
+                    </Button>
+
                     <Button FontFamily="Segoe MDL2 Assets"
                             Grid.Column="1" Margin="0,0,20,0"
                             Background="Transparent"
@@ -281,6 +308,7 @@
                             Name="CloseButton"
                             FontSize="13"
                             Click="CloseButton_Click"></Button>
+                    </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">
                     <local:TaskDetailsPage x:Name="TaskDetailsPage"/>
@@ -289,8 +317,8 @@
                    LightDismissOverlayMode="On"
                    IsOpen="False"
                    VerticalOffset="0"
-                   Grid.Column="2"
                    HorizontalOffset="200"
+                   Grid.Column="2"
                    Closed="AddTaskForm_Closed"
                    Name="AddTaskForm">
                     <Popup.ChildTransitions>

@@ -71,19 +71,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 NotifyPropertyChanged(nameof(Projects));
             }
         }
-
-        private User _currentUser;
-        public User CurrentUser
-        {
-            get { return _currentUser; }
-            set
-            {
-                _currentUser = value; 
-                NotifyPropertyChanged(nameof(CurrentUser));
-            }
-        }
-
-
         //private void ProjectListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
         //    Project project = (sender as DataGrid).SelectedItem as Project;

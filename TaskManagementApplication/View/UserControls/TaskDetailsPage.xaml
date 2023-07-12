@@ -137,78 +137,78 @@
                         <!--<RowDefinition Height="1*"></RowDefinition>-->
                     </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Vertical" Grid.Row="0">
+                    <StackPanel Orientation="Vertical" Grid.Row="0" Margin="3">
                         <TextBlock Text="Task Name : "
-                                   Margin="5" 
+                                   Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                         <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Name,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="1">
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Margin="3">
                         <TextBlock Text="Description : " 
-                                   Margin="5" 
+                                   Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                         <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Desc,,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="2">
+                    <StackPanel Orientation="Vertical" Grid.Row="2" Margin="3">
                         <TextBlock Text="Status : " 
-                                   Margin="5" 
+                                   Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                         <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Status,Mode=OneWay}" 
                                    Margin="5"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="3">
+                    <StackPanel Orientation="Vertical" Grid.Row="3" Margin="3">
                         <TextBlock Text="Start Date : " 
-                                   Margin="5"
+                                   Margin="2"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                         <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.StartDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="4">
+                    <StackPanel Orientation="Vertical" Grid.Row="4" Margin="3" >
                         <TextBlock Text="End Date : " 
-                                   Margin="5" 
+                                   Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                         <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.EndDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="5">
+                    <StackPanel Orientation="Vertical" Grid.Row="5" Margin="3">
                         <TextBlock Text="Priority : " 
-                                   Margin="5" 
+                                   Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                         <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Priority,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
@@ -226,17 +226,16 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock Text="Assigned Users : " 
-                                   Margin="5" 
+                                   Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold"/>
+                                   FontWeight="Thin"/>
                     </StackPanel>
-                    <Grid BorderBrush="Black" 
-                          BorderThickness="0.7" 
+                    <Grid 
                           CornerRadius="10" 
-                          Margin="10,5"
-                          Padding="10" 
+                          Margin="5,2"
+                          Padding="2" 
                           Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"></RowDefinition>
@@ -248,17 +247,10 @@
                         <StackPanel Grid.Row="0"
                                     x:Name="UsersListPanel"
                                     Visibility="{x:Bind _aTaskViewModel.ListVisibility,Mode=OneWay}">
-                            <TextBlock Text="Name : " 
-                                       Margin="5" 
-                                       VerticalAlignment="Center" 
-                                       HorizontalAlignment="Left" 
-                                       FontSize="16" 
-                                       FontWeight="SemiBold"/>
-                            <!--<TextBlock Text="" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"></TextBlock>-->
-                            <ListView
+                                <ListView
                                     x:Name="UsersForTasks"
                                     ItemsSource="{x:Bind _aTaskViewModel.CanRemoveUsersList,Mode=OneWay}"
-                                    Margin="5,5"
+                                    Margin="5,2"
                                     HorizontalAlignment="Left">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
@@ -268,7 +260,7 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="library:User">
                                         <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
-                                           Margin="0,5,0,5"/>
+                                                   Margin="0,1,0,0"/>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
@@ -280,7 +272,7 @@
                       Margin="10,10,0,0" 
                       Padding="10,0,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <DropDownButton x:Name="assignButton"
+                        <!--<DropDownButton x:Name="assignButton"
                                 Content="Assign User"
                                 Visibility="{x:Bind _aTaskViewModel.AssignButtonVisibility,Mode=OneWay}"
                                 RelativePanel.AlignRightWith="deassignButton">
@@ -299,8 +291,20 @@
                                     </ListView>
                                 </Flyout>
                             </DropDownButton.Flyout>
-                        </DropDownButton>
+                        </DropDownButton>-->
                         <!--Click="assignButton_Click"/>-->
+                        <AutoSuggestBox x:Name="AssignUserBox"
+                                 MaxSuggestionListHeight="200"
+                                 PlaceholderText="Assign User"
+                                 LosingFocus="AutoSuggestBox_LosingFocus"
+                                 Grid.Row="1"
+                                 CornerRadius="10"
+                                 TextChanged="AutoSuggestBox_TextChanged"
+                                 PointerEntered="AutoSuggestBox_PointerEntered"
+                                 Width="260"
+                                 AutomationProperties.Name="UserAutoSuggestBox">
+                            
+                        </AutoSuggestBox>
                         <DropDownButton x:Name="deassignButton"
                                 Content="Remove User"
                                 Visibility="{x:Bind _aTaskViewModel.RemoveButtonVisibility,Mode=OneWay}"

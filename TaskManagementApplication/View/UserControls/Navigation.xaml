@@ -1056,7 +1056,7 @@
                 <NavigationViewItem Content="Tasks"
                                     x:Name="tasksTab"
                                     FontSize="16"
-                                    Margin="2.5,0"> 
+                                    Margin="2.5,0">
                 </NavigationViewItem>
                 <NavigationViewItem Content="Issues"
                                     x:Name="issuesTab"
@@ -1064,19 +1064,11 @@
                                     Margin="2.5,0">
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-            <!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>-->
             <ContentControl x:Name="DashboardContent"
-                           
                             Height="900">
-                <!--Grid.Column="0"
-                            Grid.ColumnSpan="1">-->
                 <ContentPresenter Background="{ThemeResource AppForegroundBg}">
                 </ContentPresenter>
             </ContentControl>
-            <!--</Grid>-->
         </NavigationView>
     </Grid>
 </UserControl>
