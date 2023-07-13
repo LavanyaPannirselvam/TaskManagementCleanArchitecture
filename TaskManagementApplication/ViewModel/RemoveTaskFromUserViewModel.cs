@@ -45,6 +45,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _removeTask.NotificationVisibility = Visibility.Visible;
                 _removeTask.ResponseString = response.Response.ToString();
+                _removeTask.userRemovedNotifcation.UpdateDeletion();
             });
         }
     }
@@ -53,6 +54,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class RemoveTaskFromUserViewModelBase : NotifyPropertyBase
     {
         public abstract void RemoveTask(int userId, int taskId);
+        public IUserRemovedNotification userRemovedNotifcation { get; set; }
         private string _responseString;
         public string ResponseString
         {
@@ -77,7 +79,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     }
 
 
-    public interface IUpdateDeletion
+    public interface IUserRemovedNotification
     {
         void UpdateDeletion();
     }

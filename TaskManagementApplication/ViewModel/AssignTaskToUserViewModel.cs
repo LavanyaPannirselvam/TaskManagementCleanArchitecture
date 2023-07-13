@@ -44,9 +44,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-               // _assignTaskToUser.NotificationVisibility = Visibility.Visible;//as event
+                _assignTaskToUser.NotificationVisibility = Visibility.Visible;//as event
                 _assignTaskToUser.ResponseString = response.Response.ToString();
-                _assignTaskToUser.assignUser.SuccessNotification();
+                _assignTaskToUser.assignUser.UpdateAssignment();
             });
         }
 
@@ -92,7 +92,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
     public interface IUserAssignedNotification
     {
-        void SuccessNotification();
+        void UpdateAssignment();
     }
 }
 
