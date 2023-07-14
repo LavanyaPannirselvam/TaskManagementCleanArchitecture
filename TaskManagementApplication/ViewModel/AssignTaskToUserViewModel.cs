@@ -44,7 +44,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                _assignTaskToUser.NotificationVisibility = Visibility.Visible;//as event
                 _assignTaskToUser.ResponseString = response.Response.ToString();
                 _assignTaskToUser.assignUser.UpdateAssignment();
             });
@@ -75,19 +74,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 OnPropertyChanged(nameof(ResponseString));
             }
         }
-
-        private Visibility _notificationVisibility = Visibility.Collapsed;
-        public Visibility NotificationVisibility
-        {
-            get { return _notificationVisibility; }
-            set
-            {
-                _notificationVisibility = value;
-                OnPropertyChanged(nameof(NotificationVisibility));
-
-            }
-        }
     }
+
 
 
     public interface IUserAssignedNotification
