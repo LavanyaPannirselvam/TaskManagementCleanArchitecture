@@ -19,9 +19,12 @@ namespace TaskManagementLibrary.Data.DBManager
         {
             var item = DbHandler.AssignedTasksList(request.projectId);
             GetTasksListResponse taskResponse = new GetTasksListResponse();
-            taskResponse.Tasks= item;
             ZResponse<GetTasksListResponse> zResponse = new ZResponse<GetTasksListResponse>();
-            zResponse.Response = "";
+            if (item.Count > 0)
+                zResponse.Response = "";
+            else 
+                zResponse.Response = "Tasks not assigned yet :)";
+            taskResponse.Tasks= item;
             zResponse.Data = taskResponse;
             response.OnResponseSuccess(zResponse);
         }

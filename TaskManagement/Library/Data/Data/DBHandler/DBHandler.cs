@@ -77,7 +77,7 @@ namespace TaskManagementLibrary.Data.DBHandler
         public void DeleteTask(int taskId)
         {
             string query = "SELECT * FROM Tasks WHERE Id = @taskId";
-            var toDelete = _adapter.GetFromQuery<Tasks>(query, taskId);
+            var toDelete = _adapter.GetFromQuery<Tasks>(query, taskId).FirstOrDefault();
             _adapter.Delete(toDelete);
         }
 
@@ -141,7 +141,7 @@ namespace TaskManagementLibrary.Data.DBHandler
 
         public List<Models.User> AssignedUsersList(int activityId,int activityType)
         {
-            var query = "SELECT * FROM User JOIN Assignment ON User.UserId = Assignment.UserId WHERE Assignment.ActivityId = @activityId AND Assignment.Type = @activityType";//to change
+            var query = "SELECT * FROM User JOIN Assignment ON User.UserId = Assignment.UserId WHERE Assignment.ActivityId = @activityId AND Assignment.Type = @activityType";
             var toGet = _adapter.GetFromQuery<Models.User>(query, activityId,activityType);
             return toGet;
         }
@@ -190,7 +190,35 @@ namespace TaskManagementLibrary.Data.DBHandler
         {
             _adapter.Update(credential);
         }
-        
+        #endregion
+
+        #region Issue section
+        public int AddIssue(Issue issue)
+        {
+            _adapter.Add(issue);
+            return issue.Id;
+        }
+
+        public void DeleteIssue(int issueId)
+        {
+            string query = "SELECT * FROM Issues WHERE Id = @issueId";
+            var toDelete = _adapter.GetFromQuery<Issue>(query, issueId).FirstOrDefault();
+            _adapter.Delete(toDelete);
+        }
+
+        public Issue GetIssue(int issueId)
+        {
+            string query = "SELECT * FROM Issues WHERE Id = @issueId";
+            var toGet = _adapter.GetFromQuery<Issue>(query, issueId);
+            return toGet.FirstOrDefault();
+        }
+
+        public List<Issue> IssuesList()
+        {
+            string query = "SELECT * FROM Issues";
+            var list = _adapter.GetFromQuery<Issue>(query);
+            return list.ToList();
+        }
         #endregion
     }
 }

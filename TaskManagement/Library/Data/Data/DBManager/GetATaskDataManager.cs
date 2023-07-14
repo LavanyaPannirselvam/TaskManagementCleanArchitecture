@@ -22,11 +22,29 @@ namespace TaskManagementLibrary.Data.DBManager
             var item = DbHandler.GetTask(request.taskId);
             TaskBO taskBO = new TaskBO();
             taskBO.Tasks = item;
-            taskBO.AssignedUsers = DbHandler.AssignedUsersList(request.taskId,(int)ActivityType.TASK);
-            GetATaskResponse taskResponse = new GetATaskResponse();
-            taskResponse.task = taskBO;
+            List<User> list= DbHandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
+            List<User> userList = DbHandler.UsersList();
             ZResponse<GetATaskResponse> zResponse = new ZResponse<GetATaskResponse>();
-            zResponse.Response = "";
+            GetATaskResponse taskResponse = new GetATaskResponse();
+            if (list.Count > 0)
+            {
+                //taskBO.AssignedUsers = list;
+                foreach (var user in userList)
+                {
+                    if (list.Contains<User>(user))
+                        taskBO.UsersList.Add(user, true);
+                    else
+                        taskBO.UsersList.Add(user, false);
+                }
+                zResponse.Response = "";
+            }
+            else
+            {
+                zResponse.Response = "Users not assigned yet :)";
+                foreach (var user in userList)
+                        taskBO.UsersList.Add(user, false);            
+            }
+            taskResponse.task = taskBO;
             zResponse.Data = taskResponse;
             response.OnResponseSuccess(zResponse);
         }

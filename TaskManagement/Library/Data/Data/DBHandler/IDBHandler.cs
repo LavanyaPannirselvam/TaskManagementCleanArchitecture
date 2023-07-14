@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TaskManagementLibrary.Data.DBHandler
 {
-    public interface IDBHandler : IProjectHandler, ITaskHandler, IUserHandler, IAssignmentHandler, IUserCredentialHandler
+    public interface IDBHandler : IProjectHandler, ITaskHandler, IUserHandler, IAssignmentHandler, IUserCredentialHandler, IIssueHandler
     {
     }
 }

@@ -20,8 +20,13 @@ namespace TaskManagementLibrary.Data.DBManager
             var list = DbHandler.ProjectsList(request.userName,request.userEmail);
             GetProjectListResponse projectsResponse = new GetProjectListResponse();
             ZResponse<GetProjectListResponse> zResponse = new ZResponse<GetProjectListResponse>();
-            projectsResponse.Projects = list;
-            zResponse.Response = "";
+            if (list.Count > 0)
+            {
+                projectsResponse.Projects = list;
+                zResponse.Response = "";
+            }
+            else
+                zResponse.Response = "You have not created a project yet :)";
             zResponse.Data = projectsResponse;
             response.OnResponseSuccess(zResponse);
         }
