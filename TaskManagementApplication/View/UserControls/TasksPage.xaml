@@ -8,8 +8,9 @@
     xmlns:library="using:TaskManagementLibrary.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" 
-    d:DataContext="{d:DesignInstance Type=viewmodel:ATaskViewModelBase}"
+    d:DataContext="{d:DesignInstance Type=viewmodel:AIssueViewModelBase}"
     mc:Ignorable="d"
+    
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -36,7 +37,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <!--<Style TargetType="controls:DataGridRow">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Padding" Value="0"/>
@@ -70,12 +71,13 @@
             </Style>-->
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid CornerRadius="10"
+    <Grid 
           Background="{ThemeResource AppForegroundBg}"
           x:Name="TaskPage">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="900"/>
+            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
         <RelativePanel Margin="0,0,0,20">
             <TextBlock Text="Tasks"
@@ -98,7 +100,7 @@
         </RelativePanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="520" MaxWidth="600"/>
+                <ColumnDefinition MinWidth="500" MaxWidth="600"/>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="800" />
             </Grid.ColumnDefinitions>
@@ -284,22 +286,23 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right"
                                 Grid.Column="1">
-                    <Button CornerRadius="5"
+                        <Button CornerRadius="5"
                                         Foreground="White"
                                         Margin="10,0,0,0"
                                         Background="Red" MinHeight="35" MinWidth="35" 
                                         Content="&#xE107;" 
+                                        Click="DeleteTask_Click"
                                         FontFamily="Segoe MDL2 Assets"  
                                         Name="DeleteTask">
-                        <Button.Resources>
-                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver"
+                            <Button.Resources>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver"
                                                          Color="red" />
-                            <SolidColorBrush x:Key="ButtonForegroundPointerOver"
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver"
                                                          Color="White" />
-                        </Button.Resources>
-                    </Button>
+                            </Button.Resources>
+                        </Button>
 
-                    <Button FontFamily="Segoe MDL2 Assets"
+                        <Button FontFamily="Segoe MDL2 Assets"
                             Grid.Column="1" Margin="0,0,20,0"
                             Background="Transparent"
                             BorderThickness="0"
@@ -315,9 +318,9 @@
                 </Grid>
                 <Popup IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
-                   IsOpen="False"
+                   IsOpen="True"
                    VerticalOffset="0"
-                   HorizontalOffset="200"
+                   HorizontalOffset="0"
                    Grid.Column="2"
                    Closed="AddTaskForm_Closed"
                    Name="AddTaskForm">
@@ -335,7 +338,7 @@
                                       HorizontalAlignment="Center"
                                       Margin="5"
                                       Padding="30"
-                                              Name="AddTaskContainer">
+                                      x:Name="AddTaskContainer">
                         <Grid Visibility="Visible"
                           BorderBrush="#cfd6df"
                           BorderThickness="1"
@@ -369,6 +372,16 @@
                 </Popup>
             </Grid>
         </Grid>
+        <!--<Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>-->
+            <controls:InAppNotification x:Name="NoitificationBox"
+                                                HorizontalAlignment="Stretch"
+                                                ShowDismissButton="False"
+                                              />
+        <!--</Grid>-->
     </Grid>
 </UserControl>
 <!--ContentTemplate="{TemplateBinding ContentTemplate}"

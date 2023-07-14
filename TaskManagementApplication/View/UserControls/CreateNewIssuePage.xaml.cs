@@ -23,19 +23,19 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class CreateNewTaskPage : UserControl,INotifyPropertyChanged
+    public sealed partial class CreateNewIssuePage : UserControl , INotifyPropertyChanged
     {
-        private string _taskName;
+        private string _issueName;
         private string _description;
         private PriorityType _priorityType;
         private StatusType _statusType;
         private DateTime _startDate;
         private DateTime _endDate;
-        private CreateTaskViewModelBase _createTaskViewModelBase;
-        public CreateNewTaskPage()
+        private CreateIssueViewModelBase _createIssueViewModelBase;
+        public CreateNewIssuePage()
         {
             this.InitializeComponent();
-            _createTaskViewModelBase = PresenterService.GetInstance().Services.GetService<CreateTaskViewModelBase>();
+            _createIssueViewModelBase = PresenterService.GetInstance().Services.GetService<CreateIssueViewModelBase>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -56,9 +56,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         }
 
         private Visibility _descriptionTextBoxVisibility;
-
-       
-
         public Visibility DescriptionTextBoxVisibility
         {
             get { return _descriptionTextBoxVisibility; }
@@ -68,10 +65,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 NotifyPropertyChanged(nameof(DescriptionTextBoxVisibility));
             }
         }
-        private void TaskName_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void IssueName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = (TextBox)sender;
-            _taskName = text.Text;
+            _issueName = text.Text;
         }
 
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
@@ -98,16 +96,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _statusType = (StatusType)Enum.Parse(typeof(StatusType), status.ToUpper().Replace(" ", ""));
         }
 
-        public Tasks GetFormData(string ownerName,int id)
+        public Issue GetFormData(string ownerName, int id)
         {
-            return new Tasks(_taskName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate,id);
+            return new Issue(_issueName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate, id);
         }
 
         public void ClearFormData()
         {
-            TaskName.Text = string.Empty;
+            IssueName.Text = string.Empty;
             startdate.Date = DateTime.Now;
-            enddate.Date = DateTime.Now;
+            enddate.Date = null;
             prioritybox.Text = string.Empty;
             statusbox.Text = string.Empty;
         }

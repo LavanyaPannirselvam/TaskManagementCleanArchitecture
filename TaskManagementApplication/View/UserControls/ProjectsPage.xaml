@@ -208,6 +208,7 @@
                                       HorizontalAlignment="Center"
                                       Margin="5"
                                       Padding="30"
+                                      Canvas.ZIndex="100"
                                       Name="AddProjectContainer">
                     <Grid Visibility="Visible"
                           BorderBrush="#cfd6df"
@@ -223,7 +224,6 @@
                                                     Grid.Row="0"
                                                     CornerRadius="10"
                                                     Margin="10"/>
-                        <TextBlock Name="ErrorMessages"/>
                         <StackPanel Orientation="Horizontal"
                                     Margin="5"
                                     Grid.Row="1"

@@ -2,17 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.ServiceModel.Channels;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -20,43 +16,45 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using User = TaskManagementLibrary.Models.User;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class TaskDetailsPage : UserControl, IUserAssignedNotification , IUserRemovedNotification
+    public sealed partial class IssueDetailsPage : UserControl , IUserIssueAssignedNotification , IUserRemovedFromIssueNotification
     {
-        private ATaskViewModelBase _aTaskViewModel;
-        private AssignTaskToUserViewModelBase _assignTaskToUserViewModel;
-        private RemoveTaskFromUserViewModelBase _removeTaskFromUserViewModel;
-        public TaskBO task;
+        private AIssueViewModelBase _aIssueViewModel;
+        private AssignIssueToUserViewModelBase _assignIssueToUserViewModel;
+        private RemoveIssueFromUserViewModelBase _removeIssueFromUserViewModel;
+        public IssueBO task;
         public ObservableCollection<User> _users;
         public static event Action<string> Notification;
-        public TaskDetailsPage()
+        public IssueDetailsPage()
         {
             this.InitializeComponent();
-            _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
-            _assignTaskToUserViewModel = PresenterService.GetInstance().Services.GetService<AssignTaskToUserViewModelBase>();
-            _assignTaskToUserViewModel.assignUser = this;
-            _removeTaskFromUserViewModel = PresenterService.GetInstance().Services.GetService<RemoveTaskFromUserViewModelBase>();
-            _removeTaskFromUserViewModel.userRemovedNotifcation = this;
-            _users = new ObservableCollection<User>();
-            //task = _aTaskViewModel.ATask.FirstOrDefault();
-            //if (task!=null && task.AssignedUsers.Count!= 0)
-            //{
-            //    TextVisibility = Visibility.Collapsed;
-            //    ListVisibility = Visibility.Visible;
-            //}
+            _aIssueViewModel = PresenterService.GetInstance().Services.GetService<AIssueViewModelBase>();
+            _assignIssueToUserViewModel = PresenterService.GetInstance().Services.GetService<AssignIssueToUserViewModelBase>();
+            _assignIssueToUserViewModel.assignUser = this;
+            _removeIssueFromUserViewModel = PresenterService.GetInstance().Services.GetService<RemoveIssueFromUserViewModelBase>();
+            _removeIssueFromUserViewModel.userRemovedNotifcation = this;
             Notification += ShowNotification;
         }
+
+        public void UpdateIssueAssignment()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UserRemovedFromIssueUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
         private void RemoveUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListView).SelectedItem is User selected)
             {
-                _removeTaskFromUserViewModel.RemoveTask(selected.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
-                _aTaskViewModel.CanRemoveUsersList.Clear();
+
             }
         }
 
@@ -64,19 +62,19 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if ((sender as ListView).SelectedItem is User selected)
             {
-                _assignTaskToUserViewModel.AssignUserToTask(selected.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
-                _aTaskViewModel.CanAssignUsersList.Clear();
+                _assignIssueToUserViewModel.AssignUserToIssue(selected.UserId, _aIssueViewModel.SelectedIssue.Issue.Id);
+                _aIssueViewModel.CanAssignUsersList.Clear();
             }
         }
 
         public void UpdateAssignment()
         {
-            Notification?.Invoke(_assignTaskToUserViewModel.ResponseString);
+            Notification?.Invoke(_assignIssueToUserViewModel.ResponseString);
         }
 
         public void UpdateDeletion()
         {
-            Notification?.Invoke(_removeTaskFromUserViewModel.ResponseString);
+            Notification?.Invoke(_removeIssueFromUserViewModel.ResponseString);
         }
 
         private void ShowNotification(string msg)
@@ -86,14 +84,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //_removeTaskFromUserViewModel.ResponseString = msg;//to check here
         }
 
-        //private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
-        //{
-        //    AssignUserBox.IsSuggestionListOpen = false;
-        //}
+        private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+        {
+            AssignUserBox.IsSuggestionListOpen = false;
+        }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            _users = _aTaskViewModel.CanAssignUsersList;
+            _users = _aIssueViewModel.CanAssignUsersList;
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var suitableItems = new ObservableCollection<string>();
@@ -118,15 +116,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         }
 
 
-        //private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
-        //{
-        //    _users.Clear();
-        //    _users = _aTaskViewModel?.CanAssignUsersList;
-        //}
+        private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            _users.Clear();
+            _users = _aIssueViewModel?.CanAssignUsersList;
+        }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-
+          
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -134,8 +132,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var result = args.ChosenSuggestion;
             foreach (var user in _users)
             {
-                if(user.Name.Equals(result))
-                    _assignTaskToUserViewModel.AssignUserToTask(user.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
+                if (user.Name.Equals(result))
+                    _assignIssueToUserViewModel.AssignUserToIssue(user.UserId, _aIssueViewModel.SelectedIssue.Issue.Id);
             }
         }
     }

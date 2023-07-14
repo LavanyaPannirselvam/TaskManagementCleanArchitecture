@@ -8,12 +8,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -24,14 +26,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class TasksPage : UserControl , INotifyPropertyChanged
+    public sealed partial class TasksPage : UserControl, INotifyPropertyChanged, IDeleteTaskNotification
     {
         private static bool _itemSelected;
         private Tasks _task = new Tasks();
         public TasksViewModelBase _taskViewModel;
         public ATaskViewModelBase _aTaskViewModel;
+        public DeleteTaskViewModelBase _deleteTaskViewModel;
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
-
+        public static event Action<string> TaskPageNotification;
         public LoggedInUserBO CUser
         {
             get { return (LoggedInUserBO)GetValue(UserProperty); }
@@ -49,6 +52,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
             _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
+            _deleteTaskViewModel = PresenterService.GetInstance().Services.GetService<DeleteTaskViewModelBase>();
+            _deleteTaskViewModel.Notification = this;
+            TaskPageNotification += ShowTaskPageNotiifcation;
             //if(_aTaskViewModel.ATask.Count > 0)
             //{
             //    DataGridVisibility.Visibility = Visibility.Collapsed;
@@ -113,18 +119,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _aTaskViewModel.GetATask(task.Id);
                 _aTaskViewModel.CanAssignUsersList.Clear();
                 _aTaskViewModel.CanRemoveUsersList.Clear();
-                TasksList.DataContext = _task;
+                //TasksList.DataContext = _task;
             }
         }
 
         private void NewTaskButton_Click(object sender, RoutedEventArgs e)
         {
+            double horizontalOffset = Window.Current.Bounds.Width / 2; // - AddTaskForm.ActualWidth / 2;
+            double verticalOffset = Window.Current.Bounds.Height / 2; // - AddTaskForm.ActualHeight / 2;
+            AddTaskForm.HorizontalOffset = horizontalOffset;
+            AddTaskForm.VerticalOffset = verticalOffset;
             AddTaskForm.IsOpen = true;
             AddTaskForm.Visibility = Visibility.Visible;
-            //double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 2;
-            //double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2;
-            //AddTaskForm.HorizontalOffset = horizontalOffset;
-            //AddTaskForm.VerticalOffset = verticalOffset;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -143,20 +149,40 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             CreateTaskForm.ClearFormData();
         }
 
-        //private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    _tasksViewModel.GetAllTaskCreatedByCurrentUser();
-        //    if (_task != null)
-        //    {
-        //        DataGridVisibility = Visibility.Visible;
-        //        TextVisibility = Visibility.Collapsed;
-        //    }
-        //    else
-        //    {
-        //        DataGridVisibility = Visibility.Collapsed;
-        //        TextVisibility = Visibility.Visible;
-        //    }
-        //}
+        private async void DeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            int result = await ConfirmtionDialogue();
+            if(result == 1)
+                _deleteTaskViewModel.DeleteTask(_aTaskViewModel.ATask.FirstOrDefault().Tasks.Id);
+        }
+
+        public async Task<int> ConfirmtionDialogue()
+        {
+            ContentDialog dialog = new ContentDialog();
+
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            dialog.XamlRoot = this.XamlRoot;
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.Title = "Delete Task?";
+            dialog.Content = "Once deleted, task cannot be retrieved";
+            dialog.PrimaryButtonText = "Delete";
+            dialog.CloseButtonText = "Cancel";
+            dialog.DefaultButton = ContentDialogButton.Close;
+            //dialog.Content = new ContentDialogContent();
+
+            var result = await dialog.ShowAsync();
+            return (int)result;
+        }
+
+        public void NotificationMessage()
+        {
+            TaskPageNotification.Invoke(_deleteTaskViewModel.ResponseString);
+        }
+
+        public void ShowTaskPageNotiifcation(string msg)
+        {
+            NoitificationBox.Show(msg, 3000);
+        }
     }
 
 

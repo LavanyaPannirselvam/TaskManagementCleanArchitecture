@@ -29,6 +29,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     {
         public ProjectsViewModelBase _projectsPageViewModel;
         public TasksViewModelBase _tasksViewModel;
+        public IssuesViewModelBase _issuesViewModel;
         private int projectId = 0;
         private CreateProjectViewModelBase _createProjectViewModel;
 
@@ -45,6 +46,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
             _tasksViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
+            _issuesViewModel = PresenterService.GetInstance().Services.GetService<IssuesViewModelBase>();
             // _usersViewModel.LoadUsers = this;
             //if (_projectsPageViewModel.ProjectsList.Count == 0)
             //{
@@ -104,6 +106,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 projectId = project.Id;
                 _tasksViewModel.TasksList.Clear();
                 _tasksViewModel.GetTasks(projectId);
+                _issuesViewModel.IssuesList.Clear();
+                _issuesViewModel.GetIssues(projectId);
                 ProjectsList.Visibility = Visibility.Collapsed;
                 TopOptions.Visibility = Visibility.Collapsed;
                 taskofaproject.Visibility = Visibility.Visible;
