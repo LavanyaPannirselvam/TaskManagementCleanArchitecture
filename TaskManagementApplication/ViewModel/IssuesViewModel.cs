@@ -72,6 +72,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class IssuesViewModelBase : NotifyPropertyBase
     {
         public ObservableCollection<Issue> IssuesList = new ObservableCollection<Issue>();
+        public int projectId { get; set; }
         public abstract void GetIssues(int projectId);
 
         private Visibility _textVisibility = Visibility.Collapsed;
