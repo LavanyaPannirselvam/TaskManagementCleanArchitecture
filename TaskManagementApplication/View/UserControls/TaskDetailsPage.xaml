@@ -103,31 +103,20 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            
-            <Style TargetType="Grid" x:Name="ContainerGrid">
-                    <Setter Property="Background" Value="{ThemeResource AppForegroundBg}"/>
-                    <Setter Property="CornerRadius" Value="30"/>
-            </Style>
-            
-            <!--<Style TargetType="ListViewItem">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                <Setter Property="MinHeight" Value="40"/>
-            </Style>-->
-            <Style TargetType="Button" x:Name="CloseButtonStyle">
-                <Setter Property="Content" Value="X">
-                    
-                </Setter>
-                <Setter Property="Visibility" Value="Collapsed"/>
-            </Style>
 
-            <Style TargetType="ListViewItem" x:Key="ListviewItemContainerStyle">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                <Setter Property="MinHeight" Value="40"/>
+            <Style TargetType="Grid" x:Name="ContainerGrid">
+                <Setter Property="Background" Value="{ThemeResource AppForegroundBg}"/>
+                <Setter Property="CornerRadius" Value="30"/>
+            </Style>
+            <!--<Style TargetType="Button" x:Name="CloseButtonStyle">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Content" Value="&#xE106;"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Visibility" Value="Visible"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="ListViewItem">
+                        <ControlTemplate TargetType="Button">
                             <Grid>
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
@@ -142,26 +131,11 @@
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
-
-                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Width="{TemplateBinding Width}"
-                                                      Content="{TemplateBinding Content}"
-                                                      />
-                                <Button x:Name="CloseButton"
-                                            Style="{StaticResource CloseButtonStyle}"
-                                            FontFamily="Segoe MDL2 Assets"
-                                            Margin="0,0,20,0"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Content="&#xE106;"
-                                            Click="CloseButton_Click"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"/>
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
+            </Style>-->
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch"
@@ -233,32 +207,37 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="3" Margin="3">
-                        <TextBlock Text="Start Date : " 
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,0,30,0"
+                                Grid.Row="3">
+                        <StackPanel Orientation="Vertical" Grid.Row="3" Margin="3">
+                            <TextBlock Text="Start Date : " 
                                    Margin="2"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.StartDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.StartDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Row="4" Margin="3" >
-                        <TextBlock Text="End Date : " 
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Row="4" Margin="3" >
+                            <TextBlock Text="End Date : " 
                                    Margin="2" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.EndDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.EndDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>
+                        </StackPanel>
                     </StackPanel>
+
                     <StackPanel Orientation="Vertical" Grid.Row="5" Margin="3">
                         <TextBlock Text="Priority : " 
                                    Margin="2" 
@@ -304,16 +283,14 @@
                         <StackPanel Grid.Row="0"
                                     x:Name="UsersListPanel"
                                     Visibility="{x:Bind _aTaskViewModel.ListVisibility,Mode=OneWay}">
-                            <ListView
-                                    x:Name="UsersForTasks"
+                            <ListView x:Name="UsersForTasks"
                                     ItemsSource="{x:Bind _aTaskViewModel.CanRemoveUsersList,Mode=OneWay}"
                                     Margin="5,2"
-                                    HorizontalAlignment="Left"
-                                    ItemContainerStyle="{StaticResource ListviewItemContainerStyle}">
+                                    HorizontalAlignment="Left">
                                 <ListView.Resources>
                                 <Style TargetType="ListViewItem">
-                                        <Setter Property="IsFocusEngaged" Value="True"/>
-                                        <Setter Property="IsSelected" Value="True"/>
+                                        <Setter Property="IsFocusEngaged" Value="False"/>
+                                        <!--<Setter Property="IsSelected" Value="True"/>-->
                                     </Style>
                                 </ListView.Resources>
                                 <!--<ListView.ItemContainerStyle>
@@ -323,10 +300,20 @@
                                 </ListView.ItemContainerStyle>-->
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="library:User">
-                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
                                                    Margin="0,1,0,0"
                                                    VerticalAlignment="Center"
                                                    Width="200"/>
+                                            <Button Name="CloseButton"
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Margin="0,0,20,0"
+                                                FontSize="12"
+                                                Content="&#xE106;"
+                                                Click="CloseButton_Click"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
@@ -338,27 +325,6 @@
                       Margin="10,10,0,0" 
                       Padding="10,0,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <!--<DropDownButton x:Name="assignButton"
-                                Content="Assign User"
-                                Visibility="{x:Bind _aTaskViewModel.AssignButtonVisibility,Mode=OneWay}"
-                                RelativePanel.AlignRightWith="deassignButton">
-                            <DropDownButton.Flyout>
-                                <Flyout Placement="Bottom"
-                                        x:Name="AssignFlyout">
-                                    <ListView x:Name="UsersAssignList"
-                                              SelectionMode="Single"
-                                              SelectionChanged="AssignUser_SelectionChanged"
-                                              ItemsSource="{x:Bind _aTaskViewModel.CanAssignUsersList,Mode=OneWay}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="library:User">
-                                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </Flyout>
-                            </DropDownButton.Flyout>
-                        </DropDownButton>-->
-                        <!--Click="assignButton_Click"/>-->
                         <AutoSuggestBox x:Name="AssignUserBox"
                                  MaxSuggestionListHeight="200"
                                  PlaceholderText="Assign User"
@@ -366,31 +332,10 @@
                                  CornerRadius="10"
                                  TextChanged="AutoSuggestBox_TextChanged"
                                  Width="260"
-                                        QuerySubmitted="AssignUserBox_QuerySubmitted"
+                                 QuerySubmitted="AssignUserBox_QuerySubmitted"
                                  QueryIcon="Find"
                                  AutomationProperties.Name="UserAutoSuggestBox">
                         </AutoSuggestBox>
-                        <DropDownButton x:Name="deassignButton"
-                                Content="Remove User"
-                                Visibility="{x:Bind _aTaskViewModel.RemoveButtonVisibility,Mode=OneWay}"
-                                RelativePanel.AlignRightWithPanel="True"
-                                Margin="20,0,0,0">
-                            <DropDownButton.Flyout>
-                                <Flyout Placement="Bottom"
-                                        x:Name="DeassignFlyout">
-                                    <ListView x:Name="UsersList"
-                                              SelectionMode="Single"
-                                              SelectionChanged="RemoveUser_SelectionChanged"
-                                              ItemsSource="{x:Bind _aTaskViewModel.CanRemoveUsersList,Mode=OneWay}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate x:DataType="library:User">
-                                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </Flyout>
-                            </DropDownButton.Flyout>
-                        </DropDownButton>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="4"
@@ -398,8 +343,6 @@
                     <controls:InAppNotification Name="NotificationControl"
                                                 HorizontalAlignment="Stretch"
                                                 ShowDismissButton="False"/>
-                    <!--Content="{x:Bind _assignTaskToUserViewModel.ResponseString}"
-                                                                    Visibility="{x:Bind _assignTaskToUserViewModel.NotificationVisibility}"-->
                 </Grid>
             </Grid>
         </ScrollViewer>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -33,17 +34,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public DeleteIssueViewModelBase _deleteIssueViewModel;
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
         public static event Action<string> IssuePageNotification;
+        private double _windowHeight;
+        private double _windowWidth;
+        private bool _narrowLayout;
         
         public LoggedInUserBO CUser
         {
             get { return (LoggedInUserBO)GetValue(UserProperty); }
             set { SetValue(UserProperty, value); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public IssuesPage()
@@ -58,10 +56,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void NewIssueButton_Click(object sender, RoutedEventArgs e)
         {
-            AddIssueForm.HorizontalOffset = 0;
-            AddIssueForm.VerticalOffset = 0;
             AddIssueForm.IsOpen = true;
-            AddIssueForm.Visibility = Visibility.Visible;
+            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddIssueForm.ActualWidth / 4 + 300;
+            double verticalOffset = Window.Current.Bounds.Height / 2 - AddIssueForm.ActualHeight / 2 - 300;
+            AddIssueForm.HorizontalOffset = horizontalOffset;
+            AddIssueForm.VerticalOffset = verticalOffset;
+            AddIssueForm.IsOpen = true;
         }
 
         private void IssueList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -80,16 +80,49 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void IssueOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //_itemSelected = true;
+            //Grid.SetColumn(IssuesList, 0);
+            //Grid.SetColumn(IssueGridSplitter, 1);
+            //Grid.SetColumn(IssueDetailGrid, 2);  
+            //Grid.SetColumnSpan(IssuesList, 1);
+            //Grid.SetColumnSpan(IssueGridSplitter, 1);
+            //Grid.SetColumnSpan(IssueDetailGrid, 1);
+            //IssuesList.Visibility = Visibility.Visible;
+            //IssueGridSplitter.Visibility = Visibility.Visible;
+            //IssueDetailGrid.Visibility = Visibility.Visible;
+            //if ((sender as DataGrid).SelectedItem is Issue issue)
+            //{
+            //    _aIssueViewModel.GetAIssue(issue.Id);
+            //    _aIssueViewModel.CanAssignUsersList.Clear();
+            //    _aIssueViewModel.CanRemoveUsersList.Clear();
+            //    //TasksList.DataContext = _task;
+            //}
             _itemSelected = true;
-            Grid.SetColumn(IssuesList, 0);
-            Grid.SetColumn(IssueGridSplitter, 1);
-            Grid.SetColumn(IssueDetailGrid, 2);  
-            Grid.SetColumnSpan(IssuesList, 1);
-            Grid.SetColumnSpan(IssueGridSplitter, 1);
-            Grid.SetColumnSpan(IssueDetailGrid, 1);
-            IssuesList.Visibility = Visibility.Visible;
-            IssueGridSplitter.Visibility = Visibility.Visible;
-            IssueDetailGrid.Visibility = Visibility.Visible;
+            if (_narrowLayout)
+            {
+                _narrowLayout = true;
+                IssuesList.Visibility = Visibility.Collapsed;
+                IssueGridSplitter.Visibility = Visibility.Collapsed;
+                IssueDetailGrid.Visibility = Visibility.Visible;
+                Grid.SetColumn(IssueDetailGrid, 0);
+                Grid.SetColumnSpan(IssueDetailGrid, 3);
+                BackToList.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                _narrowLayout = false;
+                Grid.SetColumn(IssuesList, 0);
+                Grid.SetColumn(IssueGridSplitter, 1);
+                Grid.SetColumn(IssueDetailGrid, 2);
+                Grid.SetColumnSpan(IssuesList, 1);
+                Grid.SetColumnSpan(IssueGridSplitter, 1);
+                Grid.SetColumnSpan(IssueDetailGrid, 1);
+                IssuesList.Visibility = Visibility.Visible;
+                IssueGridSplitter.Visibility = Visibility.Visible;
+                IssueDetailGrid.Visibility = Visibility.Visible;
+
+            }
             if ((sender as DataGrid).SelectedItem is Issue issue)
             {
                 _aIssueViewModel.GetAIssue(issue.Id);
@@ -114,8 +147,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public async Task<int> ConfirmtionDialogue()
         {
             ContentDialog dialog = new ContentDialog();
-
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             dialog.XamlRoot = this.XamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
             dialog.Title = "Delete Issue?";
@@ -123,8 +154,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             dialog.PrimaryButtonText = "Delete";
             dialog.CloseButtonText = "Cancel";
             dialog.DefaultButton = ContentDialogButton.Close;
-            //dialog.Content = new ContentDialogContent();
-
             var result = await dialog.ShowAsync();
             return (int)result;
         }
@@ -151,14 +180,72 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateIssueForm.GetFormData(CUser.LoggedInUser.Name, _aIssueViewModel.AIssue.FirstOrDefault().Issue.ProjectId);
-
+            CreateIssueForm.GetFormData(CUser.LoggedInUser.Name, _issueViewModel.projectId);
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void BackToList_Click(object sender, RoutedEventArgs e)
         {
-            CreateIssueForm.ClearFormData();
-            AddIssueForm.Visibility = Visibility.Collapsed;
+            IssueOfAProject.Visibility = Visibility.Visible;
+            //TasksList.Visibility = Visible
+            BackToList.Visibility = Visibility.Collapsed;
+            _itemSelected = false;
+            Grid.SetColumn(IssuesList, 0);
+            Grid.SetColumnSpan(IssuesList, 3);
+            IssuesList.Visibility = Visibility.Visible;
+            IssueGridSplitter.Visibility = Visibility.Collapsed;
+            IssueDetailGrid.Visibility = Visibility.Collapsed;
+        }
+
+        //private void CancelButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    CreateIssueForm.ClearFormData();
+        //    AddIssueForm.Visibility = Visibility.Collapsed;
+        //}
+
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _windowHeight = e.NewSize.Height;
+            _windowWidth = e.NewSize.Width;
+
+            if (_windowWidth < 900)
+            {
+                IssueOfAProject.FrozenColumnCount = 1;
+                NewIssueButton.Visibility = Visibility.Collapsed;
+                _narrowLayout = true;
+                CloseButton.Visibility = Visibility.Collapsed;
+                if (_itemSelected)
+                {
+                    IssueDetailGrid.Visibility = Visibility.Collapsed;
+                    IssuesList.Visibility = Visibility.Collapsed;
+                    IssueDetailGrid.Visibility = Visibility.Visible;
+                    IssueDetailsPage.Visibility = Visibility.Visible;
+                    Grid.SetColumn(IssuesList, 2);
+                    Grid.SetColumnSpan(IssuesList, 1);
+                    Grid.SetColumn(IssueDetailGrid, 0);
+                    Grid.SetColumnSpan(IssueDetailGrid, 3);
+                    BackToList.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                IssueOfAProject.FrozenColumnCount = 2;
+                _narrowLayout = false;
+                CloseButton.Visibility = Visibility.Visible;
+                if (_itemSelected)
+                {
+                    Grid.SetColumn(IssuesList, 0);
+                    Grid.SetColumn(IssueGridSplitter, 1);
+                    Grid.SetColumn(IssueDetailGrid, 2);
+                    Grid.SetColumnSpan(IssuesList, 1);
+                    Grid.SetColumnSpan(IssueGridSplitter, 1);
+                    Grid.SetColumnSpan(IssueDetailGrid, 1);
+                    IssuesList.Visibility = Visibility.Visible;
+                    IssueGridSplitter.Visibility = Visibility.Visible;
+                    IssueDetailGrid.Visibility = Visibility.Visible;
+                    BackToList.Visibility = Visibility.Collapsed;
+                }
+            }
         }
     }
 }

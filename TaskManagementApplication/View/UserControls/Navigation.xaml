@@ -19,7 +19,7 @@
                 <usercontrols:TasksPage/>
             </DataTemplate>
             <DataTemplate x:Key="IssuesTab">
-                <usercontrols:IssuesPage/>
+                <usercontrols:IssuesPage CUser="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
             <Style TargetType="NavigationView">
                 <Setter Property="PaneToggleButtonStyle"

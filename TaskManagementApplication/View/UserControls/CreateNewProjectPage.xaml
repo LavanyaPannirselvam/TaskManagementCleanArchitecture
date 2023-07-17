@@ -32,7 +32,6 @@
                  TextChanged="ProjectName_TextChanged"
                  HorizontalAlignment="Stretch"></TextBox>
         <StackPanel Grid.Row="1" Height="20">
-            
         </StackPanel>
         <CalendarDatePicker Grid.Row="2"
                             Header="Start Date"
@@ -72,6 +71,7 @@
             <x:String>On Hold</x:String>
             <x:String>Closed</x:String>
         </ComboBox>
+       
         <!--<StackPanel Grid.Row="6"
                     HorizontalAlignment="Stretch"
                     Margin="5">

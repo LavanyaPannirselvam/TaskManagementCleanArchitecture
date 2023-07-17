@@ -35,6 +35,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public CreateNewIssuePage()
         {
             this.InitializeComponent();
+            startdate.Date = DateTime.Now;
+            enddate.Date = DateTime.Now;
             _createIssueViewModelBase = PresenterService.GetInstance().Services.GetService<CreateIssueViewModelBase>();
         }
 
@@ -105,7 +107,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             IssueName.Text = string.Empty;
             startdate.Date = DateTime.Now;
-            enddate.Date = null;
+            enddate.Date = DateTime.Now;
             prioritybox.Text = string.Empty;
             statusbox.Text = string.Empty;
         }

@@ -10,6 +10,7 @@
     d:DataContext="{d:DesignInstance Type=viewmodel:ProjectsViewModel}"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded"
+    SizeChanged="UserControl_SizeChanged"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" 
     xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel">
 
@@ -38,11 +39,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
+            
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid CornerRadius="10"
-          Background="{ThemeResource AppForegroundBg}"
+          Background="{ThemeResource AppBackground}"
           x:Name="ProjectPageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -87,7 +88,6 @@
                        AutoGenerateColumns="False"
                        ItemsSource="{x:Bind _projectsPageViewModel.ProjectsList}"
                        GridLinesVisibility="Horizontal"
-                       FrozenColumnCount="2"
                        SelectionChanged="ProjectsList_SelectionChanged"
                        AutoGeneratingColumn="ProjectsList_AutoGeneratingColumn"
                        IsReadOnly="True"
@@ -98,7 +98,7 @@
                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
                        Grid.ColumnSpan="2"
                        SelectionMode="Single"
-                       Background="{ThemeResource AppForegroundBg}">
+                       Background="{ThemeResource AppBackground}">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
                         <controls:DataGridTemplateColumn.CellTemplate>
@@ -173,6 +173,7 @@
                         </controls:DataGridTemplateColumn.CellTemplate>
                     </controls:DataGridTemplateColumn>
                 </controls:DataGrid.Columns>
+                
                 <controls:DataGrid.ColumnHeaderStyle>
                     <Style TargetType="controlsprimitives:DataGridColumnHeader">
                         <Setter Property="Height" Value="30"/>
@@ -218,25 +219,33 @@
                           Width="550">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <local:CreateNewProjectPage x:Name="CreateProjectForm"
                                                     Grid.Row="0"
+                                                    Visibility="Visible"
                                                     CornerRadius="10"
                                                     Margin="10"/>
+                        <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                                   Visibility="Collapsed"
+                                   FontSize="14"
+                                   Grid.Row="1"
+                                   x:Name="ErrorMessage"
+                                   Foreground="red"/>
                         <StackPanel Orientation="Horizontal"
                                     Margin="5"
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     HorizontalAlignment="Right">
                             <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,0"/>
-                            <Button x:Name="CancelButton"
+                            <!--<Button x:Name="CancelButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Cancel"
-                                    Click="CancelButton_Click"/>
+                                    Click="CancelButton_Click"/>-->
                         </StackPanel>
                     </Grid>
                 </controls:DropShadowPanel>

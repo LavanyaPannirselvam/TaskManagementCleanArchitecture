@@ -82,8 +82,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void ShowNotification(string msg)
         {
             NotificationControl.Show(msg, 3000);
-            //_assignTaskToUserViewModel.ResponseString = msg;
-            //_removeTaskFromUserViewModel.ResponseString = msg;//to check here
         }
 
         //private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
@@ -126,7 +124,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var data = ((FrameworkElement)sender).DataContext as User;
+            _removeTaskFromUserViewModel.RemoveTask(data.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -137,6 +136,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 if(user.Name.Equals(result))
                     _assignTaskToUserViewModel.AssignUserToTask(user.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
             }
+        }
+
+        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+           
         }
     }
 }

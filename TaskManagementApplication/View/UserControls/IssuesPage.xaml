@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
+    SizeChanged="UserControl_SizeChanged"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -92,6 +93,7 @@
                        ScrollViewer.HorizontalScrollBarVisibility="Visible"
                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
                        AutoGeneratingColumn="IssueList_AutoGeneratingColumn"
+                       HorizontalAlignment="Stretch"
                        IsReadOnly="True"
                        SelectionMode="Single"
                        Visibility="{x:Bind _issueViewModel.DataGridVisibility,Mode=OneWay}"
@@ -107,15 +109,6 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Project Id" Width="110" MinWidth="50">
-                            <controls:DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="library:Issue" >
-                                    <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind ProjectId}"
-                                               VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </controls:DataGridTemplateColumn.CellTemplate>
-                        </controls:DataGridTemplateColumn>
                         <controls:DataGridTemplateColumn Header="Name" Width="150" MinWidth="75" >
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Issue" >
@@ -125,6 +118,16 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Project Id" Width="110" MinWidth="50">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Issue" >
+                                    <TextBlock Padding="10,0,5,0" 
+                                               Text="{x:Bind ProjectId}"
+                                               VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                       
                         <controls:DataGridTemplateColumn Header="Description" Width="200" MinWidth="100" >
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Issue" >
@@ -231,7 +234,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <!--<Button  Grid.Column="1"
+                    <Button  Grid.Column="1"
                              FontSize="20"
                              CornerRadius="5"
                              BorderThickness="0"
@@ -243,7 +246,7 @@
                              Visibility="Collapsed"
                              Margin="0,0,20,0"
                              x:Name="BackToList"
-                             Click="BackToList_Click"></Button>-->
+                             Click="BackToList_Click"></Button>
                     <TextBlock Margin="5,0,0,0" Text="Issue Details"  
                                HorizontalAlignment="Left" 
                                HorizontalTextAlignment="Left" 
@@ -253,19 +256,18 @@
                                 HorizontalAlignment="Right"
                                 Grid.Column="1">
                         <Button CornerRadius="5"
-                                        Foreground="White"
                                         Margin="10,0,0,0"
-                                        Background="Red" MinHeight="35" MinWidth="35" 
+                                        Foreground="Red" MinHeight="35" MinWidth="35" 
                                         Content="&#xE107;" 
                                         Click="DeleteIssue_Click"
                                         FontFamily="Segoe MDL2 Assets"  
                                         Name="DeleteIssue">
-                            <Button.Resources>
+                            <!--<Button.Resources>
                                 <SolidColorBrush x:Key="ButtonBackgroundPointerOver"
                                                          Color="red" />
                                 <SolidColorBrush x:Key="ButtonForegroundPointerOver"
                                                          Color="White" />
-                            </Button.Resources>
+                            </Button.Resources>-->
                         </Button>
 
                         <Button FontFamily="Segoe MDL2 Assets"
@@ -306,7 +308,7 @@
                     <PaneThemeTransition Edge="Right"/>
                 </TransitionCollection>
             </Popup.ChildTransitions>
-            <controls:DropShadowPanel Color="#cfd6df"
+            <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
                                       BlurRadius="50"
@@ -317,32 +319,39 @@
                                       Padding="30"
                                       x:Name="AddIssueContainer">
                 <Grid Visibility="Visible"
-                          BorderBrush="#cfd6df"
+                          Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
                           Name="AddGrid"
                           Height="450"
                           Width="550">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    <TextBlock Text="Add Issue" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               Padding="20"></TextBlock>
                     <locals:CreateNewIssuePage x:Name="CreateIssueForm"
-                                             CornerRadius="10"
+                                               Grid.Row="1"
                                              Margin="10"/>
-                    <StackPanel Orientation="Horizontal"
-                                    Margin="5"
-                                    Grid.Row="1"
-                                        HorizontalAlignment="Right">
-                        <Button x:Name="AddButton"
+                    <TextBlock/>
+                    <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
+                                    Grid.Row="3"
                                     Click="AddButton_Click"
-                                    Margin="0,0,10,0"/>
-                        <Button x:Name="CancelButton"
+                                    Margin="0,0,10,0"
+                                    HorizontalAlignment="Right"/>
+                        <!--<Button x:Name="CancelButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Cancel"
-                                    Click="CancelButton_Click"/>
-                    </StackPanel>
+                                    Click="CancelButton_Click"/>-->
+                  
                 </Grid>
             </controls:DropShadowPanel>
         </Popup>

@@ -35,6 +35,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public CreateNewTaskPage()
         {
             this.InitializeComponent();
+            startdate.Date = DateTime.Now;
+            enddate.Date = DateTime.Now;
             _createTaskViewModelBase = PresenterService.GetInstance().Services.GetService<CreateTaskViewModelBase>();
         }
 
@@ -55,19 +57,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
         }
 
-        private Visibility _descriptionTextBoxVisibility;
-
-       
-
-        public Visibility DescriptionTextBoxVisibility
-        {
-            get { return _descriptionTextBoxVisibility; }
-            set
-            {
-                _descriptionTextBoxVisibility = value;
-                NotifyPropertyChanged(nameof(DescriptionTextBoxVisibility));
-            }
-        }
         private void TaskName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = (TextBox)sender;

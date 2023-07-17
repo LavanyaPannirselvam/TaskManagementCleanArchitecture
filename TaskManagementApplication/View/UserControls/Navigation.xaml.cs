@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TaskManagementLibrary.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -19,22 +20,20 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class Navigation : UserControl,INotifyPropertyChanged
+    public sealed partial class Navigation : UserControl
     {
         public Navigation()
         {
             this.InitializeComponent();
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(Navigation), new PropertyMetadata(null));
+        public LoggedInUserBO CurrentUser
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get { return (LoggedInUserBO)GetValue(UserProperty); }
+            set { SetValue(UserProperty, value); }
         }
+
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             DashboardContent.DataContext = this;

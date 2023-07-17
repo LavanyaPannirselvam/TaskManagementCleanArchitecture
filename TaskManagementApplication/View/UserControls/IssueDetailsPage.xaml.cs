@@ -38,16 +38,17 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _removeIssueFromUserViewModel = PresenterService.GetInstance().Services.GetService<RemoveIssueFromUserViewModelBase>();
             _removeIssueFromUserViewModel.userRemovedNotifcation = this;
             Notification += ShowNotification;
+            _users = new ObservableCollection<User>();
         }
 
         public void UpdateIssueAssignment()
         {
-            throw new NotImplementedException();
+            Notification?.Invoke(_assignIssueToUserViewModel.ResponseString);
         }
 
         public void UserRemovedFromIssueUpdate()
         {
-            throw new NotImplementedException();
+            Notification?.Invoke(_removeIssueFromUserViewModel.ResponseString);
         }
 
         private void RemoveUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -124,7 +125,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-          
+            var data = ((FrameworkElement)sender).DataContext as User;
+            _removeIssueFromUserViewModel.RemoveIssue(data.UserId,_aIssueViewModel.SelectedIssue.Issue.Id);
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

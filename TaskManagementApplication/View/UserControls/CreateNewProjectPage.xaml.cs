@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Enums;
@@ -21,7 +23,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class CreateNewProjectPage : UserControl
+    public sealed partial class CreateNewProjectPage : UserControl 
     {
         private string _projectName;
         private string _description;
@@ -33,8 +35,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public CreateNewProjectPage()
         {
             this.InitializeComponent();
+            startdate.Date = DateTime.Now;
+            enddate.Date = DateTime.Now;
         }
-       
+
         private void ProjectName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = (TextBox)sender;//should do empty and invalid data check

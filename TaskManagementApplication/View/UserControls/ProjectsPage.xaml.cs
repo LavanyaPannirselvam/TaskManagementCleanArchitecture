@@ -32,6 +32,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public IssuesViewModelBase _issuesViewModel;
         private int projectId = 0;
         private CreateProjectViewModelBase _createProjectViewModel;
+        private double _windowHeight;
+        private double _windowWidth;
 
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(ProjectsPage), new PropertyMetadata(null));
 
@@ -73,15 +75,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 NotifyPropertyChanged(nameof(Projects));
             }
         }
-        //private void ProjectListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    Project project = (sender as DataGrid).SelectedItem as Project;
-        //    projectId = project.Id;
-        //    _tasksViewModel.TasksList.Clear();
-        //    _tasksViewModel.GetTasksList(projectId);
-        //    //projectId = 0;
-        //}
 
+        
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -104,6 +99,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if ((sender as DataGrid).SelectedItem is Project project)
             {
                 projectId = project.Id;
+                _tasksViewModel.projectId = projectId;
+                _issuesViewModel.projectId = projectId;
                 _tasksViewModel.TasksList.Clear();
                 _tasksViewModel.GetTasks(projectId);
                 _issuesViewModel.IssuesList.Clear();
@@ -116,16 +113,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            //Project pro = CreateProjectForm.GetFormData(CUser.LoggedInUser.Name);
-            //if (pro.Name == string.Empty)
-            //{
-            //    ErrorMessages.Text = "Fill all data";
-            //}
-            //if (pro.StartDate < DateTime.Now)
-            //    ErrorMessages.Text = "Start date should not be yesterday";
-            //if (pro.EndDate < pro.StartDate)
-            //    ErrorMessages.Text = "End date should be greater than or equal to start date";
-            _createProjectViewModel.CreateProject(CreateProjectForm.GetFormData(CUser.LoggedInUser.Name));
+            ErrorMessage.Text = string.Empty;
+            Project pro = CreateProjectForm.GetFormData(CUser.LoggedInUser.Name);
+            if (pro.Name == string.Empty)
+            {
+                ErrorMessage.Text = "Fill all data";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            if (pro.StartDate < DateTime.Now)
+            {
+                ErrorMessage.Text = "Start date should not be yesterday";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            if (pro.EndDate < pro.StartDate)
+            {
+                ErrorMessage.Text = "End date should be greater than or equal to start date";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else _createProjectViewModel.CreateProject(pro);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -143,13 +148,32 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
             AddProjectForm.IsOpen = true;
-            CreateProjectForm.Visibility = Visibility.Visible;
+            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 4 + 200;
+            double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2 - 300;
+            AddProjectForm.HorizontalOffset = horizontalOffset;
+            AddProjectForm.VerticalOffset = verticalOffset;
+            AddProjectForm.IsOpen = true;
+            //CreateProjectForm.Visibility = Visibility.Visible;
         }
 
         private void AddProjectForm_Closed(object sender, object e)
         {
             CreateProjectForm.ClearFormData();
             //AddProjectForm.Visibility = Visibility.Collapsed;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _windowHeight = e.NewSize.Height;
+            _windowWidth = e.NewSize.Width;
+
+            if (_windowWidth < 900)
+            {
+                ProjectsList.FrozenColumnCount = 1;
+
+            }
+            else
+                ProjectsList.FrozenColumnCount = 2;
         }
     }
 }
