@@ -10,6 +10,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     SizeChanged="UserControl_SizeChanged"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -38,8 +40,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid 
-          Background="{ThemeResource AppForegroundBg}"
+    <Grid Background="{ThemeResource AppForegroundBg}"
           x:Name="TaskPage">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -321,9 +322,7 @@
                 <Grid Visibility="Visible"
                           Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
-                          Name="AddGrid"
-                          Height="450"
-                          Width="550">
+                          Name="AddGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -333,28 +332,29 @@
                     <TextBlock Text="Add Issue" 
                                FontSize="20" 
                                FontWeight="Bold" 
+                               Grid.Row="0"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
-                               Padding="20"></TextBlock>
+                               Padding="20"/>
                     <locals:CreateNewIssuePage x:Name="CreateIssueForm"
                                                Grid.Row="1"
-                                             Margin="10"/>
-                    <TextBlock/>
+                                               Margin="10"/>
+                    <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                                   Visibility="Collapsed"
+                                   FontSize="14"
+                                   Grid.Row="2"
+                                   x:Name="ErrorMessage"
+                                   Foreground="red"
+                                   Margin="7"/>
                     <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
-                                    Margin="0,0,10,0"
+                                    Margin="0,0,10,20"
                                     HorizontalAlignment="Right"/>
-                        <!--<Button x:Name="CancelButton"
-                                    Style="{StaticResource AccentButtonStyle}"
-                                    Content="Cancel"
-                                    Click="CancelButton_Click"/>-->
-                  
                 </Grid>
             </controls:DropShadowPanel>
         </Popup>
-        <!--</Grid>-->
     </Grid>
 </UserControl>

@@ -25,13 +25,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class IssuesPage : UserControl , IDeleteIssueNotification
+    public sealed partial class IssuesPage : UserControl , IIssuePageUpdateNotification
     {
         private static bool _itemSelected;
         private Issue _issue = new Issue();
         public IssuesViewModelBase _issueViewModel;
-        public AIssueViewModelBase _aIssueViewModel;
-        public DeleteIssueViewModelBase _deleteIssueViewModel;
+        public IssueDetailsPage issueDetailsPage;
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
         public static event Action<string> IssuePageNotification;
         private double _windowHeight;
@@ -47,11 +46,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public IssuesPage()
         {
             this.InitializeComponent();
-            _aIssueViewModel = PresenterService.GetInstance().Services.GetService<AIssueViewModelBase>();
             _issueViewModel = PresenterService.GetInstance().Services.GetService<IssuesViewModelBase>();
-            _deleteIssueViewModel = PresenterService.GetInstance().Services.GetService<DeleteIssueViewModelBase>();
-            _deleteIssueViewModel.Notification = this;
-            IssuePageNotification += ShowIssuePageNotification;
+            _issueViewModel.Notification = this;
         }
 
         private void NewIssueButton_Click(object sender, RoutedEventArgs e)
@@ -125,9 +121,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if ((sender as DataGrid).SelectedItem is Issue issue)
             {
-                _aIssueViewModel.GetAIssue(issue.Id);
-                _aIssueViewModel.CanAssignUsersList.Clear();
-                _aIssueViewModel.CanRemoveUsersList.Clear();
+                issueDetailsPage = new IssueDetailsPage(issue.Id);
+                issueDetailsPage.DataContext = issue;
+                IssuesList.DataContext = _issue;
                 //TasksList.DataContext = _task;
             }
         }
@@ -136,7 +132,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             int result = await ConfirmtionDialogue();
             if (result == 1)
-                _deleteIssueViewModel.DeleteIssue(_aIssueViewModel.AIssue.FirstOrDefault().Issue.Id);
+                _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Issue.Id);
         }
 
         private void AddIssueForm_Closed(object sender, object e)
@@ -160,7 +156,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         public void NotificationMessage()
         {
-            IssuePageNotification.Invoke(_deleteIssueViewModel.ResponseString);
+            IssuePageNotification.Invoke(_issueViewModel.ResponseString);
         }
 
         public void ShowIssuePageNotification(string msg)
@@ -180,7 +176,25 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateIssueForm.GetFormData(CUser.LoggedInUser.Name, _issueViewModel.projectId);
+            ErrorMessage.Text = string.Empty;
+            Issue pro = CreateIssueForm.GetFormData(CUser.LoggedInUser.Name,_issueViewModel.projectId);
+            if (pro.Name == string.Empty)
+            {
+                ErrorMessage.Text = "Fill all data";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            if (pro.StartDate < DateTime.Now)
+            {
+                ErrorMessage.Text = "Start date should not be yesterday";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            if (pro.EndDate < pro.StartDate)
+            {
+                ErrorMessage.Text = "End date should be greater than or equal to start date";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            //else _createIssueViewModel.CreateIssue(pro);
+            else _issueViewModel.CreateIssue(pro);
         }
 
         private void BackToList_Click(object sender, RoutedEventArgs e)
@@ -246,6 +260,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                     BackToList.Visibility = Visibility.Collapsed;
                 }
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            IssuePageNotification += ShowIssuePageNotification;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            IssuePageNotification -= ShowIssuePageNotification;
         }
     }
 }

@@ -8,6 +8,8 @@
     mc:Ignorable="d"
     xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:library="using:TaskManagementLibrary.Models"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
@@ -175,7 +177,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16"
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Name,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Name,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -188,7 +190,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Desc,,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Desc,,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -201,7 +203,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Status,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Status,Mode=OneWay}" 
                                    Margin="5"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -217,7 +219,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.StartDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.StartDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -230,7 +232,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.EndDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.EndDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -245,7 +247,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.SelectedTask.Tasks.Priority,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Priority,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -277,14 +279,14 @@
                             <RowDefinition Height="1*"></RowDefinition>
                             <RowDefinition Height="1*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Bind _aTaskViewModel.ResponseString,Mode=OneWay}"
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.ResponseString,Mode=OneWay}"
                                    Grid.Row="0"
-                                   Visibility="{x:Bind _aTaskViewModel.TextVisibility,Mode=OneWay}"/>
+                                   Visibility="{x:Bind _taskDetailsViewModel.TextVisibility,Mode=OneWay}"/>
                         <StackPanel Grid.Row="0"
                                     x:Name="UsersListPanel"
-                                    Visibility="{x:Bind _aTaskViewModel.ListVisibility,Mode=OneWay}">
+                                    Visibility="{x:Bind _taskDetailsViewModel.ListVisibility,Mode=OneWay}">
                             <ListView x:Name="UsersForTasks"
-                                    ItemsSource="{x:Bind _aTaskViewModel.CanRemoveUsersList,Mode=OneWay}"
+                                    ItemsSource="{x:Bind _taskDetailsViewModel.CanRemoveUsersList,Mode=OneWay}"
                                     Margin="5,2"
                                     HorizontalAlignment="Left">
                                 <ListView.Resources>

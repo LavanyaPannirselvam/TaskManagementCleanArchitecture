@@ -45,8 +45,8 @@
                  HorizontalAlignment="Stretch"
                  TextChanged="IssueName_TextChanged"
                  Margin="5"
-                    Header="Issue Name" 
-                 Style="{ThemeResource InputFieldTextBox}"/>
+                 Header="Issue Name"/>
+            <!--Style="{ThemeResource InputFieldTextBox}"/>-->
 
         </StackPanel>
         <StackPanel Grid.Row="1" Height="20">

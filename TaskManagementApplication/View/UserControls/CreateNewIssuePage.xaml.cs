@@ -31,13 +31,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTime _startDate;
         private DateTime _endDate;
-        private CreateIssueViewModelBase _createIssueViewModelBase;
         public CreateNewIssuePage()
         {
             this.InitializeComponent();
             startdate.Date = DateTime.Now;
             enddate.Date = DateTime.Now;
-            _createIssueViewModelBase = PresenterService.GetInstance().Services.GetService<CreateIssueViewModelBase>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

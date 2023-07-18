@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,13 +26,13 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class ProjectsPage : UserControl , INotifyPropertyChanged
+    public sealed partial class ProjectsPage : UserControl , INotifyPropertyChanged , IProjectPageUpdate
     {
         public ProjectsViewModelBase _projectsPageViewModel;
-        public TasksViewModelBase _tasksViewModel;
-        public IssuesViewModelBase _issuesViewModel;
         private int projectId = 0;
-        private CreateProjectViewModelBase _createProjectViewModel;
+        public IssuesPage issuePage = new IssuesPage();
+        public TasksPage tasksPage = new TasksPage();
+        public static event Action<string> Notification;
         private double _windowHeight;
         private double _windowWidth;
 
@@ -47,18 +48,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             this.InitializeComponent();
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
-            _tasksViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
-            _issuesViewModel = PresenterService.GetInstance().Services.GetService<IssuesViewModelBase>();
-            // _usersViewModel.LoadUsers = this;
-            //if (_projectsPageViewModel.ProjectsList.Count == 0)
-            //{
-            //    _projectsPageViewModel.GetProjectsList();
-            //}
-            //Projects = _projectsPageViewModel.ProjectsList;
-            //_projectsPageViewModel.ProjectsList.Clear();
-            //_projectsPageViewModel.GetProjectsList();
-            _createProjectViewModel = PresenterService.GetInstance().Services.GetService<CreateProjectViewModelBase>();
-
+            _projectsPageViewModel.projectPageUpdate = this;
         }
         
         private ObservableCollection<Project> _projects = null;
@@ -99,12 +89,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if ((sender as DataGrid).SelectedItem is Project project)
             {
                 projectId = project.Id;
-                _tasksViewModel.projectId = projectId;
-                _issuesViewModel.projectId = projectId;
-                _tasksViewModel.TasksList.Clear();
-                _tasksViewModel.GetTasks(projectId);
-                _issuesViewModel.IssuesList.Clear();
-                _issuesViewModel.GetIssues(projectId);
+                tasksPage._taskViewModel.projectId = projectId;
+                issuePage._issueViewModel.projectId = projectId;
+                tasksPage._taskViewModel.TasksList.Clear();
+                tasksPage._taskViewModel.GetTasks(projectId);
+                issuePage._issueViewModel.IssuesList.Clear();
+                issuePage._issueViewModel.GetIssues(projectId);
                 ProjectsList.Visibility = Visibility.Collapsed;
                 TopOptions.Visibility = Visibility.Collapsed;
                 taskofaproject.Visibility = Visibility.Visible;
@@ -120,7 +110,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 ErrorMessage.Text = "Fill all data";
                 ErrorMessage.Visibility = Visibility.Visible;
             }
-            if (pro.StartDate < DateTime.Now)
+            if (pro.StartDate < DateTime.Today)
             {
                 ErrorMessage.Text = "Start date should not be yesterday";
                 ErrorMessage.Visibility = Visibility.Visible;
@@ -130,36 +120,40 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 ErrorMessage.Text = "End date should be greater than or equal to start date";
                 ErrorMessage.Visibility = Visibility.Visible;
             }
-            else _createProjectViewModel.CreateProject(pro);
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            CreateProjectForm.ClearFormData();
-            AddProjectForm.Visibility = Visibility.Collapsed;
+            else _projectsPageViewModel.CreateProject(pro);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             _projectsPageViewModel.ProjectsList.Clear();
             _projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name,CUser.LoggedInUser.Email);
+            Notification += ShowNotification;
+            UIUpdation.ProjectCreated += UpdateNewProject;
+        }
+
+        private void UpdateNewProject(Project project)
+        {
+            _projectsPageViewModel.ProjectsList.Add(project);
+        }
+
+        private void ShowNotification(string obj)
+        {
+            NoitificationBox.Show(obj, 3000);
         }
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
             AddProjectForm.IsOpen = true;
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 4 + 200;
+            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 2 + 100;
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2 - 300;
             AddProjectForm.HorizontalOffset = horizontalOffset;
             AddProjectForm.VerticalOffset = verticalOffset;
             AddProjectForm.IsOpen = true;
-            //CreateProjectForm.Visibility = Visibility.Visible;
         }
 
         private void AddProjectForm_Closed(object sender, object e)
         {
             CreateProjectForm.ClearFormData();
-            //AddProjectForm.Visibility = Visibility.Collapsed;
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -174,6 +168,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             else
                 ProjectsList.FrozenColumnCount = 2;
+        }
+
+        public void ProjectUpdateNotification()
+        {
+            Notification.Invoke(_projectsPageViewModel.ResponseString);
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Notification -= ShowNotification;
+            UIUpdation.ProjectCreated -= UpdateNewProject;
+
         }
     }
 }

@@ -21,21 +21,22 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using TaskManagementLibrary.Notifications;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class TasksPage : UserControl, INotifyPropertyChanged, IDeleteTaskNotification
+    public sealed partial class TasksPage : UserControl, INotifyPropertyChanged, ITaskUpdation
     {
         private static bool _itemSelected;
         private Tasks _task = new Tasks();
-        public TasksViewModelBase _taskViewModel;
-        public ATaskViewModelBase _aTaskViewModel;
-        public DeleteTaskViewModelBase _deleteTaskViewModel;
+        public TasksPageViewModelBase _taskViewModel;
         private double _windowWidth;
         private double _windowHeight;
+        TaskDetailsPage taskDetailsPage;
         private bool _narrowLayout;
+        public CreateNewProjectPage CreateNewProjectPage;
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
         public static event Action<string> TaskPageNotification;
         public LoggedInUserBO CUser
@@ -53,17 +54,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public TasksPage()
         {
             this.InitializeComponent();
-            _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksViewModelBase>();
-            _aTaskViewModel = PresenterService.GetInstance().Services.GetService<ATaskViewModelBase>();
-            _deleteTaskViewModel = PresenterService.GetInstance().Services.GetService<DeleteTaskViewModelBase>();
-            _deleteTaskViewModel.Notification = this;
-            TaskPageNotification += ShowTaskPageNotiifcation;
-            //if(_aTaskViewModel.ATask.Count > 0)
-            //{
-            //    DataGridVisibility.Visibility = Visibility.Collapsed;
-            //}
-            //_taskViewModel.TasksList.Clear();
-            //_taskViewModel.
+            _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksPageViewModelBase>();
+            _taskViewModel.updation = this;
         }
 
         private void TasksList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -181,9 +173,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if ((sender as DataGrid).SelectedItem is Tasks task)
             {
-                _aTaskViewModel.GetATask(task.Id);
-                _aTaskViewModel.CanAssignUsersList.Clear();
-                _aTaskViewModel.CanRemoveUsersList.Clear();
+                taskDetailsPage = new TaskDetailsPage(task.Id);
+                taskDetailsPage.DataContext = task;
                 TasksList.DataContext = _task;
             }
         }
@@ -200,13 +191,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateTaskForm.GetFormData(CUser.LoggedInUser.Name, _taskViewModel.projectId);
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            CreateTaskForm.ClearFormData();
-            AddTaskForm.Visibility = Visibility.Collapsed;
+            ErrorMessage.Text = string.Empty;
+            Tasks pro = CreateTaskForm.GetFormData(CUser.LoggedInUser.Name, _taskViewModel.projectId);
+            if (pro.Name == string.Empty)
+            {
+                ErrorMessage.Text = "Fill all data";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            if (pro.StartDate < DateTime.Now)
+            {
+                ErrorMessage.Text = "Start date should not be yesterday";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            if (pro.EndDate < pro.StartDate)
+            {
+                ErrorMessage.Text = "End date should be greater than or equal to start date";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else _taskViewModel.CreateNewTask(pro);
         }
 
         private void AddTaskForm_Closed(object sender, object e)
@@ -217,8 +219,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private async void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             int result = await ConfirmtionDialogue();
-            if(result == 1)
-                _deleteTaskViewModel.DeleteTask(_aTaskViewModel.ATask.FirstOrDefault().Tasks.Id);
+            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            if (result == 1)
+            {
+                _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Tasks.Id);
+            }
         }
 
         public async Task<int> ConfirmtionDialogue()
@@ -236,11 +241,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             return (int)result;
         }
 
-        public void NotificationMessage()
-        {
-            TaskPageNotification.Invoke(_deleteTaskViewModel.ResponseString);
-        }
-
+        
         public void ShowTaskPageNotiifcation(string msg)
         {
             NoitificationBox.Show(msg, 3000);
@@ -288,6 +289,37 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                     BackToList.Visibility = Visibility.Collapsed;
                 }
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            UIUpdation.TaskCreated += UpdateNewTask;
+            UIUpdation.TaskDeleted += UpdateDeleteTask;
+            TaskPageNotification += ShowTaskPageNotiifcation;
+        }
+
+        private void UpdateDeleteTask(Tasks tasks)
+        {
+            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            var delete = _taskViewModel.TasksList.Where(task => task.Id == tasks.Id);
+            _taskViewModel.TasksList.Remove(delete.FirstOrDefault());
+        }
+
+        private void UpdateNewTask(Tasks tasks)
+        {
+            _taskViewModel.TasksList.Add(tasks);
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TaskPageNotification -= ShowTaskPageNotiifcation;
+            UIUpdation.TaskCreated -= UpdateNewTask;
+            UIUpdation .TaskDeleted -= UpdateDeleteTask;
+        }
+
+        public void TaskUpdationNotification()
+        {
+            TaskPageNotification.Invoke(_taskViewModel.ResponseString);
         }
     }
 }

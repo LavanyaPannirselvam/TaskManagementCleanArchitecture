@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:library="using:TaskManagementLibrary.Models"
     mc:Ignorable="d"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
@@ -161,7 +163,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16"
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aIssueViewModel.SelectedIssue.Issue.Name,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Name,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -174,7 +176,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aIssueViewModel.SelectedIssue.Issue.Desc,,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Desc,,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -187,7 +189,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aIssueViewModel.SelectedIssue.Issue.Status,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Status,Mode=OneWay}" 
                                    Margin="5"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -203,7 +205,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _aIssueViewModel.SelectedIssue.Issue.StartDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.StartDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -216,7 +218,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _aIssueViewModel.SelectedIssue.Issue.EndDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.EndDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -230,7 +232,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _aIssueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -262,15 +264,15 @@
                             <RowDefinition Height="1*"></RowDefinition>
                             <RowDefinition Height="1*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Bind _aIssueViewModel.ResponseString,Mode=OneWay}"
+                        <TextBlock Text="{x:Bind _issueViewModel.ResponseString,Mode=OneWay}"
                                    Grid.Row="0"
-                                   Visibility="{x:Bind _aIssueViewModel.TextVisibility,Mode=OneWay}"/>
+                                   Visibility="{x:Bind _issueViewModel.TextVisibility,Mode=OneWay}"/>
                         <StackPanel Grid.Row="0"
                                     x:Name="UsersListPanel"
-                                    Visibility="{x:Bind _aIssueViewModel.ListVisibility,Mode=OneWay}">
+                                    Visibility="{x:Bind _issueViewModel.ListVisibility,Mode=OneWay}">
                             <ListView
                                     x:Name="UsersForTasks"
-                                    ItemsSource="{x:Bind _aIssueViewModel.CanRemoveUsersList,Mode=OneWay}"
+                                    ItemsSource="{x:Bind _issueViewModel.CanRemoveUsersList,Mode=OneWay}"
                                     Margin="5,2"
                                     HorizontalAlignment="Left">
                                 <!--ItemContainerStyle="{StaticResource ListviewItemContainerStyle}">-->

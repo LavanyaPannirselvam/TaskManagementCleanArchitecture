@@ -8,9 +8,11 @@
     xmlns:library="using:TaskManagementLibrary.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" 
-    d:DataContext="{d:DesignInstance Type=viewmodel:AIssueViewModelBase}"
+    d:DataContext="{d:DesignInstance Type=viewmodel:IssueDetailsViewModelBase}"
     mc:Ignorable="d"
     SizeChanged="UserControl_SizeChanged"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -285,12 +287,10 @@
                 <Grid Grid.Row="1">
                     <local:TaskDetailsPage x:Name="TaskDetailsPage"/>
                 </Grid>
-                <Popup IsLightDismissEnabled="True"
+                <Popup  IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
                    IsOpen="False"
-                   VerticalOffset="0"
-                   HorizontalOffset="230"                   
-                   Grid.Column="2"
+                  
                    Closed="AddTaskForm_Closed"
                    Name="AddTaskForm">
                     <Popup.ChildTransitions>
@@ -298,7 +298,7 @@
                             <PaneThemeTransition Edge="Right"/>
                         </TransitionCollection>
                     </Popup.ChildTransitions>
-                    <controls:DropShadowPanel Color="#cfd6df"
+                    <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
                                       BlurRadius="50"
@@ -309,37 +309,42 @@
                                       Padding="30"
                                       x:Name="AddTaskContainer">
                         <Grid Visibility="Visible"
-                          BorderBrush="#cfd6df"
+                          Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
-                          Name="AddGrid"
-                          Height="450"
-                          Width="550">
+                          Name="AddGrid">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
+                            <TextBlock Text="Add Issue" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Grid.Row="0"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               Padding="20"/>
                             <local:CreateNewTaskPage x:Name="CreateTaskForm"
-                                                        Grid.Row="0"
-                                             CornerRadius="10"
-                                             Margin="10"/>
-                            <StackPanel Orientation="Horizontal"
-                                    Margin="5"
-                                    Grid.Row="1"
-                                        HorizontalAlignment="Right">
-                                <Button x:Name="AddButton"
+                                                     Grid.Row="1"
+                                                     Margin="10"/>
+                            <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                                   Visibility="Collapsed"
+                                   FontSize="14"
+                                   Grid.Row="2"
+                                   x:Name="ErrorMessage"
+                                   Foreground="red"
+                                   Margin="7"/>
+                            <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
+                                    Grid.Row="3"
                                     Click="AddButton_Click"
-                                    Margin="0,0,10,0"/>
-                                <Button x:Name="CancelButton"
-                                    Style="{StaticResource AccentButtonStyle}"
-                                    Content="Cancel"
-                                    Click="CancelButton_Click"/>
-                            </StackPanel>
+                                    Margin="0,0,10,20"
+                                    HorizontalAlignment="Right"/>
                         </Grid>
                     </controls:DropShadowPanel>
                 </Popup>
-
             </Grid>
         </Grid>
         <controls:InAppNotification x:Name="NoitificationBox"
