@@ -24,6 +24,12 @@ namespace TaskManagementLibrary.Models
             Role = role;
         }
         public User() { }
-        
+
+        public override bool Equals(object other)
+        {
+            if (other == null) return false;
+            User obj = other as User;
+            return Email == obj.Email;
+        }
     }
 }

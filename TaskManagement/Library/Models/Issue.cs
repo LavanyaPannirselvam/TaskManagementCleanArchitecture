@@ -1,15 +1,15 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManagementLibrary.Enums;
-using SQLite;
 
 namespace TaskManagementLibrary.Models
 {
-    [Table("Tasks")]
-    public class Tasks
+    [Table("Issues")]
+    public class Issue
     {
         //private static int id = 1;
         [PrimaryKey]
@@ -23,8 +23,9 @@ namespace TaskManagementLibrary.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public Tasks(string name, string desc,string owner, StatusType status, PriorityType type, DateTime startDate, DateTime endDate, int projectId)
+        public Issue(string name, string desc, string owner, StatusType status, PriorityType type, DateTime startDate, DateTime endDate, int projectId)
         {
+           
             ProjectId = projectId;
             Name = name;
             Desc = desc;
@@ -34,7 +35,6 @@ namespace TaskManagementLibrary.Models
             StartDate = startDate;
             EndDate = endDate;
         }
-        public Tasks() { }
-        
+        public Issue() { }
     }
 }

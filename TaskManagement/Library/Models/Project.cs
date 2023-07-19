@@ -10,7 +10,7 @@ namespace TaskManagementLibrary.Models
 {
     public class Project
     {
-        private int id = 3;
+        private static int id = 9;
         [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
@@ -21,18 +21,19 @@ namespace TaskManagementLibrary.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public Project(string name, string desc, StatusType status, PriorityType type, DateTime startDate, DateTime endDate)
+        public Project(string name, string desc,string ownerName, StatusType status, PriorityType type, DateTime startDate, DateTime endDate)
         {
-            Id = ++id;
+            //Id = id;
+            //id++;
             Name = name;
             Desc = desc;
+            CreatedBy = ownerName;
             Status = status;
             Priority = type;
             StartDate = startDate;
             EndDate = endDate;
         }
         public Project() { }
-        
     }
 }
 //need to implement util for id creation
