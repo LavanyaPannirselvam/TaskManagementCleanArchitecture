@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -48,13 +49,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void ShowNotification(string msg)
         {
             NotificationControl.Show(msg, 3000);
-            //_assignTaskToUserViewModel.ResponseString = msg;
-            //_removeTaskFromUserViewModel.ResponseString = msg;//to check here
-        }
-
-        private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
-        {
-            AssignUserBox.IsSuggestionListOpen = false;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -82,7 +76,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 sender.ItemsSource = suitableItems;
             }
         }
-
 
         private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -114,11 +107,37 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Notification += ShowNotification;
+            UIUpdation.UserAdded += UIUpdation_UserAdded;
+            UIUpdation.UserRemoved += UIUpdation_UserRemoved;
+        }
+
+        private void UIUpdation_UserRemoved(ObservableCollection<User> obj)
+        {
+            _issueViewModel.CanAssignUsersList.Clear();
+            foreach (var u in obj)
+            {
+                _issueViewModel.CanAssignUsersList.Add(u);
+                var delete = _issueViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
+                _issueViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
+            }
+        }
+
+        private void UIUpdation_UserAdded(ObservableCollection<User> obj)
+        {
+            _issueViewModel.CanRemoveUsersList.Clear();
+            foreach (var user in obj)
+            {
+                _issueViewModel.CanRemoveUsersList.Add(user);
+                var delete = _issueViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
+                _issueViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             Notification -= ShowNotification;
+            UIUpdation.UserAdded -= UIUpdation_UserAdded;
+            UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
         }
     }
 }

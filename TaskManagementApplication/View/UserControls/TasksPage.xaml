@@ -287,18 +287,22 @@
                 <Grid Grid.Row="1">
                     <local:TaskDetailsPage x:Name="TaskDetailsPage"/>
                 </Grid>
-                <Popup  IsLightDismissEnabled="True"
+            </Grid>
+        </Grid>
+        <controls:InAppNotification x:Name="NoitificationBox"
+                                    HorizontalAlignment="Stretch"
+                                    ShowDismissButton="False"/>
+        <Popup  IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
                    IsOpen="False"
-                  
                    Closed="AddTaskForm_Closed"
                    Name="AddTaskForm">
-                    <Popup.ChildTransitions>
-                        <TransitionCollection>
-                            <PaneThemeTransition Edge="Right"/>
-                        </TransitionCollection>
-                    </Popup.ChildTransitions>
-                    <controls:DropShadowPanel Color="Black"
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PaneThemeTransition Edge="Right"/>
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
                                       BlurRadius="50"
@@ -308,47 +312,43 @@
                                       Margin="5"
                                       Padding="30"
                                       x:Name="AddTaskContainer">
-                        <Grid Visibility="Visible"
+                <Grid Visibility="Visible"
                           Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
                           Name="AddGrid">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="Add Issue" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Add Issue" 
                                FontSize="20" 
                                FontWeight="Bold" 
                                Grid.Row="0"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
                                Padding="20"/>
-                            <local:CreateNewTaskPage x:Name="CreateTaskForm"
+                    <local:CreateNewTaskPage x:Name="CreateTaskForm"
                                                      Grid.Row="1"
                                                      Margin="10"/>
-                            <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                    <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
                                    Visibility="Collapsed"
                                    FontSize="14"
                                    Grid.Row="2"
                                    x:Name="ErrorMessage"
                                    Foreground="red"
                                    Margin="7"/>
-                            <Button x:Name="AddButton"
+                    <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"
                                     HorizontalAlignment="Right"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-                </Popup>
-            </Grid>
-        </Grid>
-        <controls:InAppNotification x:Name="NoitificationBox"
-                                    HorizontalAlignment="Stretch"
-                                    ShowDismissButton="False"/>
+                </Grid>
+            </controls:DropShadowPanel>
+        </Popup>
+
     </Grid>
 </UserControl>

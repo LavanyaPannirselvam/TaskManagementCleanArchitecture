@@ -198,7 +198,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 ErrorMessage.Text = "Fill all data";
                 ErrorMessage.Visibility = Visibility.Visible;
             }
-            if (pro.StartDate < DateTime.Now)
+            if (pro.StartDate < DateTime.Today)
             {
                 ErrorMessage.Text = "Start date should not be yesterday";
                 ErrorMessage.Visibility = Visibility.Visible;

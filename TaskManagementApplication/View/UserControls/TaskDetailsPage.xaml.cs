@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
+using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Models;
@@ -113,25 +114,37 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            UIUpdation.UserAddedToTask += UserAdded;
-            UIUpdation.UserRemovedFromTask += UserRemoved;
+            UIUpdation.UserAdded += UserAdded;
+            UIUpdation.UserRemoved += UserRemoved;
             Notification += ShowNotification;
         }
 
-        private void UserRemoved(TaskBO bO)
+        private void UserRemoved(ObservableCollection<User> bO)
         {
-            _taskDetailsViewModel.SelectedTask = bO;
+            _taskDetailsViewModel.CanAssignUsersList.Clear();
+            foreach (var u in bO)
+            {
+                _taskDetailsViewModel.CanAssignUsersList.Add(u);
+                var delete = _taskDetailsViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
+                _taskDetailsViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
+            }
         }
 
-        private void UserAdded(TaskBO bO)
+        private void UserAdded(ObservableCollection<User> bO)
         {
-            _taskDetailsViewModel.SelectedTask = bO;
+            _taskDetailsViewModel.CanRemoveUsersList.Clear();
+            foreach (var user in bO)
+            {
+                _taskDetailsViewModel.CanRemoveUsersList.Add(user);
+                var delete = _taskDetailsViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
+                _taskDetailsViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            UIUpdation.UserAddedToTask -= UserAdded;
-            UIUpdation.UserRemovedFromTask -= UserRemoved;
+            UIUpdation.UserAdded -= UserAdded;
+            UIUpdation.UserRemoved -= UserRemoved;
             Notification -= ShowNotification;
         }
     }

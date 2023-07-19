@@ -11,6 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -31,17 +32,19 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private Issue _issue = new Issue();
         public IssuesViewModelBase _issueViewModel;
         public IssueDetailsPage issueDetailsPage;
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
         public static event Action<string> IssuePageNotification;
         private double _windowHeight;
         private double _windowWidth;
         private bool _narrowLayout;
-        
+
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
+
         public LoggedInUserBO CUser
         {
             get { return (LoggedInUserBO)GetValue(UserProperty); }
             set { SetValue(UserProperty, value); }
         }
+
 
         public IssuesPage()
         {
@@ -177,13 +180,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Text = string.Empty;
-            Issue pro = CreateIssueForm.GetFormData(CUser.LoggedInUser.Name,_issueViewModel.projectId);
+            Issue pro = CreateIssueForm.GetFormData(CUser.LoggedInUser.Name, _issueViewModel.projectId);
             if (pro.Name == string.Empty)
             {
                 ErrorMessage.Text = "Fill all data";
                 ErrorMessage.Visibility = Visibility.Visible;
             }
-            if (pro.StartDate < DateTime.Now)
+            if (pro.StartDate < DateTime.Today)
             {
                 ErrorMessage.Text = "Start date should not be yesterday";
                 ErrorMessage.Visibility = Visibility.Visible;
@@ -265,11 +268,26 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             IssuePageNotification += ShowIssuePageNotification;
+            UIUpdation.IssueCreated += UIUpdation_IssueCreated;
+            UIUpdation.IssueDeleted += UIUpdation_IssueDeleted;
+        }
+
+        private void UIUpdation_IssueDeleted(Issue issue)
+        {
+            var delete = _issueViewModel.IssuesList.Where(i => i.Id == issue.Id);
+            _issueViewModel.IssuesList.Remove(delete.FirstOrDefault());
+        }
+
+        private void UIUpdation_IssueCreated(Issue obj)
+        {
+            _issueViewModel.IssuesList.Add(obj);
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             IssuePageNotification -= ShowIssuePageNotification;
+            UIUpdation.IssueCreated -= UIUpdation_IssueCreated;
+            UIUpdation.IssueDeleted -= UIUpdation_IssueDeleted;
         }
     }
 }
