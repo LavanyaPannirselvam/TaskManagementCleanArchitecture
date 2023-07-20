@@ -2,11 +2,14 @@
     x:Class="TaskManagementCleanArchitecture.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:local="using:TaskManagementCleanArchitecture">
-        <Application.Resources>
-        
-        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        
+    <Application.Resources>
+        <controls:XamlControlsResources>
+            <controls:XamlControlsResources.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </controls:XamlControlsResources.MergedDictionaries>
+        </controls:XamlControlsResources>
     </Application.Resources>
         
 </Application>

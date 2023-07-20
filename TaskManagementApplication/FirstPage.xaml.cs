@@ -37,6 +37,15 @@ namespace TaskManagementCleanArchitecture
         //private int projectId = 0;
 
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(FirstPage), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedUserControlProperty = DependencyProperty.Register(nameof(SelectedUserControl),typeof(UserControl),typeof(FirstPage),new PropertyMetadata(null));
+        public event PropertyChangedEventHandler PropertyChanged;
+        public static event Action LogoutEvent;
+        
+        public FirstPage()
+        {
+            this.InitializeComponent();
+            this.DataContext = this;
+        }
 
         public LoggedInUserBO CurrentUser
         {
@@ -44,16 +53,11 @@ namespace TaskManagementCleanArchitecture
             set { SetValue(UserProperty, value); }
         }
 
-        //private LoggedInUserBO _currentUser;
-        //public LoggedInUserBO CUser
-        //{
-        //    get { return _currentUser; }
-        //    set
-        //    {
-        //        _currentUser = value;
-        //        NotifyPropertyChanged(nameof(CUser));
-        //    }
-        //}
+        public UserControl SelectedUserControl
+        {
+            get { return (UserControl) GetValue(SelectedUserControlProperty);}
+            set { SetValue(SelectedUserControlProperty, value);}
+        }
 
         private String _headerTitle = "Projects";
         public String HeaderTitle
@@ -66,55 +70,21 @@ namespace TaskManagementCleanArchitecture
             }
         }
 
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        public FirstPage()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-            //_firstPageViewModel = PresenterService.GetInstance().Services.GetService<FirstPageViewModelBase>();
-            //_firstPageViewModel.GetProjectsList();
-        }
-
-        //private void ProjectListDetailsView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    Project project = (sender as ListDetailsView).SelectedItem as Project;
-        //    projectId = project.Id;
-        //    _firstPageViewModel.GetUsersList(projectId);
-        //}
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is FirstPage pg && pg.CurrentUser!=null)
+            //Navigation navigation = new Navigation();
+            if (e.Parameter is FirstPage pg && pg.CurrentUser != null)
             {
                 CurrentUser = pg.CurrentUser;
+                //navigation.CurrentUser = pg.CurrentUser;
             }
         }
 
-
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-           PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        
-        //private void Page_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    TasksPage.OnLoadingSuccess += NavigateToTasksPage;
-
-        //}
-
-        //private void NavigateToTasksPage(ObservableCollection<TaskManagementLibrary.Models.User> users)
-        //{
-        //    TasksPage tasksPage = new TasksPage();
-        //    //tasksPage.Users = users;
-        //    //contentFrame.Navigate(typeof(TasksPage), users);
-        //    NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
-
-        //}
 
         private void FirstPageNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
@@ -147,6 +117,30 @@ namespace TaskManagementCleanArchitecture
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             MainPageNV.SelectedItem = ProjectsTab;
+        }
+
+        private void Logout_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            LogoutEvent?.Invoke();
+        }
+
+        private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            NavigationContentControl.DataContext = this;
+            if (args.SelectedItem == ProjectsTab)
+            {
+                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
+                ProjectsPage projectsPage = new ProjectsPage();
+                SelectedUserControl = projectsPage;
+                MainPageNV.AlwaysShowHeader = true;
+            }
+            else if (args.SelectedItem == TasksTab)
+            {
+                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
+                TasksPage tasksPage = new TasksPage();
+                SelectedUserControl = tasksPage;
+                MainPageNV.AlwaysShowHeader = true;
+            }
         }
     }
 }

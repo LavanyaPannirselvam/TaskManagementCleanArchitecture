@@ -5,15 +5,14 @@
     xmlns:local="using:TaskManagementCleanArchitecture"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" 
     xmlns:library="using:TaskManagementLibrary.Models"
     xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     d:DataContext="{d:DesignInstance Type=viewmodel:ProjectsViewModel}"
     mc:Ignorable ="d"
     Loaded="Page_Loaded"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,7 +24,8 @@
             <DataTemplate x:Key="UserControlTemplate2">
                 <usercontrols:TasksPage CUser ="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
-            
+
+
             <Style TargetType="NavigationView">
                 <Setter Property="PaneToggleButtonStyle"
                         Value="{StaticResource PaneToggleButtonStyle}" />
@@ -132,7 +132,7 @@
                                             <VisualState.Setters>
                                                 <Setter Target="MenuItemsHost.HorizontalAlignment"
                                                         Value="Left" />
-                                                <!--This is essentially a TemplateBinding:-->
+                                                <!-- This is essentially a TemplateBinding: -->
                                                 <Setter Target="MenuItemsHost.Width"
                                                         Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CompactPaneLength}" />
                                                 <Setter Target="SettingsNavPaneItem.HorizontalAlignment"
@@ -195,7 +195,7 @@
                                       Margin="0,0,0,0"
                                       HorizontalAlignment="Left"
                                       VerticalAlignment="Top"
-                                      Canvas.ZIndex="45">
+                                      Canvas.ZIndex="100">
 
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -203,31 +203,33 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid x:Name="TogglePaneTopPadding"
-                                      Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.TopPadding}" />
+                                          Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.TopPadding}" />
 
                                     <Grid x:Name="ButtonHolderGrid"
                                           Grid.Row="1">
                                         <Button x:Name="NavigationViewBackButton"
                                                 Style="{StaticResource NavigationBackButtonNormalStyle}"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Center"
+                                                VerticalAlignment="Top"
                                                 Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.BackButtonVisibility}"
                                                 IsEnabled="{TemplateBinding IsBackEnabled}">
-
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip x:Name="NavigationViewBackButtonToolTip" />
+                                            </ToolTipService.ToolTip>
                                         </Button>
                                         <Button x:Name="TogglePaneButton"
                                                 Style="{TemplateBinding PaneToggleButtonStyle}"
                                                 AutomationProperties.LandmarkType="Navigation"
                                                 Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneToggleButtonVisibility}"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center">
+                                                VerticalAlignment="Top">
                                             <TextBlock x:Name="PaneTitleTextBlock"
+                                                       Grid.Column="0"
                                                        Text="{TemplateBinding PaneTitle}"
-                                                       HorizontalAlignment="Center"
+                                                       HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Style="{StaticResource NavigationViewItemHeaderTextStyle}" />
                                         </Button>
                                     </Grid>
+
                                 </Grid>
 
                                 <Grid>
@@ -237,6 +239,7 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <StackPanel x:Name="TopNavArea"
+                                                Background="{ThemeResource NavigationViewTopPaneBackground}"
                                                 Grid.Row="0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Top"
@@ -251,12 +254,14 @@
                                               Height="{ThemeResource NavigationViewTopPaneHeight}"
                                               Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.TopPaneVisibility}">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition x:Name="BackButtonPlaceholderOnTopNav" Width="{ThemeResource NavigationBackButtonWidth}" />
+                                                <ColumnDefinition x:Name="BackButtonPlaceholderOnTopNav"
+                                                                  Width="{ThemeResource NavigationBackButtonWidth}" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" MinWidth="48" />
+                                                <ColumnDefinition Width="*"
+                                                                  MinWidth="48" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
@@ -304,7 +309,8 @@
                                                     Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OverflowButtonVisibility}">
 
                                                 <Button.Flyout>
-                                                    <Flyout Placement="Bottom">
+                                                    <Flyout Placement="Bottom"
+                                                            ShouldConstrainToRootBounds="False">
                                                         <Flyout.FlyoutPresenterStyle>
                                                             <Style TargetType="FlyoutPresenter">
                                                                 <Setter Property="Padding"
@@ -1041,139 +1047,28 @@
             </Style>
 
             <Thickness x:Key="NavigationViewItemBorderThickness">0</Thickness>
+
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
-        <!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid x:Name="Row1" Background="#2e86c9"
-              Grid.Row="0"
-              Grid.ColumnSpan="2"/>
-        <Grid x:Name="row2"
-              Margin="5,20,0,0"
-              Grid.Row="1"
-              Grid.ColumnSpan="2"/>
-        <Button Name="Hamburger_ViewAssigned"
-                Content="View Assigned"
-                FontSize="12" 
-                HorizontalAlignment="Center"
-                Margin="0,1,0,1"
-                Click="Hamburger_ViewAssigned_Click"
-                Style="{StaticResource Buttonstyle}"
-                BorderThickness="{ThemeResource ButtonBorderThemeThickness}" 
-                VerticalAlignment="Stretch">
-        </Button>
-        <SplitView Grid.Row="1" 
-                   Name="mySplitView" 
-                   OpenPaneLength="102" 
-                   CompactPaneLength="{ThemeResource SplitViewCompactPaneThemeLength}" 
-                   DisplayMode="Inline"
-                   IsPaneOpen="True"
-                   PaneBackground="#cbe2e6"
-                   HorizontalAlignment="Stretch"
-                   CornerRadius="2">
-            <SplitView.Pane>
-                <ListBox SelectionMode="Single"
-                         Width="105"
-                         HorizontalAlignment="Stretch" 
-                         Margin="0,20,0,0"
-                         Background="#cbe2e6">
-                    <ListBoxItem Name="AssignedProject">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEADF;" FontSize="12" />
-                            <TextBlock Text="Projects" Margin="2,0,0,0"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Name="AssignedTasks">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF0E3;" FontSize="12"/>
-                            <TextBlock Text="Tasks" Margin="2,0,0,0"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                </ListBox>
-            </SplitView.Pane>
-        </SplitView>
-        <MenuBar Grid.Column="1"
-                 Grid.Row="0"
-                 Margin="10,0,0,0">
-            <MenuBarItem Title="Create"
-                         FontSize="12">
-                <MenuFlyoutItem Text="Project"/>
-                <MenuFlyoutItem Text="Task"/>
-            </MenuBarItem>
-        </MenuBar>
-        <Frame Name="MyFrame"
-               Grid.Row="1"
-               Grid.Column="1"
-               Margin="5,20,0,0"
-               CornerRadius="8"
-               Background="red">
-            
-        <RelativePanel>
-        <controls:ListDetailsView x:Name="ProjectListDetailsView"
-                                      ItemsSource="{x:Bind _firstPageViewModel.ProjectsList}"
-                                      SelectionChanged="ProjectListDetailsView_SelectionChanged" 
-                                      VerticalAlignment="Top"
-                                      Height="800" >
-                <controls:ListDetailsView.ItemTemplate>
-                    <DataTemplate x:DataType="library:Project">
-                        <StackPanel Margin="0,10,0,0">
-                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                            <TextBlock Text="{x:Bind Desc,Mode=OneWay}"
-                                       MaxLines="2"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:ListDetailsView.ItemTemplate>
-                <controls:ListDetailsView.DetailsTemplate>
-                    <DataTemplate x:DataType="library:Project">
-                        <StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"
-                                       FontSize="16"
-                                       FontWeight="Bold"    
-                                       Margin="2,3"/>
-                                <TextBlock Text="{x:Bind Desc,Mode=OneWay}"
-                                       FontSize="14"
-                                       Margin="2,3"/>
-                                <TextBlock Text="{x:Bind CreatedBy,Mode=OneWay}"
-                                       FontSize="14"
-                                       Margin="2,3"/>
-                            </StackPanel>
-                            <ListView>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="library:User">
-                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:ListDetailsView.DetailsTemplate>
-            </controls:ListDetailsView>
-        </Frame>
-    </Grid>-->
         <NavigationView x:Name="MainPageNV"
                         IsSettingsVisible="False"
                         IsBackButtonVisible="Collapsed"
+                        IsPaneToggleButtonVisible="True"
                         Background="{ThemeResource AppBackground}"
-                        SelectionChanged="FirstPageNavigation_SelectionChanged"
+                        ScrollViewer.VerticalScrollMode="Disabled"
+                        ScrollViewer.IsVerticalRailEnabled="False"
+                        ScrollViewer.HorizontalScrollMode="Disabled"
+                        Padding="0"
                         IsBackEnabled="False"
-                        PaneDisplayMode="Left"
+                        PaneDisplayMode="LeftCompact"
                         OpenPaneLength="210"
                         VerticalAlignment="Top"
                         AlwaysShowHeader="True"
+                        SelectionChanged="FirstPageNavigation_SelectionChanged"
                         Header="{x:Bind CurrentUser, Mode=OneWay}"
-                        ExpandedModeThresholdWidth="200"
-                        SelectionFollowsFocus="Disabled"
                         IsTabStop="False"
-                        HorizontalAlignment="Stretch">  
+                        HorizontalAlignment="Stretch">
             <NavigationView.PaneHeader>
                 <TextBlock Margin="6"
                            FontSize="18"
@@ -1182,13 +1077,16 @@
             <NavigationView.HeaderTemplate>
                 <DataTemplate x:Name="Welcome" x:DataType="library:LoggedInUserBO">
                     <RelativePanel>
-                        <TextBlock RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center">
+                        <TextBlock RelativePanel.AlignLeftWithPanel="True" 
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
                         <Run Text ="{Binding WelcomeText}" x:Name="WelcomeMsg"/>
-                        <Run FontSize="24" Text ="{Binding LoggedInUser.Name}"/>
+                        <Run FontSize="24" Text ="{Binding LoggedInUser.Name}"                                 
+                             FontStyle="Italic"/>
                         </TextBlock>
                         <PersonPicture DisplayName="{Binding LoggedInUser.Name, Mode=OneWay}" 
                                HorizontalAlignment="Right"
-                               VerticalAlignment="Stretch"
+                               VerticalAlignment="Center"
                                Height ="40"
                                Width="40"
                                RelativePanel.AlignRightWithPanel="True"
@@ -1230,6 +1128,7 @@
                                   Loaded="ToggleSwitch_Loaded"/>
                     <NavigationViewItem x:Name="Logout"
                                         Content="Logout"
+                                        Tapped="Logout_Tapped"
                                         Tag="Logout">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xF3B1;"
@@ -1238,82 +1137,83 @@
                     </NavigationViewItem>
                 </StackPanel>
             </NavigationView.PaneFooter>
-
-            <!--<Frame x:Name="contentFrame"
-               CornerRadius="10"
-               Height="900"
-               Background="White"
-               Margin="10,0,0,0">
-                <usercontrols:ProjectsPage>
-
-                </usercontrols:ProjectsPage>
-                <controls:ListDetailsView x:Name="ProjectListDetailsView"
-                                      ItemsSource="{x:Bind _firstPageViewModel.ProjectsList}"
-                                      SelectionChanged="ProjectListDetailsView_SelectionChanged" 
-                                      VerticalAlignment="Top"
-                                      Height="838" 
-                                      CornerRadius="30">
-                <controls:ListDetailsView.ItemTemplate>
-                    <DataTemplate x:DataType="library:Project">
-                        <StackPanel Margin="0,10,0,0">
-                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                            <TextBlock Text="{x:Bind Desc,Mode=OneWay}"
-                                       MaxLines="2"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:ListDetailsView.ItemTemplate>
-                <controls:ListDetailsView.DetailsTemplate>
-                    <DataTemplate x:DataType="library:Project">
-                        <StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"
-                                       FontSize="16"
-                                       FontWeight="Bold"    
-                                       Margin="2,3"/>
-                                <TextBlock Text="{x:Bind Desc,Mode=OneWay}"
-                                       FontSize="14"
-                                       Margin="2,3"/>
-                                <TextBlock Text="{x:Bind CreatedBy,Mode=OneWay}"
-                                       FontSize="14"
-                                       Margin="2,3"/>
-                            </StackPanel>
-                            <ListView>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="library:User">
-                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:ListDetailsView.DetailsTemplate>
-            </controls:ListDetailsView>
-            </Frame>-->
             <ContentControl x:Name="NavigationContentControl"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             CornerRadius="30"
+                            Margin="10,0,0,0"
                             Height="900">
-                <ContentPresenter Background="{ThemeResource AppForegroundBg}"/>
+                <ContentPresenter Background="{ThemeResource AppForegroundBg}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
             </ContentControl>
         </NavigationView>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900"/>
+                    </VisualState.StateTriggers>
 
-        
+                    <VisualState.Setters>
+                        <Setter Target="MainPageNV.IsPaneToggleButtonVisible"
+                                Value="True" />
+                        <Setter Target="MainPageNV.PaneDisplayMode"
+                                Value="Left" />
+                        <Setter Target="MainPageNV.IsPaneOpen"
+                                Value="True" />
+                        <Setter Target="MainPageNV.OpenPaneLength"
+                                Value="210"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
 <!--//9222208888--> 
     <!--1.util for id creation
     2.encrypted password
     3.after clicking project,dashboard should display -> done
-    4.logout to be functional
+    4.logout to be functional -> done
     5.theme change
     ==============
     TODAY
     6.tasks details page -> done
     7.on click change in data grid -> partial (cell selection changed , NEED TO DO: Selected color)
     8.columns of datagrid to be customized -> done
-    9.visibility of no tasks yet & datagrid to be specified and in taskdetails page as well
-    10.current user should be passed to get the list of tasks owned by that user
-    11.size of dashboard page
+    9.visibility of no tasks yet & datagrid to be specified and in taskdetails page as well -> done
+    10.current user should be passed to get the list of tasks owned by that user -> done
+    11.size of dashboard page -> done
+    12.in app notification after every update
+    13.ui change should happen simultaneously for every action being done
+    14.assign users list need to be created -> done
+    
+    =================
+    1.Projects Page
+                1.adaptive -> button visisbility - off -> done
+                2.
+    2.Tasks Page
+                1.adaptive -> button visisbility - off -> done
+                2.popup - position -> done, form check  -> done
+                3.create & delete notification position
+    3.Issues Page
+                1.adaptive - button visisbility - off -> done
+                2.popup - position -> done, form check -> done
+                3.create & delete notification position
+    4.Admin Page
+                1.create & delete user option - fully
+    
+    For full app
+                1.events -> done
+                2.theme
+                3.ascent
+                4.new window
+                5.adaptive option -> done
+                6.hierarchical navigation
+    
+    Problems:
+    1.while checking for new project input,actual project is getting added - this is also stop -> done
+    2.on refresh projects data grid is getting shrinked
+    3.after new project created the popup should close immediately
     -->
     

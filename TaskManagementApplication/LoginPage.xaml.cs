@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,7 +25,7 @@ namespace TaskManagementCleanArchitecture
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginPage : Page, ILoginView
+    public sealed partial class LoginPage : Page , ILoginView
     {
         private LoginViewModelBase _loginBaseViewModel;
         public static event Action<LoggedInUserBO> OnLoginSuccess;
@@ -54,7 +55,6 @@ namespace TaskManagementCleanArchitecture
                 _loginBaseViewModel.TextBoxVisibility = Visibility.Visible;
                 ResultText.Text = "Enter User ID";
             }
-
             else
             {
                 _loginBaseViewModel.ValidateUser(UserId.Text, Password.Password);
@@ -94,5 +94,7 @@ namespace TaskManagementCleanArchitecture
         {
             OnLoginSuccess.Invoke(user);
         }
+
+        
     }
 }

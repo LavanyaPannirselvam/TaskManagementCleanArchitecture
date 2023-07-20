@@ -38,16 +38,26 @@ namespace TaskManagementCleanArchitecture
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(typeof(LoginPage));
+            if(CurrentUserClass.CurrentUser == null)
+                MainFrame.Navigate(typeof(LoginPage));
+            else MainFrame.Navigate(typeof(FirstPage));
             LoginPage.OnLoginSuccess += NavigateToFirstPage;
-           // TasksPage.OnLoadingSuccess += NavigateToTasksPage;
+            FirstPage.LogoutEvent += LogoutUser;
+            // TasksPage.OnLoadingSuccess += NavigateToTasksPage;
             //MainFrame.Navigate(typeof(FirstPage));
+        }
+
+        private void LogoutUser()
+        {
+            CurrentUserClass.CurrentUser= null;
+            MainFrame.Navigate(typeof(LoginPage));
         }
 
         private void NavigateToFirstPage(LoggedInUserBO currentUser)
         {
             var firstpage = new FirstPage();
             firstpage.CurrentUser = currentUser;
+            CurrentUserClass.CurrentUser = currentUser;
             MainFrame.Navigate(firstpage.GetType(), firstpage);
         }
     }

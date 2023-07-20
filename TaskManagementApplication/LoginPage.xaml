@@ -18,7 +18,6 @@
     </Page.Resources>
     <Page.Background>
         <ImageBrush ImageSource="/Assets/AppBackdrop-Light.png" />
-
     </Page.Background>
     <Grid>
         <controls:DropShadowPanel Color="AliceBlue" 
@@ -56,6 +55,7 @@
                          Grid.Row="2" 
                          Header="User ID"  
                          x:Name="UserId"
+                         Style="{ThemeResource InputFieldTextBox}" 
                          />
                 <StackPanel  Grid.Row="3">
                     <PasswordBox MaxLength="100"
@@ -71,6 +71,7 @@
                             <ToolTip  CornerRadius="15" 
                                       FontSize="12" 
                                       CharacterSpacing="20" 
+                                      Background="{ThemeResource AppForegroundBg}"
                                       Content="Must be mininum of 5 characters with one lowercase, uppercase and special charater." />
                         </ToolTipService.ToolTip>
                     </PasswordBox>
@@ -79,6 +80,7 @@
                                    Name="revealModeCheckBox"
                                    Content="Show password"
                                    IsChecked="False"
+                                   Style="{StaticResource CheckBoxCustom}"
                                    Checked="RevealModeCheckbox_Changed"
                                    Unchecked="RevealModeCheckbox_Changed"/>
                 </StackPanel>
@@ -91,7 +93,7 @@
                            HorizontalAlignment="Center"
                            Visibility="Visible"
                            x:Name="ResultText"
-                            Style="{ThemeResource BasicTextBlock}"/>
+                           Style="{ThemeResource BasicTextBlock}"/>
 
                 <StackPanel Grid.ColumnSpan="2"  
                             Grid.Row="5" 
@@ -102,6 +104,7 @@
                                 MinWidth="300"
                                 IsEnabled="False"
                                 Foreground="Black"
+                                Style="{StaticResource AccentButtonStyleCustom}"
                                 Content="Submit" Click="Verify_Click"/>
                 </StackPanel>
             </Grid>
