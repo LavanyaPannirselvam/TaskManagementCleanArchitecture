@@ -44,31 +44,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private Visibility _nameTextBoxVisibility;
-        public Visibility NameTextBoxVisibility
-        {
-            get { return _nameTextBoxVisibility; }
-            set
-            {
-                _nameTextBoxVisibility = value;
-                NotifyPropertyChanged(nameof(NameTextBoxVisibility));
-            }
-        }
-
-        private Visibility _descriptionTextBoxVisibility;
-        public Visibility DescriptionTextBoxVisibility
-        {
-            get { return _descriptionTextBoxVisibility; }
-            set
-            {
-                _descriptionTextBoxVisibility = value;
-                NotifyPropertyChanged(nameof(DescriptionTextBoxVisibility));
-            }
-        }
-
         private void IssueName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var text = (TextBox)sender;
+            var text = (TextBox)sender;//should do empty and invalid data check
+            if (text.Text == string.Empty || text.Text == null)
+            {
+                ErrorMessage.Text = "Issue name cannot be empty";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
             _issueName = text.Text;
         }
 
@@ -76,12 +60,25 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             var date = (CalendarDatePicker)sender;
             _startDate = date.Date.Value.DateTime;
+            if (_startDate < DateTime.Today)
+            {
+                ErrorMessage.Text = "Start date cannot be yesterday";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+                ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
             _endDate = date.Date.Value.DateTime;
+            if (_endDate < _startDate)
+            {
+                ErrorMessage.Text = "End date should be greater than start date";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
@@ -98,7 +95,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         public Issue GetFormData(string ownerName, int id)
         {
-            return new Issue(_issueName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate, id);
+            if (!IsIssueNameEmpty(_issueName))
+                return new Issue(_issueName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate,id);
+            else return null;
+        }
+
+        private bool IsIssueNameEmpty(string name)
+        {
+            if (name == null || name == "" || name == string.Empty)
+            {
+                ErrorMessage.Text = "Issue name cannot be empty";
+                ErrorMessage.Visibility = Visibility.Visible;
+                return true;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+                return false;
+            }
         }
 
         public void ClearFormData()

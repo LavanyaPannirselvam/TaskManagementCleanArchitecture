@@ -39,6 +39,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public CreateNewProjectPage CreateNewProjectPage;
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
         public static event Action<string> TaskPageNotification;
+        
         public LoggedInUserBO CUser
         {
             get { return (LoggedInUserBO)GetValue(UserProperty); }
@@ -71,7 +72,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (e.Column.Header.ToString() == "EndDate")
                 e.Column.Header = "End Date";
         }
-
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -155,7 +155,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 Grid.SetColumn(TasksDetailGrid, 0);
                 Grid.SetColumnSpan(TasksDetailGrid, 3);
                 BackToList.Visibility = Visibility.Visible;
-             
             }
             else
             {
@@ -169,13 +168,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 TasksList.Visibility = Visibility.Visible;
                 TasksGridSplitter.Visibility = Visibility.Visible;
                 TasksDetailGrid.Visibility = Visibility.Visible;
-                
             }
             if ((sender as DataGrid).SelectedItem is Tasks task)
             {
                 taskDetailsPage = new TaskDetailsPage(task.Id);
                 taskDetailsPage.DataContext = task;
                 TasksList.DataContext = _task;
+                TasksOfAProject.SelectedIndex = -1;
             }
         }
 
@@ -186,29 +185,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2 - 300;
             AddTaskForm.HorizontalOffset = horizontalOffset;
             AddTaskForm.VerticalOffset = verticalOffset;
-            AddTaskForm.IsOpen = true;
+            ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Text = string.Empty;
-            Tasks pro = CreateTaskForm.GetFormData(CUser.LoggedInUser.Name, _taskViewModel.projectId);
-            if (pro.Name == string.Empty)
+            Tasks pro = CreateTaskForm.GetFormData(CurrentUserClass.CurrentUser.LoggedInUser.Name, _taskViewModel.projectId);
+            if (pro != null)
             {
-                ErrorMessage.Text = "Fill all data";
-                ErrorMessage.Visibility = Visibility.Visible;
+                AddTaskForm.IsOpen = false;
+                _taskViewModel.CreateNewTask(pro);
             }
-            if (pro.StartDate < DateTime.Today)
-            {
-                ErrorMessage.Text = "Start date should not be yesterday";
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            if (pro.EndDate < pro.StartDate)
-            {
-                ErrorMessage.Text = "End date should be greater than or equal to start date";
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            else _taskViewModel.CreateNewTask(pro);
         }
 
         private void AddTaskForm_Closed(object sender, object e)
@@ -296,6 +284,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.TaskCreated += UpdateNewTask;
             UIUpdation.TaskDeleted += UpdateDeleteTask;
             TaskPageNotification += ShowTaskPageNotiifcation;
+            this.FindName("TaskPage");
+            this.UnloadObject(Projectpage);
         }
 
         private void UpdateDeleteTask(Tasks tasks)
@@ -320,6 +310,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public void TaskUpdationNotification()
         {
             TaskPageNotification.Invoke(_taskViewModel.ResponseString);
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.UnloadObject(TaskPage);
+            UIUpdation.OnBackNavigated();
         }
     }
 }

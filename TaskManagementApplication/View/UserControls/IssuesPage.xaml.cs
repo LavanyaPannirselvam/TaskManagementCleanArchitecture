@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,7 +46,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             set { SetValue(UserProperty, value); }
         }
 
-
         public IssuesPage()
         {
             this.InitializeComponent();
@@ -60,7 +60,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddIssueForm.ActualHeight / 2 - 300;
             AddIssueForm.HorizontalOffset = horizontalOffset;
             AddIssueForm.VerticalOffset = verticalOffset;
-            AddIssueForm.IsOpen = true;
         }
 
         private void IssueList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -106,7 +105,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 Grid.SetColumn(IssueDetailGrid, 0);
                 Grid.SetColumnSpan(IssueDetailGrid, 3);
                 BackToList.Visibility = Visibility.Visible;
-
             }
             else
             {
@@ -120,14 +118,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 IssuesList.Visibility = Visibility.Visible;
                 IssueGridSplitter.Visibility = Visibility.Visible;
                 IssueDetailGrid.Visibility = Visibility.Visible;
-
             }
             if ((sender as DataGrid).SelectedItem is Issue issue)
             {
                 issueDetailsPage = new IssueDetailsPage(issue.Id);
                 issueDetailsPage.DataContext = issue;
                 IssuesList.DataContext = _issue;
+                IssueOfAProject.SelectedIndex = -1;
                 //TasksList.DataContext = _task;
+
             }
         }
 
@@ -135,7 +134,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             int result = await ConfirmtionDialogue();
             if (result == 1)
+            {
+                IssueDetailGrid.Visibility=Visibility.Collapsed;
                 _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Issue.Id);
+            }
         }
 
         private void AddIssueForm_Closed(object sender, object e)
@@ -180,24 +182,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Text = string.Empty;
-            Issue pro = CreateIssueForm.GetFormData(CUser.LoggedInUser.Name, _issueViewModel.projectId);
-            if (pro.Name == string.Empty)
+            Issue pro = CreateIssueForm.GetFormData(CurrentUserClass.CurrentUser.LoggedInUser.Name, _issueViewModel.projectId);
+            if (pro != null)
             {
-                ErrorMessage.Text = "Fill all data";
-                ErrorMessage.Visibility = Visibility.Visible;
+                AddIssueForm.IsOpen = false;
+                _issueViewModel.CreateIssue(pro);
             }
-            if (pro.StartDate < DateTime.Today)
-            {
-                ErrorMessage.Text = "Start date should not be yesterday";
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            if (pro.EndDate < pro.StartDate)
-            {
-                ErrorMessage.Text = "End date should be greater than or equal to start date";
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            //else _createIssueViewModel.CreateIssue(pro);
-            else _issueViewModel.CreateIssue(pro);
         }
 
         private void BackToList_Click(object sender, RoutedEventArgs e)
@@ -212,14 +202,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             IssueGridSplitter.Visibility = Visibility.Collapsed;
             IssueDetailGrid.Visibility = Visibility.Collapsed;
         }
-
-        //private void CancelButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    CreateIssueForm.ClearFormData();
-        //    AddIssueForm.Visibility = Visibility.Collapsed;
-        //}
-
-
+      
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _windowHeight = e.NewSize.Height;
@@ -270,6 +253,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             IssuePageNotification += ShowIssuePageNotification;
             UIUpdation.IssueCreated += UIUpdation_IssueCreated;
             UIUpdation.IssueDeleted += UIUpdation_IssueDeleted;
+            this.FindName("IssuePage");
+            this.UnloadObject(Projectpage);
         }
 
         private void UIUpdation_IssueDeleted(Issue issue)
@@ -288,6 +273,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             IssuePageNotification -= ShowIssuePageNotification;
             UIUpdation.IssueCreated -= UIUpdation_IssueCreated;
             UIUpdation.IssueDeleted -= UIUpdation_IssueDeleted;
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.UnloadObject(IssuePage);
+            //this.FindName("Projectpage");
+            //this.UnloadObject(IssuePage);
+            //TasksPage taskspg = new TasksPage();
+            UIUpdation.OnBackNavigated();
         }
     }
 }

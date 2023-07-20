@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,6 +29,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         }
 
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(Navigation), new PropertyMetadata(null));
+        
         public LoggedInUserBO CurrentUser
         {
             get { return (LoggedInUserBO)GetValue(UserProperty); }
@@ -46,6 +48,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             TopNV.SelectedItem = tasksTab;
+            UIUpdation.PageNavigated += UIUpdation_PageNavigated;
+        }
+
+        private void UIUpdation_PageNavigated()
+        {
+            this.UnloadObject(NavigationGrid);
+            this.FindName("Projectpage");
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UIUpdation.PageNavigated -= UIUpdation_PageNavigated;
         }
     }
 }

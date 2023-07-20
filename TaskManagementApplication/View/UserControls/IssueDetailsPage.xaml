@@ -5,7 +5,8 @@
     xmlns:local="using:TaskManagementCleanArchitecture.View.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:library="using:TaskManagementLibrary.Models"
+    xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:library="using:TaskManagementLibrary.Models"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded"
@@ -232,11 +233,21 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
+                        <!--<TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
-                                   FontSize="16"/>
+                                   FontSize="16"/>-->
+                        <ComboBox  VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   x:Name="prioritycombo"
+                                   SelectedValue="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority}"
+                                   SelectedValuePath="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority}">
+                            <!--<x:String>High</x:String>
+                            <x:String>Medium</x:String>
+                            <x:String>Low</x:String>
+                            <x:String>None</x:String>-->
+                        </ComboBox>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1"  

@@ -5,14 +5,15 @@
     xmlns:locals="using:TaskManagementCleanArchitecture.View.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:library="using:TaskManagementLibrary.Models"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:library="using:TaskManagementLibrary.Models"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
     SizeChanged="UserControl_SizeChanged"
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded"
-    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
+    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" xmlns:locals1="using:TaskManagementCleanArchitecture">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -40,19 +41,39 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
+    <Grid>
     <Grid Background="{ThemeResource AppForegroundBg}"
-          x:Name="TaskPage">
+          x:Name="IssuePage"
+          x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <!--<RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
         <RelativePanel Margin="0,0,0,20">
+            <Button x:Name="BackButton"
+                    Margin="10,10,0,0"
+                    FontSize="20"
+                    CornerRadius="5"
+                    BorderThickness="0"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    Content="&#xE0A6;"
+                    HorizontalAlignment="Right"
+                    FontFamily="Segoe MDL2 Assets"
+                    Visibility="Visible"
+                    Click="BackButton_Click"/>
+            <!--<Button x:Name="BackButton"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    ToolTipService.ToolTip="Back"
+                    Click="BackButton_Click"/>-->
             <TextBlock Text="Issues"
-                       Margin="30,10,0,0"
+                       Margin="10,10,0,0"
                        FontSize="24"
                        FontWeight="SemiBold"
-                       RelativePanel.AlignLeftWithPanel="True"/>
+                       RelativePanel.RightOf="BackButton"/>
             <Button x:Name="NewIssueButton"
                     Content="New Issue"
                     CornerRadius="5"
@@ -123,7 +144,7 @@
                         </controls:DataGridTemplateColumn>
                         <controls:DataGridTemplateColumn Header="Project Id" Width="110" MinWidth="50">
                             <controls:DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="library:Issue" >
+                                <DataTemplate x:DataType="library:Issue">
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind ProjectId}"
                                                VerticalAlignment="Center"/>
@@ -289,29 +310,19 @@
                 </Grid>
                 
             </Grid>
-        </Grid>
-        <!--<Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>-->
-        <controls:InAppNotification x:Name="NoitificationBox"
-                                                HorizontalAlignment="Stretch"
-                                                ShowDismissButton="False"
-                                              />
-        <Popup IsLightDismissEnabled="True"
+                <Popup IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
                    IsOpen="False"
                    VerticalOffset="0"
                    HorizontalOffset="230"
                    Closed="AddIssueForm_Closed"
                    Name="AddIssueForm">
-            <Popup.ChildTransitions>
+                    <!--<Popup.ChildTransitions>
                 <TransitionCollection>
                     <PaneThemeTransition Edge="Right"/>
                 </TransitionCollection>
-            </Popup.ChildTransitions>
-            <controls:DropShadowPanel Color="Black"
+            </Popup.ChildTransitions>-->
+                    <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
                                       BlurRadius="50"
@@ -321,42 +332,60 @@
                                       Margin="5"
                                       Padding="30"
                                       x:Name="AddIssueContainer">
-                <Grid Visibility="Visible"
+                        <Grid Visibility="Visible"
                           Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
                           Name="AddGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Add Issue" 
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Add Issue" 
                                FontSize="20" 
                                FontWeight="Bold" 
                                Grid.Row="0"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
                                Padding="20"/>
-                    <locals:CreateNewIssuePage x:Name="CreateIssueForm"
+                            <locals:CreateNewIssuePage x:Name="CreateIssueForm"
                                                Grid.Row="1"
                                                Margin="10"/>
-                    <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                            <!--<locals:CreateNewProjectPage x:Name="CreateIssueForm"
+                                               Grid.Row="1"
+                                               Margin="10"/>-->
+                            <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
                                    Visibility="Collapsed"
                                    FontSize="14"
                                    Grid.Row="2"
                                    x:Name="ErrorMessage"
                                    Foreground="red"
                                    Margin="7"/>
-                    <Button x:Name="AddButton"
+                            <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"
                                     HorizontalAlignment="Right"/>
-                </Grid>
-            </controls:DropShadowPanel>
-        </Popup>
+                        </Grid>
+                    </controls:DropShadowPanel>
+                </Popup>
+            </Grid>
+        <!--<Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>-->
+            <controls:InAppNotification x:Name="NoitificationBox"
+                                                HorizontalAlignment="Stretch"
+                                                ShowDismissButton="False"
+                                              />
+        </Grid>
+    <Grid x:Load="False"
+              x:Name="Projectpage">
+            <locals:ProjectsPage />
+        </Grid>
     </Grid>
 </UserControl>

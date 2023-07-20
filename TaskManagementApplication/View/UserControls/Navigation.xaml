@@ -8,7 +8,9 @@
     xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
     mc:Ignorable="d"
     d:DesignHeight="300"
+        xmlns:library="using:TaskManagementLibrary.Models"
     Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
     d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -16,11 +18,13 @@
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"/>
         </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="TasksTab">
-                <usercontrols:TasksPage/>
+                <usercontrols:TasksPage CUser="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
             <DataTemplate x:Key="IssuesTab">
                 <usercontrols:IssuesPage CUser="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
+            
+            
             <Style TargetType="NavigationView">
                 <Setter Property="PaneToggleButtonStyle"
                         Value="{StaticResource PaneToggleButtonStyle}" />
@@ -1036,8 +1040,9 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-
     <Grid>
+    <Grid x:Name="NavigationGrid"
+          x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -1051,7 +1056,7 @@
                         IsTabStop="False"
                         Background="{ThemeResource AppForegroundBg}"
                         SelectionChanged="NavigationView_SelectionChanged"
-                            Grid.Row="0">
+                        Grid.Row="0">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Tasks"
                                     x:Name="tasksTab"
@@ -1063,12 +1068,20 @@
                                     FontSize="16"
                                     Margin="2.5,0">
                 </NavigationViewItem>
+                <!--<NavigationViewItem Content="{x:Bind CurrentUser.LoggedInUser.Name}"
+                                    FontSize="16"/>-->
             </NavigationView.MenuItems>
-            <ContentControl x:Name="DashboardContent"
-                            Height="900">
-                <ContentPresenter Background="{ThemeResource AppForegroundBg}">
-                </ContentPresenter>
-            </ContentControl>
+            <Frame x:Name="DashboardContent"
+                            Height="900"
+                   IsNavigationStackEnabled="True">
+                <!--<ContentPresenter Background="{ThemeResource AppForegroundBg}">
+                </ContentPresenter>-->
+            </Frame>
         </NavigationView>
+    </Grid>
+    <Grid x:Load="False"
+              x:Name="Projectpage">
+            <local:ProjectsPage/>
+        </Grid>
     </Grid>
 </UserControl>

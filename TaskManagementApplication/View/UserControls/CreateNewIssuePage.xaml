@@ -16,26 +16,15 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="{ThemeResource AppForegroundBg}"
-          CornerRadius="10">
+          CornerRadius="10"
+          Width="400">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <!--for task name-->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <!--for description-->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <!--for startdate name-->
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <!--for enddate name-->
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <!--for priority-->
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <!--for status-->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -90,14 +79,15 @@
             <x:String>On Hold</x:String>
             <x:String>Closed</x:String>
         </ComboBox>
-        <!--<StackPanel Grid.Row="6"
-                    HorizontalAlignment="Stretch"
-                    Margin="5">
-            <TextBlock Text="Owner"/>
-            <TextBlock Text="{x:Bind CurrentUser.Name}"/>
-            <TextBlock Text="{x:Bind CUser.Name}"
-                       Margin="5"/>
-        </StackPanel>-->
+        <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                                   Visibility="Collapsed"
+                                   FontSize="14"
+                                   Grid.Row="6"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   x:Name="ErrorMessage"
+                                   Foreground="red"
+                                   Margin="7"/>
 
     </Grid>
 

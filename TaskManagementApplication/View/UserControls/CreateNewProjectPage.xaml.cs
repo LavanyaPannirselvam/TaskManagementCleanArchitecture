@@ -37,11 +37,19 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             startdate.Date = DateTime.Now;
             enddate.Date = DateTime.Now;
+            //statusbox.SelectedIndex = 0;
+            //prioritybox.SelectedIndex = 3;
         }
 
         private void ProjectName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = (TextBox)sender;//should do empty and invalid data check
+            if (text.Text == string.Empty || text.Text == null)
+            {
+                ErrorMessage.Text = "Project name cannot be empty";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
             _projectName = text.Text;
         }
 
@@ -55,23 +63,54 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             string priority = e.AddedItems[0].ToString();
             _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), priority.ToUpper().Replace(" ",""));
+           // _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), value.ToUpper().Replace(" ", ""));
         }
 
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
             _startDate = date.Date.Value.DateTime;
+            if(_startDate < DateTime.Today)
+            {
+                ErrorMessage.Text = "Start date cannot be yesterday";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+                ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
             _endDate = date.Date.Value.DateTime;
+            if (_endDate < _startDate)
+            {
+                ErrorMessage.Text = "End date should be greater than start date";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         public Project GetFormData(string ownerName)
         {
-            return new Project(_projectName,_description,ownerName,_statusType,_priorityType,_startDate,_endDate);
+            if (!IsProjectNameEmpty(_projectName))
+                return new Project(_projectName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate);
+            else return null;
+        }
+
+        private bool IsProjectNameEmpty(string name)
+        {
+            if (name == null || name == "" || name == string.Empty)
+            {
+                ErrorMessage.Text = "Project name cannot be empty";
+                ErrorMessage.Visibility = Visibility.Visible;
+                return true;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+                return false;
+            }
         }
 
         public void ClearFormData()
@@ -79,12 +118,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ProjectName.Text = string.Empty;
             startdate.Date = DateTime.Now;
             enddate.Date = DateTime.Now;
-            prioritybox.Text = string.Empty;
             statusbox.Text = string.Empty;
+            prioritybox.PlaceholderText = "Choose Priority";
+            ErrorMessage.Text = string.Empty;
+            ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
-        public void UpdateNewTask(Project newProject)
-        {
-        }
     }
 }

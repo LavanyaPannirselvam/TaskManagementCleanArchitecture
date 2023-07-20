@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.ViewModel;
+using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
@@ -34,6 +35,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueViewModel = PresenterService.GetInstance().Services.GetService<IssueDetailsViewModelBase>();
             _issueViewModel.issueDetailsPageNotification = this;
             _users = new ObservableCollection<User>();
+            var priorityList = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            prioritycombo.ItemsSource = priorityList.ToList();
         }
 
         public IssueDetailsPage(int id)
@@ -49,38 +52,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void ShowNotification(string msg)
         {
             NotificationControl.Show(msg, 3000);
-        }
-
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            _users = _issueViewModel.CanAssignUsersList;
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                var suitableItems = new ObservableCollection<string>();
-                var splitText = sender.Text.ToLower().Split(" ");
-                foreach (var user in _users)
-                {
-                    var found = splitText.All((key) =>
-                    {
-                        return user.Name.ToLower().Contains(key);
-                    });
-                    if (found)
-                    {
-                        suitableItems.Add(user.Name);
-                    }
-                }
-                if (suitableItems.Count == 0)
-                {
-                    suitableItems.Add("No results found");
-                }
-                sender.ItemsSource = suitableItems;
-            }
-        }
-
-        private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            _users.Clear();
-            _users = _issueViewModel?.CanAssignUsersList;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -138,6 +109,40 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Notification -= ShowNotification;
             UIUpdation.UserAdded -= UIUpdation_UserAdded;
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
+        }
+
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            _users = _issueViewModel.CanAssignUsersList;
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var suitableItems = new ObservableCollection<string>();
+                var splitText = sender.Text.ToLower().Split(" ");
+                foreach (var user in _users)
+                {
+                    var found = splitText.All((key) =>
+                    {
+                        return user.Name.ToLower().Contains(key);
+                    });
+                    if (found)
+                    {
+                        suitableItems.Add(user.Name);
+                    }
+                }
+                if (suitableItems.Count == 0)
+                {
+                    suitableItems.Add("No results found");
+                }
+                if (sender.Text != string.Empty)
+                    sender.ItemsSource = suitableItems;
+                else sender.ItemsSource = null;
+            }
+        }
+
+        private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            _users.Clear();
+            _users = _issueViewModel?.CanAssignUsersList;
         }
     }
 }

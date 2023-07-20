@@ -81,7 +81,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 {
                     suitableItems.Add("No results found");
                 }
-                sender.ItemsSource = suitableItems;
+                if (sender.Text != string.Empty)
+                    sender.ItemsSource = suitableItems;
+                else sender.ItemsSource = null;
             }
         }
 

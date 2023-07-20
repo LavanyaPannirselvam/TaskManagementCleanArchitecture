@@ -12,14 +12,19 @@
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded"
     SizeChanged="UserControl_SizeChanged"
+    xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" 
-    xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel">
+    xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel"
+    x:Name="Projectspage">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="UserControlTemplate1">
+                <usercontrols:Navigation CurrentUser ="{Binding CurrentUser,Mode=OneWay}"/>
+            </DataTemplate>
             <Style TargetType="controls:DataGridCell">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Padding" Value="0"/>
@@ -43,23 +48,25 @@
             
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid CornerRadius="10"
+    <Grid>
+        <Grid CornerRadius="10"
           Background="{ThemeResource AppBackground}"
-          x:Name="ProjectPageGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <!--<RowDefinition Height="*"/>-->
-        </Grid.RowDefinitions>
-        <RelativePanel Margin="0,0,0,20"
+          x:Name="ProjectPageGrid"
+          x:Load="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <RelativePanel Margin="0,0,0,20"
                        Grid.ColumnSpan="2"
                        Name="TopOptions">
-            <TextBlock Text="Projects"
+                <TextBlock Text="Projects"
                        Margin="30,10,0,0"
                        FontSize="24"
                        FontWeight="SemiBold"
                        RelativePanel.AlignLeftWithPanel="True"/>
-            <Button x:Name="NewProjectButton"
+                <Button x:Name="NewProjectButton"
                     Content="New Project"
                     CornerRadius="5"
                     Margin="0,0,10,0"
@@ -71,21 +78,21 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Click="NewProjectButton_Click"/>
-        </RelativePanel>
+            </RelativePanel>
 
-        <Grid Grid.Row="1"
+            <Grid Grid.Row="1"
               x:Name="ProjectsListGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{x:Bind _projectsPageViewModel.ResponseString,Mode=OneWay}"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind _projectsPageViewModel.ResponseString,Mode=OneWay}"
                        Visibility="{x:Bind _projectsPageViewModel.TextVisibility,Mode=OneWay}"
                        FontSize="16"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
                        Grid.ColumnSpan="2"/>
-            <controls:DataGrid x:Name="ProjectsList"
+                <controls:DataGrid x:Name="ProjectsList"
                        AutoGenerateColumns="False"
                        ItemsSource="{x:Bind _projectsPageViewModel.ProjectsList}"
                        GridLinesVisibility="Horizontal"
@@ -100,105 +107,105 @@
                        Grid.ColumnSpan="2"
                        SelectionMode="Single"
                        Background="{ThemeResource AppBackground}">
-                <controls:DataGrid.Columns>
-                    <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project">
-                                <TextBlock Padding="10,0,5,0" 
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project">
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Id}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="Name" Width="350" MinWidth="75">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Name" Width="350" MinWidth="75">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Name}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="Description" Width="200" MinWidth="100">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Description" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Desc}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="Owner" Width="200" MinWidth="100">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Owner" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind CreatedBy}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="Status" Width="130" MinWidth="65">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Status" Width="130" MinWidth="65">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Status}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="Start Date" Width="200" MinWidth="100">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Start Date" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind StartDate}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="End Date" Width="200" MinWidth="100">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="End Date" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind EndDate}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTemplateColumn Header="Priority" Width="130" MinWidth="65">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate x:DataType="library:Project" >
-                                <TextBlock Padding="10,0,5,0" 
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn Header="Priority" Width="130" MinWidth="65">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="library:Project" >
+                                    <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Priority}"
                                            VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                </controls:DataGrid.Columns>
-                
-                <controls:DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="controlsprimitives:DataGridColumnHeader">
-                        <Setter Property="Height" Value="30"/>
-                        <Setter Property="Background" Value="LightBlue"/>
-                        <Setter Property="Foreground" Value="#000000"/>
-                        <Setter Property="FontSize" Value="15" />
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Height" Value="20"/>
-                        <Setter Property="SeparatorVisibility" Value="Collapsed"/>
-                    </Style>
-                </controls:DataGrid.ColumnHeaderStyle>
-            </controls:DataGrid>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                    </controls:DataGrid.Columns>
 
-            <Popup  IsLightDismissEnabled="True"
+                    <controls:DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="controlsprimitives:DataGridColumnHeader">
+                            <Setter Property="Height" Value="30"/>
+                            <Setter Property="Background" Value="LightBlue"/>
+                            <Setter Property="Foreground" Value="#000000"/>
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Height" Value="20"/>
+                            <Setter Property="SeparatorVisibility" Value="Collapsed"/>
+                        </Style>
+                    </controls:DataGrid.ColumnHeaderStyle>
+                </controls:DataGrid>
+
+                <Popup  IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
                    IsOpen="False"
                    Closed="AddProjectForm_Closed"
                    Name="AddProjectForm">
-                <Popup.ChildTransitions>
+                    <!--<Popup.ChildTransitions>
                     <TransitionCollection>
                         <PaneThemeTransition Edge="Right"/>
                     </TransitionCollection>
-                </Popup.ChildTransitions>
-                <controls:DropShadowPanel Color="Black"
+                </Popup.ChildTransitions>-->
+                    <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
                                       BlurRadius="50"
@@ -208,53 +215,57 @@
                                       Margin="5"
                                       Padding="30"
                                       x:Name="AddProjectContainer">
-                    <Grid Visibility="Visible"
+                        <Grid Visibility="Visible"
                           Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
                           Name="AddGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Add Issue" 
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Add Project" 
                                FontSize="20" 
                                FontWeight="Bold" 
                                Grid.Row="0"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
                                Padding="20"/>
-                        <local:CreateNewProjectPage x:Name="CreateProjectForm"
-                                                    Grid.Row="2"
+                            <local:CreateNewProjectPage x:Name="CreateProjectForm"
+                                                    Grid.Row="1"
                                                     Margin="10"/>
+                        
                         <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
                                    Visibility="Collapsed"
                                    FontSize="14"
                                    Grid.Row="2"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
                                    x:Name="ErrorMessage"
                                    Foreground="red"
                                    Margin="7"/>
-                        <Button x:Name="AddButton"
+                            <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"
                                     HorizontalAlignment="Right"/>
-                    </Grid>
-                </controls:DropShadowPanel>
-            </Popup>
+                        </Grid>
+                    </controls:DropShadowPanel>
+                </Popup>
 
-            <Grid Visibility="Collapsed"
-                  Name="taskofaproject"
-                  Grid.ColumnSpan="2">
-                <local:Navigation Visibility="Visible"/>
+                
             </Grid>
-        </Grid>
-        <controls:InAppNotification x:Name="NoitificationBox"
+            <controls:InAppNotification x:Name="NoitificationBox"
                                     HorizontalAlignment="Stretch"
                                     ShowDismissButton="False"/>
+        </Grid>
+        <Grid x:Load="False"
+                  Name="taskofaproject"
+                  Grid.ColumnSpan="2">
+            <local:Navigation/>
+        </Grid>
     </Grid>
-
 </UserControl>

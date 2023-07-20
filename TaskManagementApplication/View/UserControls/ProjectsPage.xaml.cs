@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Toolkit.Collections;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -49,24 +50,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
             _projectsPageViewModel.projectPageUpdate = this;
+            //_projectsPageViewModel.ProjectsList.Clear();
+            //_projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name, CUser.LoggedInUser.Email);
         }
         
-        private ObservableCollection<Project> _projects = null;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Project> Projects
-        {
-            get { return _projects; }
-            set
-            {
-                if(_projects == null)
-                    _projects = value;
-                NotifyPropertyChanged(nameof(Projects));
-            }
-        }
-
-        
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -95,38 +84,33 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 tasksPage._taskViewModel.GetTasks(projectId);
                 issuePage._issueViewModel.IssuesList.Clear();
                 issuePage._issueViewModel.GetIssues(projectId);
-                ProjectsList.Visibility = Visibility.Collapsed;
-                TopOptions.Visibility = Visibility.Collapsed;
-                taskofaproject.Visibility = Visibility.Visible;
+                //ProjectsList.Visibility = Visibility.Collapsed;
+                //TopOptions.Visibility = Visibility.Collapsed;
+                //taskofaproject.Visibility = Visibility.Visible;
+                //Projectspage.DataContext = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
+                ProjectsList.SelectedIndex = -1;
+                this.UnloadObject(ProjectPageGrid);
+                this.FindName("taskofaproject");
             }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            ErrorMessage.Text = string.Empty;
-            Project pro = CreateProjectForm.GetFormData(CUser.LoggedInUser.Name);
-            if (pro.Name == string.Empty)
+            //ErrorMessage.Text = string.Empty;
+            Project pro = CreateProjectForm.GetFormData(CurrentUserClass.CurrentUser.LoggedInUser.Name);
+            if (pro != null)
             {
-                ErrorMessage.Text = "Fill all data";
-                ErrorMessage.Visibility = Visibility.Visible;
+                AddProjectForm.IsOpen = false;
+                _projectsPageViewModel.CreateProject(pro);
             }
-            if (pro.StartDate < DateTime.Today)
-            {
-                ErrorMessage.Text = "Start date should not be yesterday";
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            if (pro.EndDate < pro.StartDate)
-            {
-                ErrorMessage.Text = "End date should be greater than or equal to start date";
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            else _projectsPageViewModel.CreateProject(pro);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            //this.UnloadObject(taskofaproject);
             _projectsPageViewModel.ProjectsList.Clear();
-            _projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name,CUser.LoggedInUser.Email);
+             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.LoggedInUser.Name, CurrentUserClass.CurrentUser.LoggedInUser.Email);
+            //_projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name, CUser.LoggedInUser.Email);
             Notification += ShowNotification;
             UIUpdation.ProjectCreated += UpdateNewProject;
         }
@@ -143,12 +127,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            AddProjectForm.IsOpen = true;
             double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 2 + 100;
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2 - 300;
             AddProjectForm.HorizontalOffset = horizontalOffset;
             AddProjectForm.VerticalOffset = verticalOffset;
             AddProjectForm.IsOpen = true;
+            ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         private void AddProjectForm_Closed(object sender, object e)
@@ -179,6 +163,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             Notification -= ShowNotification;
             UIUpdation.ProjectCreated -= UpdateNewProject;
+           
 
         }
     }
