@@ -10,6 +10,7 @@ using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary;
 using Windows.UI.Xaml;
+using TaskManagementLibrary.Notifications;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -156,18 +157,30 @@ namespace TaskManagementCleanArchitecture.ViewModel
             throw new NotImplementedException();
         }
 
-        public void OnFailure(ZResponse<bool> response)
+        public void OnFailure(ZResponse<DeleteIssueResponse> response)
         {
             throw new NotImplementedException();
         }
 
-        public async void OnSuccessAsync(ZResponse<bool> response)
+        public async void OnSuccessAsync(ZResponse<DeleteIssueResponse> response)
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _deleteIssue.ResponseString = response.Response.ToString();
                 _deleteIssue.NotificationVisibility = Visibility.Visible;
                 _deleteIssue.Notification.NotificationMessage();//notification need to display
+                UIUpdation.OnIssueDeleted(response.Data.DeletedIssue);
+                if (_deleteIssue.IssuesList.Count == 0)
+                {
+                    _deleteIssue.DataGridVisibility = Visibility.Collapsed;
+                    _deleteIssue.TextVisibility = Visibility.Visible;
+                    _deleteIssue.ResponseString = "Issue not created yet:)";
+                }
+                else
+                {
+                    _deleteIssue.DataGridVisibility = Visibility.Visible;
+                    _deleteIssue.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }
@@ -195,14 +208,22 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                //_viewModel.NewIssue = response.Data.NewIssue;
                 _viewModel.ResponseString = response.Response.ToString();
                 _viewModel.NotificationVisibility = Visibility.Visible;
                 _viewModel.Notification.NotificationMessage();
-                // _viewModel.AddedView.UpdateNewProject(_viewModel.NewProject);
+                UIUpdation.OnIssueCreated(response.Data.NewIssue);
+                if (_viewModel.IssuesList.Count != 0)
+                {
+                    _viewModel.DataGridVisibility = Visibility.Visible;
+                    _viewModel.TextVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _viewModel.DataGridVisibility = Visibility.Collapsed;
+                    _viewModel.TextVisibility = Visibility.Visible;
+                    _viewModel.ResponseString = "Issues not created yet :)";
+                }
             });
         }
     }
-
-
 }

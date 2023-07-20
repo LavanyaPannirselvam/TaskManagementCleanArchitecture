@@ -209,7 +209,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _removeTask.NotificationVisibility = Visibility.Visible;
                 _removeTask.ResponseString = response.Response.ToString();
                 _removeTask.taskDetailsNotification.TaskDetailsNotification();
-                UIUpdation.TaskUserAddedUpdate(response.Data.taskBO);
+                UIUpdation.UserRemovedUpdate(response.Data.users);
+                if (_removeTask.CanRemoveUsersList.Count == 0)
+                {
+                    _removeTask.TextVisibility = Visibility.Visible;
+                    _removeTask.ListVisibility = Visibility.Collapsed;
+                    _removeTask.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _removeTask.ListVisibility = Visibility.Visible;
+                    _removeTask.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }
@@ -238,9 +249,19 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _assignTaskToUser.ResponseString = response.Response.ToString();
                 _assignTaskToUser.NotificationVisibility = Visibility.Visible;
-                // _assignTaskToUser.assignUser.UpdateAssignment();
                 _assignTaskToUser.taskDetailsNotification.TaskDetailsNotification();
-                UIUpdation.TaskUserRemovedUpdate(response.Data.taskBO);
+                UIUpdation.UserAddedUpdate(response.Data.users);
+                if (_assignTaskToUser.CanAssignUsersList.Count == 0)
+                {
+                    _assignTaskToUser.TextVisibility = Visibility.Visible;
+                    _assignTaskToUser.ListVisibility = Visibility.Collapsed;
+                    _assignTaskToUser.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _assignTaskToUser.ListVisibility = Visibility.Visible;
+                    _assignTaskToUser.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }

@@ -8,6 +8,7 @@ using TaskManagementLibrary;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.UI.Xaml;
 using static TaskManagementLibrary.Models.User;
 
@@ -57,6 +58,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 loginViewModel.CurrentUser = response.Data.currentUser;
                 loginViewModel.LoginView?.UpdateLoginPage(loginViewModel.CurrentUser);
+                //UIUpdation.OnUserLogin(loginViewModel.CurrentUser);
             });
         }
     }

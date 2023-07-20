@@ -166,11 +166,20 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                //_viewModel.NewTask = response.Data.NewTask;
                 _viewModel.ResponseString = response.Response.ToString();
                 _viewModel.updation.TaskUpdationNotification();
                 UIUpdation.OnTaskCreated(response.Data.NewTask);
-                // _viewModel.AddedView.UpdateNewProject(_viewModel.NewProject);
+                if (_viewModel.TasksList.Count != 0)
+                {
+                    _viewModel.DataGridVisibility = Visibility.Visible;
+                    _viewModel.TextVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _viewModel.DataGridVisibility = Visibility.Collapsed;
+                    _viewModel.TextVisibility = Visibility.Visible;
+                    _viewModel.ResponseString = response.Response;
+                }
             });
         }
     }
@@ -198,9 +207,19 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _deleteTask.ResponseString = response.Response.ToString();
-                //_deleteTask.Notification.NotificationMessage();//notification need to display
                 _deleteTask.updation.TaskUpdationNotification();
                 UIUpdation.OnTaskDeleted(response.Data.taskDeleted);
+                if (_deleteTask.TasksList.Count != 0)
+                {
+                    _deleteTask.DataGridVisibility = Visibility.Visible;
+                    _deleteTask.TextVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _deleteTask.DataGridVisibility = Visibility.Collapsed;
+                    _deleteTask.TextVisibility = Visibility.Visible;
+                    _deleteTask.ResponseString = "Task not created yet :)";
+                }
             });
         }
     }

@@ -10,6 +10,7 @@ using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary;
 using Windows.UI.Xaml;
+using TaskManagementLibrary.Notifications;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -211,6 +212,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _assignIssueToUser.ResponseString = response.Response.ToString();
                 _assignIssueToUser.NotificationVisibility = Visibility.Visible;
                 _assignIssueToUser.issueDetailsPageNotification.IssueDetailsPageNotification();
+                UIUpdation.UserAddedUpdate(response.Data.users);
+                if (_assignIssueToUser.CanAssignUsersList.Count == 0)
+                {
+                    _assignIssueToUser.TextVisibility = Visibility.Visible;
+                    _assignIssueToUser.ListVisibility = Visibility.Collapsed;
+                    _assignIssueToUser.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _assignIssueToUser.ListVisibility = Visibility.Visible;
+                    _assignIssueToUser.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }
@@ -241,6 +254,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _removeIssue.NotificationVisibility = Visibility.Visible;
                 _removeIssue.ResponseString = response.Response.ToString();
                 _removeIssue.issueDetailsPageNotification.IssueDetailsPageNotification();
+                UIUpdation.UserRemovedUpdate(response.Data.users);
+                if (_removeIssue.CanRemoveUsersList.Count == 0)
+                {
+                    _removeIssue.TextVisibility = Visibility.Visible;
+                    _removeIssue.ListVisibility = Visibility.Collapsed;
+                    _removeIssue.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _removeIssue.ListVisibility = Visibility.Visible;
+                    _removeIssue.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }

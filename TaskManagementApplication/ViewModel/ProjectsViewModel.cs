@@ -194,13 +194,22 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-               // _viewModel.NewProject = response.Data.NewProject;
+                // _viewModel.NewProject = response.Data.NewProject;
                 _viewModel.ResponseString = response.Response.ToString();
                 _viewModel.projectPageUpdate.ProjectUpdateNotification();
                 UIUpdation.OnProjectCreated(response.Data.NewProject);
-                // _viewModel.AddedView.UpdateNewProject(_viewModel.NewProject);
+                if (_viewModel.ProjectsList.Count != 0)
+                {
+                    _viewModel.DataGridVisibility = Visibility.Visible;
+                    _viewModel.TextVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _viewModel.DataGridVisibility = Visibility.Collapsed;
+                    _viewModel.TextVisibility = Visibility.Visible;
+                    _viewModel.ResponseString = response.Response;
+                }
             });
         }
     }
-
 }
