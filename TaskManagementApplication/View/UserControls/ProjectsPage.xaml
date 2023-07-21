@@ -52,7 +52,8 @@
         <Grid CornerRadius="10"
           Background="{ThemeResource AppBackground}"
           x:Name="ProjectPageGrid"
-          x:Load="True">
+          x:Load="True"
+              Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -96,12 +97,13 @@
                        AutoGenerateColumns="False"
                        ItemsSource="{x:Bind _projectsPageViewModel.ProjectsList}"
                        GridLinesVisibility="Horizontal"
+                       HorizontalGridLinesBrush="{ThemeResource HorizontalSeperator}"          
                        SelectionChanged="ProjectsList_SelectionChanged"
                        AutoGeneratingColumn="ProjectsList_AutoGeneratingColumn"
                        IsReadOnly="True"
                        Visibility="{x:Bind _projectsPageViewModel.DataGridVisibility,Mode=OneWay}"
-                       ScrollViewer.HorizontalScrollMode="Enabled"
-                       ScrollViewer.VerticalScrollMode="Disabled"
+                       ScrollViewer.HorizontalScrollMode="Disabled"
+                       ScrollViewer.VerticalScrollMode="Enabled"
                        ScrollViewer.HorizontalScrollBarVisibility="Visible"
                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
                        Grid.ColumnSpan="2"
@@ -185,11 +187,10 @@
                     <controls:DataGrid.ColumnHeaderStyle>
                         <Style TargetType="controlsprimitives:DataGridColumnHeader">
                             <Setter Property="Height" Value="30"/>
-                            <Setter Property="Background" Value="LightBlue"/>
-                            <Setter Property="Foreground" Value="#000000"/>
                             <Setter Property="FontSize" Value="15" />
                             <Setter Property="FontWeight" Value="SemiBold"/>
                             <Setter Property="Height" Value="20"/>
+                            <Setter Property="Foreground" Value="{ThemeResource HeaderForeground}"/>
                             <Setter Property="SeparatorVisibility" Value="Collapsed"/>
                         </Style>
                     </controls:DataGrid.ColumnHeaderStyle>
@@ -262,9 +263,10 @@
                                     HorizontalAlignment="Stretch"
                                     ShowDismissButton="False"/>
         </Grid>
-        <Grid x:Load="False"
+        <Grid x:Load="True"
                   Name="taskofaproject"
-                  Grid.ColumnSpan="2">
+                  Grid.ColumnSpan="2"
+              Visibility="Collapsed">
             <local:Navigation/>
         </Grid>
     </Grid>

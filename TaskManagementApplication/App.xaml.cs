@@ -80,7 +80,7 @@ namespace TaskManagementCleanArchitecture
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
-
+            SwitchTheme.AddUIRootElement(rootFrame);
             LibraryInitialization libraryInitialization;
             libraryInitialization = LibraryInitialization.GetInstance();
             libraryInitialization.InitializeDb();

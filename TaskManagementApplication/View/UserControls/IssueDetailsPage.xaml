@@ -129,9 +129,13 @@
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch"
           HorizontalAlignment="Stretch"
-          Height="680">
+        Height="680">
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>-->
         <ScrollViewer VerticalScrollBarVisibility="Visible" 
-                      VerticalScrollMode="Enabled" >
+                      VerticalScrollMode="Enabled" 
+                      Grid.Row="0">
             <Grid ScrollViewer.HorizontalScrollMode="Enabled">
                 <Grid.RowDefinitions>
                     <!--<RowDefinition Height="Auto"></RowDefinition>-->
@@ -233,22 +237,27 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <!--<TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
+                                   Margin="5"
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left" 
+                                   FontSize="16"/>
+                    </StackPanel>
+                    <!--<TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
                                    FontSize="16"/>-->
-                        <ComboBox  VerticalAlignment="Center"
+                        <!--<ComboBox  VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
-                                   x:Name="prioritycombo"
-                                   SelectedValue="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority}"
-                                   SelectedValuePath="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority}">
-                            <!--<x:String>High</x:String>
+                                   x:Name="prioritycombo">
+                            --><!--SelectedValue="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority}"
+                                   SelectedValuePath="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority}">--><!--
+                            <x:String>High</x:String>
                             <x:String>Medium</x:String>
                             <x:String>Low</x:String>
-                            <x:String>None</x:String>-->
-                        </ComboBox>
-                    </StackPanel>
+                            <x:String>None</x:String>
+                        </ComboBox>-->
                 </Grid>
                 <Grid Grid.Row="1"  
                       Margin="10,0,0,0" 

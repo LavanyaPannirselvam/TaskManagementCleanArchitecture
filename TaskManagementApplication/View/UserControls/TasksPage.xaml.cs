@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using TaskManagementLibrary.Notifications;
+using Windows.UI.WindowManagement;
+using Windows.UI.Xaml.Hosting;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -317,6 +319,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.UnloadObject(TaskPage);
             UIUpdation.OnBackNavigated();
         }
+
+        //private async Task PopoutButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    AppWindow appWindow = await AppWindow.TryCreateAsync();
+        //    Frame appWindowContentFrame = new Frame();
+        //    //IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
+        //    appWindowContentFrame.Navigate(typeof(TaskDetailsPage));
+        //    ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+        //    await appWindow.TryShowAsync();
+        //}
     }
 }
 

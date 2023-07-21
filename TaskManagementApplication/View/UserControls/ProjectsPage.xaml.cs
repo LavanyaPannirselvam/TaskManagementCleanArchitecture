@@ -89,8 +89,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 //taskofaproject.Visibility = Visibility.Visible;
                 //Projectspage.DataContext = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
                 ProjectsList.SelectedIndex = -1;
-                this.UnloadObject(ProjectPageGrid);
-                this.FindName("taskofaproject");
+                //this.UnloadObject(ProjectPageGrid);
+                ProjectPageGrid.Visibility = Visibility.Collapsed;
+                taskofaproject.Visibility = Visibility.Visible;
+                //this.FindName("taskofaproject");
             }
         }
 

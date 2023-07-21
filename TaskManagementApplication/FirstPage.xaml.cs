@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -105,15 +106,44 @@ namespace TaskManagementCleanArchitecture
         {
             // Save theme choice to LocalSettings. 
             // ApplicationTheme enum values: 0 = Light, 1 = Dark
-            ApplicationData.Current.LocalSettings.Values["themeSetting"] =
-                                                             ((ToggleSwitch)sender).IsOn ? 0 : 1;
+            var theme = ((ToggleSwitch)sender).IsOn ? 0 : 1;
+            ThemeChange_Tapped(theme);
         }
 
         private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
         {
-            ((ToggleSwitch)sender).IsOn = App.Current.RequestedTheme == ApplicationTheme.Light;
+            ((ToggleSwitch)sender).IsOn = true;
         }
 
+        private async void ThemeChange_Tapped(int value)
+        {
+            if (value == 0)
+            {
+                await SwitchTheme.ChangeTheme(ElementTheme.Dark);
+                SwitchTheme.CurrentTheme = ElementTheme.Dark;
+            }
+            else
+            {
+                await SwitchTheme.ChangeTheme(ElementTheme.Light);
+                SwitchTheme.CurrentTheme = ElementTheme.Light;
+            }
+            //SwitchThemeUIValues();
+        }
+
+        //private void SwitchThemeUIValues()
+        //{
+        //    if (SwitchTheme.CurrentTheme == ElementTheme.Light)
+        //    {
+        //        ThemeText = "Dark mode";
+        //        ThemeIcon = "";
+        //    }
+        //    else if (SwitchTheme.CurrentTheme == ElementTheme.Dark)
+        //    {
+        //        ThemeText = "Light mode";
+        //        ThemeIcon = "";
+
+        //    }
+        //}
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             MainPageNV.SelectedItem = ProjectsTab;
@@ -124,7 +154,7 @@ namespace TaskManagementCleanArchitecture
             LogoutEvent?.Invoke();
         }
 
-        private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             NavigationContentControl.DataContext = this;
             if (args.SelectedItem == ProjectsTab)

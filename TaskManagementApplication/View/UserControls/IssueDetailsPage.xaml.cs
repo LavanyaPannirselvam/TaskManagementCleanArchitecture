@@ -36,7 +36,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueViewModel.issueDetailsPageNotification = this;
             _users = new ObservableCollection<User>();
             var priorityList = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
-            prioritycombo.ItemsSource = priorityList.ToList();
+            //prioritycombo.ItemsSource = priorityList.ToList();
         }
 
         public IssueDetailsPage(int id)

@@ -1115,16 +1115,11 @@
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
                 <StackPanel>
-                    <!--<NavigationViewItem  x:Name="ThemeChange"
-                                         Content="{x:Bind ThemeText,Mode=OneWay}">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="{x:Bind ThemeIcon,Mode=OneWay}"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>-->
-                    <ToggleSwitch Header="Theme" 
-                                  OnContent="Light" 
-                                  OffContent="Dark"
-                                  Toggled="ToggleSwitch_Toggled" 
+                            <ToggleSwitch Margin="4"
+                                  OnContent="Dark Theme" 
+                                  OffContent="Light Theme"
+                                  Toggled="ToggleSwitch_Toggled"
+                                  ToolTipService.ToolTip="Theme"
                                   Loaded="ToggleSwitch_Loaded"/>
                     <NavigationViewItem x:Name="Logout"
                                         Content="Logout"
@@ -1200,6 +1195,7 @@
                 1.adaptive - button visisbility - off -> done
                 2.popup - position -> done, form check -> done
                 3.create & delete notification position
+                4.change priority and status
     4.Admin Page
                 1.create & delete user option - fully
     

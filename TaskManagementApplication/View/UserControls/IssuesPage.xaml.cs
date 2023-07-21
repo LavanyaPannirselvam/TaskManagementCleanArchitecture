@@ -15,10 +15,12 @@ using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -29,7 +31,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 {
     public sealed partial class IssuesPage : UserControl , IIssuePageUpdateNotification
     {
-        private static bool _itemSelected;
+        private static bool _itemSelected; 
         private Issue _issue = new Issue();
         public IssuesViewModelBase _issueViewModel;
         public IssueDetailsPage issueDetailsPage;
@@ -278,10 +280,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.UnloadObject(IssuePage);
-            //this.FindName("Projectpage");
-            //this.UnloadObject(IssuePage);
-            //TasksPage taskspg = new TasksPage();
             UIUpdation.OnBackNavigated();
+        }
+
+        private async void PopoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = issueDetailsPage._issueViewModel.SelectedIssue;
+            var button = sender as Button;
+            await GoToOpenPage(selectedItem);
+        }
+
+        public async Task GoToOpenPage(IssueBO selectedIssue)
+        {
+            AppWindow appWindow = await AppWindow.TryCreateAsync();
+            Frame appWindowContentFrame = new Frame();
+            //IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
+            appWindowContentFrame.Navigate(typeof(TaskDetailsPage));
+            ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+            await appWindow.TryShowAsync();
         }
     }
 }
