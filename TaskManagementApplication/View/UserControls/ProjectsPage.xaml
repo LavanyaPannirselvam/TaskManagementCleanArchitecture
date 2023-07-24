@@ -90,6 +90,7 @@
                 <TextBlock Text="{x:Bind _projectsPageViewModel.ResponseString,Mode=OneWay}"
                        Visibility="{x:Bind _projectsPageViewModel.TextVisibility,Mode=OneWay}"
                        FontSize="16"
+                       x:Name="textBlock"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
                        Grid.ColumnSpan="2"/>

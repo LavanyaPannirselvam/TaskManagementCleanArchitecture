@@ -36,6 +36,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public IssuesViewModelBase _issueViewModel;
         public IssueDetailsPage issueDetailsPage;
         public static event Action<string> IssuePageNotification;
+        private static Dictionary<int, AppWindow> _appWindows = new Dictionary<int, AppWindow>();
         private double _windowHeight;
         private double _windowWidth;
         private bool _narrowLayout;
@@ -292,12 +293,30 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         public async Task GoToOpenPage(IssueBO selectedIssue)
         {
-            AppWindow appWindow = await AppWindow.TryCreateAsync();
-            Frame appWindowContentFrame = new Frame();
-            //IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
-            appWindowContentFrame.Navigate(typeof(TaskDetailsPage));
-            ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-            await appWindow.TryShowAsync();
+            if (!_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow appWin))
+            {
+                AppWindow appWindow = await AppWindow.TryCreateAsync();
+                _appWindows[selectedIssue.Issue.Id] = appWindow;
+                appWindow.Closed += AppWindow_Closed;
+                Frame appWindowContentFrame = new Frame();
+                appWindowContentFrame.Navigate(typeof(IssueDetailsPopupPage));
+                ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+                SwitchTheme.AddUIRootElement(appWindowContentFrame);
+                await appWindow.TryShowAsync();
+            }
+            else if(_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow app))
+            {
+                await app.TryShowAsync();
+            }
+        }
+
+        private void AppWindow_Closed(AppWindow sender, AppWindowClosedEventArgs args)
+        {
+            var keysToRemove = _appWindows.Where(x => x.Value == sender).Select(x => x.Key).ToList();
+            foreach (var key in keysToRemove)
+            {
+                _appWindows.Remove(key);
+            }
         }
     }
 }

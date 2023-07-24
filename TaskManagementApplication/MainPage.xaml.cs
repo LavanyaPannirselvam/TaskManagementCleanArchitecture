@@ -56,8 +56,12 @@ namespace TaskManagementCleanArchitecture
         private void NavigateToFirstPage(LoggedInUserBO currentUser)
         {
             var firstpage = new FirstPage();
-            firstpage.CurrentUser = currentUser;
+            firstpage.AdminTabVisibility = Visibility.Collapsed;
             CurrentUserClass.CurrentUser = currentUser;
+            if(currentUser.LoggedInUser.Role == TaskManagementLibrary.Enums.Role.ADMIN) 
+            {
+                firstpage.AdminTabVisibility = Visibility.Visible;
+            }
             MainFrame.Navigate(firstpage.GetType(), firstpage);
         }
     }

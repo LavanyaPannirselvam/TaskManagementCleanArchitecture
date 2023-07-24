@@ -9,7 +9,7 @@ namespace TaskManagementCleanArchitecture
 {
     public static class CurrentUserClass
     {
-        private static LoggedInUserBO _currentUser;
+        private static LoggedInUserBO _currentUser = null;
         public static LoggedInUserBO CurrentUser
         {
             get { return _currentUser; }

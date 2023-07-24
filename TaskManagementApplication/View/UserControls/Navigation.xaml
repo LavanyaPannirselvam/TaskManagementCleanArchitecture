@@ -23,8 +23,7 @@
             <DataTemplate x:Key="IssuesTab">
                 <usercontrols:IssuesPage CUser="{Binding CurrentUser,Mode=OneWay}"/>
             </DataTemplate>
-            
-            
+
             <Style TargetType="NavigationView">
                 <Setter Property="PaneToggleButtonStyle"
                         Value="{StaticResource PaneToggleButtonStyle}" />

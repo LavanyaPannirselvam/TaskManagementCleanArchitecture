@@ -37,7 +37,7 @@ namespace TaskManagementCleanArchitecture
         //public FirstPageViewModelBase _firstPageViewModel;
         //private int projectId = 0;
 
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(FirstPage), new PropertyMetadata(null));
+        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(FirstPage), new PropertyMetadata(null));
         public static readonly DependencyProperty SelectedUserControlProperty = DependencyProperty.Register(nameof(SelectedUserControl),typeof(UserControl),typeof(FirstPage),new PropertyMetadata(null));
         public event PropertyChangedEventHandler PropertyChanged;
         public static event Action LogoutEvent;
@@ -48,12 +48,13 @@ namespace TaskManagementCleanArchitecture
             this.DataContext = this;
         }
 
-        public LoggedInUserBO CurrentUser
-        {
-            get { return (LoggedInUserBO)GetValue(UserProperty); }
-            set { SetValue(UserProperty, value); }
-        }
-
+        //public LoggedInUserBO CurrentUser
+        //{
+        //    get { return (LoggedInUserBO)GetValue(UserProperty); }
+        //    set { SetValue(UserProperty, value); }
+        //}
+        public LoggedInUserBO CurrentUser = CurrentUserClass.CurrentUser;
+       
         public UserControl SelectedUserControl
         {
             get { return (UserControl) GetValue(SelectedUserControlProperty);}
@@ -71,13 +72,25 @@ namespace TaskManagementCleanArchitecture
             }
         }
 
+        private Visibility _adminTabVisibility = Visibility.Collapsed;
+        public Visibility AdminTabVisibility
+        {
+            get { return _adminTabVisibility; }
+            set
+            {
+                _adminTabVisibility = value;
+                NotifyPropertyChanged(nameof(AdminTabVisibility));
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             //Navigation navigation = new Navigation();
-            if (e.Parameter is FirstPage pg && pg.CurrentUser != null)
+            if (e.Parameter is FirstPage pg)
             {
-                CurrentUser = pg.CurrentUser;
+                //CurrentUser = pg.CurrentUser;
+                AdminTabVisibility = pg.AdminTabVisibility;
                 //navigation.CurrentUser = pg.CurrentUser;
             }
         }
@@ -98,6 +111,11 @@ namespace TaskManagementCleanArchitecture
             else if (args.SelectedItem == TasksTab)
             {
                 NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
+                MainPageNV.AlwaysShowHeader = true;
+            }
+            else if(args.SelectedItem == Admintab)
+            {
+                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate3"]).LoadContent();
                 MainPageNV.AlwaysShowHeader = true;
             }
         }
@@ -127,23 +145,8 @@ namespace TaskManagementCleanArchitecture
                 await SwitchTheme.ChangeTheme(ElementTheme.Light);
                 SwitchTheme.CurrentTheme = ElementTheme.Light;
             }
-            //SwitchThemeUIValues();
         }
 
-        //private void SwitchThemeUIValues()
-        //{
-        //    if (SwitchTheme.CurrentTheme == ElementTheme.Light)
-        //    {
-        //        ThemeText = "Dark mode";
-        //        ThemeIcon = "";
-        //    }
-        //    else if (SwitchTheme.CurrentTheme == ElementTheme.Dark)
-        //    {
-        //        ThemeText = "Light mode";
-        //        ThemeIcon = "";
-
-        //    }
-        //}
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             MainPageNV.SelectedItem = ProjectsTab;
@@ -154,23 +157,23 @@ namespace TaskManagementCleanArchitecture
             LogoutEvent?.Invoke();
         }
 
-        private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            NavigationContentControl.DataContext = this;
-            if (args.SelectedItem == ProjectsTab)
-            {
-                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
-                ProjectsPage projectsPage = new ProjectsPage();
-                SelectedUserControl = projectsPage;
-                MainPageNV.AlwaysShowHeader = true;
-            }
-            else if (args.SelectedItem == TasksTab)
-            {
-                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
-                TasksPage tasksPage = new TasksPage();
-                SelectedUserControl = tasksPage;
-                MainPageNV.AlwaysShowHeader = true;
-            }
-        }
+        //private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        //{
+        //    NavigationContentControl.DataContext = this;
+        //    if (args.SelectedItem == ProjectsTab)
+        //    {
+        //        NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
+        //        ProjectsPage projectsPage = new ProjectsPage();
+        //        SelectedUserControl = projectsPage;
+        //        MainPageNV.AlwaysShowHeader = true;
+        //    }
+        //    else if (args.SelectedItem == TasksTab)
+        //    {
+        //        NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
+        //        TasksPage tasksPage = new TasksPage();
+        //        SelectedUserControl = tasksPage;
+        //        MainPageNV.AlwaysShowHeader = true;
+        //    }
+        //}
     }
 }

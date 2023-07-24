@@ -50,7 +50,6 @@
                            Style="{ThemeResource BasicTextBlock}"
                            Margin="5,15,10,10" 
                            Grid.ColumnSpan="2"/>
-
                 <TextBox MaxWidth="220"  
                          Grid.Row="2" 
                          Header="User ID"  

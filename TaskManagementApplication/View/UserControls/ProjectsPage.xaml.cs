@@ -50,8 +50,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
             _projectsPageViewModel.projectPageUpdate = this;
-            //_projectsPageViewModel.ProjectsList.Clear();
-            //_projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name, CUser.LoggedInUser.Email);
+            _projectsPageViewModel.ProjectsList.Clear();
+            _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.LoggedInUser.Name, CurrentUserClass.CurrentUser.LoggedInUser.Email);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;
@@ -89,10 +89,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 //taskofaproject.Visibility = Visibility.Visible;
                 //Projectspage.DataContext = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
                 ProjectsList.SelectedIndex = -1;
-                //this.UnloadObject(ProjectPageGrid);
-                ProjectPageGrid.Visibility = Visibility.Collapsed;
-                taskofaproject.Visibility = Visibility.Visible;
+                
+                ProjectPageGrid.Visibility = Visibility.Collapsed; //this
+                _projectsPageViewModel.ProjectsList.Clear();
+                taskofaproject.Visibility = Visibility.Visible; //this
                 //this.FindName("taskofaproject");
+                //this.UnloadObject(ProjectPageGrid);
             }
         }
 
@@ -110,8 +112,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             //this.UnloadObject(taskofaproject);
-            _projectsPageViewModel.ProjectsList.Clear();
-             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.LoggedInUser.Name, CurrentUserClass.CurrentUser.LoggedInUser.Email);
+            //_projectsPageViewModel.ProjectsList.Clear();
+            // _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.LoggedInUser.Name, CurrentUserClass.CurrentUser.LoggedInUser.Email);
             //_projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name, CUser.LoggedInUser.Email);
             Notification += ShowNotification;
             UIUpdation.ProjectCreated += UpdateNewProject;
@@ -165,7 +167,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             Notification -= ShowNotification;
             UIUpdation.ProjectCreated -= UpdateNewProject;
+            _projectsPageViewModel.ProjectsList.Clear();
            
+
+        }
+
+        private void DeleteProject_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
