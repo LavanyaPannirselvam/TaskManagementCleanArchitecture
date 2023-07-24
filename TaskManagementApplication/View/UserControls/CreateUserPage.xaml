@@ -22,6 +22,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <!--<Grid.ColumnDefinitions>
@@ -83,11 +84,10 @@
                      Foreground="Red"/>
                         </TextBlock>
                         <ComboBox 
-                  Header="Select Status"
                   PlaceholderText="Choose status"
                   HorizontalAlignment="Stretch"
                   x:Name="UserRoleEnter"
-                  SelectionChanged="Status_Selectionchanged"
+                  SelectionChanged="UserRoleEnter_SelectionChanged"
                   Margin="5">
                             <x:String>Employee</x:String>
                             <x:String>Manager</x:String>
@@ -97,9 +97,15 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
+            <TextBlock Text="{x:Bind _createUser.ResponseString}"
+                       Visibility="{x:Bind _createUser.ResponseStringVisibility}"
+                       Foreground="Red"
+                       FontSize="14"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
             <Button x:Name="AddUserButton"
                     Content="Add User"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Style="{StaticResource AccentButtonStyle}"
