@@ -36,18 +36,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public IssuesViewModelBase _issueViewModel;
         public IssueDetailsPage issueDetailsPage;
         public static event Action<string> IssuePageNotification;
-        private static Dictionary<int, AppWindow> _appWindows = new Dictionary<int, AppWindow>();
+        //private static Dictionary<int, AppWindow> _appWindows = new Dictionary<int, AppWindow>();
         private double _windowHeight;
         private double _windowWidth;
         private bool _narrowLayout;
 
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
+        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
 
-        public LoggedInUserBO CUser
-        {
-            get { return (LoggedInUserBO)GetValue(UserProperty); }
-            set { SetValue(UserProperty, value); }
-        }
+        //public LoggedInUserBO CUser
+        //{
+        //    get { return (LoggedInUserBO)GetValue(UserProperty); }
+        //    set { SetValue(UserProperty, value); }
+        //}
 
         public IssuesPage()
         {
@@ -139,7 +139,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (result == 1)
             {
                 IssueDetailGrid.Visibility=Visibility.Collapsed;
-                _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Issue.Id);
+                _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Id);
             }
         }
 
@@ -185,7 +185,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Text = string.Empty;
-            Issue pro = CreateIssueForm.GetFormData(CurrentUserClass.CurrentUser.LoggedInUser.Name, _issueViewModel.projectId);
+            Issue pro = CreateIssueForm.GetFormData(CurrentUserClass.CurrentUser.Name, _issueViewModel.projectId);
             if (pro != null)
             {
                 AddIssueForm.IsOpen = false;
@@ -284,39 +284,39 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.OnBackNavigated();
         }
 
-        private async void PopoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = issueDetailsPage._issueViewModel.SelectedIssue;
-            var button = sender as Button;
-            await GoToOpenPage(selectedItem);
-        }
+        //private async void PopoutButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var selectedItem = issueDetailsPage._issueViewModel.SelectedIssue;
+        //    var button = sender as Button;
+        //    await GoToOpenPage(selectedItem);
+        //}
 
-        public async Task GoToOpenPage(IssueBO selectedIssue)
-        {
-            if (!_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow appWin))
-            {
-                AppWindow appWindow = await AppWindow.TryCreateAsync();
-                _appWindows[selectedIssue.Issue.Id] = appWindow;
-                appWindow.Closed += AppWindow_Closed;
-                Frame appWindowContentFrame = new Frame();
-                appWindowContentFrame.Navigate(typeof(IssueDetailsPopupPage));
-                ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-                SwitchTheme.AddUIRootElement(appWindowContentFrame);
-                await appWindow.TryShowAsync();
-            }
-            else if(_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow app))
-            {
-                await app.TryShowAsync();
-            }
-        }
+        //public async Task GoToOpenPage(IssueBO selectedIssue)
+        //{
+        //    if (!_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow appWin))
+        //    {
+        //        AppWindow appWindow = await AppWindow.TryCreateAsync();
+        //        _appWindows[selectedIssue.Issue.Id] = appWindow;
+        //        appWindow.Closed += AppWindow_Closed;
+        //        Frame appWindowContentFrame = new Frame();
+        //        appWindowContentFrame.Navigate(typeof(IssueDetailsPopupPage));
+        //        ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+        //        SwitchTheme.AddUIRootElement(appWindowContentFrame);
+        //        await appWindow.TryShowAsync();
+        //    }
+        //    else if(_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow app))
+        //    {
+        //        await app.TryShowAsync();
+        //    }
+        //}
 
-        private void AppWindow_Closed(AppWindow sender, AppWindowClosedEventArgs args)
-        {
-            var keysToRemove = _appWindows.Where(x => x.Value == sender).Select(x => x.Key).ToList();
-            foreach (var key in keysToRemove)
-            {
-                _appWindows.Remove(key);
-            }
-        }
+        //private void AppWindow_Closed(AppWindow sender, AppWindowClosedEventArgs args)
+        //{
+        //    var keysToRemove = _appWindows.Where(x => x.Value == sender).Select(x => x.Key).ToList();
+        //    foreach (var key in keysToRemove)
+        //    {
+        //        _appWindows.Remove(key);
+        //    }
+        //}
     }
 }

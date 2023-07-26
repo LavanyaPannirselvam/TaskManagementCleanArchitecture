@@ -57,7 +57,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <RelativePanel Margin="0,0,0,20"
                        Grid.ColumnSpan="2"
@@ -260,6 +260,7 @@
 
                 
             </Grid>
+          
             <controls:InAppNotification x:Name="NoitificationBox"
                                     HorizontalAlignment="Stretch"
                                     ShowDismissButton="False"/>

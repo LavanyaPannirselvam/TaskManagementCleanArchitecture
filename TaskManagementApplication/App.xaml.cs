@@ -109,8 +109,8 @@ namespace TaskManagementCleanArchitecture
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-        static string databaseName = "TaskManagementApplication.db";
-        static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static string DatabasePath = Path.Combine(folderPath, databaseName);
+        //static string databaseName = "TaskManagementApplication.db";
+        //static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        //public static string DatabasePath = Path.Combine(folderPath, databaseName);
     }
 }

@@ -36,7 +36,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _viewModel = viewModel;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
 
         }
@@ -50,9 +50,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                if (response.Data.Tasks.Count > 0)
+                if (response.Data.Data.Count != 0)
                 {
-                    PopulateData(response.Data.Tasks);
+                    PopulateData(response.Data.Data);
                     _viewModel.TextVisibility = Visibility.Collapsed;
                     _viewModel.DataGridVisibility = Visibility.Visible;
                 }
@@ -152,7 +152,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _viewModel = viewModel;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
             throw new NotImplementedException();
         }
@@ -168,7 +168,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _viewModel.ResponseString = response.Response.ToString();
                 _viewModel.updation.TaskUpdationNotification();
-                UIUpdation.OnTaskCreated(response.Data.NewTask);
+                UIUpdation.OnTaskCreated(response.Data.Data);
                 if (_viewModel.TasksList.Count != 0)
                 {
                     _viewModel.DataGridVisibility = Visibility.Visible;
@@ -193,7 +193,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _deleteTask = deleteTask;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
         }
 
@@ -208,7 +208,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _deleteTask.ResponseString = response.Response.ToString();
                 _deleteTask.updation.TaskUpdationNotification();
-                UIUpdation.OnTaskDeleted(response.Data.taskDeleted);
+                UIUpdation.OnTaskDeleted(response.Data.Data);
                 if (_deleteTask.TasksList.Count != 0)
                 {
                     _deleteTask.DataGridVisibility = Visibility.Visible;

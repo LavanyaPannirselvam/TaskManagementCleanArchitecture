@@ -5,9 +5,7 @@
     xmlns:local="using:TaskManagementCleanArchitecture.View.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,7 +21,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -74,7 +73,7 @@
                      Width="400">
                     </TextBox>
                 </StackPanel>
-                    <StackPanel Orientation="Horizontal"
+                <StackPanel Orientation="Horizontal"
                             Margin="30,20,0,0">
                         <TextBlock HorizontalAlignment="Center"
                        x:Name="UserRoleDetail"
@@ -84,7 +83,7 @@
                      Foreground="Red"/>
                         </TextBlock>
                         <ComboBox 
-                  PlaceholderText="Choose status"
+                  PlaceholderText="Choose Role"
                   HorizontalAlignment="Stretch"
                   x:Name="UserRoleEnter"
                   SelectionChanged="UserRoleEnter_SelectionChanged"
@@ -97,29 +96,95 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            <TextBlock Text="{x:Bind _createUser.ResponseString}"
-                       Visibility="{x:Bind _createUser.ResponseStringVisibility}"
+            <TextBlock Text="{x:Bind _createUser.ResponseString,Mode=OneWay}"
+                       Visibility="{x:Bind _createUser.ResponseStringVisibility,Mode=OneWay}"
                        Foreground="Red"
                        FontSize="14"
+                       Grid.Row="2"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       Style="{ThemeResource BasicTextBlock}"/>
             <Button x:Name="AddUserButton"
                     Content="Add User"
                     Grid.Row="3"
+                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Style="{StaticResource AccentButtonStyle}"
                     Click="AddUserButton_Click"/>
-            <!--<TextBox Grid.Row="0" Style="{ThemeResource InputFieldTextBox}"  
-                     x:Name="UserNameTextBox" 
-                     Header="User Name">
-            </TextBox>
-            <TextBox x:Name="UserEmailBox"
-                     Header="User Email"
-                     VerticalAlignment="Stretch"
-                     Grid.Row="1"
-                     Style="{ThemeResource InputFieldTextBox}"
-                     Margin="5"/>-->
+           
+            <Grid Grid.Row="4"
+                  x:Name="CredentialsGrid"
+                  Visibility="{x:Bind _createUser.CredentialsGridVisibility,Mode=OneWay}"
+                  Background="{ThemeResource AppForegroundBg}"
+                  Margin="344,20,398,20"   
+                  CornerRadius="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      HorizontalAlignment="Center"
+                      Margin="25">
+                    <RelativePanel>
+                    <TextBlock Text="New User Credentials"
+                               FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalTextAlignment="Center"
+                               x:Name="TitleBox"
+                           VerticalAlignment="Center"
+                               Margin="0,0,0,0"/>
+                    <Button FontFamily="Segoe MDL2 Assets"
+                            Margin="0,0,10,0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Content="&#xE106;"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            RelativePanel.RightOf="TitleBox"
+                            Name="CloseButton"
+                            FontSize="10"
+                            ToolTipService.ToolTip="Close"
+                            Click="CloseButton_Click"/>
+                    </RelativePanel>
+                </Grid>
+                <Grid Grid.Row="1"
+                      HorizontalAlignment="Center">
+                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal"
+                            Margin="30,0,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                x:Name="UserIdDetail"
+                                Margin="10"
+                                Text="User Id :">
+                        </TextBlock>
+                        <TextBlock x:Name="UserIdEnter"
+                                   Style="{ThemeResource InputFieldTextBlock}"
+                                   HorizontalAlignment="Center"
+                                   Width="400"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind _createUser.UserId,Mode=OneWay}">
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                            Margin="30,10,0,50">
+                            <TextBlock HorizontalAlignment="Center"
+                                        x:Name="PasswordDetail"
+                                        Margin="10"
+                                       Text="Password :"/>
+                            <TextBlock x:Name="PasswordEnter"
+                                   Style="{ThemeResource InputFieldTextBlock}"
+                                   HorizontalAlignment="Center"
+                                   Width="400"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind _createUser.Password,Mode=OneWay}">
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                      
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

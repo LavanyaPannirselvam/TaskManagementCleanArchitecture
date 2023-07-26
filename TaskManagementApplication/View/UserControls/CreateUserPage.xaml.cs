@@ -40,5 +40,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             string selected = e.AddedItems[0].ToString();
             userRole = (Role)Enum.Parse(typeof(Role), selected.ToUpper().Replace(" ", ""));
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            CredentialsGrid.Visibility = Visibility.Collapsed;
+        }
     }
 }

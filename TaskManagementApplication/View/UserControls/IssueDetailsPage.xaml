@@ -168,7 +168,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16"
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Name,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Name,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -181,7 +181,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Desc,,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Desc,,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -194,7 +194,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Status,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay}" 
                                    Margin="5"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -210,7 +210,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.StartDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.StartDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -223,7 +223,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.EndDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.EndDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -237,7 +237,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Issue.Priority,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay}" 
                                    Margin="5"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -292,10 +292,11 @@
                                     Visibility="{x:Bind _issueViewModel.ListVisibility,Mode=OneWay}">
                             <ListView
                                     x:Name="UsersForTasks"
-                                    ItemsSource="{x:Bind _issueViewModel.CanRemoveUsersList,Mode=OneWay}"
+                                    
                                     Margin="5,2"
                                     HorizontalAlignment="Left">
-                                <!--ItemContainerStyle="{StaticResource ListviewItemContainerStyle}">-->
+                                <!--ItemContainerStyle="{StaticResource ListviewItemContainerStyle}">
+                                ItemsSource="{x:Bind _issueViewModel.CanRemoveUsersList,Mode=OneWay}"-->
                                 <!--<ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="IsHitTestVisible" Value="false"/>

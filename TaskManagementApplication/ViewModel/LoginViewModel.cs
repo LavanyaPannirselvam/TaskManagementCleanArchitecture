@@ -34,7 +34,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             this.loginViewModel = loginViewModel;
         }
 
-        public async void OnError(BException errorMessage)
+        public async void OnError(BaseException errorMessage)
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
@@ -56,7 +56,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                loginViewModel.CurrentUser = response.Data.currentUser;
+                loginViewModel.CurrentUser = response.Data.Data;
                 loginViewModel.LoginView?.UpdateLoginPage(loginViewModel.CurrentUser);
                 //UIUpdation.OnUserLogin(loginViewModel.CurrentUser);
             });

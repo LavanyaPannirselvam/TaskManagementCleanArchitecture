@@ -177,7 +177,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16"
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Name,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Name,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -190,7 +190,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Desc,,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Desc,,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -203,7 +203,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Status,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Status,Mode=OneWay}" 
                                    Margin="5"
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -219,7 +219,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.StartDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.StartDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -232,7 +232,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                            <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.EndDate,Mode=OneWay}" 
+                            <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.EndDate,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -247,7 +247,7 @@
                                    HorizontalAlignment="Left" 
                                    FontSize="16" 
                                    FontWeight="Thin"/>
-                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Tasks.Priority,Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.SelectedTask.Priority,Mode=OneWay}" 
                                    Margin="5" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
@@ -286,13 +286,14 @@
                                     x:Name="UsersListPanel"
                                     Visibility="{x:Bind _taskDetailsViewModel.ListVisibility,Mode=OneWay}">
                             <ListView x:Name="UsersForTasks"
-                                    ItemsSource="{x:Bind _taskDetailsViewModel.CanRemoveUsersList,Mode=OneWay}"
                                     Margin="5,2"
                                     HorizontalAlignment="Left">
                                 <ListView.Resources>
                                 <Style TargetType="ListViewItem">
                                         <Setter Property="IsFocusEngaged" Value="False"/>
-                                        <!--<Setter Property="IsSelected" Value="True"/>-->
+                                        <!--<Setter Property="IsSelected" Value="True"/>
+                                                                        ItemsSource="{x:Bind _taskDetailsViewModel.CanRemoveUsersList,Mode=OneWay}"
+-->
                                     </Style>
                                 </ListView.Resources>
                                 <!--<ListView.ItemContainerStyle>

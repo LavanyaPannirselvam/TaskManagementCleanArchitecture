@@ -35,7 +35,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _viewModel = viewModel;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
 
         }
@@ -49,9 +49,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                if (response.Data.Issues.Count > 0)
+                if (response.Data.Data.Count!=0)
                 {
-                    PopulateData(response.Data.Issues);
+                    PopulateData(response.Data.Data);
                     _viewModel.TextVisibility = Visibility.Collapsed;
                     _viewModel.DataGridVisibility = Visibility.Visible;
                 }
@@ -152,7 +152,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _deleteIssue = deleteTask;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
             throw new NotImplementedException();
         }
@@ -169,7 +169,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _deleteIssue.ResponseString = response.Response.ToString();
                 _deleteIssue.NotificationVisibility = Visibility.Visible;
                 _deleteIssue.Notification.NotificationMessage();//notification need to display
-                UIUpdation.OnIssueDeleted(response.Data.DeletedIssue);
+                UIUpdation.OnIssueDeleted(response.Data.Data);
                 if (_deleteIssue.IssuesList.Count == 0)
                 {
                     _deleteIssue.DataGridVisibility = Visibility.Collapsed;
@@ -194,7 +194,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _viewModel = viewModel;
         }
 
-        public void OnError(BException response)
+        public void OnError(BaseException response)
         {
             throw new NotImplementedException();
         }
@@ -211,7 +211,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _viewModel.ResponseString = response.Response.ToString();
                 _viewModel.NotificationVisibility = Visibility.Visible;
                 _viewModel.Notification.NotificationMessage();
-                UIUpdation.OnIssueCreated(response.Data.NewIssue);
+                UIUpdation.OnIssueCreated(response.Data.Data);
                 if (_viewModel.IssuesList.Count != 0)
                 {
                     _viewModel.DataGridVisibility = Visibility.Visible;

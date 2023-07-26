@@ -40,7 +40,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             projectPageViewModel = projectPage;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
         }
 
@@ -52,12 +52,11 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                if(response.Data.Projects != null)
+                if(response.Data.Data.Count != 0)
                 {
+                    PopulateData(response.Data.Data);
                     projectPageViewModel.DataGridVisibility = Visibility.Visible;
                     projectPageViewModel.TextVisibility = Visibility.Collapsed;
-                    
-                    PopulateData(response.Data.Projects);
                 }
                 else
                 {
@@ -180,7 +179,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _viewModel = viewModel;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
             throw new NotImplementedException();
         }
@@ -197,7 +196,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 // _viewModel.NewProject = response.Data.NewProject;
                 _viewModel.ResponseString = response.Response.ToString();
                 _viewModel.projectPageUpdate.ProjectUpdateNotification();
-                UIUpdation.OnProjectCreated(response.Data.NewProject);
+                UIUpdation.OnProjectCreated(response.Data.Data);
                 if (_viewModel.ProjectsList.Count != 0)
                 {
                     _viewModel.DataGridVisibility = Visibility.Visible;

@@ -61,7 +61,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            _users = _taskDetailsViewModel.CanAssignUsersList;
+          //  _users = _taskDetailsViewModel.CanAssignUsersList;
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var suitableItems = new ObservableCollection<string>();
@@ -91,7 +91,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             var data = ((FrameworkElement)sender).DataContext as User;
             //_removeTaskFromUserViewModel.RemoveTask(data.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
-            _taskDetailsViewModel.RemoveTask(data.UserId, _taskDetailsViewModel.SelectedTask.Tasks.Id);
+            _taskDetailsViewModel.RemoveTask(data.UserId, _taskDetailsViewModel.SelectedTask.Id);
             //_taskDetailsViewModel.CanRemoveUsersList.Clear();
 
         }
@@ -103,10 +103,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 if(user.Name.Equals(result))
                     //_assignTaskToUserViewModel.AssignUserToTask(user.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
-                    _taskDetailsViewModel.AssignTask(user.UserId, _taskDetailsViewModel.SelectedTask.Tasks.Id);
-                //_taskDetailsViewModel.CanAssignUsersList.Clear();
-
+                    _taskDetailsViewModel.AssignTask(user.UserId, _taskDetailsViewModel.SelectedTask.Id);
             }
+            AssignUserBox.Text = string.Empty;
         }
 
         public void TaskDetailsNotification()
@@ -123,24 +122,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserRemoved(ObservableCollection<User> bO)
         {
-            _taskDetailsViewModel.CanAssignUsersList.Clear();
-            foreach (var u in bO)
-            {
-                _taskDetailsViewModel.CanAssignUsersList.Add(u);
-                var delete = _taskDetailsViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
-                _taskDetailsViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
-            }
+            //_taskDetailsViewModel.CanAssignUsersList.Clear();
+            //foreach (var u in bO)
+            //{
+            //    _taskDetailsViewModel.CanAssignUsersList.Add(u);
+            //    var delete = _taskDetailsViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
+            //    _taskDetailsViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
+            //}
         }
 
         private void UserAdded(ObservableCollection<User> bO)
         {
-            _taskDetailsViewModel.CanRemoveUsersList.Clear();
-            foreach (var user in bO)
-            {
-                _taskDetailsViewModel.CanRemoveUsersList.Add(user);
-                var delete = _taskDetailsViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
-                _taskDetailsViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
-            }
+            //_taskDetailsViewModel.CanRemoveUsersList.Clear();
+            //foreach (var user in bO)
+            //{
+            //    _taskDetailsViewModel.CanRemoveUsersList.Add(user);
+            //    var delete = _taskDetailsViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
+            //    _taskDetailsViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
+            //}
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)

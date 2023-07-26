@@ -39,14 +39,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         TaskDetailsPage taskDetailsPage;
         private bool _narrowLayout;
         public CreateNewProjectPage CreateNewProjectPage;
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
+        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
         public static event Action<string> TaskPageNotification;
         
-        public LoggedInUserBO CUser
-        {
-            get { return (LoggedInUserBO)GetValue(UserProperty); }
-            set { SetValue(UserProperty, value); }
-        }
+        //public LoggedInUserBO CUser
+        //{
+        //    get { return (LoggedInUserBO)GetValue(UserProperty); }
+        //    set { SetValue(UserProperty, value); }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -193,7 +193,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Text = string.Empty;
-            Tasks pro = CreateTaskForm.GetFormData(CurrentUserClass.CurrentUser.LoggedInUser.Name, _taskViewModel.projectId);
+            Tasks pro = CreateTaskForm.GetFormData(CurrentUserClass.CurrentUser.Name, _taskViewModel.projectId);
             if (pro != null)
             {
                 AddTaskForm.IsOpen = false;
@@ -212,7 +212,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
-                _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Tasks.Id);
+                _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
         }
 

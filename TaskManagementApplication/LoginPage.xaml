@@ -11,7 +11,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
-
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -19,7 +18,7 @@
     <Page.Background>
         <ImageBrush ImageSource="/Assets/AppBackdrop-Light.png" />
     </Page.Background>
-    <Grid>
+    <!--<Grid>
         <controls:DropShadowPanel Color="AliceBlue" 
                                   BlurRadius="30" 
                                   ShadowOpacity=".8"
@@ -88,6 +87,97 @@
                            Margin="0,6,0,0"
                            Text="{x:Bind _loginBaseViewModel.LoginResponseValue,Mode=OneWay}"
                            Foreground="Black"
+                           Grid.ColumnSpan="2" 
+                           HorizontalAlignment="Center"
+                           Visibility="Visible"
+                           x:Name="ResultText"
+                           Style="{ThemeResource BasicTextBlock}"/>
+
+                <StackPanel Grid.ColumnSpan="2"  
+                            Grid.Row="5" 
+                            Margin="5" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center">
+                    <Button Name="SubmitLoginDetails"
+                                MinWidth="300"
+                                IsEnabled="False"
+                                Foreground="Black"
+                                Style="{StaticResource AccentButtonStyleCustom}"
+                                Content="Submit" Click="Verify_Click"/>
+                </StackPanel>
+            </Grid>
+        </controls:DropShadowPanel>
+    </Grid>-->
+    <Grid>
+        <controls:DropShadowPanel Color="AliceBlue" 
+                                  BlurRadius="30" 
+                                  ShadowOpacity=".8"
+                                  VerticalAlignment="Center" 
+                                  HorizontalAlignment="Center" 
+                                  Padding="30"  
+                                  Name="LoginContainerShadow">
+            <Grid x:Name="LoginContainer" 
+                  Padding="30"  Grid.Row="1"
+                  Style="{ThemeResource FormBackground}" 
+                  Background="{ThemeResource MyAcrylicBrush}" 
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock HorizontalAlignment="Left" 
+                           Grid.Row="1"  
+                           Padding="40,0,0,0" 
+                           Text="Log in to your account" 
+                           Style="{ThemeResource BasicTextBlock}"
+                           Margin="5,15,10,10" 
+                           Grid.ColumnSpan="2"/>
+
+                <TextBox MaxWidth="220"  
+                         Grid.Row="2" 
+                         Header="User ID"  
+                         x:Name="UserId"
+                         Style="{ThemeResource InputFieldTextBox}" 
+                         />
+                <StackPanel  Grid.Row="3">
+                    <PasswordBox MaxLength="100"
+                                     MaxWidth="220" 
+                                     CornerRadius="5"
+                                     Header="Password"
+                                     PasswordRevealMode="Hidden"
+                                     Foreground="Black"
+                                     Style="{ThemeResource PasswordBoxCustom}"
+                                     PasswordChanged="PasswordChanged"
+                                     x:Name="Password" >
+                        <ToolTipService.ToolTip >
+                            <ToolTip  CornerRadius="15" 
+                                      FontSize="12" 
+                                      CharacterSpacing="20" 
+                                      Background="{ThemeResource AppForegroundBg}"
+                                      Content="Must be mininum of 5 characters with one lowercase, uppercase and special charater." />
+                        </ToolTipService.ToolTip>
+                    </PasswordBox>
+                    <CheckBox  CornerRadius="5"
+                                   Margin="45,0,0,0"
+                                   Name="revealModeCheckBox"
+                                   Content="Show password"
+                                   IsChecked="False"
+                                   Style="{StaticResource CheckBoxCustom}"
+                                   Checked="RevealModeCheckbox_Changed"
+                                   Unchecked="RevealModeCheckbox_Changed"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="4" 
+                           Margin="0,6,0,0"
+                           Text="{x:Bind _loginBaseViewModel.LoginResponseValue,Mode=OneWay}"
+                           Foreground="Red"
                            Grid.ColumnSpan="2" 
                            HorizontalAlignment="Center"
                            Visibility="Visible"

@@ -31,21 +31,32 @@ namespace TaskManagementCleanArchitecture.ViewModel
             this.userViewModel = userViewModel;
         }
 
-        public void OnError(BException errorMessage)
+        public async void OnError(BaseException errorMessage)
         {
-            userViewModel.ResponseString = errorMessage.Message;
-            userViewModel.ResponseStringVisibility = Visibility.Visible;
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                userViewModel.ResponseString = errorMessage.exceptionMessage.ToString();
+                userViewModel.ResponseStringVisibility = Visibility.Visible;
+            });
         }
 
-        public void OnFailure(ZResponse<AddUserResponse> response)
+        public async void OnFailure(ZResponse<AddUserResponse> response)
         {
-            userViewModel.ResponseString = response.Response.ToString();
-            userViewModel.ResponseStringVisibility = Visibility.Visible;
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                userViewModel.ResponseString = response.Response.ToString();
+                userViewModel.ResponseStringVisibility = Visibility.Visible;
+            });
         }
 
-        public void OnSuccessAsync(ZResponse<AddUserResponse> response)
+        public async void OnSuccessAsync(ZResponse<AddUserResponse> response)
         {
-            throw new NotImplementedException();
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                userViewModel.CredentialsGridVisibility = Visibility.Visible;
+                userViewModel.UserId = response.Data.Data.Email.ToString();
+                userViewModel.Password = response.Data.Data.Password.ToString();
+            });
         }
     }
 
@@ -74,6 +85,39 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _responseStringVisibility = value;
                 OnPropertyChanged(nameof(ResponseStringVisibility));
+            }
+        }
+
+        private Visibility _credentialsGridVisibility = Visibility.Collapsed;
+        public Visibility CredentialsGridVisibility
+        {
+            get { return _credentialsGridVisibility; }
+            set
+            {
+                _credentialsGridVisibility = value;
+                OnPropertyChanged(nameof(CredentialsGridVisibility));
+            }
+        }
+
+        private string _userId = string.Empty;
+        public string UserId
+        {
+            get { return _userId; }
+            set
+            {
+                _userId = value;
+                OnPropertyChanged(nameof(UserId));
+            }
+        }
+
+        private string _password = string.Empty;
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                _password = value;
+                OnPropertyChanged(nameof(Password));
             }
         }
     }

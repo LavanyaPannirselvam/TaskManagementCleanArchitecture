@@ -51,7 +51,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
             _projectsPageViewModel.projectPageUpdate = this;
             _projectsPageViewModel.ProjectsList.Clear();
-            _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.LoggedInUser.Name, CurrentUserClass.CurrentUser.LoggedInUser.Email);
+            _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;
@@ -101,7 +101,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             //ErrorMessage.Text = string.Empty;
-            Project pro = CreateProjectForm.GetFormData(CurrentUserClass.CurrentUser.LoggedInUser.Name);
+            Project pro = CreateProjectForm.GetFormData(CurrentUserClass.CurrentUser.Name);
             if (pro != null)
             {
                 AddProjectForm.IsOpen = false;

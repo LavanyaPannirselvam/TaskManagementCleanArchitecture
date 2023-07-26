@@ -116,10 +116,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public void ClearFormData()
         {
             ProjectName.Text = string.Empty;
+            _projectName = string.Empty;
             startdate.Date = DateTime.Now;
+            _startDate = DateTime.Now;
             enddate.Date = DateTime.Now;
+            _endDate = DateTime.Now;
             statusbox.Text = string.Empty;
-            prioritybox.PlaceholderText = "Choose Priority";
+            //prioritybox.PlaceholderText = "Choose Priority";
+            prioritybox.Text = string.Empty;
+            _priorityType = PriorityType.HIGH;
+            _statusType = StatusType.OPEN;
             ErrorMessage.Text = string.Empty;
             ErrorMessage.Visibility = Visibility.Collapsed;
         }

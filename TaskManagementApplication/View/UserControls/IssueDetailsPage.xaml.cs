@@ -27,14 +27,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     {
         public IssueDetailsViewModelBase _issueViewModel;
         public IssueBO task;
-        public ObservableCollection<User> _users;
+        private ObservableCollection<User> _userOption;
+        private ObservableCollection<User> _assignedUsers;
         public static event Action<string> Notification;
         public IssueDetailsPage()
         {
             this.InitializeComponent();
             _issueViewModel = PresenterService.GetInstance().Services.GetService<IssueDetailsViewModelBase>();
             _issueViewModel.issueDetailsPageNotification = this;
-            _users = new ObservableCollection<User>();
+            _userOption = new ObservableCollection<User>();
+           // _assignedUsers = _issueViewModel.AssignedUsersList;
             var priorityList = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
             //prioritycombo.ItemsSource = priorityList.ToList();
         }
@@ -57,17 +59,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             var data = ((FrameworkElement)sender).DataContext as User;
-            _issueViewModel.RemoveUserFromIssue(data.UserId,_issueViewModel.SelectedIssue.Issue.Id);
+            _issueViewModel.RemoveUserFromIssue(data.UserId,_issueViewModel.SelectedIssue.Id);
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var result = args.ChosenSuggestion;
-            foreach (var user in _users)
-            {
-                if (user.Name.Equals(result))
-                    _issueViewModel.AssignUserToIssue(user.UserId, _issueViewModel.SelectedIssue.Issue.Id);
-            }
+            //var result = args.ChosenSuggestion;
+            //foreach (var user in _users)
+            //{
+            //    if (user.Name.Equals(result))
+            //        _issueViewModel.AssignUserToIssue(user.UserId, _issueViewModel.SelectedIssue.Id);
+            //}
+            //AssignUserBox.Text = string.Empty;
         }
 
         public void IssueDetailsPageNotification()
@@ -84,24 +87,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UIUpdation_UserRemoved(ObservableCollection<User> obj)
         {
-            _issueViewModel.CanAssignUsersList.Clear();
-            foreach (var u in obj)
-            {
-                _issueViewModel.CanAssignUsersList.Add(u);
-                var delete = _issueViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
-                _issueViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
-            }
+            //_issueViewModel.CanAssignUsersList.Clear();
+            //foreach (var u in obj)
+            //{
+            //    _issueViewModel.CanAssignUsersList.Add(u);
+            //    var delete = _issueViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
+            //    _issueViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
+            //}
         }
 
         private void UIUpdation_UserAdded(ObservableCollection<User> obj)
         {
-            _issueViewModel.CanRemoveUsersList.Clear();
-            foreach (var user in obj)
-            {
-                _issueViewModel.CanRemoveUsersList.Add(user);
-                var delete = _issueViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
-                _issueViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
-            }
+            //_issueViewModel.CanRemoveUsersList.Clear();
+            //foreach (var user in obj)
+            //{
+            //    _issueViewModel.CanRemoveUsersList.Add(user);
+            //    var delete = _issueViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
+            //    _issueViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
+            //}
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -113,18 +116,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            _users = _issueViewModel.CanAssignUsersList;
+            //_users = _issueViewModel.CanAssignUsersList;
+            _assignedUsers = _issueViewModel.AssignedUsersList;
+            _issueViewModel.MatchingUsers.Clear();
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var suitableItems = new ObservableCollection<string>();
-                var splitText = sender.Text.ToLower().Split(" ");
-                foreach (var user in _users)
+                var splitText = sender.Text;
+                _issueViewModel.GetMatchingUsers(splitText);
+                _userOption = _issueViewModel.MatchingUsers;
+                foreach(var user in _userOption)
                 {
-                    var found = splitText.All((key) =>
-                    {
-                        return user.Name.ToLower().Contains(key);
-                    });
-                    if (found)
+                    if (!_assignedUsers.Contains<User>(user))
                     {
                         suitableItems.Add(user.Name);
                     }
@@ -139,10 +142,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
         }
 
-        private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            _users.Clear();
-            _users = _issueViewModel?.CanAssignUsersList;
-        }
+        //private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
+        //{
+        //    _users.Clear();
+        //    _users = _issueViewModel?.CanAssignUsersList;
+        //}
     }
 }

@@ -41,7 +41,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
            // _createdTask.TasksList.Clear();
-            _createdTask.GetTasks(CurrentUserClass.CurrentUser.LoggedInUser.Name,CurrentUserClass.CurrentUser.LoggedInUser.Email);
+            _createdTask.GetTasks(CurrentUserClass.CurrentUser.Name,CurrentUserClass.CurrentUser.Email);
            // _createdTask.TasksList.Clear();
         }
 

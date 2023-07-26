@@ -1083,10 +1083,10 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
                         <Run Text ="{Binding WelcomeText}" x:Name="WelcomeMsg"/>
-                        <Run FontSize="24" Text ="{Binding LoggedInUser.Name}"                                 
+                        <Run FontSize="24" Text ="{Binding Name}"                                 
                              FontStyle="Italic"/>
                         </TextBlock>
-                        <PersonPicture DisplayName="{Binding LoggedInUser.Name, Mode=OneWay}" 
+                        <PersonPicture DisplayName="{Binding Name, Mode=OneWay}" 
                                HorizontalAlignment="Right"
                                VerticalAlignment="Center"
                                Height ="40"
@@ -1178,21 +1178,21 @@
     </Grid>
 </Page>
 <!--//9222208888--> 
-    <!--1.util for id creation
+    <!--1.util for id creation -> done
     2.encrypted password
     3.after clicking project,dashboard should display -> done
     4.logout to be functional -> done
-    5.theme change
+    5.theme change -> done
     ==============
     TODAY
     6.tasks details page -> done
-    7.on click change in data grid -> partial (cell selection changed , NEED TO DO: Selected color)
+    7.on click change in data grid -> partial (cell selection changed , NEED TO DO: Selected color) -> done
     8.columns of datagrid to be customized -> done
     9.visibility of no tasks yet & datagrid to be specified and in taskdetails page as well -> done
     10.current user should be passed to get the list of tasks owned by that user -> done
     11.size of dashboard page -> done
-    12.in app notification after every update
-    13.ui change should happen simultaneously for every action being done
+    12.in app notification after every update -> done
+    13.ui change should happen simultaneously for every action being done -> done
     14.assign users list need to be created -> done
     
     =================
@@ -1225,10 +1225,17 @@
     2.on refresh projects data grid is getting shrinked -> done
     3.after new project created the popup should close immediately -> done
     4.on any activity deleted its details page should close before popup
-    5.on adding projects the new item is getting added by how times times it get navigated
+    5.on adding projects the new item is getting added by how times times it get navigated (from back)
+    6.singleton class in db -> done
+    7.assign and remove users list
+    8.user management - grid view,add button, delete on hover
+    10.add activity popup is retaining name of activity -> done
+    11.bo should inherit -> done
+    12.zresponse data will be setted in its <> part itself -> done
+    13.
     
     TODO:
     1.remove all dependency property for current user
-    2.
+    2.on deleting a task/issue all assigned users should also be removed -> done
     -->
     

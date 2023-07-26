@@ -41,7 +41,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _assignedTasksPageViewModelBase.GetTasks(CurrentUserClass.CurrentUser.LoggedInUser.UserId);
+            _assignedTasksPageViewModelBase.GetTasks(CurrentUserClass.CurrentUser.UserId);
         }
 
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)

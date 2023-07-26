@@ -18,10 +18,10 @@
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"/>
         </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="TasksTab">
-                <usercontrols:TasksPage CUser="{Binding CurrentUser,Mode=OneWay}"/>
+                <usercontrols:TasksPage/>
             </DataTemplate>
             <DataTemplate x:Key="IssuesTab">
-                <usercontrols:IssuesPage CUser="{Binding CurrentUser,Mode=OneWay}"/>
+                <usercontrols:IssuesPage/>
             </DataTemplate>
 
             <Style TargetType="NavigationView">

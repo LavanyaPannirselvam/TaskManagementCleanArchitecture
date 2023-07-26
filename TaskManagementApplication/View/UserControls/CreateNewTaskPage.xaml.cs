@@ -131,10 +131,17 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public void ClearFormData()
         {
             TaskName.Text = string.Empty;
+            _taskName = string.Empty;
             startdate.Date = DateTime.Now;
+            _startDate = DateTime.Now;
             enddate.Date = DateTime.Now;
+            _endDate = DateTime.Now;
             prioritybox.Text = string.Empty;
+            _priorityType = PriorityType.HIGH;
             statusbox.Text = string.Empty;
+            _statusType = StatusType.OPEN;
+            ErrorMessage.Text = string.Empty;
+            ErrorMessage.Visibility = Visibility.Collapsed;
         }
     }
 }

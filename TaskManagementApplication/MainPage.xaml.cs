@@ -58,7 +58,7 @@ namespace TaskManagementCleanArchitecture
             var firstpage = new FirstPage();
             firstpage.AdminTabVisibility = Visibility.Collapsed;
             CurrentUserClass.CurrentUser = currentUser;
-            if(currentUser.LoggedInUser.Role == TaskManagementLibrary.Enums.Role.ADMIN) 
+            if(currentUser.Role == TaskManagementLibrary.Enums.Role.ADMIN) 
             {
                 firstpage.AdminTabVisibility = Visibility.Visible;
             }

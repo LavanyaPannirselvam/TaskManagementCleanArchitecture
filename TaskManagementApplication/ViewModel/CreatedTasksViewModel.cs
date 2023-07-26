@@ -34,7 +34,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _viewModel = viewModel;
         }
 
-        public void OnError(BException errorMessage)
+        public void OnError(BaseException errorMessage)
         {
 
         }
@@ -48,9 +48,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                if (response.Data.Tasks.Count > 0)
+                if (response.Data.Data.Count != 0)
                 {
-                    PopulateData(response.Data.Tasks);
+                    PopulateData(response.Data.Data);
                     _viewModel.TextVisibility = Visibility.Collapsed;
                     _viewModel.DataGridVisibility = Visibility.Visible;
                 }
