@@ -63,7 +63,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _projectStatus = projectStatus;
             }
             
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _projectStatus._response.OnError(response);
             }

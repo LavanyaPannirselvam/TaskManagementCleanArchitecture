@@ -11,31 +11,33 @@ namespace TaskManagementLibrary.Data.DBManager
     public class CreateUserAccountDataManager : TaskManagementDataManager, ICreateUserAccountDataManager
     {
         public CreateUserAccountDataManager(IDBHandler dbHandler) : base(dbHandler) { }
-
+        string _password;
         public void AddUser(CreateUserRequest request, IUsecaseCallbackBasecase<AddUserResponse> callback)
         {
             AddUserResponse addUserResponse = new AddUserResponse();
             string name = request.name;
             string email = request.email;
             Role userRole = request.role;
+            ZResponse<AddUserResponse> zResponse = new ZResponse<AddUserResponse>();
+
             if (Validator.ValidateEmail(email))
             {
                 if (CheckPreviousUsers(email))
                 {
                     User user = CreateUser(name, email, userRole);
-                    DbHandler.AddUser(user);
+                    var userId = DBhandler.AddUser(user);
                     UserCredential credential = CreateUserCredentials(email);
-                    DbHandler.AddUserCredential(credential);
-                    addUserResponse.newUser = user;
-                    addUserResponse.Credential= credential;
-                    ZResponse<AddUserResponse> zResponse = new ZResponse<AddUserResponse>();
+                    DBhandler.AddUserCredential(credential);
+                    //addUserResponse.newUser = user;
+                    credential.Password = _password;
+                    addUserResponse.Data= credential;
                     zResponse.Data = addUserResponse;
                     zResponse.Response = "User account created successfully";
                     callback.OnResponseSuccess(zResponse);
                 }
                 else
                 {
-                    callback.OnResponseError(new BException
+                    callback.OnResponseError(new BaseException
                     {
                         exceptionMessage = "User with this email already exists, try again!"
                     });
@@ -43,21 +45,19 @@ namespace TaskManagementLibrary.Data.DBManager
             }
             else
             {
-                callback.OnResponseError(new BException
-                {
-                    exceptionMessage = "Invalid Email, try again!"
-                });
+                zResponse.Response = "Invalid Email, try again!";
+                callback.OnResponseFailure(zResponse);
             }
         }   
 
         private UserCredential CreateUserCredentials(string email)
         {
-            string _password = Generator.GeneratePassword();
-            var GeneratedPassword = PasswordEncryption.BytesToString(PasswordEncryption.EncryptPassword(_password));
+            _password = Generator.GeneratePassword();
+            //var GeneratedPassword = PasswordEncryption.BytesToString(PasswordEncryption.EncryptPassword(_password));
             return new UserCredential
             {
                 Email = email,
-                Password = GeneratedPassword,
+                Password = _password,
             };
         }
         private User CreateUser(string name, string email, Role role)
@@ -71,7 +71,7 @@ namespace TaskManagementLibrary.Data.DBManager
         }
         private bool CheckPreviousUsers(string email)
         {
-            return DbHandler.CheckUser(email);
+            return DBhandler.CheckUser(email);
         }
     }
     }

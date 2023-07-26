@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace TaskManagementLibrary.Models
 {
-    public class LoggedInUserBO
+    public class LoggedInUserBO : User
     {
-        public User LoggedInUser { get; set; }
+       // public User LoggedInUser { get; set; }
         public string WelcomeText { get; set; }
         public LoggedInUserBO()
+        { }
+
+        public LoggedInUserBO(User user) : base(user.Name,user.Email,user.Role)
         { }
     }
 }

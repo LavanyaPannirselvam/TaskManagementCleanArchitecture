@@ -60,7 +60,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _login = login;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _login._response.OnError(response);
             }
@@ -78,9 +78,9 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
     
     
-    public class LoginResponse : ZResponse<bool> 
+    public class LoginResponse : ZResponse<LoggedInUserBO> 
     {
-        public LoggedInUserBO currentUser;
-        public Role role;
+       // public LoggedInUserBO currentUser;
+        //public Role role;
     }
 }

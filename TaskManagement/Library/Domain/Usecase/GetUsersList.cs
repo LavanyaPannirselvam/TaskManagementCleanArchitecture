@@ -18,10 +18,8 @@ namespace TaskManagementLibrary.Domain.Usecase
     public class GetUsersListRequest : IRequest
     {
         public CancellationTokenSource CtsSource { get; set; }
-        public int projectId;
-        public GetUsersListRequest(int id,CancellationTokenSource ctsSource)
+        public GetUsersListRequest(CancellationTokenSource ctsSource)
         {
-            projectId = id;
             CtsSource = ctsSource;
         }
     }
@@ -58,7 +56,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _usersList = list;
             }
             
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _usersList._response.OnError(response);
             }
@@ -78,6 +76,6 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class GetUsersListResponse : ZResponse<List<User>>
     {
-        public List<User> AssignedUserList;
+        //public List<User> UsersList;
     }
 }

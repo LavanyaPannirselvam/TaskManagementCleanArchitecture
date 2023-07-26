@@ -22,13 +22,15 @@ namespace TaskManagementLibrary.Data
             InstantiateAllTables();
         }
 
-        public void InstantiateAllTables()
+        private void InstantiateAllTables()
         {
             _adapter.Create(new Project());
             _adapter.Create(new User());
             _adapter.Create(new Tasks());
+            _adapter.Create(new Issue());
             _adapter.Create(new Assignment());
             _adapter.Create(new User());
+            _adapter.Create(new UserCredential());
         }
     }
 }

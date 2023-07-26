@@ -62,7 +62,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _createProject = createProject;
             }
             
-            public void OnResponseError(BException error)
+            public void OnResponseError(BaseException error)
             {
                 _createProject._presenterCreateProjectResponse?.OnError(error);
             }
@@ -82,7 +82,6 @@ namespace TaskManagementLibrary.Domain.Usecase
     
     public class CreateProjectResponse : ZResponse<Project>
     {
-        public Project NewProject { get; set; }
     }
 }
 

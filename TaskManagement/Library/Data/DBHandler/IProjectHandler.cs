@@ -10,11 +10,12 @@ namespace TaskManagementLibrary.Data.DBHandler
 {
     public interface IProjectHandler
     {
-        void AddProject(Project project);
+        int AddProject(Project project);
         void DeleteProject(int projectId);
         Project GetProject(int projectId);
         void UpdateProject(Project project);
-        List<Project> ProjectsList();
-        List<Tasks> AssignedTasksList(int projectId);
+        List<Project> ProjectsList(string userName,string userEmail);
+        List<Tasks> AssignedTasksListOfAProject(int projectId);
+        List<Issue> AssignedIssuesListOfAProject(int projectId);
     }
 }

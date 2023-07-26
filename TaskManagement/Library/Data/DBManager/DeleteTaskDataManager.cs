@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TaskManagementLibrary.Data.DBHandler;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
+using static TaskManagementLibrary.Domain.Usecase.DeleteTask;
 
 namespace TaskManagementLibrary.Data.DBManager
 {
@@ -14,15 +15,22 @@ namespace TaskManagementLibrary.Data.DBManager
     {
         public DeleteTaskDataManager(IDBHandler dbHandler) : base(dbHandler) {}
 
-        public void DeleteTask(DeleteTaskRequest request, IUsecaseCallbackBasecase<bool> response)
+        public void DeleteTask(DeleteTaskRequest request, IUsecaseCallbackBasecase<DeleteTaskResponse> response)
         {
             var id = request.taskId;
-            DbHandler.DeleteTask(id);
-            ZResponse<bool> zResponse = new ZResponse<bool>();
+            var data = DBhandler.GetTask(id);
+            var assignedUsersList = DBhandler.AssignedUsersListOfATask(id);
+            if (assignedUsersList != null)
+            {
+                DBhandler.RemoveAllAssignments(assignedUsersList);
+            }
+            DBhandler.DeleteTask(id);
+            ZResponse<DeleteTaskResponse> zResponse = new ZResponse<DeleteTaskResponse>();
+            DeleteTaskResponse deleteTask = new DeleteTaskResponse();
+            deleteTask.Data = data;
             zResponse.Response = "Task deleted successfully";
-            zResponse.Data = true;
+            zResponse.Data = deleteTask;
             response.OnResponseSuccess(zResponse);
         }
     }
-    //event to be created and handled
 }

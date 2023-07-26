@@ -63,7 +63,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _userAccountCreation = userAccountCreation;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                _userAccountCreation._response.OnError(response);
             }
@@ -83,7 +83,7 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class AddUserResponse : ZResponse<UserCredential>
     {
-        public User newUser;
-        public UserCredential Credential;
+        //public User newUser;
+        //public UserCredential Credential;
     }
 }

@@ -17,15 +17,13 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetUsersList(GetUsersListRequest request, IUsecaseCallbackBasecase<GetUsersListResponse> response)
         {
-            var list = DbHandler.AssignedUsersList(request.projectId,(int)ActivityType.PROJECT);
+            var list = DBhandler.UsersList();
             GetUsersListResponse userResponse = new GetUsersListResponse();
-            userResponse.AssignedUserList = list;
+            userResponse.Data = list;
             ZResponse<GetUsersListResponse> zResponse = new ZResponse<GetUsersListResponse>();
             zResponse.Response = "";
             zResponse.Data = userResponse;
             response.OnResponseSuccess(zResponse);
-
-
         }
     }
 }

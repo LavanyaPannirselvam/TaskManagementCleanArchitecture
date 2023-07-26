@@ -34,7 +34,7 @@ namespace TaskManagementLibrary.Domain
                 {
                     Action();
                 }
-                catch(BException ex) 
+                catch(BaseException ex) 
                 {
                     //Debug.WriteLine(ex.ToString()); 
                     _responseCallback.OnError(ex);

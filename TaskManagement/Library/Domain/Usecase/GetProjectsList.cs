@@ -60,7 +60,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _getProjects = getProjects;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _getProjects._response.OnError(response);
             }
@@ -80,6 +80,6 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class GetProjectListResponse : ZResponse<List<Project>>
     {
-        public List<Project> Projects;
+        //public List<Project> Projects = new List<Project>();
     }
 }

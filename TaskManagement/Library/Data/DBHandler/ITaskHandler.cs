@@ -9,9 +9,12 @@ namespace TaskManagementLibrary.Data.DBHandler
 {
     public interface ITaskHandler
     {
-        void AddTask(Tasks task);
+        int AddTask(Tasks task);
         void DeleteTask(int taskId);
         Tasks GetTask(int taskId);
         List<Tasks> TasksList();
+        List<Tasks> AssignedTasksListOfCurrentUser(int userId);
+        List<Tasks> CreatedTasksListOfCurrentUser(string userName, string userEmail);
+        List<Assignment> AssignedUsersListOfATask(int taskId);
     }
 }

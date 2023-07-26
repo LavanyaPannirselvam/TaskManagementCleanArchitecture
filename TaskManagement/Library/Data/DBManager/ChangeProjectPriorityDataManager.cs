@@ -19,9 +19,9 @@ namespace TaskManagementLibrary.Data.DBManager
         {
             PriorityType priorityType = request.priority;
             int projectId = request.projectId;
-            var project = DbHandler.GetProject(projectId);
+            var project = DBhandler.GetProject(projectId);
             project.Priority = priorityType;
-            DbHandler.UpdateProject(project);
+            DBhandler.UpdateProject(project);
             ZResponse<ChangeProjectPriorityResponse> zResponse = new ZResponse<ChangeProjectPriorityResponse>();
             zResponse.Response = "Project's priority is updated successfully";
             zResponse.Data = null;

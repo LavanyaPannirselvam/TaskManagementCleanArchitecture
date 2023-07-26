@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TaskManagementLibrary.Data.DBHandler;
 using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
+using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Models.Enums;
 
 namespace TaskManagementLibrary.Data.DBManager
@@ -16,12 +17,19 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void RemoveTaskFromUser(RemoveTaskRequest request, IUsecaseCallbackBasecase<RemoveTaskResponse> callback)
         {
-            int taskId = request.taskId;
-            int userId  = request.userId;
-            DbHandler.DeassignActivity(userId, taskId, ActivityType.TASK);
+            DBhandler.DeassignActivity(request.userId, request.taskId, ActivityType.TASK);
             ZResponse<RemoveTaskResponse> zResponse = new ZResponse<RemoveTaskResponse>();
             zResponse.Response = "Task removed from user successfully";
-            zResponse.Data = null;
+            RemoveTaskResponse removeTaskResponse = new RemoveTaskResponse();
+            //List<User> users = DbHandler.UsersList();
+            List<User> assignedUsers = DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
+            //foreach (var u in users)
+            //{
+            //    if (!assignedUsers.Contains<User>(u))
+            //        removeTaskResponse.users.Add(u);
+            //}
+            removeTaskResponse.Data = new System.Collections.ObjectModel.ObservableCollection<User>(assignedUsers);
+            zResponse.Data = removeTaskResponse;
             callback.OnResponseSuccess(zResponse);
         }
     }

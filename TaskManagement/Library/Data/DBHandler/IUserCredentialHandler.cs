@@ -14,5 +14,6 @@ namespace TaskManagementLibrary.Data.DBHandler
         bool CheckIfManager(string userId);
         //void CreateUserCredential(UserCredential credential);
         void AddUserCredential(UserCredential credential);
+        void DeleteUserCredentials(string email);
     }
 }

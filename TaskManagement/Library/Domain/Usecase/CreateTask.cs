@@ -60,7 +60,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _createTask = createTask;
             }
 
-            public void OnResponseError(BException error)
+            public void OnResponseError(BaseException error)
             {
                 _createTask._presenterCreateTaskResponse?.OnError(error);
             }
@@ -80,7 +80,6 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class CreateTaskResponse : ZResponse<Tasks>
     {
-        public Tasks NewTask { get; set; }
     }
 }
 

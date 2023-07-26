@@ -58,7 +58,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _getATask = getTasksList;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _getATask._response.OnError(response);
             }
@@ -78,7 +78,6 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class GetATaskResponse : ZResponse<TaskBO>
     {
-        public TaskBO task;
     }
 }
 

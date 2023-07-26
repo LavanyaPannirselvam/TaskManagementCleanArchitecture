@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
@@ -60,7 +62,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _taskAssignment = obj;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _taskAssignment._response.OnError(response);
             }
@@ -78,8 +80,10 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class AssignTaskResponse : ZResponse<string>
+    public class AssignTaskResponse : ZResponse<ObservableCollection<User>>
     {
+        //public TaskBO taskBO { get; set; }
+        //public ObservableCollection<User> users = new ObservableCollection<User>();
     }
     
 }

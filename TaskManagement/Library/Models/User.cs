@@ -10,7 +10,7 @@ namespace TaskManagementLibrary.Models
 {
     public class User
     {
-        private readonly int id=1;
+        //private readonly int id=1;
         public int UserId { get; set; }
         public string Name { get; set; }
         [PrimaryKey]
@@ -18,7 +18,6 @@ namespace TaskManagementLibrary.Models
         public Role Role { get; set; }
         public User(string name, string email, Role role)
         {
-            UserId = id++;
             Name = name;
             Email = email;
             Role = role;

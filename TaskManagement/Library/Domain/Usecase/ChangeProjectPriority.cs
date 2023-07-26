@@ -62,7 +62,7 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _projectPriority = projectPriority;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _projectPriority._response.OnError(response);
             }
@@ -82,6 +82,6 @@ namespace TaskManagementLibrary.Domain.Usecase
     
     public class ChangeProjectPriorityResponse : ZResponse<string>
     {
-
+        //if just string is being returned back,use bool in <> of ZResponse
     }
 }

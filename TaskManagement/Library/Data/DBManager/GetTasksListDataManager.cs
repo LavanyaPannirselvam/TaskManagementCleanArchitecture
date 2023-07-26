@@ -17,14 +17,18 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetTasks(GetTasksListRequest request, IUsecaseCallbackBasecase<GetTasksListResponse> response)
         {
-            var item = DbHandler.AssignedTasksList(request.projectId);
+            var assignedTasksList = DBhandler.AssignedTasksListOfAProject(request.projectId);
             GetTasksListResponse taskResponse = new GetTasksListResponse();
             ZResponse<GetTasksListResponse> zResponse = new ZResponse<GetTasksListResponse>();
-            if (item.Count > 0)
+            if (assignedTasksList.Count > 0)
+            {
                 zResponse.Response = "";
-            else 
+            }
+            else
+            {
                 zResponse.Response = "Tasks not assigned yet :)";
-            taskResponse.Tasks= item;
+            }
+            taskResponse.Data= assignedTasksList;
             zResponse.Data = taskResponse;
             response.OnResponseSuccess(zResponse);
         }

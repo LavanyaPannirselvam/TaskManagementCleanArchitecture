@@ -19,32 +19,36 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetATask(GetATaskRequest request, IUsecaseCallbackBasecase<GetATaskResponse> response)
         {
-            var item = DbHandler.GetTask(request.taskId);
-            TaskBO taskBO = new TaskBO();
-            taskBO.Tasks = item;
-            List<User> list= DbHandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
-            List<User> userList = DbHandler.UsersList();
+            var item = DBhandler.GetTask(request.taskId);
+            TaskBO taskBO = new TaskBO(item);
+            List<User> list= DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
+            //List<User> userList = DbHandler.UsersList();
             ZResponse<GetATaskResponse> zResponse = new ZResponse<GetATaskResponse>();
             GetATaskResponse taskResponse = new GetATaskResponse();
-            if (list.Count > 0)
-            {
-                //taskBO.AssignedUsers = list;
-                foreach (var user in userList)
-                {
-                    if (list.Contains<User>(user))
-                        taskBO.UsersList.Add(user, true);
-                    else
-                        taskBO.UsersList.Add(user, false);
-                }
-                zResponse.Response = "";
-            }
-            else
+            //if (list.Count > 0)
+            //{
+            //    //taskBO.AssignedUsers = list;
+            //    foreach (var user in userList)
+            //    {
+            //        if (list.Contains<User>(user))
+            //            taskBO.UsersList.Add(user, true);
+            //        else
+            //            taskBO.UsersList.Add(user, false);
+            //    }
+            //    zResponse.Response = "";
+            //}
+            //else
+            //{
+            //    zResponse.Response = "Users not assigned yet :)";
+            //    foreach (var user in userList)
+            //            taskBO.UsersList.Add(user, false);            
+            //}
+            if (list.Count == 0)
             {
                 zResponse.Response = "Users not assigned yet :)";
-                foreach (var user in userList)
-                        taskBO.UsersList.Add(user, false);            
             }
-            taskResponse.task = taskBO;
+            taskBO.AssignedUsers = list;
+            taskResponse.Data = taskBO;
             zResponse.Data = taskResponse;
             response.OnResponseSuccess(zResponse);
         }

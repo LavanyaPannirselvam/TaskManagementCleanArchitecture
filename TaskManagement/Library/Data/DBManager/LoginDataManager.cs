@@ -25,14 +25,14 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<LoginResponse> zResponse = new ZResponse<LoginResponse>();
             try
             {
-                if (DbHandler.CheckUserCredential(userId, password))
+                if (DBhandler.CheckUserCredential(userId, password))
                 {
-                    if (DbHandler.CheckIfAdmin(userId))
+                    if (DBhandler.CheckIfAdmin(userId))
                     {
                         userRole = Role.ADMIN;
                         response = "Welcome Admin";
                     }
-                    else if (DbHandler.CheckIfManager(userId))
+                    else if (DBhandler.CheckIfManager(userId))
                     {
                         userRole = Role.MANAGER;
                         response = "Welcome Manager";
@@ -42,26 +42,25 @@ namespace TaskManagementLibrary.Data.DBManager
                         userRole = Role.EMPLOYEE;
                         response = "Welcome!";
                     }
-                    var user = DbHandler.GetUser(userId);
-                    LoggedInUserBO loggedUser = new LoggedInUserBO();
-                    loggedUser.LoggedInUser = user;
+                    var user = DBhandler.GetUser(userId);
+                    LoggedInUserBO loggedUser = new LoggedInUserBO(user);
+                    loggedUser.Role = userRole;
                     loggedUser.WelcomeText = response;
-                    loginResponse.currentUser = loggedUser;
-                    loginResponse.role = userRole;
+                    loginResponse.Data = loggedUser;
+                   // loginResponse.Data.Role = userRole;
                     loginResponse.Response = response;
-                    loginResponse.Data = true;
                     zResponse.Data = loginResponse;
                     zResponse.Response = response;
                     callback.OnResponseSuccess(zResponse);
                 }
                 else
                 {
-                    if (DbHandler.CheckUser(userId))
+                    if (DBhandler.CheckUser(userId))
                     {
                         response = "Invalid password";
                         zResponse.Response = response;
                         zResponse.Data = null;
-                        callback.OnResponseError(new BException { exceptionMessage = zResponse.Response });
+                        callback.OnResponseError(new BaseException { exceptionMessage = zResponse.Response });
                     }
                     else
                     {
@@ -72,9 +71,9 @@ namespace TaskManagementLibrary.Data.DBManager
                     }
                 }
             }
-            catch (NoUserException ex)
+            catch (BaseException ex)
             {
-                callback?.OnResponseError(new BException(ex));
+                callback?.OnResponseError(new BaseException(ex));
             }
         }
     }

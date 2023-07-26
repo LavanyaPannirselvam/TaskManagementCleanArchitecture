@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TaskManagementLibrary.Models;
+using static TaskManagementLibrary.Domain.Usecase.DeleteTask;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
     public interface IDeleteTaskDataManager
     {
-        void DeleteTask(DeleteTaskRequest request, IUsecaseCallbackBasecase<bool> response);
+        void DeleteTask(DeleteTaskRequest request, IUsecaseCallbackBasecase<DeleteTaskResponse> response);
     }
 
 
@@ -27,7 +29,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public interface IPresenterDeleteTaskCallback : IPresenterCallbackBasecase<bool>
+    public interface IPresenterDeleteTaskCallback : IPresenterCallbackBasecase<DeleteTaskResponse>
     { }
 
 
@@ -50,7 +52,7 @@ namespace TaskManagementLibrary.Domain.Usecase
         }
         
         
-        public class DeleteTaskCallback : IUsecaseCallbackBasecase<bool>
+        public class DeleteTaskCallback : IUsecaseCallbackBasecase<DeleteTaskResponse>
         {
             private DeleteTask _taskDeletion;
             
@@ -59,26 +61,26 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _taskDeletion = projectDeletion;
             }
 
-            public void OnResponseError(BException response)
+            public void OnResponseError(BaseException response)
             {
                 _taskDeletion._callback.OnError(response);
             }
 
-            public void OnResponseFailure(ZResponse<bool> response)
+            public void OnResponseFailure(ZResponse<DeleteTaskResponse> response)
             {
                 _taskDeletion._callback.OnFailure(response);
             }
 
-            public void OnResponseSuccess(ZResponse<bool> response)
+            public void OnResponseSuccess(ZResponse<DeleteTaskResponse> response)
             {
                 _taskDeletion._callback.OnSuccessAsync(response);
             }
         }
         
         
-        public class DeleteTaskResponse : ZResponse<bool>
+        public class DeleteTaskResponse : ZResponse<Tasks>
         {
-
+            //public Tasks taskDeleted { get; set; }
         }
     }
 }

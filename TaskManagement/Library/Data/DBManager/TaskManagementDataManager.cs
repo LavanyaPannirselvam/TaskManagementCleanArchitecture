@@ -10,10 +10,10 @@ namespace TaskManagementLibrary.Data.DBManager
 {
     public class TaskManagementDataManager
     {
-        protected static IDBHandler DbHandler;
+        protected static IDBHandler DBhandler;
         public TaskManagementDataManager(IDBHandler dbHandler)
         {
-            DbHandler = dbHandler;
+            DBhandler = dbHandler;
         }
 
         

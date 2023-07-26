@@ -8,7 +8,7 @@ namespace TaskManagementLibrary.Domain
 {
     public interface IUsecaseCallbackBasecase<R>
     {
-        void OnResponseError(BException response);
+        void OnResponseError(BaseException response);
         void OnResponseFailure(ZResponse<R> response);
         void OnResponseSuccess(ZResponse<R> response);
     }

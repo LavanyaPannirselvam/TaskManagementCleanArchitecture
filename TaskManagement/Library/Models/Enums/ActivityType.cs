@@ -8,6 +8,6 @@ namespace TaskManagementLibrary.Models.Enums
 {
     public enum ActivityType
     {
-        PROJECT,TASK
+        PROJECT,TASK,ISSUE
     }
 }

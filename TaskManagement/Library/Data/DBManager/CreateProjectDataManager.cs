@@ -15,16 +15,13 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void CreateProject(CreateProjectRequest request, IUsecaseCallbackBasecase<CreateProjectResponse> response)
         {
-            var newProject = request.project;
-            var id = DbHandler.AddProject(newProject);
-            newProject = DbHandler.GetProject(id);
+            var id = DBhandler.AddProject(request.project);
             ZResponse<CreateProjectResponse> zResponse = new ZResponse<CreateProjectResponse>();
             CreateProjectResponse createProjectResponse = new CreateProjectResponse();
-            createProjectResponse.NewProject = newProject;
+            createProjectResponse.Data = DBhandler.GetProject(id);
             zResponse.Response = "Project added successfully";
             zResponse.Data = createProjectResponse;
             response.OnResponseSuccess(zResponse);
         } 
-        //event to be created and handled
     }
 }

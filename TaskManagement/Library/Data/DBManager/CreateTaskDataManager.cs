@@ -15,16 +15,13 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void CreateTask(CreateTaskRequest request, IUsecaseCallbackBasecase<CreateTaskResponse> response)
         {
-            var newTask = request.task;
-            var id = DbHandler.AddTask(newTask);
-            newTask = DbHandler.GetTask(id);
+            var id = DBhandler.AddTask(request.task);
             ZResponse<CreateTaskResponse> zResponse = new ZResponse<CreateTaskResponse>();
             CreateTaskResponse createTaskResponse = new CreateTaskResponse();
-            createTaskResponse.NewTask = newTask;
+            createTaskResponse.Data = DBhandler.GetTask(id);
             zResponse.Response = "Task added successfully";
             zResponse.Data = createTaskResponse;
             response.OnResponseSuccess(zResponse);
         } 
-        //event to be created and handled
     }
 }

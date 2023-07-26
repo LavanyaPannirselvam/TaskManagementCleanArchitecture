@@ -9,7 +9,7 @@ namespace TaskManagementLibrary.Domain
     public interface IPresenterCallbackBasecase<R>
     {
         void OnSuccessAsync(ZResponse<R> response);
-        void OnError(BException errorMessage);
+        void OnError(BaseException errorMessage);
         void OnFailure(ZResponse<R> response);
     }
 }

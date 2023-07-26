@@ -19,9 +19,9 @@ namespace TaskManagementLibrary.Data.DBManager
         {
             StatusType status = request.status;
             int projectId = request.projectId;
-            var project = DbHandler.GetProject(projectId);
+            var project = DBhandler.GetProject(projectId);
             project.Status = status;
-            DbHandler.UpdateProject(project);
+            DBhandler.UpdateProject(project);
             ZResponse<ChangeProjectStatusResponse> zResponse = new ZResponse<ChangeProjectStatusResponse>();
             zResponse.Response = "Project's status is updated successfully";
             zResponse.Data = null;

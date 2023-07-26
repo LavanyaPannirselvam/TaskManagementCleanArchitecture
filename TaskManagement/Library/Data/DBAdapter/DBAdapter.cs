@@ -5,26 +5,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementLibrary.Data.DBAdapter;
+using TaskManagementLibrary.Data;
+using TaskManagementLibrary;
 
 namespace TaskManagementLibrary.Data.DBAdapter
 {
     public class DBAdapter : IDBAdapter
     {
-        private static SQLiteConnection connection;
-
-        public DBAdapter(DatabaseConnection dbConn)
+        //private static SQLiteConnection connection = null;
+        ////public DBAdapter(DatabaseConnection connection)
+        //public DBAdapter(SQLiteConnection dbConn)
+        //{
+        //    //if (connection == null)
+        //    //{
+        //    //    var conn = dbConn;
+        //        //connection = conn.GetDbConnection();
+        //        lock (connection)
+        //        {
+        //            if (connection == null)
+        //            {
+        //                connection = dbConn;
+        //                //LibraryInitialization libraryInitialization;
+        //                //libraryInitialization = LibraryInitialization.GetInstance();
+        //                //libraryInitialization.InitializeDb();
+        //            }
+        //        }
+        //    //}
+        //}
+        private static SQLiteConnection connection = null;
+        private static readonly object ConnectionLock = new object();
+        public DBAdapter()
         {
             if (connection == null)
             {
-                var conn = dbConn;
-                connection = conn.GetDbConnection();
-                lock (connection)
+                //var conn = dbConn;
+                //connection = DatabaseConnection.GetDbConnection();
+                lock (ConnectionLock)
                 {
                     if (connection == null)
                     {
-                        LibraryInitialization libraryInitialization;
-                        libraryInitialization = LibraryInitialization.GetInstance();
-                        libraryInitialization.InitializeDb();
+                        connection = DatabaseConnection.GetDBConnection();
+                        //LibraryInitialization libraryInitialization;
+                        //libraryInitialization = LibraryInitialization.GetInstance();
+                        //libraryInitialization.InitializeDb();
                     }
                 }
             }
@@ -62,4 +86,6 @@ namespace TaskManagementLibrary.Data.DBAdapter
         }
     }
 }
+
+
 
