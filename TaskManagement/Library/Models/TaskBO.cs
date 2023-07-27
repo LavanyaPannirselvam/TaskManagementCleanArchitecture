@@ -11,16 +11,16 @@ namespace TaskManagementLibrary.Models
         //public Tasks Tasks { get; set; }        
         //public Dictionary<User,bool> UsersList { get; set; }
 
-        public List<User> AssignedUsers { get; set; }
+        public List<UserBO> AssignedUsers { get; set; }
 
         public TaskBO() 
         {
-            AssignedUsers = new List<User>();
+            AssignedUsers = new List<UserBO>();
         }
 
-        public TaskBO(Tasks tasks) : base(tasks.Name,tasks.Desc,tasks.CreatedBy,tasks.Status,tasks.Priority,tasks.StartDate,tasks.EndDate,tasks.ProjectId) 
+        public TaskBO(Tasks tasks) : base(tasks.Id,tasks.Name,tasks.Desc,tasks.CreatedBy,tasks.Status,tasks.Priority,tasks.StartDate,tasks.EndDate,tasks.ProjectId) 
         {
-            AssignedUsers = new List<User>();
+            AssignedUsers = new List<UserBO>();
         }
 
     }

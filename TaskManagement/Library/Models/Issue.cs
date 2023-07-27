@@ -35,6 +35,19 @@ namespace TaskManagementLibrary.Models
             StartDate = startDate;
             EndDate = endDate;
         }
+
+        public Issue(int id,string name, string desc, string owner, StatusType status, PriorityType type, DateTime startDate, DateTime endDate, int projectId)
+        {
+            Id = id;
+            ProjectId = projectId;
+            Name = name;
+            Desc = desc;
+            CreatedBy = owner;
+            Status = status;
+            Priority = type;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
         public Issue() { }
     }
 }

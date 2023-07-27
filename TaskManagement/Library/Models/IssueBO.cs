@@ -15,16 +15,16 @@ namespace TaskManagementLibrary.Models
         //{
         //    UsersList = new Dictionary<User, bool>();
         //}
-        public ObservableCollection<User> AssignedUsers { get; set; }
+        public ObservableCollection<UserBO> AssignedUsers { get; set; }
         
         public IssueBO() 
         {
-            AssignedUsers = new ObservableCollection<User>();
+            AssignedUsers = new ObservableCollection<UserBO>();
         }
 
-        public IssueBO(Issue issue) : base (issue.Name,issue.Desc,issue.CreatedBy,issue.Status,issue.Priority,issue.StartDate,issue.EndDate,issue.ProjectId)
+        public IssueBO(Issue issue) : base (issue.Id,issue.Name,issue.Desc,issue.CreatedBy,issue.Status,issue.Priority,issue.StartDate,issue.EndDate,issue.ProjectId)
         {
-            AssignedUsers = new ObservableCollection<User>();
+            AssignedUsers = new ObservableCollection<UserBO>();
         }
     }
 }

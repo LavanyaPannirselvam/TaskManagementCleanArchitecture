@@ -11,13 +11,13 @@ namespace TaskManagementLibrary.Models
     public class Assignment
     {
         [PrimaryKey]
-        public int UserId { get; set; }
+        public string UserEmail { get; set; }
         //[PrimaryKey]
         public int ActivityId { get; set; }
         public ActivityType Type { get; set; }
-        public Assignment(int userId, int activityId,ActivityType type)
+        public Assignment(string userEmail, int activityId,ActivityType type)
         {
-            UserId = userId;
+            UserEmail = userEmail;
             ActivityId = activityId;
             Type = type;
         }
