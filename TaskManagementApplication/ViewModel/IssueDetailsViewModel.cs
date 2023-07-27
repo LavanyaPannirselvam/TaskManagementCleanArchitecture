@@ -48,29 +48,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                //_issueDetailsViewModel.CanRemoveUsersList.Clear();
-                //_issueDetailsViewModel.CanAssignUsersList.Clear();
-                //PopulateData(response.Data.Data);
-                //foreach (var u in response.Data.Data.UsersList)
-                //{
-                //    if (u.Value == true)
-                //        _issueDetailsViewModel.CanRemoveUsersList.Add(u.Key);
-                //    else
-                //        _issueDetailsViewModel.CanAssignUsersList.Add(u.Key);
-                //}
-                //if (_issueDetailsViewModel.CanRemoveUsersList.Count == 0)
-                //{
-                //    _issueDetailsViewModel.TextVisibility = Visibility.Visible;
-                //    _issueDetailsViewModel.ListVisibility = Visibility.Collapsed;
-                //    _issueDetailsViewModel.ResponseString = response.Response.ToString();
-                //}
-                //else
-                //{
-                //    _issueDetailsViewModel.ListVisibility = Visibility.Visible;
-                //    _issueDetailsViewModel.TextVisibility = Visibility.Collapsed;
-                //}
                 _issueDetailsViewModel.SelectedIssue = response.Data.Data;
-                _issueDetailsViewModel.AssignedUsersList = response.Data.Data.AssignedUsers;
+                Populate(response.Data.Data.AssignedUsers);
                 if(_issueDetailsViewModel.AssignedUsersList.Count == 0)
                 {
                     _issueDetailsViewModel.ListVisibility = Visibility.Collapsed;
@@ -84,39 +63,45 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 }
             });
         }
+
+        private void Populate(ObservableCollection<UserBO> assignedUsers)
+        {
+            foreach(var user in assignedUsers)
+            {
+                _issueDetailsViewModel.AssignedUsersList.Add(user);
+            }
+        }
     }
 
 
     public abstract class IssueDetailsViewModelBase : NotifyPropertyBase
     {
-        //public ObservableCollection<IssueBO> AIssue = new ObservableCollection<IssueBO>();
         public abstract void GetAIssue(int issueId);
 
-        public void RemoveUserFromIssue(int userId, int issueId)
+        public void RemoveUserFromIssue(string userEmail, int issueId)
         {
             RemoveIssueFromUser _removeIssue;
-            _removeIssue = new RemoveIssueFromUser(new RemoveIssueRequest(new CancellationTokenSource(), userId, issueId), new PresenterRemoveIssueFromUserCallback(this));
+            _removeIssue = new RemoveIssueFromUser(new RemoveIssueRequest(new CancellationTokenSource(), userEmail, issueId), new PresenterRemoveIssueFromUserCallback(this));
             _removeIssue.Execute();
-
         }
 
-        public void AssignUserToIssue(int userId, int id)
+        public void AssignUserToIssue(string email, int id)
         {
             AssignIssueToUser _assignIssueToUser;
-            _assignIssueToUser = new AssignIssueToUser(new AssignIssueRequest(id, userId, new CancellationTokenSource()), new PresenterAssignIssueCallback(this));
+            _assignIssueToUser = new AssignIssueToUser(new AssignIssueRequest(id, email, new CancellationTokenSource()), new PresenterAssignIssueCallback(this));
             _assignIssueToUser.Execute();
-        
         }
 
         public void GetMatchingUsers(string input)
         {
             GetAllMatchingUsers _getAllUsers;
-            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input,new CancellationTokenSource()),new PresenterAllMatchingUsersCallback(this));
+            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersCallback(this));
             _getAllUsers.Execute();
         }
 
         public IIssueDetailsPageNotification issueDetailsPageNotification { get; set; }
-        
+        public IUpdateMatchingUsersOfIssue updateMatchingUsers { get; set; }
+       
         private IssueBO _selectedIssue;
         public IssueBO SelectedIssue
         {
@@ -161,8 +146,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        private ObservableCollection<User> _assignedUsersList = new ObservableCollection<User>();
-        public ObservableCollection<User> AssignedUsersList
+        private ObservableCollection<UserBO> _assignedUsersList = new ObservableCollection<UserBO>();
+        public ObservableCollection<UserBO> AssignedUsersList
         {
             get { return _assignedUsersList; }
             set
@@ -172,8 +157,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        private ObservableCollection<User> _matchingUsers = new ObservableCollection<User>();
-        public ObservableCollection<User> MatchingUsers
+        private ObservableCollection<UserBO> _matchingUsers = new ObservableCollection<UserBO>();
+        public ObservableCollection<UserBO> MatchingUsers
         {
             get { return _matchingUsers; }
             set
@@ -202,6 +187,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
     }
 
 
+    public interface IUpdateMatchingUsersOfIssue
+    {
+        void UpdateMatchingUsers();
+    }
+
+
     public class PresenterAssignIssueCallback : IPresenterAssignIssueCallback
     {
         private IssueDetailsViewModelBase _assignIssueToUser;
@@ -227,17 +218,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _assignIssueToUser.NotificationVisibility = Visibility.Visible;
                 _assignIssueToUser.issueDetailsPageNotification.IssueDetailsPageNotification();
                 UIUpdation.UserAddedUpdate(response.Data.Data);
-                //if (_assignIssueToUser.CanAssignUsersList.Count == 0)
-                //{
-                //    _assignIssueToUser.TextVisibility = Visibility.Visible;
-                //    _assignIssueToUser.ListVisibility = Visibility.Collapsed;
-                //    _assignIssueToUser.ResponseString = "Users not assigned yet:)";
-                //}
-                //else
-                //{
-                //    _assignIssueToUser.ListVisibility = Visibility.Visible;
-                //    _assignIssueToUser.TextVisibility = Visibility.Collapsed;
-                //}
+                _assignIssueToUser.ListVisibility = Visibility.Visible;
+                _assignIssueToUser.TextVisibility = Visibility.Collapsed;
             });
         }
     }
@@ -269,17 +251,17 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _removeIssue.ResponseString = response.Response.ToString();
                 _removeIssue.issueDetailsPageNotification.IssueDetailsPageNotification();
                 UIUpdation.UserRemovedUpdate(response.Data.Data);
-                //if (_removeIssue.CanRemoveUsersList.Count == 0)
-                //{
-                //    _removeIssue.TextVisibility = Visibility.Visible;
-                //    _removeIssue.ListVisibility = Visibility.Collapsed;
-                //    _removeIssue.ResponseString = "Users not assigned yet:)";
-                //}
-                //else
-                //{
-                //    _removeIssue.ListVisibility = Visibility.Visible;
-                //    _removeIssue.TextVisibility = Visibility.Collapsed;
-                //}
+                if(_removeIssue.AssignedUsersList.Count == 0)
+                {
+                    _removeIssue.ListVisibility = Visibility.Collapsed;
+                    _removeIssue.TextVisibility = Visibility.Visible;
+                    _removeIssue.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _removeIssue.ListVisibility = Visibility.Visible;
+                    _removeIssue.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }
@@ -302,20 +284,13 @@ namespace TaskManagementCleanArchitecture.ViewModel
             throw new NotImplementedException();
         }
 
-        public void OnSuccessAsync(ZResponse<GetAllMatchingUsersResponse> response)
+        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersResponse> response)
         {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
                 _getMatchingUsers.MatchingUsers = response.Data.Data;
-                //if(_getMatchingUsers.AssignedUsersList.Count>0)
-                //{
-                //    _getMatchingUsers.ListVisibility = Visibility.Visible;
-                //    _getMatchingUsers.TextVisibility = Visibility.Collapsed;
-                //}
-                //else
-                //{
-                //    _getMatchingUsers.ListVisibility= Visibility.Collapsed;
-                //    _getMatchingUsers.TextVisibility = Visibility.Visible;
-                //    _getMatchingUsers.ResponseString = "Users not assigned yet:)";
-                //}
+                _getMatchingUsers.updateMatchingUsers.UpdateMatchingUsers();
+            });
         }
     }
 }

@@ -48,7 +48,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                if (response.Data.Data.Count != 0)
+                if (response.Data.Data != null)
                 {
                     PopulateData(response.Data.Data);
                     _viewModel.TextVisibility = Visibility.Collapsed;
@@ -63,7 +63,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             });
         }
 
-        private void PopulateData(List<Tasks> data)
+        private void PopulateData(ObservableCollection<Tasks> data)
         {
             foreach (var p in data)
                 _viewModel.TasksList.Add(p);

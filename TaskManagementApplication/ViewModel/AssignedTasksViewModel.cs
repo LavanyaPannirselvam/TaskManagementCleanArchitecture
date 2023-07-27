@@ -27,9 +27,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             private GetAssignedTasksList _getTasksList;
 
-            public override void GetTasks(int userId)
+            public override void GetTasks(string email)
             {
-                _getTasksList = new GetAssignedTasksList(new GetAssignedTasksListRequest(userId, new CancellationTokenSource()), new PresenterGetAssignedTasksList(this));
+                _getTasksList = new GetAssignedTasksList(new GetAssignedTasksListRequest(email, new CancellationTokenSource()), new PresenterGetAssignedTasksList(this));
                 _getTasksList.Execute();
             }
         }
@@ -58,7 +58,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 await SwitchToMainUIThread.SwitchToMainThread(() =>
                 {
-                    if (response.Data.Data.Count != 0)
+                    if (response.Data.Data != null)
                     {
                         PopulateData(response.Data.Data);
                         _viewModel.TextVisibility = Visibility.Collapsed;
@@ -73,7 +73,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 });
             }
 
-            private void PopulateData(List<Tasks> data)
+            private void PopulateData(ObservableCollection<Tasks> data)
             {
                 foreach (var p in data)
                     _viewModel.TasksList.Add(p);
@@ -85,7 +85,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             public ObservableCollection<Tasks> TasksList = new ObservableCollection<Tasks>();
             public int userId { get; set; }
             public ITaskUpdation updation { get; set; }
-            public abstract void GetTasks(int userId);
+            public abstract void GetTasks(string email);
 
             private Visibility _textVisibility = Visibility.Collapsed;
             public Visibility TextVisibility

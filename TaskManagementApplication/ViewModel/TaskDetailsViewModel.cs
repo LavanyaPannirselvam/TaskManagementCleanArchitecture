@@ -48,57 +48,58 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                //_taskDetailsViewModel.CanRemoveUsersList.Clear();
-                //_taskDetailsViewModel.CanAssignUsersList.Clear();
-                PopulateData(response.Data.Data);
-                //foreach (var u in response.Data.Data.AssignedUsers)
-                //{
-                //    if (u.Value == true)
-                //        _taskDetailsViewModel.CanRemoveUsersList.Add(u.Key);
-                //    else
-                //        _taskDetailsViewModel.CanAssignUsersList.Add(u.Key);
-                //}
-                //if (_taskDetailsViewModel.CanRemoveUsersList.Count == 0)
-                //{
-                //    _taskDetailsViewModel.TextVisibility = Visibility.Visible;
-                //    _taskDetailsViewModel.ListVisibility = Visibility.Collapsed;
-                //    _taskDetailsViewModel.ResponseString = response.Response.ToString();
-                  
-                //}
-                //else
-                //{
-                //    _taskDetailsViewModel.ListVisibility = Visibility.Visible;
-                //    _taskDetailsViewModel.TextVisibility = Visibility.Collapsed;
-                //}
+                _taskDetailsViewModel.SelectedTask = response.Data.Data;
+                PopulateData(response.Data.Data.AssignedUsers);
+                if (_taskDetailsViewModel.AssignedUsersList.Count == 0)
+                {
+                    _taskDetailsViewModel.ListVisibility = Visibility.Collapsed;
+                    _taskDetailsViewModel.TextVisibility = Visibility.Visible;
+                    _taskDetailsViewModel.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _taskDetailsViewModel.ListVisibility = Visibility.Visible;
+                    _taskDetailsViewModel.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
 
-        private void PopulateData(TaskBO data)
+        private void PopulateData(List<UserBO> assignedUsers)
         {
-            _taskDetailsViewModel.SelectedTask = data;
-            _taskDetailsViewModel.ATask.Add(data);
+            foreach (var user in assignedUsers)
+            {
+                _taskDetailsViewModel.AssignedUsersList.Add(user);
+            }
         }
     }
     public abstract class TaskDetailsViewModelBase : NotifyPropertyBase
     {
         public abstract void GetATask(int taskId);
 
-        public void RemoveTask(int userId, int taskId)
+        public void RemoveTask(string userEmail, int taskId)
         {
             RemoveTaskFromUser _removeTask;
-             _removeTask = new RemoveTaskFromUser(new RemoveTaskRequest(new CancellationTokenSource(), userId, taskId), new PresenterRemoveTaskFromUserCallback(this));
+             _removeTask = new RemoveTaskFromUser(new RemoveTaskRequest(new CancellationTokenSource(), userEmail, taskId), new PresenterRemoveTaskFromUserCallback(this));
             _removeTask.Execute();
         }
 
-        internal void AssignTask(int userId, int taskId)
+        internal void AssignTask(string userEmail, int taskId)
         {
             AssignTaskToUser _assignTaskToUser;
-            _assignTaskToUser = new AssignTaskToUser(new AssignTaskRequest(taskId, userId, new CancellationTokenSource()), new PresenterAssignTaskCallback(this));
+            _assignTaskToUser = new AssignTaskToUser(new AssignTaskRequest(taskId, userEmail, new CancellationTokenSource()), new PresenterAssignTaskCallback(this));
             _assignTaskToUser.Execute();
         }
 
-        public ObservableCollection<TaskBO> ATask = new ObservableCollection<TaskBO>();
+        public void GetMatchingUsers(string input)
+        {
+            GetAllMatchingUsers _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfTaskCallback(this));
+            _getAllUsers.Execute();
+        }
+
         public ITaskDetailsNotification taskDetailsNotification { get; set; }
+        public IUpdateMatchingUsersOfTask updateMatchingUsers { get; set; }
+
         private TaskBO _selectedTask;
         public TaskBO SelectedTask
         {
@@ -154,28 +155,27 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        
-        //private ObservableCollection<User> _canAssignUsersList = new ObservableCollection<User>();
-        //public ObservableCollection<User> CanAssignUsersList
-        //{
-        //    get { return _canAssignUsersList; }
-        //    set
-        //    {
-        //        _canAssignUsersList = value;
-        //        OnPropertyChanged(nameof(CanAssignUsersList));
-        //    }
-        //}
+        private ObservableCollection<UserBO> _assignedUsersList = new ObservableCollection<UserBO>();
+        public ObservableCollection<UserBO> AssignedUsersList
+        {
+            get { return _assignedUsersList; }
+            set
+            {
+                _assignedUsersList = value;
+                OnPropertyChanged(nameof(AssignedUsersList));
+            }
+        }
 
-        //private ObservableCollection<User> _canRemoveUsersList = new ObservableCollection<User>();
-        //public ObservableCollection<User> CanRemoveUsersList
-        //{
-        //    get { return _canRemoveUsersList; }
-        //    set
-        //    {
-        //        _canRemoveUsersList = value;
-        //        OnPropertyChanged(nameof(CanRemoveUsersList));
-        //    }
-        //}
+        private ObservableCollection<UserBO> _matchingUsers = new ObservableCollection<UserBO>();
+        public ObservableCollection<UserBO> MatchingUsers
+        {
+            get { return _matchingUsers; }
+            set
+            {
+                _matchingUsers = value;
+                OnPropertyChanged(nameof(MatchingUsers));
+            }
+        }
     }
 
 
@@ -183,6 +183,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         void TaskDetailsNotification();
     }
+
+    public interface IUpdateMatchingUsersOfTask
+    {
+        void UpdateMatchingUsers();
+    }
+
 
     public class PresenterRemoveTaskFromUserCallback : IPresenterRemoveTaskFromUserCallback
     {
@@ -210,17 +216,17 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _removeTask.ResponseString = response.Response.ToString();
                 _removeTask.taskDetailsNotification.TaskDetailsNotification();
                 UIUpdation.UserRemovedUpdate(response.Data.Data);
-                //if (_removeTask.CanRemoveUsersList.Count == 0)
-                //{
-                //    _removeTask.TextVisibility = Visibility.Visible;
-                //    _removeTask.ListVisibility = Visibility.Collapsed;
-                //    _removeTask.ResponseString = "Users not assigned yet:)";
-                //}
-                //else
-                //{
-                //    _removeTask.ListVisibility = Visibility.Visible;
-                //    _removeTask.TextVisibility = Visibility.Collapsed;
-                //}
+                if (_removeTask.AssignedUsersList.Count == 0)
+                {
+                    _removeTask.ListVisibility = Visibility.Collapsed;
+                    _removeTask.TextVisibility = Visibility.Visible;
+                    _removeTask.ResponseString = "Users not assigned yet:)";
+                }
+                else
+                {
+                    _removeTask.ListVisibility = Visibility.Visible;
+                    _removeTask.TextVisibility = Visibility.Collapsed;
+                }
             });
         }
     }
@@ -251,17 +257,36 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _assignTaskToUser.NotificationVisibility = Visibility.Visible;
                 _assignTaskToUser.taskDetailsNotification.TaskDetailsNotification();
                 UIUpdation.UserAddedUpdate(response.Data.Data);
-                //if (_assignTaskToUser.CanAssignUsersList.Count == 0)
-                //{
-                //    _assignTaskToUser.TextVisibility = Visibility.Visible;
-                //    _assignTaskToUser.ListVisibility = Visibility.Collapsed;
-                //    _assignTaskToUser.ResponseString = "Users not assigned yet:)";
-                //}
-                //else
-                //{
-                //    _assignTaskToUser.ListVisibility = Visibility.Visible;
-                //    _assignTaskToUser.TextVisibility = Visibility.Collapsed;
-                //}
+                _assignTaskToUser.ListVisibility = Visibility.Visible;
+                _assignTaskToUser.TextVisibility = Visibility.Collapsed;
+            });
+        }
+    }
+
+    public class PresenterAllMatchingUsersOfTaskCallback : IPresenterGetAllMatchingUsersCallback
+    {
+        private TaskDetailsViewModelBase _getMatchingUsers;
+
+        public PresenterAllMatchingUsersOfTaskCallback(TaskDetailsViewModelBase obj)
+        {
+            _getMatchingUsers = obj;
+        }
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<GetAllMatchingUsersResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _getMatchingUsers.MatchingUsers = response.Data.Data;
+                _getMatchingUsers.updateMatchingUsers.UpdateMatchingUsers();
             });
         }
     }
