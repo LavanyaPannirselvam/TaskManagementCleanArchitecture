@@ -1232,7 +1232,7 @@
     10.add activity popup is retaining name of activity -> done
     11.bo should inherit -> done
     12.zresponse data will be setted in its <> part itself -> done
-    13.
+    13.which is better getting as obcollection from manager or assigning to obcollection in vm
     
     TODO:
     1.remove all dependency property for current user

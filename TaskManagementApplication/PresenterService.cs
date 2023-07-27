@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementCleanArchitecture.ViewModel.TaskManagementCleanArchitecture.ViewModel;
+using TaskManagementLibrary.Domain.Usecase;
 
 namespace TaskManagementCleanArchitecture
 {
@@ -39,6 +40,7 @@ namespace TaskManagementCleanArchitecture
             services.AddSingleton<AssignedTasksPageViewModelBase, AssignedTaskPageViewModel>();
             services.AddSingleton<CreatedTasksPageViewModelBase,CreatedTasksPageViewModel>();
             services.AddSingleton<CreateUserViewModelBase, CreateUserViewModel>();
+            services.AddSingleton<UserViewModelBase,UserViewModel>();
             return services.BuildServiceProvider();
         }
     }
