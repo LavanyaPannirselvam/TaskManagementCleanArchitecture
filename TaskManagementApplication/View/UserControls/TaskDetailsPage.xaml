@@ -287,12 +287,13 @@
                                     Visibility="{x:Bind _taskDetailsViewModel.ListVisibility,Mode=OneWay}">
                             <ListView x:Name="UsersForTasks"
                                     Margin="5,2"
+                                      ItemsSource="{x:Bind _taskDetailsViewModel.AssignedUsersList,Mode=OneWay}"
                                     HorizontalAlignment="Left">
                                 <ListView.Resources>
                                 <Style TargetType="ListViewItem">
                                         <Setter Property="IsFocusEngaged" Value="False"/>
                                         <!--<Setter Property="IsSelected" Value="True"/>
-                                                                        ItemsSource="{x:Bind _taskDetailsViewModel.CanRemoveUsersList,Mode=OneWay}"
+                                        ItemsSource="{x:Bind _taskDetailsViewModel.CanRemoveUsersList,Mode=OneWay}"
 -->
                                     </Style>
                                 </ListView.Resources>
@@ -302,7 +303,7 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>-->
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="library:User">
+                                    <DataTemplate x:DataType="library:UserBO">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
                                                    Margin="0,1,0,0"
@@ -337,7 +338,19 @@
                                  Width="260"
                                  QuerySubmitted="AssignUserBox_QuerySubmitted"
                                  QueryIcon="Find"
+                                 SuggestionChosen="AssignUserBox_SuggestionChosen"
                                  AutomationProperties.Name="UserAutoSuggestBox">
+                            <AutoSuggestBox.ItemTemplate>
+                                <DataTemplate x:DataType="library:UserBO">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                                   FontSize="16"
+                                                   Margin="0,0,3,0"/>
+                                        <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                   FontSize="13"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </AutoSuggestBox.ItemTemplate>
                         </AutoSuggestBox>
                     </StackPanel>
                 </Grid>

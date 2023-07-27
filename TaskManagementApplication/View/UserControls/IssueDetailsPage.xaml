@@ -9,9 +9,7 @@
     xmlns:library="using:TaskManagementLibrary.Models"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded"
-    Unloaded="UserControl_Unloaded"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -290,20 +288,19 @@
                         <StackPanel Grid.Row="0"
                                     x:Name="UsersListPanel"
                                     Visibility="{x:Bind _issueViewModel.ListVisibility,Mode=OneWay}">
-                            <ListView
-                                    x:Name="UsersForTasks"
-                                    
-                                    Margin="5,2"
+                            <ListView x:Name="UsersForTasks"
+                                      ItemsSource="{x:Bind _issueViewModel.AssignedUsersList,Mode=OneWay}"
+                                      Margin="5,2"
                                     HorizontalAlignment="Left">
                                 <!--ItemContainerStyle="{StaticResource ListviewItemContainerStyle}">
-                                ItemsSource="{x:Bind _issueViewModel.CanRemoveUsersList,Mode=OneWay}"-->
+                                ItemsSource="{x:Bind _issueViewModel.AssignedUsersList,Mode=OneWay}"-->
                                 <!--<ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="IsHitTestVisible" Value="false"/>
                                     </Style>
                                 </ListView.ItemContainerStyle>-->
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="library:User">
+                                    <DataTemplate x:DataType="library:UserBO">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
                                                    Margin="0,1,0,0"
@@ -338,7 +335,19 @@
                                  Width="260"
                                  QueryIcon="Find"
                                  QuerySubmitted="AssignUserBox_QuerySubmitted"
+                                 SuggestionChosen="AssignUserBox_SuggestionChosen"
                                  AutomationProperties.Name="UserAutoSuggestBox">
+                            <AutoSuggestBox.ItemTemplate>
+                                <DataTemplate x:DataType="library:UserBO">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                                   FontSize="16"
+                                                   Margin="0,0,3,0"/>
+                                        <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                   FontSize="13"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </AutoSuggestBox.ItemTemplate>
                         </AutoSuggestBox>
                     </StackPanel>
                 </Grid>

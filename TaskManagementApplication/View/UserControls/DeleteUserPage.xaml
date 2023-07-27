@@ -17,6 +17,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Delete User"
                    FontSize="28"
@@ -52,6 +53,53 @@
             <controls:InAppNotification Name="NotificationControl"
                                                 HorizontalAlignment="Stretch"
                                                 ShowDismissButton="False"/>
+        </Grid>
+        <Grid Grid.Row="3">
+            <GridView
+                ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
+                SelectionMode="None">
+                <!--<GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="3"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>-->
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="library:User">
+                        <Grid>
+                            <Border Background="Pink" Height="200" Width="300">
+                                <StackPanel Margin="10">
+                                <StackPanel Orientation="Horizontal">
+                                    <PersonPicture DisplayName="{x:Bind Name,Mode=OneWay}"
+                                                   Height="50"
+                                                   Width="50"
+                                                   Margin="10"/>
+                                    <TextBlock Text="{x:Bind Role,Mode=OneWay}" 
+                                               FontSize="26" 
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="Gray"/>
+                                </StackPanel>
+                                    <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                           FontSize="20"
+                                           Foreground="Black"/>
+                                    <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                               FontSize="20"
+                                               Foreground="Black"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <!--<GridView.Items>
+                    <x:String>One</x:String>
+                    <x:String>One</x:String>
+                    <x:String>One</x:String>
+                    <x:String>One</x:String>
+                    <x:String>One</x:String>
+                    <x:String>One</x:String>
+                    <x:String>One</x:String>
+                </GridView.Items>-->
+            </GridView>
         </Grid>
     </Grid>
 </UserControl>

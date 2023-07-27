@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
@@ -29,19 +30,28 @@ using User = TaskManagementLibrary.Models.User;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class TaskDetailsPage : UserControl, ITaskDetailsNotification
+    public sealed partial class TaskDetailsPage : UserControl, ITaskDetailsNotification, IUpdateMatchingUsersOfTask
     {
         public TaskBO task;
         public ObservableCollection<User> _users;
         public static event Action<string> Notification;
+        public static event Action<ObservableCollection<UserBO>> UpdateUsers;
+        private ObservableCollection<UserBO> _userOption;
+        private ObservableCollection<UserBO> _suitableItems;
+        private ObservableCollection<UserBO> _assignedUsers;
+        private UserBO _selectedUser;
         public TaskDetailsViewModelBase _taskDetailsViewModel;
-        
+
         public TaskDetailsPage()
         {
             this.InitializeComponent();
             _users = new ObservableCollection<User>();
-           _taskDetailsViewModel = PresenterService.GetInstance().Services.GetService<TaskDetailsViewModelBase>();
+            _taskDetailsViewModel = PresenterService.GetInstance().Services.GetService<TaskDetailsViewModelBase>();
             _taskDetailsViewModel.taskDetailsNotification = this;
+            _taskDetailsViewModel.updateMatchingUsers = this;
+            _userOption = new ObservableCollection<UserBO>();
+            _suitableItems = new ObservableCollection<UserBO>();
+            _assignedUsers = new ObservableCollection<UserBO>();
         }
 
         public TaskDetailsPage(int id)
@@ -61,50 +71,26 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-          //  _users = _taskDetailsViewModel.CanAssignUsersList;
+            _assignedUsers = _taskDetailsViewModel.AssignedUsersList;
+            _taskDetailsViewModel.MatchingUsers.Clear();
+            _suitableItems.Clear();
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var suitableItems = new ObservableCollection<string>();
-                var splitText = sender.Text.ToLower().Split(" ");
-                foreach (var user in _users)
-                {
-                    var found = splitText.All((key) =>
-                    {
-                        return user.Name.ToLower().Contains(key);
-                    });
-                    if (found)
-                    {
-                        suitableItems.Add(user.Name);
-                    }
-                }
-                if (suitableItems.Count == 0)
-                {
-                    suitableItems.Add("No results found");
-                }
-                if (sender.Text != string.Empty)
-                    sender.ItemsSource = suitableItems;
-                else sender.ItemsSource = null;
+                var splitText = sender.Text;
+                _taskDetailsViewModel.GetMatchingUsers(splitText);
             }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            var data = ((FrameworkElement)sender).DataContext as User;
-            //_removeTaskFromUserViewModel.RemoveTask(data.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
-            _taskDetailsViewModel.RemoveTask(data.UserId, _taskDetailsViewModel.SelectedTask.Id);
-            //_taskDetailsViewModel.CanRemoveUsersList.Clear();
-
+            var data = ((FrameworkElement)sender).DataContext as UserBO;
+            _taskDetailsViewModel.RemoveTask(data.Email, _taskDetailsViewModel.SelectedTask.Id);
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var result = args.ChosenSuggestion;
-            foreach (var user in _users)
-            {
-                if(user.Name.Equals(result))
-                    //_assignTaskToUserViewModel.AssignUserToTask(user.UserId, _aTaskViewModel.SelectedTask.Tasks.Id);
-                    _taskDetailsViewModel.AssignTask(user.UserId, _taskDetailsViewModel.SelectedTask.Id);
-            }
+            _taskDetailsViewModel.AssignTask(_selectedUser.Email, _taskDetailsViewModel.SelectedTask.Id);
+            _selectedUser = null;
             AssignUserBox.Text = string.Empty;
         }
 
@@ -117,29 +103,51 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             UIUpdation.UserAdded += UserAdded;
             UIUpdation.UserRemoved += UserRemoved;
+            UpdateUsers += TaskDetailsPage_UpdateUsers;
             Notification += ShowNotification;
         }
 
-        private void UserRemoved(ObservableCollection<User> bO)
+        private void TaskDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
         {
-            //_taskDetailsViewModel.CanAssignUsersList.Clear();
-            //foreach (var u in bO)
-            //{
-            //    _taskDetailsViewModel.CanAssignUsersList.Add(u);
-            //    var delete = _taskDetailsViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
-            //    _taskDetailsViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
-            //}
+            _userOption.Clear();
+            _userOption = _taskDetailsViewModel.MatchingUsers;
+            foreach (var user in _userOption)
+            {
+                if (!_assignedUsers.Contains<UserBO>(user))
+                {
+                    _suitableItems.Add(user);
+                }
+            }
+            if (_suitableItems.Count == 0)
+            {
+                _suitableItems.Add(new UserBO("No results found", string.Empty));
+            }
+            if (AssignUserBox.Text != string.Empty)
+            {
+                AssignUserBox.ItemsSource = _suitableItems;
+            }
+            else
+            {
+                AssignUserBox.ItemsSource = null;
+            }
         }
 
-        private void UserAdded(ObservableCollection<User> bO)
+        private void UserRemoved(ObservableCollection<UserBO> bO)
         {
-            //_taskDetailsViewModel.CanRemoveUsersList.Clear();
-            //foreach (var user in bO)
-            //{
-            //    _taskDetailsViewModel.CanRemoveUsersList.Add(user);
-            //    var delete = _taskDetailsViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
-            //    _taskDetailsViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
-            //}
+            _taskDetailsViewModel.AssignedUsersList.Clear();
+            foreach (var user in bO)
+            {
+                _taskDetailsViewModel.AssignedUsersList.Add(user);
+            }
+        }
+
+        private void UserAdded(ObservableCollection<UserBO> bO)
+        {
+            _taskDetailsViewModel.AssignedUsersList.Clear();
+            foreach (var user in bO)
+            {
+                _taskDetailsViewModel.AssignedUsersList.Add(user);
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -147,6 +155,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded -= UserAdded;
             UIUpdation.UserRemoved -= UserRemoved;
             Notification -= ShowNotification;
+            UpdateUsers -= TaskDetailsPage_UpdateUsers;
+        }
+
+        private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            _selectedUser = args.SelectedItem as UserBO;
+            sender.Text = _selectedUser.Name;
+        }
+
+        public void UpdateMatchingUsers()
+        {
+            UpdateUsers.Invoke(_taskDetailsViewModel.MatchingUsers);
         }
     }
 }
