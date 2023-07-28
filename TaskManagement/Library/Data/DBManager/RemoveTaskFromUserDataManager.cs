@@ -17,18 +17,18 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void RemoveTaskFromUser(RemoveTaskRequest request, IUsecaseCallbackBasecase<RemoveTaskResponse> callback)
         {
-            DBhandler.DeassignActivity(request.userId, request.taskId, ActivityType.TASK);
+            DBhandler.DeassignActivity(request.userEmail, request.taskId, ActivityType.TASK);
             ZResponse<RemoveTaskResponse> zResponse = new ZResponse<RemoveTaskResponse>();
             zResponse.Response = "Task removed from user successfully";
             RemoveTaskResponse removeTaskResponse = new RemoveTaskResponse();
             //List<User> users = DbHandler.UsersList();
-            List<User> assignedUsers = DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
+            List<UserBO> assignedUsers = DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
             //foreach (var u in users)
             //{
             //    if (!assignedUsers.Contains<User>(u))
             //        removeTaskResponse.users.Add(u);
             //}
-            removeTaskResponse.Data = new System.Collections.ObjectModel.ObservableCollection<User>(assignedUsers);
+            removeTaskResponse.Data = new System.Collections.ObjectModel.ObservableCollection<UserBO>(assignedUsers);
             zResponse.Data = removeTaskResponse;
             callback.OnResponseSuccess(zResponse);
         }

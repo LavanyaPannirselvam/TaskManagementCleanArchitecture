@@ -19,20 +19,20 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void AssignTask(AssignTaskRequest request, IUsecaseCallbackBasecase<AssignTaskResponse> callback)
         {
-            int taskId = request.taskId;
-            int userId = request.userId;
-            DBhandler.AssignActivity(userId,taskId,ActivityType.TASK);
+            //int taskId = request.taskId;
+            //int userId = request.userId;
+            DBhandler.AssignActivity(request.userEmail,request.taskId,ActivityType.TASK);
             ZResponse<AssignTaskResponse> zResponse = new ZResponse<AssignTaskResponse>();
             //zResponse.Response = "Task assigned to user successfully";
            // List<User> users = DbHandler.UsersList();
-            List<User> assignedUsers = DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
+            List<UserBO> assignedUsers = DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
             AssignTaskResponse assignTaskResponse = new AssignTaskResponse();
             //foreach(var u in users)
             //{
             //    if (assignedUsers.Contains<User>(u))
             //        assignTaskResponse.users.Add(u);
             //}
-            assignTaskResponse.Data = new ObservableCollection<User>(assignedUsers); 
+            assignTaskResponse.Data = new ObservableCollection<UserBO>(assignedUsers); 
             zResponse.Response = "Task assigned to user successfully";
             zResponse.Data = assignTaskResponse;
             callback.OnResponseSuccess(zResponse);

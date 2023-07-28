@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TaskManagementLibrary.Data.DBHandler;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Domain;
+using System.Collections.ObjectModel;
+using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Data.DBManager
 {
@@ -22,7 +24,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<GetCreatedTasksListResponse> zResponse = new ZResponse<GetCreatedTasksListResponse>();
             if (list.Count > 0)
             {
-                tasksResponse.Data = list;
+                tasksResponse.Data = new ObservableCollection<Tasks>(list);
                 zResponse.Response = "";
             }
             else

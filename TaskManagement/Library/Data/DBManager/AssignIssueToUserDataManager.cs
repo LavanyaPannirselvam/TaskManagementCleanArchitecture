@@ -22,22 +22,22 @@ namespace TaskManagementLibrary.Data.DBManager
         public void AssignIssueToUser(AssignIssueRequest request, IUsecaseCallbackBasecase<AssignIssueResponse> callback)
         {
             var issueId = request.issueId;
-            var userId = request.userId;
-            DBhandler.AssignActivity(userId, issueId, ActivityType.ISSUE);
+            var userEmail = request.userEmail;
+            DBhandler.AssignActivity(userEmail, issueId, ActivityType.ISSUE);
             ZResponse<AssignIssueResponse> zResponse = new ZResponse<AssignIssueResponse>();
             //List<User> users = DbHandler.UsersList();
-            List<User> assignedUsers = DBhandler.AssignedUsersList(request.issueId, (int)ActivityType.ISSUE);
+            List<UserBO> assignedUsers = DBhandler.AssignedUsersList(issueId,(int)ActivityType.ISSUE);
             AssignIssueResponse assignIssueResponse = new AssignIssueResponse();
             //foreach (var u in users)
             //{
             //    if (assignedUsers.Contains<User>(u))
             //        assignIssueResponse.users.Add(u);
             //}
-            assignIssueResponse.Data = new ObservableCollection<User>(assignedUsers);
+            assignIssueResponse.Data = new ObservableCollection<UserBO>(assignedUsers);
             zResponse.Response = "Issue assigned to user successfully";
             zResponse.Data = assignIssueResponse;
             callback.OnResponseSuccess(zResponse);
         }
     }
-    }
+}
 

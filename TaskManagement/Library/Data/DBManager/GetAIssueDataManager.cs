@@ -23,7 +23,7 @@ namespace TaskManagementLibrary.Data.DBManager
             var item = DBhandler.GetIssue(request.issueId);
             IssueBO issueBO = new IssueBO(item);
             //issueBO.Issue = item;
-            List<User> list = DBhandler.AssignedUsersList(request.issueId, (int)ActivityType.ISSUE);
+            List<UserBO> list = DBhandler.AssignedUsersList(request.issueId, (int)ActivityType.ISSUE);
            // List<User> userList = DbHandler.UsersList();
             ZResponse<GetAIssueResponse> zResponse = new ZResponse<GetAIssueResponse>();
             GetAIssueResponse issueResponse = new GetAIssueResponse();
@@ -49,7 +49,7 @@ namespace TaskManagementLibrary.Data.DBManager
             {
                 zResponse.Response = "Users not assigned yet :)";
             }
-            issueBO.AssignedUsers = new ObservableCollection<User>(list);
+            issueBO.AssignedUsers = new ObservableCollection<UserBO>(list);
             issueResponse.Data = issueBO;
             zResponse.Data = issueResponse;
             response.OnResponseSuccess(zResponse);

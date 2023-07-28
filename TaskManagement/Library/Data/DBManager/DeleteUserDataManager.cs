@@ -15,19 +15,22 @@ namespace TaskManagementLibrary.Data.DBManager
         {
         }
 
-        public void DeleteUser(DeleteUserRequest request, IUsecaseCallbackBasecase<bool> response)
+        public void DeleteUser(DeleteUserRequest request, IUsecaseCallbackBasecase<DeleteUserResponse> response)
         {
             var email = request.UserEmail;
-            var assignmentsList = DBhandler.AssignmentsList(DBhandler.GetUser(email).UserId);
+            var user = DBhandler.GetUser(email);
+            var assignmentsList = DBhandler.AssignmentsList(user.Email);
             if (assignmentsList != null)
             {
                 DBhandler.RemoveAllAssignments(assignmentsList);
             }
             DBhandler.DeleteUserCredentials(email);
+            DeleteUserResponse userResponse = new DeleteUserResponse();
+            userResponse.Data = user;
             DBhandler.DeleteUser(email);
            // DeleteUserResponse deleteUser = new DeleteUserResponse();
-            ZResponse<bool> zResponse = new ZResponse<bool>();
-            zResponse.Data = true;
+            ZResponse<DeleteUserResponse> zResponse = new ZResponse<DeleteUserResponse>();
+            zResponse.Data = userResponse;
             zResponse.Response = "User deleted Successfully";
             response.OnResponseSuccess(zResponse);
         }

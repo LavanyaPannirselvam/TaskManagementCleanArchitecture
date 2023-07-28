@@ -31,6 +31,7 @@ namespace TaskManagementLibrary.Data.DBManager
                     //addUserResponse.newUser = user;
                     credential.Password = _password;
                     addUserResponse.Data= credential;
+                    addUserResponse.newUser = user;
                     zResponse.Data = addUserResponse;
                     zResponse.Response = "User account created successfully";
                     callback.OnResponseSuccess(zResponse);

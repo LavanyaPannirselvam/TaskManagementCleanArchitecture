@@ -21,7 +21,7 @@ namespace TaskManagementLibrary.Data.DBManager
         {
             var item = DBhandler.GetTask(request.taskId);
             TaskBO taskBO = new TaskBO(item);
-            List<User> list= DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
+            List<UserBO> list= DBhandler.AssignedUsersList(request.taskId, (int)ActivityType.TASK);
             //List<User> userList = DbHandler.UsersList();
             ZResponse<GetATaskResponse> zResponse = new ZResponse<GetATaskResponse>();
             GetATaskResponse taskResponse = new GetATaskResponse();

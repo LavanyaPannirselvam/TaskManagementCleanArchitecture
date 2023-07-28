@@ -21,7 +21,7 @@ namespace TaskManagementLibrary.Data.DBManager
         {
             var usersList = DBhandler.MatchingUsers(request.inputText);
             GetAllMatchingUsersResponse usersResponse = new GetAllMatchingUsersResponse();
-            usersResponse.Data = new ObservableCollection<User>(usersList);
+            usersResponse.Data = new ObservableCollection<UserBO>(usersList);
             ZResponse<GetAllMatchingUsersResponse> zResponse = new ZResponse<GetAllMatchingUsersResponse>();
             zResponse.Data = usersResponse;
             callback.OnResponseSuccess(zResponse);
