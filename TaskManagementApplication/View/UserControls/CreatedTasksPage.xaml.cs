@@ -36,13 +36,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             this.InitializeComponent();
             _createdTask = PresenterService.GetInstance().Services.GetService<CreatedTasksPageViewModelBase>();
+            _createdTask.TasksList.Clear();
+            _createdTask.GetTasks(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-           // _createdTask.TasksList.Clear();
-            _createdTask.GetTasks(CurrentUserClass.CurrentUser.Name,CurrentUserClass.CurrentUser.Email);
-           // _createdTask.TasksList.Clear();
+            TasksList.Visibility = Visibility.Visible;
+            TasksGridSplitter.Visibility = Visibility.Collapsed;
+            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(TasksList, 0);
+            Grid.SetColumnSpan(TasksList, 3);
+            _itemSelected = false;
         }
 
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)

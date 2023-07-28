@@ -258,6 +258,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.IssueDeleted += UIUpdation_IssueDeleted;
             this.FindName("IssuePage");
             this.UnloadObject(Projectpage);
+            IssuesList.Visibility = Visibility.Visible;
+            IssueGridSplitter.Visibility = Visibility.Collapsed;
+            IssueDetailGrid.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(IssuesList, 0);
+            Grid.SetColumnSpan(IssuesList, 3);
+            _itemSelected = false;
         }
 
         private void UIUpdation_IssueDeleted(Issue issue)

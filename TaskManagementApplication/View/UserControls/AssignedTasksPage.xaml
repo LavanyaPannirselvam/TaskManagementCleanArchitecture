@@ -274,7 +274,7 @@
                     </RelativePanel>
                     <RelativePanel HorizontalAlignment="Right"
                                 Grid.Column="1">
-                        <Button CornerRadius="5"
+                        <!--<Button CornerRadius="5"
                                     Margin="10,0,0,0"
                                     Background="Transparent"
                                     BorderThickness="0"
@@ -285,7 +285,7 @@
                                     RelativePanel.LeftOf="CloseButton"
                                     Name="PopoutButton"
                                     ToolTipService.ToolTip="New Window">
-                        </Button>
+                        </Button>-->
                         <!--<Button CornerRadius="5"
                                         Margin="0,0,0,0"
                                         Foreground="Red" 

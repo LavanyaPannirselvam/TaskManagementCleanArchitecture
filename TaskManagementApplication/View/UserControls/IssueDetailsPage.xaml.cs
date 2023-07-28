@@ -69,13 +69,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            //var result = args.ChosenSuggestion;
-            //foreach (var user in _suitableItems)//Problem
-            //{
-            //    if (user.Equals(result))
-            //        _issueViewModel.AssignUserToIssue(user, _issueViewModel.SelectedIssue.Id);
-            //}
-            _issueViewModel.AssignUserToIssue(_selectedUser.Email,_issueViewModel.SelectedIssue.Id);
+            if (_selectedUser == null)
+            {
+                ErrorMessage.Text = "User doesnot exists";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+                _issueViewModel.AssignUserToIssue(_selectedUser.Email, _issueViewModel.SelectedIssue.Id);
+            }
             _selectedUser = null;
             AssignUserBox.Text = string.Empty;
         }
@@ -124,13 +127,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UIUpdation_UserRemoved(ObservableCollection<UserBO> obj)
         {
-            //_issueViewModel.CanAssignUsersList.Clear();
-            //foreach (var u in obj)
-            //{
-            //    _issueViewModel.CanAssignUsersList.Add(u);
-            //    var delete = _issueViewModel.CanRemoveUsersList.Where(user => user.UserId == u.UserId);
-            //    _issueViewModel.CanRemoveUsersList.Remove(delete.FirstOrDefault());
-            //}
             _issueViewModel.AssignedUsersList.Clear();
             foreach (var user in obj)
             {
@@ -140,15 +136,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UIUpdation_UserAdded(ObservableCollection<UserBO> obj)
         {
-            //_issueViewModel.CanRemoveUsersList.Clear();
-            //foreach (var user in obj)
-            //{
-            //    _issueViewModel.CanRemoveUsersList.Add(user);
-            //    var delete = _issueViewModel.CanAssignUsersList.Where(u => u.UserId == user.UserId);
-            //    _issueViewModel.CanAssignUsersList.Remove(delete.FirstOrDefault());
-            //}
-
-
             _issueViewModel.AssignedUsersList.Clear();
             foreach (var user in obj)
             {
@@ -174,21 +161,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 var splitText = sender.Text;
                 _issueViewModel.GetMatchingUsers(splitText);
-                //_userOption = _issueViewModel.MatchingUsers;
-                //foreach(var user in _userOption)
-                //{
-                //    if (!_assignedUsers.Contains<User>(user))
-                //    {
-                //        suitableItems.Add(user.Name);
-                //    }
-                //}
-                //if (suitableItems.Count == 0)
-                //{
-                //    suitableItems.Add("No results found");
-                //}
-                //if (sender.Text != string.Empty)
-                //    sender.ItemsSource = suitableItems;
-                //else sender.ItemsSource = null;
             }
         }
 

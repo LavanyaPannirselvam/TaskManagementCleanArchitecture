@@ -288,6 +288,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TaskPageNotification += ShowTaskPageNotiifcation;
             this.FindName("TaskPage");
             this.UnloadObject(Projectpage);
+            TasksList.Visibility = Visibility.Visible;
+            TasksGridSplitter.Visibility = Visibility.Collapsed;
+            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(TasksList, 0);
+            Grid.SetColumnSpan(TasksList, 3);
+            _itemSelected = false;
         }
 
         private void UpdateDeleteTask(Tasks tasks)

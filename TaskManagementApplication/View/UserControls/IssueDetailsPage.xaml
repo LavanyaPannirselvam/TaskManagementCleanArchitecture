@@ -108,21 +108,6 @@
                 <Setter Property="Background" Value="{ThemeResource AppForegroundBg}"/>
                 <Setter Property="CornerRadius" Value="30"/>
             </Style>
-
-            <Style TargetType="Button" x:Name="CloseButtonStyle">
-                <Setter Property="Content" Value="X"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Content" Value="&#xE106;"/>
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="Visibility" Value="Collapsed"/>
-            </Style>
-            <Button x:Name="CloseButton"
-                    FontFamily="Segoe MDL2 Assets"
-                    Style="{StaticResource CloseButtonStyle}"
-                    Margin="0,0,20,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"/>                       
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch"
@@ -292,13 +277,6 @@
                                       ItemsSource="{x:Bind _issueViewModel.AssignedUsersList,Mode=OneWay}"
                                       Margin="5,2"
                                     HorizontalAlignment="Left">
-                                <!--ItemContainerStyle="{StaticResource ListviewItemContainerStyle}">
-                                ItemsSource="{x:Bind _issueViewModel.AssignedUsersList,Mode=OneWay}"-->
-                                <!--<ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="IsHitTestVisible" Value="false"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>-->
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="library:UserBO">
                                         <StackPanel Orientation="Horizontal">
@@ -311,12 +289,52 @@
                                                 Margin="0,0,20,0"
                                                 FontSize="12"
                                                 Content="&#xE106;"
+                                                Background="Transparent"
+                                                BorderThickness="0"
                                                 Click="CloseButton_Click"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Center"/>
                                           </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
+                                <!--<ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                                           SelectionCheckMarkVisualEnabled="True"
+                                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                           PointerOverBackgroundMargin="1"
+                                                                           >
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal">
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButton"
+                                                                                                       Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                                <VisualState x:Name="PointerOver">
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButton"
+                                                                                                       Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                    </ListViewItemPresenter>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>-->
                             </ListView>
                         </StackPanel>
                     </Grid>
@@ -325,7 +343,7 @@
                 <Grid Grid.Row="3"
                       Margin="10,10,0,0" 
                       Padding="10,0,0,0">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
                         <AutoSuggestBox x:Name="AssignUserBox"
                                  MaxSuggestionListHeight="200"
                                  PlaceholderText="Assign User"
@@ -334,6 +352,7 @@
                                  TextChanged="AutoSuggestBox_TextChanged"
                                  Width="260"
                                  QueryIcon="Find"
+                                 HorizontalAlignment="Left"
                                  QuerySubmitted="AssignUserBox_QuerySubmitted"
                                  SuggestionChosen="AssignUserBox_SuggestionChosen"
                                  AutomationProperties.Name="UserAutoSuggestBox">
@@ -349,6 +368,13 @@
                                 </DataTemplate>
                             </AutoSuggestBox.ItemTemplate>
                         </AutoSuggestBox>
+                        <TextBlock x:Name="ErrorMessage"
+                               Margin="0,10,0,0"
+                               Foreground="Red"
+                               FontSize="14"
+                               Visibility="Collapsed"
+                               HorizontalTextAlignment="Left"
+                               VerticalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="4"
