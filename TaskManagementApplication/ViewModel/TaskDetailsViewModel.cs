@@ -49,6 +49,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _taskDetailsViewModel.SelectedTask = response.Data.Data;
+                _taskDetailsViewModel.AssignedUsersList.Clear();
                 PopulateData(response.Data.Data.AssignedUsers);
                 if (_taskDetailsViewModel.AssignedUsersList.Count == 0)
                 {

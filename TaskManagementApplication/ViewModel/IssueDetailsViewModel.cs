@@ -49,6 +49,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _issueDetailsViewModel.SelectedIssue = response.Data.Data;
+                _issueDetailsViewModel.AssignedUsersList.Clear();
                 Populate(response.Data.Data.AssignedUsers);
                 if(_issueDetailsViewModel.AssignedUsersList.Count == 0)
                 {
@@ -250,6 +251,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _removeIssue.NotificationVisibility = Visibility.Visible;
                 _removeIssue.ResponseString = response.Response.ToString();
                 _removeIssue.issueDetailsPageNotification.IssueDetailsPageNotification();
+                _removeIssue.AssignedUsersList.Clear();
                 UIUpdation.UserRemovedUpdate(response.Data.Data);
                 if(_removeIssue.AssignedUsersList.Count == 0)
                 {

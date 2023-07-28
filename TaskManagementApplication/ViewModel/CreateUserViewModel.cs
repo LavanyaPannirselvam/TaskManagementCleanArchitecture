@@ -9,6 +9,7 @@ using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.UI.Xaml;
 
 namespace TaskManagementCleanArchitecture.ViewModel
@@ -56,6 +57,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 userViewModel.CredentialsGridVisibility = Visibility.Visible;
                 userViewModel.UserId = response.Data.Data.Email.ToString();
                 userViewModel.Password = response.Data.Data.Password.ToString();
+                UIUpdation.OnNewUserCreated(response.Data.newUser);
             });
         }
     }

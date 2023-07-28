@@ -9,6 +9,7 @@ using TaskManagementLibrary;
 using TaskManagementLibrary.Domain.Usecase;
 using System.Collections.ObjectModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -110,17 +111,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
             throw new NotImplementedException();
         }
 
-        public void OnFailure(ZResponse<bool> response)
+        public void OnFailure(ZResponse<DeleteUserResponse> response)
         {
             throw new NotImplementedException();
         }
 
-        public async void OnSuccessAsync(ZResponse<bool> response)
+        public async void OnSuccessAsync(ZResponse<DeleteUserResponse> response)
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _userViewModel.ResponseString = response.Response.ToString();
                 _userViewModel.deleteUserPageUpdateNotification.NotificationMessage();
+                UIUpdation.OnUserDeleted(response.Data.Data);
             });
         }
     }
