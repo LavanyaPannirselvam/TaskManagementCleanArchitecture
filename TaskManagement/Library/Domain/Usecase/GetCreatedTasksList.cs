@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -79,7 +80,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class GetCreatedTasksListResponse : ZResponse<List<Tasks>>
+    public class GetCreatedTasksListResponse : ZResponse<ObservableCollection<Tasks>>
     {
         //public List<Tasks> Tasks = new List<Tasks>();
     }

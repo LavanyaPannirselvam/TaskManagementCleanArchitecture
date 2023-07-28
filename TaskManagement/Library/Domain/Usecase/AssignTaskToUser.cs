@@ -20,12 +20,12 @@ namespace TaskManagementLibrary.Domain.Usecase
     {
         public CancellationTokenSource CtsSource { get ; set ; }
         public int taskId;
-        public int userId;
+        public string userEmail;
         
-        public AssignTaskRequest(int taskId,int userId,CancellationTokenSource cts) 
+        public AssignTaskRequest(int taskId,string userEmail, CancellationTokenSource cts) 
         {
             this.taskId = taskId;
-            this.userId = userId;
+            this.userEmail = userEmail;
             CtsSource = cts;
         }
     }
@@ -80,7 +80,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class AssignTaskResponse : ZResponse<ObservableCollection<User>>
+    public class AssignTaskResponse : ZResponse<ObservableCollection<UserBO>>
     {
         //public TaskBO taskBO { get; set; }
         //public ObservableCollection<User> users = new ObservableCollection<User>();

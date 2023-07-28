@@ -77,7 +77,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class GetAllMatchingUsersResponse : ZResponse<ObservableCollection<User>>
+    public class GetAllMatchingUsersResponse : ZResponse<ObservableCollection<UserBO>>
     {
 
     }

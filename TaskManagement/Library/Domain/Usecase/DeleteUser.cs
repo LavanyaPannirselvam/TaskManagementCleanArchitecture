@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
     public interface IDeleteUserDataManager
     {
-        void DeleteUser(DeleteUserRequest request , IUsecaseCallbackBasecase<bool> response);
+        void DeleteUser(DeleteUserRequest request , IUsecaseCallbackBasecase<DeleteUserResponse> response);
     }
 
     public class DeleteUserRequest : IRequest
@@ -26,7 +27,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public interface IPresenterDeleteUserCallback : IPresenterCallbackBasecase<bool> { }
+    public interface IPresenterDeleteUserCallback : IPresenterCallbackBasecase<DeleteUserResponse> { }
 
 
     public class DeleteUser : UsecaseBase<bool>
@@ -48,7 +49,7 @@ namespace TaskManagementLibrary.Domain.Usecase
         }
 
 
-        public class DeleteUserCallback : IUsecaseCallbackBasecase<bool>
+        public class DeleteUserCallback : IUsecaseCallbackBasecase<DeleteUserResponse>
         {
             private DeleteUser _deleteUser;
 
@@ -62,12 +63,12 @@ namespace TaskManagementLibrary.Domain.Usecase
                 _deleteUser._callback.OnError(response);
             }
 
-            public void OnResponseFailure(ZResponse<bool> response)
+            public void OnResponseFailure(ZResponse<DeleteUserResponse> response)
             {
                 _deleteUser._callback.OnFailure(response);
             }
 
-            public void OnResponseSuccess(ZResponse<bool> response)
+            public void OnResponseSuccess(ZResponse<DeleteUserResponse> response)
             {
                 _deleteUser._callback.OnSuccessAsync(response);
             }
@@ -75,5 +76,5 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-   // public class DeleteUserResponse : ZResponse<bool> { }
+    public class DeleteUserResponse : ZResponse<User> { }
 }

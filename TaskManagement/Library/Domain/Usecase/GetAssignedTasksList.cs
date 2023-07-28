@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,14 +20,14 @@ namespace TaskManagementLibrary.Domain.Usecase
     {
         public CancellationTokenSource CtsSource { get; set; }
         //public string userName;
-        //public string userEmail;
-        public int userId;
+        public string userEmail;
+        //public int userId;
 
-        public GetAssignedTasksListRequest(int userId, CancellationTokenSource cancellationTokenSource)
+        public GetAssignedTasksListRequest(string userEmail, CancellationTokenSource cancellationTokenSource)
         {
-            this.userId = userId;
+            //this.userId = userId;
             //this.userName = name;
-            //this.userEmail = email;
+            this.userEmail = userEmail;
             CtsSource = cancellationTokenSource;
         }
     }
@@ -80,7 +81,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class GetAssignedTasksListResponse : ZResponse<List<Tasks>>
+    public class GetAssignedTasksListResponse : ZResponse<ObservableCollection<Tasks>>
     {
         //public List<Tasks> Tasks = new List<Tasks>();
     }

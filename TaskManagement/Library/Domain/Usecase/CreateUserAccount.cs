@@ -83,7 +83,7 @@ namespace TaskManagementLibrary.Domain.Usecase
 
     public class AddUserResponse : ZResponse<UserCredential>
     {
-        //public User newUser;
+        public User newUser;
         //public UserCredential Credential;
     }
 }

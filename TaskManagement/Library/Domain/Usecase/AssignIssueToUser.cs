@@ -20,13 +20,13 @@ namespace TaskManagementLibrary.Domain.Usecase
     public class AssignIssueRequest : IRequest
     {
         public int issueId;
-        public int userId;
+        public string userEmail;
         public CancellationTokenSource CtsSource { get ; set ; }
 
-        public AssignIssueRequest(int issueId, int userId, CancellationTokenSource ctsSource)
+        public AssignIssueRequest(int issueId, string email, CancellationTokenSource ctsSource)
         {
             this.issueId = issueId;
-            this.userId = userId;
+            this.userEmail = email;
             CtsSource = ctsSource;
         }
     }
@@ -81,7 +81,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class AssignIssueResponse : ZResponse<ObservableCollection<User>>
+    public class AssignIssueResponse : ZResponse<ObservableCollection<UserBO>>
     {
     }
 
