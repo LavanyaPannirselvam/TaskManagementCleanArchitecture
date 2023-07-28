@@ -10,8 +10,8 @@ namespace TaskManagementLibrary.Data.DBHandler
 {
     public interface IAssignmentHandler
     {
-        void AssignActivity(int userId, int activityId,ActivityType type);
-        void DeassignActivity(int userId, int activityId, ActivityType type);
+        void AssignActivity(string userEmail, int activityId,ActivityType type);
+        void DeassignActivity(string userEmail, int activityId, ActivityType type);
         void RemoveAllAssignments(List<Assignment> assignments);
     }
 }

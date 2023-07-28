@@ -105,10 +105,10 @@ namespace TaskManagementLibrary.Data.DBHandler
             return _adapter.GetFromQuery<Tasks>(query);
         }
 
-        public List<Tasks> AssignedTasksListOfCurrentUser(int userId)
+        public List<Tasks> AssignedTasksListOfCurrentUser(string userEmail)
         {
-            string query = "SELECT * FROM Tasks WHERE Id IN (SELECT ActivityId FROM Assignment WHERE UserId = @userId AND Type = 1)";
-            return _adapter.GetFromQuery<Tasks>(query,userId);
+            string query = "SELECT * FROM Tasks WHERE Id IN (SELECT ActivityId FROM Assignment WHERE UserEmail = @userEmail AND Type = 1)";
+            return _adapter.GetFromQuery<Tasks>(query, userEmail);
         }
        
         public List<Tasks> CreatedTasksListOfCurrentUser(string userName , string userEmail)
@@ -169,35 +169,35 @@ namespace TaskManagementLibrary.Data.DBHandler
             return result.Count == 0;
         }
 
-        public List<Models.User> AssignedUsersList(int activityId,int activityType)
+        public List<UserBO> AssignedUsersList(int activityId,int activityType)//TODO
         {
-            var query = "SELECT * FROM User JOIN Assignment ON User.UserId = Assignment.UserId WHERE Assignment.ActivityId = @activityId AND Assignment.Type = @activityType";
-            return _adapter.GetFromQuery<Models.User>(query, activityId,activityType);
+            var query = "SELECT Name,Email FROM User JOIN Assignment ON User.Email = Assignment.UserEmail WHERE Assignment.ActivityId = @activityId AND Assignment.Type = @activityType";
+            return _adapter.GetFromQuery<UserBO>(query, activityId,activityType);
         }
 
-        public List<Assignment> AssignmentsList(int userId)
+        public List<Assignment> AssignmentsList(string userEmail)
         {
-            var query = "SELECT * FROM Assignment WHERE UserId = @userId";
-            return _adapter.GetFromQuery<Assignment>(query, userId);
+            var query = "SELECT * FROM Assignment WHERE UserEmail = @userEmail";
+            return _adapter.GetFromQuery<Assignment>(query, userEmail);
         }
 
-        public List<Models.User> MatchingUsers(string input)
+        public List<UserBO> MatchingUsers(string input)
         {
-            var query = "SELECT Name , UserId FROM User WHERE Name LIKE @input";
-            return _adapter.GetFromQuery<Models.User>(query,("%" + input + "%"));
+            var query = "SELECT Name , Email FROM User WHERE Name LIKE @input";
+            return _adapter.GetFromQuery<UserBO>(query,("%" + input + "%"));
         }
         #endregion
 
         #region Assignment Section
-        public void AssignActivity(int userId, int activityId, ActivityType type)
+        public void AssignActivity(string userEmail, int activityId, ActivityType type)
         {
-            Assignment assign = new Assignment(userId, activityId, type);
+            Assignment assign = new Assignment(userEmail, activityId, type);
             _adapter.Update(assign);
         }
 
-        public void DeassignActivity( int userId, int activityId, ActivityType type)
+        public void DeassignActivity( string userEmail, int activityId, ActivityType type)
         {
-            Assignment deassign = new Assignment(userId,activityId, type);
+            Assignment deassign = new Assignment(userEmail,activityId, type);
             _adapter.Delete(deassign);
         }
 

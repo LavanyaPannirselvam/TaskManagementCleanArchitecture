@@ -13,7 +13,7 @@ namespace TaskManagementLibrary.Data.DBHandler
         void DeleteTask(int taskId);
         Tasks GetTask(int taskId);
         List<Tasks> TasksList();
-        List<Tasks> AssignedTasksListOfCurrentUser(int userId);
+        List<Tasks> AssignedTasksListOfCurrentUser(string userEmail);
         List<Tasks> CreatedTasksListOfCurrentUser(string userName, string userEmail);
         List<Assignment> AssignedUsersListOfATask(int taskId);
     }
