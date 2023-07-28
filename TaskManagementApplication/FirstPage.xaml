@@ -25,7 +25,7 @@
                 <usercontrols:TasksNavigation/>
             </DataTemplate>
             <DataTemplate x:Key="UserControlTemplate3">
-                <usercontrols:AdminNavigation/>
+                <usercontrols:DeleteUserPage/>
             </DataTemplate>
 
             <Style TargetType="NavigationView">
@@ -1115,7 +1115,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Visibility="{x:Bind AdminTabVisibility,Mode=OneWay}"
-                                    Content="Admin Section"
+                                    Content="User Management"
                                     x:Name="Admintab">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
