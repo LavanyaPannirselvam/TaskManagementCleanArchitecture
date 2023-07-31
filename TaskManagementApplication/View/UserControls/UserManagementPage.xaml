@@ -8,6 +8,7 @@
     xmlns:library ="using:TaskManagementLibrary.Models" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
+    xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls"
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
@@ -18,132 +19,52 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
+       
+            <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <RelativePanel Grid.Row="0"
-                       HorizontalAlignment="Right">
-            <Button x:Name="AddUserButton"
+        <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Visible"  >
+
+            <!--<Button x:Name="AddUserButton"
                     Content="Add User"
-                    RelativePanel.AlignRightWithPanel="True"
+                    Grid.Row="0"
+                    Margin="10"
+                    HorizontalAlignment="Right"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Click="AddUserButton_Click"
-                    Style="{ThemeResource AccentButtonStyle}"/>
-        </RelativePanel>
-        <Grid Grid.Row="1"
-              Margin="5">
+                    Style="{ThemeResource AccentButtonStyle}"/>-->
+        <!--<Grid >-->
+          
             <GridView
                 ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
                 SelectionMode="None"
-                x:Name="UsersGridView">
+                x:Name="UsersGridView"
+                Grid.Row="1"
+                Margin="5">
                 <GridView.ItemTemplate>
                     <DataTemplate x:Name="UsersList" x:DataType="library:User">
-                        <Grid Padding="30,2,2,30"
-                              Margin="10"
-                           BorderBrush="Gray" 
-                           x:Name="UsersListTemplate"  
-                           BorderThickness="0.3" 
-                           CornerRadius="10" 
-                           ScrollViewer.HorizontalScrollMode="Enabled" 
-                           ScrollViewer.IsHorizontalRailEnabled="True" 
-                           ScrollViewer.HorizontalScrollBarVisibility="Visible" 
-                           MinWidth="400"
-                           Background="{ThemeResource SupportingColour}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <!--<RowDefinition Height="Auto"></RowDefinition>-->
-                                <!--<RowDefinition Height="Auto"></RowDefinition>-->
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition   Width="1.5*"/>
-                                    <ColumnDefinition   Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <RelativePanel HorizontalAlignment="Right"
-                                               Grid.Row="0"
-                                                Grid.Column="1">
-                                <Button x:Name="DeleteUserButton"
-                                                FontFamily="Segoe MDL2 Assets"
-                                                Margin="0,0,0,0"
-                                                FontSize="12"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Content="&#xE107;" 
-                                                Foreground="Red"
-                                                RelativePanel.AlignTopWithPanel="True"
-                                                RelativePanel.AlignRightWithPanel="True"
-                                                Click="DeleteUserButton_Click"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"/>
-                                </RelativePanel>
-                                <TextBlock VerticalAlignment="Top" 
-                                           HorizontalAlignment="Left" 
-                                           FontSize="22" 
-                                           FontWeight="SemiBold"
-                                       Grid.Column="0"
-                                               Grid.Row="1"
-                                       Text="{x:Bind Role,Mode=OneWay}"
-                                       TextWrapping="Wrap"/>
-                                <PersonPicture
-                                   Width="50"
-                                   Height="45"
-                                   HorizontalAlignment="Right" 
-                                   VerticalAlignment="Center"
-                                   DisplayName="{x:Bind Name,Mode=OneWay}"
-                                   Grid.Column="1"
-                                    Margin="0,0,30,0"
-                                    Grid.Row="1">
-                                </PersonPicture>
-                                <StackPanel Grid.Row="2" HorizontalAlignment="Left"
-                                        Grid.ColumnSpan="2" Margin="0,20,0,0">
-                                    <StackPanel>
-                                        <TextBlock 
-                                               HorizontalAlignment="Stretch"
-                                               Text="User Name "
-                                               FontWeight="Light"></TextBlock>
-                                        <TextBlock 
-                                               Text="{x:Bind Name,Mode=OneWay}"
-                                               TextWrapping="Wrap"
-                                               FontFamily="Consolas"
-                                               FontSize="22" FontWeight="SemiBold" CharacterSpacing="80"
-                                               HorizontalAlignment="Stretch"></TextBlock>
-
-                                    </StackPanel>
-                                    <StackPanel>
-                                        <TextBlock 
-                                               HorizontalAlignment="Stretch"
-                                               Text="User Email " FontWeight="Light"/>
-                                        <TextBlock Text="{x:Bind Email,Mode=OneWay}"
-                                                   FontSize="22"
-                                                   TextWrapping="Wrap"
-                                                   FontWeight="SemiBold"
-                                                   CharacterSpacing="80"
-                                                   HorizontalAlignment="Stretch"></TextBlock>
-                                    </StackPanel>
-                                    </StackPanel>
-                            </Grid>
-                        </Grid>
-                    </DataTemplate>
+                    <usercontrol:GridViewItems/>
+                </DataTemplate>
                 </GridView.ItemTemplate>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="DataContext" Value="{Binding}"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
             </GridView>
-        </Grid>
+            </ScrollViewer>
+        <!--</Grid>-->
         <!--<Grid 
               x:Name="NotificationGrid"
               HorizontalAlignment="Stretch">-->
             <controls:InAppNotification Name="NotificationControl"
                                         Grid.Row="2"
-                                                HorizontalAlignment="Stretch"
-                                                ShowDismissButton="False"/>
+                                        HorizontalAlignment="Stretch"
+                                        ShowDismissButton="False"/>
         <!--</Grid>-->
        
     </Grid>

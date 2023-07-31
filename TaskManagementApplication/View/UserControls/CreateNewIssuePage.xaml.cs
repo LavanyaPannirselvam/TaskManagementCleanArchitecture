@@ -56,6 +56,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueName = text.Text;
         }
 
+        private void descriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _description = ((TextBox)sender).Text;
+        }
+
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
@@ -119,6 +124,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             IssueName.Text = string.Empty;
             _issueName = string.Empty;
+            DescriptionBox.Text = string.Empty;
+            _description = string.Empty;
             startdate.Date = DateTime.Now;
             _startDate = DateTime.Now;
             enddate.Date = DateTime.Now;

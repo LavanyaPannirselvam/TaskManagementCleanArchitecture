@@ -182,6 +182,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void NewTaskButton_Click(object sender, RoutedEventArgs e)
         {
+            if(TasksDetailGrid.Visibility == Visibility.Visible)
+            {
+                TasksList.Visibility = Visibility.Visible;
+                TasksGridSplitter.Visibility = Visibility.Collapsed;
+                TasksDetailGrid.Visibility = Visibility.Collapsed;
+                Grid.SetColumn(TasksList, 0);
+                Grid.SetColumnSpan(TasksList, 3);
+                _itemSelected = false;
+            }
             AddTaskForm.IsOpen = true;
             double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 4 + 300;
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2 - 300;
@@ -212,6 +221,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
+                TasksList.Visibility = Visibility.Visible;
+                TasksGridSplitter.Visibility = Visibility.Collapsed;
+                TasksDetailGrid.Visibility = Visibility.Collapsed;
+                Grid.SetColumn(TasksList, 0);
+                Grid.SetColumnSpan(TasksList, 3);
+                _itemSelected = false;//TODO
                 _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
         }

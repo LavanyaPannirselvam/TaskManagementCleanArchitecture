@@ -93,7 +93,7 @@
                 <Grid x:Name="IssuesList" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <!--<RowDefinition Height="*"></RowDefinition>-->
+                        <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" 
@@ -107,10 +107,10 @@
                        AutoGenerateColumns="False"
                        GridLinesVisibility="Horizontal"
                        FrozenColumnCount="2"
-                       ScrollViewer.HorizontalScrollMode="Disabled"
+                       ScrollViewer.HorizontalScrollMode="Enabled"
                        ScrollViewer.VerticalScrollMode="Enabled"
                        ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                        AutoGeneratingColumn="IssueList_AutoGeneratingColumn"
                        HorizontalAlignment="Stretch"
                        IsReadOnly="True"
@@ -153,6 +153,7 @@
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Desc}"
+                                                   MaxLines="3"
                                                VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
@@ -214,6 +215,11 @@
                             </Style>
                         </controls:DataGrid.ColumnHeaderStyle>
                     </controls:DataGrid>
+                    <controls:InAppNotification x:Name="NoitificationBox"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Bottom"
+                                                ShowDismissButton="False"
+                                                Grid.Row="1"/>
                 </Grid>
                 <controls:GridSplitter Visibility="Collapsed" 
                                    x:Name="IssueGridSplitter" 
@@ -324,10 +330,7 @@
 
                 </Grid>
             </Grid>
-        <controls:InAppNotification x:Name="NoitificationBox"
-                                                HorizontalAlignment="Stretch"
-                                                ShowDismissButton="False"
-                                              />
+       
             <Popup IsLightDismissEnabled="True"
                    LightDismissOverlayMode="On"
                    IsOpen="False"

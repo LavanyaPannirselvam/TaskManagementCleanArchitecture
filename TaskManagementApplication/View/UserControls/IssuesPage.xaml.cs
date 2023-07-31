@@ -58,6 +58,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void NewIssueButton_Click(object sender, RoutedEventArgs e)
         {
+            if(IssueDetailGrid.Visibility == Visibility.Visible)
+            {
+                IssuesList.Visibility = Visibility.Visible;
+                IssueGridSplitter.Visibility = Visibility.Collapsed;
+                IssueDetailGrid.Visibility = Visibility.Collapsed;
+                Grid.SetColumn(IssuesList, 0);
+                Grid.SetColumnSpan(IssuesList, 3);
+                _itemSelected = false;
+            }
             AddIssueForm.IsOpen = true;
             double horizontalOffset = Window.Current.Bounds.Width / 2 - AddIssueForm.ActualWidth / 4 + 300;
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddIssueForm.ActualHeight / 2 - 300;
@@ -138,7 +147,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             int result = await ConfirmtionDialogue();
             if (result == 1)
             {
-                IssueDetailGrid.Visibility=Visibility.Collapsed;
+                IssuesList.Visibility = Visibility.Visible;
+                IssueGridSplitter.Visibility = Visibility.Collapsed;
+                IssueDetailGrid.Visibility = Visibility.Collapsed;
+                Grid.SetColumn(IssuesList, 0);
+                Grid.SetColumnSpan(IssuesList, 3);
+                _itemSelected = false;
                 _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Id);
             }
         }

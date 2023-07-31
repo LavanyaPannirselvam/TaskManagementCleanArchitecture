@@ -103,8 +103,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             UIUpdation.UserAdded += UserAdded;
             UIUpdation.UserRemoved += UserRemoved;
+            UIUpdation.UserSelected += UIUpdation_UserSelected;
             UpdateUsers += TaskDetailsPage_UpdateUsers;
             Notification += ShowNotification;
+        }
+
+        private void UIUpdation_UserSelected(UserBO obj)
+        {
+            _taskDetailsViewModel.RemoveTask(obj.Email,_taskDetailsViewModel.SelectedTask.Id);
         }
 
         private void TaskDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
@@ -154,6 +160,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             UIUpdation.UserAdded -= UserAdded;
             UIUpdation.UserRemoved -= UserRemoved;
+            UIUpdation.UserSelected -= UIUpdation_UserSelected;
             Notification -= ShowNotification;
             UpdateUsers -= TaskDetailsPage_UpdateUsers;
         }

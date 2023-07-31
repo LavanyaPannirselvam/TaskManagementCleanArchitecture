@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:library="using:TaskManagementLibrary.Models"
+    xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded">
@@ -279,12 +280,13 @@
                                     HorizontalAlignment="Left">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="library:UserBO">
-                                        <StackPanel Orientation="Horizontal">
+                                        <usercontrols:ListViewItems/>
+                                        <!--<StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{x:Bind Name,Mode=OneWay}" 
                                                    Margin="0,1,0,0"
                                                    VerticalAlignment="Center"
                                                    Width="200"/>
-                                            <Button Name="CloseButton"
+                                            <Button x:Name="CloseButton"
                                                 FontFamily="Segoe MDL2 Assets"
                                                 Margin="0,0,20,0"
                                                 FontSize="12"
@@ -294,7 +296,7 @@
                                                 Click="CloseButton_Click"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Center"/>
-                                          </StackPanel>
+                                          </StackPanel>-->
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                                 <!--<ListView.ItemContainerStyle>
@@ -302,19 +304,13 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ListViewItem">
-                                                    <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                                           SelectionCheckMarkVisualEnabled="True"
-                                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                           PointerOverBackgroundMargin="1"
-                                                                           >
+                                                    <Grid>
                                                         <VisualStateManager.VisualStateGroups>
                                                             <VisualStateGroup x:Name="CommonStates">
                                                                 <VisualState x:Name="Normal">
                                                                     <Storyboard>
                                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButton"
-                                                                                                       Storyboard.TargetProperty="Visibility">
+                                                                                   Storyboard.TargetProperty="Visibility">
                                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                                                                         </ObjectAnimationUsingKeyFrames>
                                                                     </Storyboard>
@@ -322,19 +318,48 @@
                                                                 <VisualState x:Name="PointerOver">
                                                                     <Storyboard>
                                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButton"
-                                                                                                       Storyboard.TargetProperty="Visibility">
+                                                                                   Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                                <VisualState x:Name="Pressed">
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButton"
+                                                                                   Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButton"
+                                                                                   Storyboard.TargetProperty="Visibility">
                                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                                                         </ObjectAnimationUsingKeyFrames>
                                                                     </Storyboard>
                                                                 </VisualState>
                                                             </VisualStateGroup>
                                                         </VisualStateManager.VisualStateGroups>
-                                                    </ListViewItemPresenter>
+                                                        <ContentPresenter/>
+                                                        <Button x:Name="CloseButton"
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Margin="0,0,20,0"
+                                                FontSize="12"
+                                                Content="&#xE106;"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Click="CloseButton_Click"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Tag="{Binding}"/>
+                                                    </Grid>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
                                     </Style>
                                 </ListView.ItemContainerStyle>-->
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="DataContext" Value="{Binding}"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                             </ListView>
                         </StackPanel>
                     </Grid>

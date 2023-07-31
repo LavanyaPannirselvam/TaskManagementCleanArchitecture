@@ -33,6 +33,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public static event Action<string> Notification;
         private UserBO _selectedUser;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
+        //public static event Action<UserBO> RemoveUser; 
         public IssueDetailsPage()
         {
             this.InitializeComponent();
@@ -63,8 +64,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            var data = ((FrameworkElement)sender).DataContext as UserBO;
-            _issueViewModel.RemoveUserFromIssue(data.Email, _issueViewModel.SelectedIssue.Id);
+            var data = ((FrameworkElement)sender).Tag as UserBO;
+            //var data = (sender as Button) as Button;
+          //  _issueViewModel.RemoveUserFromIssue(data.Email, _issueViewModel.SelectedIssue.Id);
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -94,6 +96,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UpdateUsers += IssueDetailsPage_UpdateUsers;
             UIUpdation.UserAdded += UIUpdation_UserAdded;
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
+            UIUpdation.UserSelected += UIUpdation_UserSelected;
+        }
+
+        private void UIUpdation_UserSelected(UserBO obj)
+        {
+            _issueViewModel.RemoveUserFromIssue(obj.Email,_issueViewModel.SelectedIssue.Id);
         }
 
         private void IssueDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
@@ -149,6 +157,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UpdateUsers -= IssueDetailsPage_UpdateUsers;
             UIUpdation.UserAdded -= UIUpdation_UserAdded;
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
+            UIUpdation.UserSelected -= UIUpdation_UserSelected;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

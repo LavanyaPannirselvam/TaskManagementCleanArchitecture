@@ -132,6 +132,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             TaskName.Text = string.Empty;
             _taskName = string.Empty;
+            DescriptionBox.Text = string.Empty;
+            _description = string.Empty;
             startdate.Date = DateTime.Now;
             _startDate = DateTime.Now;
             enddate.Date = DateTime.Now;
@@ -142,6 +144,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _statusType = StatusType.OPEN;
             ErrorMessage.Text = string.Empty;
             ErrorMessage.Visibility = Visibility.Collapsed;
+        }
+
+        private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _description = ((TextBox)sender).Text;
         }
     }
 }

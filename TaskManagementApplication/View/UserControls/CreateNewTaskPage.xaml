@@ -34,10 +34,17 @@
                  HorizontalAlignment="Stretch"
                  TextChanged="TaskName_TextChanged"
                  Margin="5"></TextBox>
-        
-        <StackPanel Grid.Row="1" Height="20">
-<!--description box-->
-        </StackPanel>
+
+        <TextBox x:Name="DescriptionBox"
+                     AcceptsReturn="True" 
+                     TextWrapping="Wrap"
+                     MaxHeight="120" 
+                     HorizontalAlignment="Stretch"
+                     Grid.Row="1"
+                     Margin="5"
+                     Header="Description"
+                     TextChanged="DescriptionBox_TextChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <CalendarDatePicker Grid.Row="2"
                             Header="Start Date"
                             Name="startdate"
