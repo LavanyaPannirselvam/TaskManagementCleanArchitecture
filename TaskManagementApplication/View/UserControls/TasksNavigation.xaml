@@ -16,10 +16,10 @@
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="AssignedTab">
-                <usercontrols:AssignedTasksPage/>
+                <usercontrols:AssignedTasks/>
             </DataTemplate>
             <DataTemplate x:Key="CreatedTab">
-                <usercontrols:CreatedTasksPage/>
+                <usercontrols:CreatedTasks/>
             </DataTemplate>
 
 

@@ -52,7 +52,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                if(response.Data.Data.Count != 0)
+                if(response.Data.Data != null)
                 {
                     PopulateData(response.Data.Data);
                     projectPageViewModel.DataGridVisibility = Visibility.Visible;

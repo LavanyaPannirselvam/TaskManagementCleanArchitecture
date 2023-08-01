@@ -18,10 +18,10 @@
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"/>
         </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="TasksTab">
-                <usercontrols:TasksPage/>
+                <usercontrols:TasksUC/>
             </DataTemplate>
             <DataTemplate x:Key="IssuesTab">
-                <usercontrols:IssuesPage/>
+                <usercontrols:Issues/>
             </DataTemplate>
 
             <Style TargetType="NavigationView">
@@ -1039,9 +1039,10 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid CornerRadius="10">
     <Grid x:Name="NavigationGrid"
-          x:Load="True">
+          x:Load="True"
+          CornerRadius="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -1053,7 +1054,8 @@
                         IsBackEnabled="False"
                         SelectionFollowsFocus="Disabled"
                         IsTabStop="False"
-                        Background="{ThemeResource AppForegroundBg}"
+                        CornerRadius="10"
+                        Background="Red"
                         SelectionChanged="NavigationView_SelectionChanged"
                         Grid.Row="0">
             <NavigationView.MenuItems>
@@ -1071,7 +1073,9 @@
                                     FontSize="16"/>-->
             </NavigationView.MenuItems>
             <Frame x:Name="DashboardContent"
-                            Height="900"
+                   Height="900"
+                   Background="Green"
+                   CornerRadius="10"
                    IsNavigationStackEnabled="True">
                 <!--<ContentPresenter Background="{ThemeResource AppForegroundBg}">
                 </ContentPresenter>-->
@@ -1080,7 +1084,7 @@
     </Grid>
     <Grid x:Load="False"
               x:Name="Projectpage">
-            <local:ProjectsPage/>
+            <local:Projects/>
         </Grid>
     </Grid>
 </UserControl>

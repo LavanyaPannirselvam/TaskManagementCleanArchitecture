@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,6 +29,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
         {
             var data = ((FrameworkElement)sender).DataContext as User;
+            UIUpdation.OnUserSelectedToDelete(data.Email);
         }
 
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)

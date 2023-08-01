@@ -16,12 +16,12 @@
                     HorizontalAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"
-                                      MaxWidth="200"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}"
-                           Grid.Column="0"/>
+                           Grid.Column="0"
+                           TextWrapping="Wrap"/>
                 <Button Content="&#xE8BB;"
                     FontFamily = "Segoe MDL2 Assets"
                     Visibility="Collapsed"

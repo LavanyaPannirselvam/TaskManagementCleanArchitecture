@@ -25,78 +25,78 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>-->
-            <Grid Grid.Row="0"
-                   HorizontalAlignment="Center">
-                <TextBlock Text="User Details"
+           
+            <TextBlock Text="User Details"
                            FontSize="18"
                            FontWeight="Bold"
                            HorizontalTextAlignment="Center"
                            Grid.ColumnSpan="2"/>
-            </Grid>
             <Grid Grid.Row ="1"
                   HorizontalAlignment="Center"
                   Margin="20"
                   Width="450"
                   VerticalAlignment="Center"
                   BorderThickness="0.5">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal"
-                            Margin="30,0,0,0">
-                        <TextBlock HorizontalAlignment="Center"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Center"
                        x:Name="UserNameDetail"
                        Margin="10">
                 <Run Text="User Name"/>
                 <Run Text="*"
                      Foreground="Red"/>
-                        </TextBlock>
-                        <TextBox x:Name="UserNameEnter"
+                </TextBlock>
+                <TextBox x:Name="UserNameEnter"
                      Style="{ThemeResource InputFieldTextBox}"
                      HorizontalAlignment="Stretch"
-                     Width="400">
-                        </TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-                            Margin="30,20,0,0">
-                        <TextBlock HorizontalAlignment="Center"
+                     Grid.Column="1"
+                     Width="400"
+                     ScrollViewer.HorizontalScrollMode="Enabled"/>
+                <TextBlock HorizontalAlignment="Center"
                        x:Name="UserEmailDetail"
-                       Margin="10">
+                       Margin="10"
+                       Grid.Row="1"
+                       Grid.Column="0">
                 <Run Text="User Email"/>
                 <Run Text="*"
                      Foreground="Red"/>
-                        </TextBlock>
-                        <TextBox x:Name="UserEmailEnter"
+                </TextBlock>
+                <TextBox x:Name="UserEmailEnter"
                      Style="{ThemeResource InputFieldTextBox}"
                      HorizontalAlignment="Stretch"
-                     Width="400">
-                        </TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-                            Margin="30,20,0,0">
-                        <TextBlock HorizontalAlignment="Center"
+                     Width="400"
+                         Grid.Row="1"
+                       Grid.Column="1">
+                </TextBox>
+                <TextBlock HorizontalAlignment="Center"
                        x:Name="UserRoleDetail"
-                       Margin="10">
+                       Margin="10"
+                       Grid.Row="2"
+                       Grid.Column="0">
                 <Run Text="User Role"/>
                 <Run Text="*"
-                     Foreground="Red"/>
-                        </TextBlock>
-                        <ComboBox 
+                     Foreground="Red"
+                     />
+                </TextBlock>
+                <ComboBox 
                   PlaceholderText="Choose Role"
                   HorizontalAlignment="Stretch"
                   x:Name="UserRoleEnter"
                   SelectionChanged="UserRoleEnter_SelectionChanged"
-                  Margin="5">
-                            <x:String>Employee</x:String>
-                            <x:String>Manager</x:String>
-                            <x:String>Admin</x:String>
-                        </ComboBox>
+                  Margin="5"
+                    Grid.Row="2"
+                       Grid.Column="1"/>
 
-                    </StackPanel>
-                </StackPanel>
+
             </Grid>
+            
             <TextBlock Text="{x:Bind _createUser.ResponseString,Mode=OneWay}"
                        Visibility="{x:Bind _createUser.ResponseStringVisibility,Mode=OneWay}"
                        Foreground="Red"
@@ -106,6 +106,7 @@
                        x:Name="ErrorMessage"
                        VerticalAlignment="Center"
                        Style="{ThemeResource BasicTextBlock}"/>
+            
             <Button x:Name="AddUserButton"
                     Content="Add User"
                     Grid.Row="3"
@@ -120,71 +121,79 @@
                   x:Name="CredentialsGrid"
                   Visibility="{x:Bind _createUser.CredentialsGridVisibility,Mode=OneWay}"
                   Background="{ThemeResource AppForegroundBg}"
-                     
                   CornerRadius="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      HorizontalAlignment="Center"
-                      Margin="25">
-                    <RelativePanel>
-                        <TextBlock Text="New User Credentials"
+                <RelativePanel Margin="10">
+                    <TextBlock Text="New User Credentials"
                                FontSize="18"
                            FontWeight="Bold"
                            HorizontalTextAlignment="Center"
-                               x:Name="TitleBox"
+                           x:Name="TitleBox"
                            VerticalAlignment="Center"
-                               Margin="0,0,0,0"/>
-                        <Button FontFamily="Segoe MDL2 Assets"
+                           RelativePanel.AlignHorizontalCenterWithPanel="True"
+                           Margin="0,0,0,0"/>
+                    <Button FontFamily="Segoe MDL2 Assets"
                             Margin="0,0,10,0"
                             Background="Transparent"
                             BorderThickness="0"
                             Content="&#xE106;"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            RelativePanel.RightOf="TitleBox"
+                            RelativePanel.AlignRightWithPanel="True"
                             Name="CloseButton"
                             FontSize="10"
                             ToolTipService.ToolTip="Close"
                             Click="CloseButton_Click"/>
-                    </RelativePanel>
-                </Grid>
+                </RelativePanel>
                 <Grid Grid.Row="1"
-                      HorizontalAlignment="Center">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal"
-                            Margin="30,0,0,0">
-                            <TextBlock HorizontalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center"
                                 x:Name="UserIdDetail"
                                 Margin="10"
+                                Grid.Row="0"
+                                Grid.Column="0"
                                 Text="User Id :">
                             </TextBlock>
                             <TextBlock x:Name="UserIdEnter"
                                    Style="{ThemeResource InputFieldTextBlock}"
                                    HorizontalAlignment="Center"
                                    Width="400"
+                                   TextWrapping="Wrap"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
                                    VerticalAlignment="Center"
                                    Text="{x:Bind _createUser.UserId,Mode=OneWay}">
                             </TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                            Margin="30,10,0,50">
+                       
                             <TextBlock HorizontalAlignment="Center"
                                         x:Name="PasswordDetail"
                                         Margin="10"
+                                       Grid.Row="1"
+                                     Grid.Column="0"
                                        Text="Password :"/>
-                            <TextBlock x:Name="PasswordEnter"
+                    <TextBlock x:Name="PasswordEnter"
                                    Style="{ThemeResource InputFieldTextBlock}"
                                    HorizontalAlignment="Center"
                                    Width="400"
+                                   TextWrapping="Wrap"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
                                    VerticalAlignment="Center"
                                    Text="{x:Bind _createUser.Password,Mode=OneWay}">
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
+                    </TextBlock>
                 </Grid>
 
             </Grid>

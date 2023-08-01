@@ -12,6 +12,7 @@ using TaskManagementLibrary;
 using Windows.UI.Xaml;
 using TaskManagementLibrary.Notifications;
 using static TaskManagementLibrary.Domain.Usecase.DeleteTask;
+using TaskManagementLibrary.Enums;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -86,11 +87,17 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _createTask.Execute();
         }
 
-        internal void DeleteTask(int taskId)
+        public void DeleteTask(int taskId)
         {
             DeleteTask _deleteTask;
             _deleteTask = new DeleteTask(new DeleteTaskRequest(taskId, new CancellationTokenSource()), new PresenterDeleteTaskCallback(this));
             _deleteTask.Execute();
+        }
+
+        public void ChangePriorityOfTask(int taskId,PriorityType priority)
+        {
+            ChangeTaskPriority changeTaskPriority;
+           // changeTaskPriority = new ChangeTaskPriority(new ChangeTaskPriorityRequest(new CancellationTokenSource(),taskId,priority),new PresenterChangeTaskPriorityCallback(this));
         }
 
         private Visibility _textVisibility = Visibility.Collapsed;
@@ -125,16 +132,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 OnPropertyChanged(nameof(DataGridVisibility));
             }
         }
-
-        //public void OnLoaded()
-        //{
-        //    Notification.TaskCreated += OnTaskCreated;
-        //}
-
-        //private void OnTaskCreated(Tasks task)
-        //{
-        //    TasksList.Add(task);
-        //}
     }
 
     public interface ITaskUpdation

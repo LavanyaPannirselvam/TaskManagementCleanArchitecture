@@ -39,7 +39,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void button_Click(object sender, RoutedEventArgs e)
         {
             var data = ((FrameworkElement)sender).DataContext as UserBO;
-            UIUpdation.OnUserSelected(data);
+            UIUpdation.OnUserSelectedRemove(data);
         }
     }
 }
