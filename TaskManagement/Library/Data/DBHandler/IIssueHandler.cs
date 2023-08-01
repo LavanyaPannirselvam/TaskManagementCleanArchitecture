@@ -14,5 +14,6 @@ namespace TaskManagementLibrary.Data.DBHandler
         Issue GetIssue(int issueId);
         List<Issue> IssuesList();
         List<Assignment> AssignedUsersListOfAIssue(int issueId);
+        void UpdateIssue(Issue issue);
     }
 }

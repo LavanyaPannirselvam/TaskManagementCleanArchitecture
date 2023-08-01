@@ -57,14 +57,14 @@ namespace TaskManagementLibrary.Data.DBManager
                 {
                     if (DBhandler.CheckUser(userId))
                     {
-                        response = "Invalid password";
+                        response = "Invalid User, Try Again";
                         zResponse.Response = response;
                         zResponse.Data = null;
                         callback.OnResponseError(new BaseException { exceptionMessage = zResponse.Response });
                     }
                     else
                     {
-                        response = "Invalid User, Try Again";
+                        response = "Invalid password";
                         zResponse.Response = response;
                         zResponse.Data = null;
                         callback.OnResponseFailure(zResponse);

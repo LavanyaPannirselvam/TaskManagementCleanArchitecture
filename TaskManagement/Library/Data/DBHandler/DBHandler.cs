@@ -105,6 +105,11 @@ namespace TaskManagementLibrary.Data.DBHandler
             return _adapter.GetFromQuery<Tasks>(query);
         }
 
+        public void UpdateTask(Tasks task)
+        {
+            _adapter.Update(task);
+        }
+
         public List<Tasks> AssignedTasksListOfCurrentUser(string userEmail)
         {
             string query = "SELECT * FROM Tasks WHERE Id IN (SELECT ActivityId FROM Assignment WHERE UserEmail = @userEmail AND Type = 1)";
@@ -285,7 +290,11 @@ namespace TaskManagementLibrary.Data.DBHandler
             return _adapter.GetFromQuery<Assignment>(query, issueId);
         }
 
-        
+        public void UpdateIssue(Issue issue)
+        {
+            _adapter.Update(issue);
+        }
+
         #endregion
     }
 }

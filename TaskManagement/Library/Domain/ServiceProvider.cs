@@ -34,8 +34,8 @@ namespace TaskManagementLibrary.Domain
         private static IServiceProvider ConfigureServices()//TODO
         {
             var services = new ServiceCollection();
-            services.AddSingleton<IChangeProjectPriorityDataManager, ChangeProjectPriorityDataManager>();
-            services.AddSingleton<IChangeProjectStatusDataManager,ChangeProjectStatusDataManager>();
+            services.AddSingleton<IChangeTaskPriorityDataManager, ChangeTaskPriorityDataManager>();
+            services.AddSingleton<IChangeTaskStatusDataManager,ChangeTaskStatusDataManager>();
             services.AddSingleton<ILoginDataManager, LoginDataManager>();
             services.AddSingleton<IAssignTaskToUserDataManager, AssignTaskToUserDataManager>();
             services.AddSingleton<IAssignIssueToUserDataManager, AssignIssueToUserDataManager>();

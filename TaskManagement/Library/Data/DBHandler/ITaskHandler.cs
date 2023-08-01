@@ -16,5 +16,6 @@ namespace TaskManagementLibrary.Data.DBHandler
         List<Tasks> AssignedTasksListOfCurrentUser(string userEmail);
         List<Tasks> CreatedTasksListOfCurrentUser(string userName, string userEmail);
         List<Assignment> AssignedUsersListOfATask(int taskId);
+        void UpdateTask(Tasks task);
     }
 }
