@@ -15,40 +15,87 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid Padding="30,20,2,30"
+    <Grid Padding="30,20,2,20"
               Margin="10"
               MinHeight="100"
               BorderBrush="Gray" 
-              x:Name="UsersListTemplate"  
+              x:Name="UsersDataTemplate"  
               BorderThickness="0.3" 
               CornerRadius="10"
               MinWidth="400"
               PointerEntered="Grid_PointerEntered"
               PointerExited="Grid_PointerExited"
               Background="{ThemeResource SupportingColour}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <!--<RowDefinition Height="Auto"></RowDefinition>-->
-                <!--<RowDefinition Height="Auto"></RowDefinition>-->
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition  Width="1.5*"/>
-                    <ColumnDefinition  Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="DeleteUserButton"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="3*"/>
+            <ColumnDefinition  Width="1*"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="{Binding Name}"
+                           FontSize="22"
+                           MaxWidth="290"
+                           Width="225"
+                           x:Name="NameTextblock"
+                           MaxLines="1"
+                           Margin="0,0,0,5"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           TextWrapping="Wrap"
+                           FontWeight="SemiBold"
+                           CharacterSpacing="80"
+                           TextTrimming="CharacterEllipsis"
+                           PointerEntered="NameTextblock_PointerEntered"
+                           HorizontalAlignment="Left"/>
+        
+        <PersonPicture Width="50"
+                                   Height="45"
+                                   HorizontalAlignment="Right" 
+                                   VerticalAlignment="Center"
+                                   DisplayName="{Binding Name}"
+                                   Grid.Column="1"
+                                    Margin="0,0,40,0"
+                                    Grid.Row="0">
+        </PersonPicture>
+        
+        <TextBlock Text="{Binding Role}"
+                           TextWrapping="Wrap"
+                           Width="120"
+                           Margin="0,15,0,5"
+                           FontFamily="Consolas"
+                           FontSize="22" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           FontWeight="SemiBold" 
+                           CharacterSpacing="80"
+                           HorizontalAlignment="Left"/>
+
+        <TextBlock Text="{Binding Email}"
+                               FontSize="22"
+                               x:Name="EmailTextblock"
+                               Width="290"
+                               MaxLines="1"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="0,0,0,5"
+                               TextWrapping="Wrap"
+                               FontWeight="SemiBold"
+                               CharacterSpacing="80"
+                               TextTrimming="CharacterEllipsis"
+                               PointerEntered="EmailTextblock_PointerEntered"
+                               HorizontalAlignment="Left"/>
+        
+        <Button x:Name="DeleteUserButton"
                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                            Grid.Row="0"
+                            Grid.Row="3"
                             Grid.Column="1"
-                            Margin="0,0,10,0"
-                            FontSize="12"
+                            Margin="0,0,20,0"
+                            FontSize="13"
                             Background="Transparent"
                             BorderThickness="0"
                             Visibility="Collapsed"
@@ -57,55 +104,5 @@
                             Click="DeleteUserButton_Click"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"/>
-                <TextBlock VerticalAlignment="Top" 
-                           HorizontalAlignment="Left" 
-                           FontSize="22" 
-                           FontWeight="SemiBold"
-                           Grid.Column="0"
-                           Grid.Row="1"
-                           Text="{Binding Role}"
-                           TextWrapping="Wrap"/>
-                <PersonPicture Width="50"
-                                   Height="45"
-                                   HorizontalAlignment="Right" 
-                                   VerticalAlignment="Center"
-                                   DisplayName="{Binding Name}"
-                                   Grid.Column="1"
-                                    Margin="0,0,30,0"
-                                    Grid.Row="1">
-                </PersonPicture>
-                <StackPanel Grid.Row="2" 
-                            HorizontalAlignment="Left"
-                            Grid.ColumnSpan="2" 
-                            Margin="0,15,0,0">
-                    <StackPanel>
-                        <TextBlock HorizontalAlignment="Stretch"
-                                               Text="User Name "
-                                               FontWeight="Light"></TextBlock>
-                        <TextBlock Text="{Binding Name}"
-                                               TextWrapping="Wrap"
-                                                        Width="300"
-                                   MaxLines="1"
-                                               FontFamily="Consolas"
-                                               FontSize="22" FontWeight="SemiBold" CharacterSpacing="80"
-                                               HorizontalAlignment="Left"></TextBlock>
-
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock  HorizontalAlignment="Stretch"
-                                    Text="User Email " 
-                                    FontWeight="Light"/>
-                        <TextBlock Text="{Binding Email}"
-                                    FontSize="22"
-                                   Width="300"
-                                   MaxLines="1"
-                                    TextWrapping="Wrap"
-                                    FontWeight="SemiBold"
-                                    CharacterSpacing="80"
-                                    HorizontalAlignment="Stretch"></TextBlock>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-        </Grid>
     </Grid>
 </UserControl>

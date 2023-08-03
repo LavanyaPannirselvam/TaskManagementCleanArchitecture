@@ -26,12 +26,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
         }
 
-        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             button.Visibility = Visibility.Visible;
         }
 
-        private void StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             button.Visibility = Visibility.Collapsed;
         }

@@ -148,10 +148,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
             if (_windowWidth < 900)
             {
+                NewProjectButton.Visibility = Visibility.Collapsed;
                 ProjectsList.FrozenColumnCount = 1;
             }
             else
             {
+                NewProjectButton.Visibility = Visibility.Visible;
                 ProjectsList.FrozenColumnCount = 2;
             }
         }

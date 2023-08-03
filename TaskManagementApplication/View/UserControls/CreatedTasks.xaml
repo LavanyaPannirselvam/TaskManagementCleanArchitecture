@@ -61,7 +61,7 @@
                     Background="Transparent"
                     Content="&#xE0A6;"
                     HorizontalAlignment="Right"
-                    FontFamily="Segoe MDL2 Assets"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     Visibility="Visible"
                     Click="BackButton_Click"/>-->
             <TextBlock Text="Created Tasks"
@@ -112,6 +112,7 @@
                        AutoGeneratingColumn="TasksList_AutoGeneratingColumn"
                        IsReadOnly="True"
                        SelectionMode="Single"
+                       RowHeight="35"
                        HorizontalGridLinesBrush="{ThemeResource HorizontalSeperator}"          
                        Visibility="{x:Bind _createdTask.DataGridVisibility,Mode=OneWay}"
                        SelectionChanged="TasksOfAProject_SelectionChanged"
@@ -131,6 +132,8 @@
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Name}"
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
@@ -149,6 +152,8 @@
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Desc}"
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
@@ -158,6 +163,8 @@
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind CreatedBy}"
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
@@ -252,7 +259,7 @@
                     </Grid.ColumnDefinitions>
                     <RelativePanel Margin="0,10,0,0">
                         <Button  Grid.Column="1"
-                             FontSize="20"
+                             FontSize="13"
                              CornerRadius="5"
                              BorderThickness="0"
                              BorderBrush="Transparent"
@@ -260,7 +267,7 @@
                              Content="&#xE298;"
                              RelativePanel.AlignLeftWithPanel="True"
                              HorizontalAlignment="Right"
-                             FontFamily="Segoe MDL2 Assets"
+                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
                              Visibility="Collapsed"
                              Margin="0,0,5,0"
                              x:Name="BackToList"
@@ -276,41 +283,42 @@
                     </RelativePanel>
                     <RelativePanel HorizontalAlignment="Right"
                                    Grid.Column="1">
-                        <Button CornerRadius="5"
+                        <!--<Button CornerRadius="5"
                                     Margin="10,0,0,0"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                    FontFamily="Segoe MDL2 Assets" 
+                                    FontFamily="{ThemeResource SymbolThemeFontFamily}" 
                                     Content="&#xE8A7;"
                                     FontSize="15"
                                     HorizontalAlignment="Right"
                                     RelativePanel.LeftOf="DeleteTask"
                                     Name="PopoutButton"
                                     ToolTipService.ToolTip="New Window">
-                        </Button>
+                        </Button>-->
                         <Button CornerRadius="5"
                                         Margin="0,0,0,0"
                                         Foreground="Red" 
-                                        FontSize="15"
+                                        FontSize="13"
                                         Content="&#xE107;" 
                                         Background="Transparent"
                                         BorderThickness="0"
                                         RelativePanel.LeftOf="CloseButton"
                                         Click="DeleteTask_Click"
                                         ToolTipService.ToolTip="Delete"
-                                        FontFamily="Segoe MDL2 Assets"  
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"  
                                         Name="DeleteTask">
                         </Button>
-                        <Button FontFamily="Segoe MDL2 Assets"
-                            Grid.Column="1" Margin="0,0,10,0"
+                        <Button FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Grid.Column="1" Margin="0,1,10,0"
                             Background="Transparent"
                             BorderThickness="0"
                             Content="&#xE106;"
                             HorizontalAlignment="Right"
                             Name="CloseButton"
-                            FontSize="15"
+                            FontSize="13"
                             ToolTipService.ToolTip="Close"
                             RelativePanel.AlignRightWithPanel="True"
+                            HorizontalContentAlignment="Center"
                             Click="CloseButton_Click"></Button>
                     </RelativePanel>
                 </Grid>

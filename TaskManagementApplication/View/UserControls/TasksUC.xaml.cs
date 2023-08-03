@@ -98,53 +98,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksDetailGrid.Visibility = Visibility.Collapsed;
         }
 
-        //private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    double windowHeight = e.NewSize.Height;
-        //    double windowWidth = e.NewSize.Width;
-
-        //    if (windowHeight < 300 || windowWidth < 900)
-        //    {
-        //        _narrowLayout = true;
-        //        CloseButton.Visibility = Visibility.Collapsed;
-
-        //        if (_itemSelected)
-        //        {
-
-        //            TasksGridSplitter.Visibility = Visibility.Collapsed;
-        //            TasksList.Visibility = Visibility.Collapsed;
-        //            TasksDetailGrid.Visibility = Visibility.Visible;
-        //            TaskDetailsPage.Visibility = Visibility.Visible;
-        //            Grid.SetColumn(TasksList, 2);
-        //            Grid.SetColumnSpan(TasksList, 1);
-        //            Grid.SetColumn(TasksDetailGrid, 0);
-        //            Grid.SetColumnSpan(TasksDetailGrid, 3);
-        //            BackToList.Visibility = Visibility.Visible;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _narrowLayout = false;
-        //        CloseButton.Visibility = Visibility.Visible;
-
-        //        if (_itemSelected)
-        //        {
-        //            Grid.SetColumn(TasksList, 0);
-        //            Grid.SetColumn(TasksGridSplitter, 1);
-        //            Grid.SetColumn(TasksDetailGrid, 2);
-        //            Grid.SetColumnSpan(TasksList, 1);
-        //            Grid.SetColumnSpan(TasksGridSplitter, 1);
-        //            Grid.SetColumnSpan(TasksDetailGrid, 1);
-        //            TasksList.Visibility = Visibility.Visible;
-        //            TasksGridSplitter.Visibility = Visibility.Visible;
-        //            TasksDetailGrid.Visibility = Visibility.Visible;
-        //            BackToList.Visibility = Visibility.Collapsed;
-        //        }
-
-        //    }
-
-       // }
-
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _itemSelected = true;
@@ -192,7 +145,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _itemSelected = false;
             }
             AddTaskForm.IsOpen = true;
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 4 + 300;
+            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 4 + 420;
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2 - 300;
             AddTaskForm.HorizontalOffset = horizontalOffset;
             AddTaskForm.VerticalOffset = verticalOffset;
@@ -280,6 +233,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 TasksOfAProject.FrozenColumnCount = 2;
                 _narrowLayout = false;
+                NewTaskButton.Visibility = Visibility.Visible;
                 CloseButton.Visibility = Visibility.Visible;
                 if (_itemSelected)
                 {

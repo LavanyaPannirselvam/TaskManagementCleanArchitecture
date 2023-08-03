@@ -35,7 +35,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UserRoleEnter.ItemsSource = Enum.GetValues(typeof(Role)).Cast<Role>();
             UserRoleEnter.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             //UserNameEnter.Select(); // to Set Focus
-            UserNameEnter.Select(UserNameEnter.Text.Length, 0);
+            //UserNameEnter.Select(UserNameEnter.Text.Length, 0);
         }
 
         private void AddUserButton_Click(object sender, RoutedEventArgs e)

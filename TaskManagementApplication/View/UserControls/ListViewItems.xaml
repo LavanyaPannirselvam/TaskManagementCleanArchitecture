@@ -9,29 +9,32 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <StackPanel PointerEntered="StackPanel_PointerEntered"
-                    PointerExited="StackPanel_PointerExited"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Stretch">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+    <Grid
+          PointerEntered="Grid_PointerEntered"
+          PointerExited="Grid_PointerExited">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="50"/>
+         </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}"
                            Grid.Column="0"
-                           TextWrapping="Wrap"/>
+                           Grid.Row="0"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Left"
+                           HorizontalTextAlignment="Left"
+                           />
                 <Button Content="&#xE8BB;"
-                    FontFamily = "Segoe MDL2 Assets"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     Visibility="Collapsed"
-                    FontSize="12"
+                    FontSize="10"
+                    Grid.Row="0"
                     Background="Transparent"
                     BorderThickness="0"
                     x:Name="button"
                     Click="button_Click"
                     Grid.Column="1"/>
-            </Grid>
-        </StackPanel>
     </Grid>
 </UserControl>

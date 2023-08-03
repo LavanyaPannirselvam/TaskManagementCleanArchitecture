@@ -44,7 +44,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _suitableItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
             _selectedUser = null;
-            var priorityList = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            //var priorityList = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+           
         }
 
         public IssueDetails(int id)
@@ -60,13 +61,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void ShowNotification(string msg)
         {
             NotificationControl.Show(msg, 3000);
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            var data = ((FrameworkElement)sender).Tag as UserBO;
-            //var data = (sender as Button) as Button;
-          //  _issueViewModel.RemoveUserFromIssue(data.Email, _issueViewModel.SelectedIssue.Id);
         }
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -93,12 +87,22 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            PriorityCBox.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            PriorityCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            StatusCBox.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
+            StatusCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             Notification += ShowNotification;
             UpdateUsers += IssueDetailsPage_UpdateUsers;
             UIUpdation.UserAdded += UIUpdation_UserAdded;
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
+            UIUpdation.PriorityChanged += UIUpdation_PriorityChanged;
             
+        }
+
+        private void UIUpdation_PriorityChanged(PriorityType obj)
+        {
+            _issueViewModel.SelectedIssue.Priority = obj;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -160,6 +164,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded -= UIUpdation_UserAdded;
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
+            UIUpdation.PriorityChanged -= UIUpdation_PriorityChanged;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -185,5 +190,17 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _selectedUser = args.SelectedItem as UserBO;
             sender.Text = _selectedUser.Name;
         }
+
+        private void PriorityCBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _issueViewModel.ChangePriority(_issueViewModel.SelectedIssue.Id,(PriorityType)PriorityCBox.SelectedItem);
+        }
+
+        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            PriorityCBox.SelectionChanged += PriorityCBox_SelectionChanged;;
+        }
+
+        
     }
 }

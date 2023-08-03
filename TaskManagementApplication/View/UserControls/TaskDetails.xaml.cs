@@ -12,6 +12,7 @@ using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Domain.Usecase;
+using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
@@ -52,6 +53,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _userOption = new ObservableCollection<UserBO>();
             _suitableItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
+            PriorityCBox.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            PriorityCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            StatusCBox.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
+            StatusCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
         }
 
         public TaskDetails(int id)
@@ -69,29 +74,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             NotificationControl.Show(msg, 3000);
         }
 
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            _assignedUsers = _taskDetailsViewModel.AssignedUsersList;
-            _taskDetailsViewModel.MatchingUsers.Clear();
-            _suitableItems.Clear();
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                var splitText = sender.Text;
-                _taskDetailsViewModel.GetMatchingUsers(splitText);
-            }
-        }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             var data = ((FrameworkElement)sender).DataContext as UserBO;
             _taskDetailsViewModel.RemoveTask(data.Email, _taskDetailsViewModel.SelectedTask.Id);
-        }
-
-        private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            _taskDetailsViewModel.AssignTask(_selectedUser.Email, _taskDetailsViewModel.SelectedTask.Id);
-            _selectedUser = null;
-            AssignUserBox.Text = string.Empty;
         }
 
         public void TaskDetailsNotification()
@@ -165,15 +151,30 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UpdateUsers -= TaskDetailsPage_UpdateUsers;
         }
 
-        private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            _selectedUser = args.SelectedItem as UserBO;
-            sender.Text = _selectedUser.Name;
-        }
-
         public void UpdateMatchingUsers()
         {
             UpdateUsers.Invoke(_taskDetailsViewModel.MatchingUsers);
+        }
+
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            _assignedUsers = _taskDetailsViewModel.AssignedUsersList;
+            _taskDetailsViewModel.MatchingUsers.Clear();
+            _suitableItems.Clear();
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var splitText = sender.Text;
+                _taskDetailsViewModel.GetMatchingUsers(splitText);
+            }
+        }
+        
+        private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var input = args.QueryText;
+            var user = _suitableItems.Where(i=> i.Email == input).FirstOrDefault();
+            _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
+            _selectedUser = null;
+            AssignUserBox.Text = string.Empty;
         }
     }
 }

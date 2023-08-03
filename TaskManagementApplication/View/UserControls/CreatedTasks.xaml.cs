@@ -125,10 +125,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private async void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             int result = await ConfirmtionDialogue();
-            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            //TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
-               // _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Tasks.Id);
+                TasksList.Visibility = Visibility.Visible;
+                TasksGridSplitter.Visibility = Visibility.Collapsed;
+                TasksDetailGrid.Visibility = Visibility.Collapsed;
+                Grid.SetColumn(TasksList, 0);
+                Grid.SetColumnSpan(TasksList, 3);
+                _itemSelected = false;//TODO
+                _createdTask.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
         }
 

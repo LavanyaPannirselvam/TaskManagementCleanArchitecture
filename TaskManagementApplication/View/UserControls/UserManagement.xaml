@@ -29,8 +29,17 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
-                <Button x:Name="AddUserButton"
+                <RelativePanel>
+                    <AutoSuggestBox x:Name="FindUserBox"
+                                    RelativePanel.LeftOf="AddUserButton"
+                                    Width="300"
+                                    PlaceholderText="Search for user"
+                                    CornerRadius="10"
+                                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                                    Margin="0,0,10,0"
+                                    TextChanged="FindUsersBox_TextChanged"
+                                    QueryIcon="Find"/>
+                    <Button x:Name="AddUserButton"
                     Content="Add User"
                     Grid.Row="0"
                     Margin="10"
@@ -38,15 +47,20 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Click="AddUserButton_Click"
+                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
                     Style="{ThemeResource AccentButtonStyle}"/>
-
-                <Grid Grid.Row="1">
+                </RelativePanel>
+                
+            <Grid Grid.Row="1">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" 
                                   VerticalScrollMode="Enabled">
                         <GridView  ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
                                    SelectionMode="None"
                                    x:Name="UsersGridView"
                                    Margin="5"
+                                   IncrementalLoadingThreshold="3"
+                                   IncrementalLoadingTrigger="Edge"
                                    ScrollViewer.VerticalScrollMode="Enabled"
                                    ScrollViewer.VerticalScrollBarVisibility="Visible">
                             <GridView.ItemTemplate>

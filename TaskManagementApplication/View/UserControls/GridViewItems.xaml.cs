@@ -41,5 +41,19 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             DeleteUserButton.Visibility= Visibility.Collapsed;
         }
+
+        private void EmailTextblock_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.Content = EmailTextblock.Text.ToString();
+            ToolTipService.SetToolTip(EmailTextblock, toolTip);
+        }
+
+        private void NameTextblock_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.Content = NameTextblock.Text.ToString();
+            ToolTipService.SetToolTip(NameTextblock, toolTip);
+        }
     }
 }

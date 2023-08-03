@@ -109,7 +109,7 @@
                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
                        Grid.ColumnSpan="2"
                        SelectionMode="Single"
-                                   RowHeight="35"
+                       RowHeight="35"
                        Background="{ThemeResource AppForegroundBg}">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
@@ -126,7 +126,9 @@
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Name}"
-                                           VerticalAlignment="Center"/>
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -135,6 +137,8 @@
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind Desc}"
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
                                            VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
@@ -144,6 +148,8 @@
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
                                                Text="{x:Bind CreatedBy}"
+                                               TextWrapping="Wrap"
+                                               TextTrimming="CharacterEllipsis"
                                            VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>

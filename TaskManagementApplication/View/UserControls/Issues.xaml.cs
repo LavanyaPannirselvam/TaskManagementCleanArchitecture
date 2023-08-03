@@ -68,7 +68,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _itemSelected = false;
             }
             AddIssueForm.IsOpen = true;
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddIssueForm.ActualWidth / 4 + 300;
+            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddIssueForm.ActualWidth / 4 + 420;
             double verticalOffset = Window.Current.Bounds.Height / 2 - AddIssueForm.ActualHeight / 2 - 300;
             AddIssueForm.HorizontalOffset = horizontalOffset;
             AddIssueForm.VerticalOffset = verticalOffset;
@@ -138,7 +138,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 IssuesList.DataContext = _issue;
                 IssueOfAProject.SelectedIndex = -1;
                 //TasksList.DataContext = _task;
-
             }
         }
 
@@ -211,7 +210,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void BackToList_Click(object sender, RoutedEventArgs e)
         {
             IssueOfAProject.Visibility = Visibility.Visible;
-            //TasksList.Visibility = Visible
             BackToList.Visibility = Visibility.Collapsed;
             _itemSelected = false;
             Grid.SetColumn(IssuesList, 0);
@@ -225,7 +223,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             _windowHeight = e.NewSize.Height;
             _windowWidth = e.NewSize.Width;
-
             if (_windowWidth < 900)
             {
                 IssueOfAProject.FrozenColumnCount = 1;
@@ -234,7 +231,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 CloseButton.Visibility = Visibility.Collapsed;
                 if (_itemSelected)
                 {
-                    IssueDetailGrid.Visibility = Visibility.Collapsed;
+                    IssueGridSplitter.Visibility = Visibility.Collapsed;
                     IssuesList.Visibility = Visibility.Collapsed;
                     IssueDetailGrid.Visibility = Visibility.Visible;
                     IssueDetailsPage.Visibility = Visibility.Visible;
@@ -249,6 +246,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 IssueOfAProject.FrozenColumnCount = 2;
                 _narrowLayout = false;
+                NewIssueButton.Visibility = Visibility.Visible;
                 CloseButton.Visibility = Visibility.Visible;
                 if (_itemSelected)
                 {
@@ -304,40 +302,5 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.UnloadObject(IssuePage);
             UIUpdation.OnBackNavigated();
         }
-
-        //private async void PopoutButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var selectedItem = issueDetailsPage._issueViewModel.SelectedIssue;
-        //    var button = sender as Button;
-        //    await GoToOpenPage(selectedItem);
-        //}
-
-        //public async Task GoToOpenPage(IssueBO selectedIssue)
-        //{
-        //    if (!_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow appWin))
-        //    {
-        //        AppWindow appWindow = await AppWindow.TryCreateAsync();
-        //        _appWindows[selectedIssue.Issue.Id] = appWindow;
-        //        appWindow.Closed += AppWindow_Closed;
-        //        Frame appWindowContentFrame = new Frame();
-        //        appWindowContentFrame.Navigate(typeof(IssueDetailsPopupPage));
-        //        ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-        //        SwitchTheme.AddUIRootElement(appWindowContentFrame);
-        //        await appWindow.TryShowAsync();
-        //    }
-        //    else if(_appWindows.TryGetValue(selectedIssue.Issue.Id, out AppWindow app))
-        //    {
-        //        await app.TryShowAsync();
-        //    }
-        //}
-
-        //private void AppWindow_Closed(AppWindow sender, AppWindowClosedEventArgs args)
-        //{
-        //    var keysToRemove = _appWindows.Where(x => x.Value == sender).Select(x => x.Key).ToList();
-        //    foreach (var key in keysToRemove)
-        //    {
-        //        _appWindows.Remove(key);
-        //    }
-        //}
     }
 }

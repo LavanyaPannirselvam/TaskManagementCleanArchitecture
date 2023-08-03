@@ -26,7 +26,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 {
     public sealed partial class UserManagement : UserControl, IDeleteUserPageUpdateNotification
     {
-        ObservableCollection<User> _users;
+        ObservableCollection<User> _matchingUsers;
         UserViewModelBase _viewModel;
         public static event Action<string> Notification;
         AppWindow appWindow;
@@ -37,6 +37,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _viewModel = PresenterService.GetInstance().Services.GetService<UserViewModelBase>();
             _viewModel.deleteUserPageUpdateNotification = this;
             _viewModel.UsersList.Clear();
+            _matchingUsers = new ObservableCollection<User>();
         }
 
         public void NotificationMessage()
@@ -97,6 +98,38 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             appWindowContentFrame.Content = null;
             appWindow = null;
+        }
+
+        private void FindUsersBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var text = sender.Text.ToLower().Split(" ");
+                if(text.Length > 0)
+                {
+                    UsersGridView.ItemsSource = _matchingUsers;
+                    _matchingUsers.Clear();
+                    foreach(var u in _viewModel.UsersList)
+                    {
+                        var found = text.All((key) =>
+                        {
+                            return u.Name.ToLower().Contains(key);
+                        });
+                        if(found)
+                        {
+                            _matchingUsers.Add(u);
+                        }
+                    }
+                    if(_matchingUsers.Count == 0) 
+                    {
+                        UsersGridView.ItemsSource = _viewModel.UsersList;
+                    }
+                }
+                else
+                {
+
+                }
+            }
         }
     }
 }
