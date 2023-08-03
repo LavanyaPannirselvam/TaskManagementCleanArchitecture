@@ -11,6 +11,8 @@ using TaskManagementLibrary.Models;
 using TaskManagementLibrary;
 using Windows.UI.Xaml;
 using TaskManagementLibrary.Notifications;
+using TaskManagementLibrary.Enums;
+using Namotion.Reflection;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -98,6 +100,13 @@ namespace TaskManagementCleanArchitecture.ViewModel
             GetAllMatchingUsers _getAllUsers;
             _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersCallback(this));
             _getAllUsers.Execute();
+        }
+
+        public void ChangePriority(int issueId,PriorityType priorityType)
+        {
+            ChangeIssuePriority _changePriority;
+            _changePriority = new ChangeIssuePriority(new ChangeIssuePriorityRequest(new CancellationTokenSource(), issueId, priorityType), new PresenterChangeIssuePriorityCallback(this));
+            _changePriority.Execute();
         }
 
         public IIssueDetailsPageNotification issueDetailsPageNotification { get; set; }
@@ -292,6 +301,36 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _getMatchingUsers.MatchingUsers = response.Data.Data;
                 _getMatchingUsers.updateMatchingUsers.UpdateMatchingUsers();
+            });
+        }
+    }
+
+
+    public class PresenterChangeIssuePriorityCallback : IPresenterChangeIssuePriorityCallback
+    {
+        IssueDetailsViewModelBase _viewModel;
+        public PresenterChangeIssuePriorityCallback(IssueDetailsViewModelBase viewModel)
+        {
+            _viewModel = viewModel;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeIssuePriorityResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeIssuePriorityResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                // _viewModel.ResponseString = response.Response;
+                //UIUpdation.OnPriorityChanged(response.Data.Data);
+               // _viewModel.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }

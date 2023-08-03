@@ -10,6 +10,8 @@ using TaskManagementLibrary.Domain;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary;
 using Windows.UI.Xaml;
+using static TaskManagementLibrary.Domain.Usecase.DeleteTask;
+using TaskManagementLibrary.Notifications;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -77,6 +79,13 @@ namespace TaskManagementCleanArchitecture.ViewModel
         //public ITaskUpdation updation { get; set; }
         public abstract void GetTasks(string name,string email);
 
+        public void DeleteTask(int taskId)
+        {
+            DeleteTask _deleteTask;
+            _deleteTask = new DeleteTask(new DeleteTaskRequest(taskId, new CancellationTokenSource()), new PresenterDeleteTaskofCreatedTasksCallback(this));
+            _deleteTask.Execute();
+        }
+
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility
         {
@@ -111,6 +120,46 @@ namespace TaskManagementCleanArchitecture.ViewModel
         }
     }
 
+
+
+    public class PresenterDeleteTaskofCreatedTasksCallback : IPresenterDeleteTaskCallback
+    {
+        CreatedTasksPageViewModelBase _deleteTask;
+        public PresenterDeleteTaskofCreatedTasksCallback(CreatedTasksPageViewModelBase deleteTask)
+        {
+            _deleteTask = deleteTask;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+        }
+
+        public void OnFailure(ZResponse<DeleteTaskResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<DeleteTaskResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _deleteTask.ResponseString = response.Response.ToString();
+                //_deleteTask.updation.TaskUpdationNotification();
+                UIUpdation.OnTaskDeleted(response.Data.Data);
+                if (_deleteTask.TasksList.Count != 0)
+                {
+                    _deleteTask.DataGridVisibility = Visibility.Visible;
+                    _deleteTask.TextVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _deleteTask.DataGridVisibility = Visibility.Collapsed;
+                    _deleteTask.TextVisibility = Visibility.Visible;
+                    _deleteTask.ResponseString = "Task not created yet :)";
+                }
+            });
+        }
+    }
     //public interface ITaskUpdation
     //{
     //    void TaskUpdationNotification();
