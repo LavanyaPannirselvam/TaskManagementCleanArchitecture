@@ -28,7 +28,6 @@ namespace TaskManagementLibrary.Data.DBManager
             zResponse.Response = "Task's priority is updated successfully";
             zResponse.Data = null;
             callback.OnResponseSuccess(zResponse);
-
         }
     }
 }
