@@ -339,10 +339,7 @@
 
                 </Grid>
             </Grid>
-            <Popup IsLightDismissEnabled="True"
-                   LightDismissOverlayMode="On"
-                   IsOpen="False"
-                   Closed="AddIssueForm_Closed"
+            <Popup IsOpen="False"
                    Name="AddIssueForm">
                 <!--<Popup.ChildTransitions>
                 <TransitionCollection>
@@ -369,13 +366,28 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+                        <RelativePanel>
                         <TextBlock Text="Add Issue" 
                                FontSize="20" 
                                FontWeight="Bold" 
                                Grid.Row="0"
+                               RelativePanel.AlignHorizontalCenterWithPanel="True"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
                                Padding="20"/>
+                            <Button FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Margin="0,0,10,0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Content="&#xE106;"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            RelativePanel.AlignRightWithPanel="True"
+                            Name="ClosePopUpButton"
+                            FontSize="13"
+                            ToolTipService.ToolTip="Close"
+                            Click="ClosePopUpButton_Click"/>
+                        </RelativePanel>
                         <locals:CreateNewIssue x:Name="CreateIssueForm"
                                                Grid.Row="1"
                                                Margin="10"/>

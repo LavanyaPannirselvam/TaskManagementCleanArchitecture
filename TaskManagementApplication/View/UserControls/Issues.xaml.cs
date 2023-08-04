@@ -156,10 +156,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
         }
 
-        private void AddIssueForm_Closed(object sender, object e)
-        {
-            CreateIssueForm.ClearFormData();
-        }
+        //private void AddIssueForm_Closed(object sender, object e)
+        //{
+        //    CreateIssueForm.ClearFormData();
+        //    ErrorMessage.Text = string.Empty;
+        //}
 
         public async Task<int> ConfirmtionDialogue()
         {
@@ -301,6 +302,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             this.UnloadObject(IssuePage);
             UIUpdation.OnBackNavigated();
+        }
+
+        private void ClosePopUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddIssueForm.IsOpen = false;
+            CreateIssueForm.ClearFormData();
         }
     }
 }

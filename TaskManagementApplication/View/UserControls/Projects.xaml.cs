@@ -133,7 +133,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             AddProjectForm.HorizontalOffset = horizontalOffset;
             AddProjectForm.VerticalOffset = verticalOffset;
             AddProjectForm.IsOpen = true;
-            ErrorMessage.Visibility = Visibility.Collapsed;
+            AddProjectForm.Visibility = Visibility.Visible;
         }
 
         private void AddProjectForm_Closed(object sender, object e)
@@ -168,6 +168,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Notification -= ShowNotification;
             UIUpdation.ProjectCreated -= UpdateNewProject;
             _projectsPageViewModel.ProjectsList.Clear();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddProjectForm.IsOpen = false;
+            CreateProjectForm.ClearFormData() ;
         }
     }
 }

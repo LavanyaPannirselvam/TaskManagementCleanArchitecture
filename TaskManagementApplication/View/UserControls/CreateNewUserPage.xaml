@@ -46,6 +46,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                
                 <TextBlock HorizontalAlignment="Center"
                        x:Name="UserNameDetail"
                        Margin="10">
@@ -54,11 +55,13 @@
                      Foreground="Red"/>
                 </TextBlock>
                 <TextBox x:Name="UserNameEnter"
-                     Style="{ThemeResource InputFieldTextBox}"
-                     HorizontalAlignment="Stretch"
-                     Grid.Column="1"
-                     Width="400"
-                     ScrollViewer.HorizontalScrollMode="Enabled"/>
+                     HorizontalAlignment="Center"
+                     Width="340"
+                         Margin="5"
+                     CornerRadius="10"
+                     Grid.Row="0"
+                     Grid.Column="1"/>
+                
                 <TextBlock HorizontalAlignment="Center"
                        x:Name="UserEmailDetail"
                        Margin="10"
@@ -69,12 +72,14 @@
                      Foreground="Red"/>
                 </TextBlock>
                 <TextBox x:Name="UserEmailEnter"
-                     Style="{ThemeResource InputFieldTextBox}"
-                     HorizontalAlignment="Stretch"
-                     Width="400"
+                     HorizontalAlignment="Center"
+                     Width="340"
+                         Margin="5"
+                         CornerRadius="10"
                          Grid.Row="1"
                        Grid.Column="1">
                 </TextBox>
+                
                 <TextBlock HorizontalAlignment="Center"
                        x:Name="UserRoleDetail"
                        Margin="10"
@@ -87,12 +92,14 @@
                 </TextBlock>
                 <ComboBox 
                   PlaceholderText="Choose Role"
-                  HorizontalAlignment="Stretch"
+                  HorizontalAlignment="Center"
                   x:Name="UserRoleEnter"
+                  CornerRadius="10"
                   SelectionChanged="UserRoleEnter_SelectionChanged"
                   Margin="5"
-                    Grid.Row="2"
-                       Grid.Column="1"/>
+                  Width="340"
+                  Grid.Row="2"
+                  Grid.Column="1"/>
 
 
             </Grid>

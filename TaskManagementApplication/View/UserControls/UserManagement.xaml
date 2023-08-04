@@ -20,17 +20,17 @@
     </UserControl.Resources>
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" 
-                      VerticalScrollMode="Enabled">
-            <Grid ScrollViewer.VerticalScrollMode="Enabled">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <RelativePanel>
-                    <AutoSuggestBox x:Name="FindUserBox"
+        <!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
+                      VerticalScrollMode="Enabled">-->
+        <!--<Grid ScrollViewer.VerticalScrollMode="Enabled">-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <RelativePanel>
+            <AutoSuggestBox x:Name="FindUserBox"
                                     RelativePanel.LeftOf="AddUserButton"
                                     Width="300"
                                     PlaceholderText="Search for user"
@@ -39,7 +39,7 @@
                                     Margin="0,0,10,0"
                                     TextChanged="FindUsersBox_TextChanged"
                                     QueryIcon="Find"/>
-                    <Button x:Name="AddUserButton"
+            <Button x:Name="AddUserButton"
                     Content="Add User"
                     Grid.Row="0"
                     Margin="10"
@@ -50,38 +50,38 @@
                     RelativePanel.AlignVerticalCenterWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
                     Style="{ThemeResource AccentButtonStyle}"/>
-                </RelativePanel>
-                
-            <Grid Grid.Row="1">
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" 
-                                  VerticalScrollMode="Enabled">
-                        <GridView  ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
+        </RelativePanel>
+
+        <Grid Grid.Row="1">
+            <!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
+                                  VerticalScrollMode="Enabled">-->
+            <GridView  ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
                                    SelectionMode="None"
                                    x:Name="UsersGridView"
-                                   Margin="5"
-                                   IncrementalLoadingThreshold="3"
-                                   IncrementalLoadingTrigger="Edge"
-                                   ScrollViewer.VerticalScrollMode="Enabled"
-                                   ScrollViewer.VerticalScrollBarVisibility="Visible">
-                            <GridView.ItemTemplate>
-                                <DataTemplate x:Name="UsersList" x:DataType="library:User">
-                                    <usercontrol:GridViewItems/>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                            <GridView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem">
-                                    <Setter Property="DataContext" Value="{Binding}"/>
-                                </Style>
-                            </GridView.ItemContainerStyle>
-                        </GridView>
-                    </ScrollViewer>
+                                   Margin="5">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:Name="UsersList" x:DataType="library:User">
+                        <usercontrol:GridViewItems/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="DataContext" Value="{Binding}"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </GridView>
+        </Grid>
+        <!--</ScrollViewer>
                 </Grid>
 
-                <controls:InAppNotification Name="NotificationControl"
+            <controls:InAppNotification Name="NotificationControl"
                                         Grid.Row="2"
                                         HorizontalAlignment="Stretch"
                                         ShowDismissButton="False"/>
             </Grid>
-        </ScrollViewer>
+        </ScrollViewer>-->
+
+        <!--</ScrollViewer>
+    </Grid>-->
     </Grid>
 </UserControl>

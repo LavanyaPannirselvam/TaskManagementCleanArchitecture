@@ -321,10 +321,7 @@
                 
             </Grid>
        
-        <Popup  IsLightDismissEnabled="True"
-                   LightDismissOverlayMode="On"
-                   IsOpen="False"
-                   Closed="AddTaskForm_Closed"
+        <Popup IsOpen="False"
                    Name="AddTaskForm">
             <!--<Popup.ChildTransitions>
                 <TransitionCollection>
@@ -351,14 +348,29 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                        <RelativePanel>
                     <TextBlock Text="Add Task" 
                                FontSize="20" 
                                FontWeight="Bold" 
                                Grid.Row="0"
+                            RelativePanel.AlignHorizontalCenterWithPanel="True"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center" 
                                Padding="20"/>
-                    <local:CreateNewTask x:Name="CreateTaskForm"
+                            <Button FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Margin="0,0,10,0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Content="&#xE106;"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            RelativePanel.AlignRightWithPanel="True"
+                            Name="ClosePopUpButton"
+                            FontSize="13"
+                            ToolTipService.ToolTip="Close"
+                            Click="ClosePopUpButton_Click"/>
+                        </RelativePanel>
+                        <local:CreateNewTask x:Name="CreateTaskForm"
                                                      Grid.Row="1"
                                                      Margin="10"/>
                     <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"

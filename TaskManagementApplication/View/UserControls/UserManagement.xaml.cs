@@ -71,7 +71,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ShowNotification(string msg)
         {
-            NotificationControl.Show(msg, 3000);
+            //NotificationControl.Show(msg, 3000);
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)

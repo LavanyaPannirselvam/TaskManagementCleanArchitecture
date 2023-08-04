@@ -296,6 +296,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.OnBackNavigated();
         }
 
+        private void ClosePopUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddTaskForm.IsOpen = false;
+            CreateTaskForm.ClearFormData();
+        }
+
         //private async Task PopoutButton_Click(object sender, RoutedEventArgs e)
         //{
         //    AppWindow appWindow = await AppWindow.TryCreateAsync();

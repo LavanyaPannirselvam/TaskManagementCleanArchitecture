@@ -199,8 +199,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
         {
             PriorityCBox.SelectionChanged += PriorityCBox_SelectionChanged;;
-        }
-
-        
+        }        
     }
 }

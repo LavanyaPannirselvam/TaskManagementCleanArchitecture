@@ -24,16 +24,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public ListViewItems()
         {
             this.InitializeComponent();
+            this.PointerEntered += Grid_PointerEntered;
+            this.PointerExited += Grid_PointerExited;
         }
 
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            button.Visibility = Visibility.Visible;
+            //button.Visibility = Visibility.Visible;
+            DeleteUserButton.Visibility = Visibility.Visible;
         }
 
         private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            button.Visibility = Visibility.Collapsed;
+            //button.Visibility = Visibility.Collapsed;
+            DeleteUserButton.Visibility = Visibility.Collapsed;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
