@@ -68,10 +68,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _itemSelected = false;
             }
             AddIssueForm.IsOpen = true;
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddIssueForm.ActualWidth / 4 + 420;
-            double verticalOffset = Window.Current.Bounds.Height / 2 - AddIssueForm.ActualHeight / 2 - 300;
-            AddIssueForm.HorizontalOffset = horizontalOffset;
-            AddIssueForm.VerticalOffset = verticalOffset;
+            //double horizontalOffset = Window.Current.Bounds.Width / 2 - AddIssueForm.ActualWidth / 4 + 420;
+            //double verticalOffset = Window.Current.Bounds.Height / 2 - AddIssueForm.ActualHeight / 2 - 300;
+            //AddIssueForm.HorizontalOffset = horizontalOffset;
+            //AddIssueForm.VerticalOffset = verticalOffset;
+            ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
         private void IssueList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)

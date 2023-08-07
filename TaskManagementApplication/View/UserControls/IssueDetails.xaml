@@ -263,6 +263,10 @@
                             </DataTemplate>
                         </AutoSuggestBox.ItemTemplate>
                     </AutoSuggestBox>
+                    <TextBlock Margin="10"
+                               Foreground="Red"
+                               x:Name="ErrorMessage"
+                               Visibility="Collapsed"/>
                 </StackPanel>
             </Grid>
 

@@ -64,12 +64,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-           // CredentialsGrid.Visibility = Visibility.Collapsed;
+            CredentialsGrid.Visibility = Visibility.Collapsed;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-          //  CredentialsGrid.Visibility = Visibility.Collapsed;
+            CredentialsGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

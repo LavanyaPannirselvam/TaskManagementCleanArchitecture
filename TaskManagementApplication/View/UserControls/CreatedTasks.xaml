@@ -45,6 +45,7 @@
 
     <Grid Background="{ThemeResource AppForegroundBg}"
           x:Name="TaskPage"
+          CornerRadius="10"
           x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -10,6 +10,8 @@ using TaskManagementLibrary.Domain.Usecase;
 using System.Collections.ObjectModel;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Notifications;
+using Windows.UI.Xaml.Data;
+using Windows.Foundation;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -17,9 +19,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         private GetUsersList _getUsersList;
 
-        public override void GetAllUsersList()
+        public override void GetAllUsersList(int count,int skipCount)
         {
-            _getUsersList = new GetUsersList(new GetUsersListRequest(new CancellationTokenSource()), new PresenterGetUsersList(this));
+            _getUsersList = new GetUsersList(new GetUsersListRequest(count,skipCount,new CancellationTokenSource()), new PresenterGetUsersList(this));
             _getUsersList.Execute();
         }
     }
@@ -27,10 +29,15 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public class PresenterGetUsersList : IPresenterGetUsersListCallback
     {
         private UserViewModelBase _usersViewModel;
+        private int _itemsPerPage;
+        private bool _hasMoreItems;
+        private int _currentPage;
 
-        public PresenterGetUsersList(UserViewModelBase usersViewModel)
+        public PresenterGetUsersList(UserViewModelBase usersViewModel,int itemsPerpage = 10)
         {
             _usersViewModel = usersViewModel;
+            _itemsPerPage = itemsPerpage;
+            _hasMoreItems = true;
         }
 
         public void OnError(BaseException errorMessage)
@@ -48,15 +55,11 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 PopulateData(response.Data.Data);
-                //_usersViewModel.LoadUsers.LoadUsers(_usersViewModel.UsersList);
-                //_firstPageViewModel.projectWithUsersList.Add();
-
             });
         }
 
         private void PopulateData(List<User> data)
         {
-            //TODO : if no users,msg that no users were assigned yet
             foreach (var p in data)
             {
                 _usersViewModel.UsersList.Add(p);
@@ -68,7 +71,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class UserViewModelBase : NotifyPropertyBase
     {
         public ObservableCollection<User> UsersList = new ObservableCollection<User>();
-        public abstract void GetAllUsersList();
+        public abstract void GetAllUsersList(int count,int skipCount);
         public IDeleteUserPageUpdateNotification deleteUserPageUpdateNotification { get; set; }
 
         private string _responseString = string.Empty;

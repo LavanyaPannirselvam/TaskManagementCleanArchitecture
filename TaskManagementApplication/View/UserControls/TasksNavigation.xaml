@@ -1039,9 +1039,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid CornerRadius="10">
         <Grid x:Name="NavigationGrid"
-          x:Load="True">
+          x:Load="True"
+              CornerRadius="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -1053,7 +1054,8 @@
                         IsBackEnabled="False"
                         SelectionFollowsFocus="Disabled"
                         IsTabStop="False"
-                        Background="{ThemeResource AppForegroundBg}"
+                        Background="Red"
+                        CornerRadius="10"
                         SelectionChanged="TopNV_SelectionChanged"
                         Grid.Row="0">
                 <NavigationView.MenuItems>
@@ -1070,12 +1072,15 @@
                     <!--<NavigationViewItem Content="{x:Bind CurrentUser.LoggedInUser.Name}"
                                     FontSize="16"/>-->
                 </NavigationView.MenuItems>
-                <Frame x:Name="DashboardContent"
-                            Height="900"
-                   IsNavigationStackEnabled="True">
-                    <!--<ContentPresenter Background="{ThemeResource AppForegroundBg}">
-                </ContentPresenter>-->
-                </Frame>
+                <ContentControl x:Name="DashboardContent"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                                CornerRadius="10"
+                            Height="900">
+                    <ContentPresenter Background="{ThemeResource AppForegroundBg}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
+                </ContentControl>
             </NavigationView>
         </Grid>
     </Grid>

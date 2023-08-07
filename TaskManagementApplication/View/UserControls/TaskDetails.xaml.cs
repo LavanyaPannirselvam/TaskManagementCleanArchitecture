@@ -71,7 +71,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ShowNotification(string msg)
         {
-            NotificationControl.Show(msg, 3000);
+            //NotificationControl.Show(msg, 3000);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -170,11 +170,39 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var input = args.QueryText;
-            var user = _suitableItems.Where(i=> i.Email == input).FirstOrDefault();
-            _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
+            //var input = args.QueryText;
+            //var user = _suitableItems.Where(i=> i.Email == input).FirstOrDefault();
+            //_taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
+            //_selectedUser = null;
+            //AssignUserBox.Text = string.Empty;
+            if (_selectedUser == null)
+            {
+                ErrorMessage.Text = "User doesnot exists";
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Collapsed;
+                _taskDetailsViewModel.AssignTask(_selectedUser.Email, _taskDetailsViewModel.SelectedTask.Id);
+            }
             _selectedUser = null;
-            AssignUserBox.Text = string.Empty;
+        }
+
+        private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+        //    _selectedUser = args.SelectedItem as UserBO;
+        //    AssignUserBox.Text = _selectedUser.Name;
+        //    AssignUserBox.IsSuggestionListOpen = true;
+        AssignUserBox.Text = (args.SelectedItem as UserBO).Name.ToString();
+        }
+
+        private void AssignUserBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key == VirtualKey.Enter)
+            {
+                AssignUserBox.Text = sender.ToString();
+                
+            }
         }
     }
 }

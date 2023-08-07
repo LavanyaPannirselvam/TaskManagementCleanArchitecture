@@ -24,8 +24,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public ListViewItems()
         {
             this.InitializeComponent();
-            this.PointerEntered += Grid_PointerEntered;
-            this.PointerExited += Grid_PointerExited;
         }
 
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)

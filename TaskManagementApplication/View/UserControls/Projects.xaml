@@ -59,8 +59,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
             <RelativePanel Margin="0,0,0,20"
+                           Grid.Column="0"
                        Grid.ColumnSpan="2"
+                           Grid.Row="0"
                        Name="TopOptions">
                 <TextBlock Text="Projects"
                        Margin="30,10,0,0"
@@ -82,7 +88,9 @@
             </RelativePanel>
 
             <Grid Grid.Row="1"
-              x:Name="ProjectsListGrid">
+              x:Name="ProjectsListGrid"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -203,20 +211,24 @@
                         </Style>
                     </controls:DataGrid.ColumnHeaderStyle>
                 </controls:DataGrid>
-                
+
                 <controls:InAppNotification x:Name="NoitificationBox"
                                     HorizontalAlignment="Stretch"
                                     ShowDismissButton="False"
                                     Grid.ColumnSpan="2"/>
-
-                <Popup IsOpen="False"
-                   Name="AddProjectForm">
-                    <!--<Popup.ChildTransitions>
+            </Grid>
+            <Popup Name="AddProjectForm"
+                   Grid.Row="1"
+                   HorizontalAlignment="Left"
+                   IsOpen="False"
+                   Grid.Column="1"
+                   Margin="0,0,10,0">
+                <!--<Popup.ChildTransitions>
                     <TransitionCollection>
                         <PaneThemeTransition Edge="Right"/>
                     </TransitionCollection>
                 </Popup.ChildTransitions>-->
-                    <controls:DropShadowPanel Color="Black"
+                <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
                                       BlurRadius="50"
@@ -226,18 +238,18 @@
                                       Margin="5"
                                       Padding="30"
                                       x:Name="AddProjectContainer">
-                        <Grid Visibility="Visible"
+                    <Grid Visibility="Visible"
                           Background="{ThemeResource AppForegroundBg}"
                           BorderThickness="1"
                           Name="AddGrid">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <RelativePanel>
-                                <Button FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <RelativePanel>
+                            <Button FontFamily="{ThemeResource SymbolThemeFontFamily}"
                             Margin="0,0,10,0"
                             Background="Transparent"
                             BorderThickness="0"
@@ -257,12 +269,12 @@
                                        RelativePanel.AlignHorizontalCenterWithPanel="True"
                                VerticalAlignment="Center" 
                                Padding="20"/>
-                            </RelativePanel>
-                            <local:CreateNewProject x:Name="CreateProjectForm"
+                        </RelativePanel>
+                        <local:CreateNewProject x:Name="CreateProjectForm"
                                                     Grid.Row="1"
                                                     Margin="10"/>
 
-                            <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
+                        <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
                                    Visibility="Collapsed"
                                    FontSize="14"
                                    Grid.Row="2"
@@ -271,17 +283,16 @@
                                    x:Name="ErrorMessage"
                                    Foreground="red"
                                    Margin="7"/>
-                            <Button x:Name="AddButton"
+                        <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"
                                     HorizontalAlignment="Right"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
-                </Popup>
-            </Grid>
+                    </Grid>
+                </controls:DropShadowPanel>
+            </Popup>
         </Grid>
         
         <Grid x:Load="True"

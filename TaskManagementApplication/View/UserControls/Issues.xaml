@@ -42,7 +42,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Grid 
+        <Grid CornerRadius="10"
               Background="{ThemeResource AppForegroundBg}"
           x:Name="IssuePage"
           x:Load="True">
@@ -51,8 +51,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
         <RelativePanel Grid.Row="0"
-            Margin="0,0,0,20">
+            Margin="0,0,0,20"
+                       Grid.ColumnSpan="2">
                 <Button x:Name="BackButton"
                     Margin="10,15,0,0"
                     FontSize="13"
@@ -85,7 +90,9 @@
                     Click="NewIssueButton_Click"/>
         </RelativePanel>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="500" MaxWidth="600"/>
                     <ColumnDefinition Width="5" />
@@ -340,6 +347,8 @@
                 </Grid>
             </Grid>
             <Popup IsOpen="False"
+                   Grid.Row="1"
+                   Grid.Column="1"
                    Name="AddIssueForm">
                 <!--<Popup.ChildTransitions>
                 <TransitionCollection>

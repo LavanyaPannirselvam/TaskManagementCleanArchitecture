@@ -128,10 +128,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 2 + 100;
-            double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2 - 300;
-            AddProjectForm.HorizontalOffset = horizontalOffset;
-            AddProjectForm.VerticalOffset = verticalOffset;
+            //double horizontalOffset = Window.Current.Bounds.Width / 2 - AddProjectForm.ActualWidth / 2 + 100;
+            //double verticalOffset = Window.Current.Bounds.Height / 2 - AddProjectForm.ActualHeight / 2 - 300;
+            //AddProjectForm.HorizontalOffset = horizontalOffset;
+            //AddProjectForm.VerticalOffset = verticalOffset;
             AddProjectForm.IsOpen = true;
             AddProjectForm.Visibility = Visibility.Visible;
         }
@@ -150,6 +150,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 NewProjectButton.Visibility = Visibility.Collapsed;
                 ProjectsList.FrozenColumnCount = 1;
+                AddProjectForm.IsOpen = false;
             }
             else
             {

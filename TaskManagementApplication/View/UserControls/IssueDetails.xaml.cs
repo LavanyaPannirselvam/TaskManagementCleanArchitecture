@@ -97,7 +97,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
             UIUpdation.PriorityChanged += UIUpdation_PriorityChanged;
-            
         }
 
         private void UIUpdation_PriorityChanged(PriorityType obj)

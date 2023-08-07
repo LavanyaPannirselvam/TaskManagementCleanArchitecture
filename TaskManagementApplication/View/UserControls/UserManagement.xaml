@@ -26,8 +26,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>-->
         </Grid.RowDefinitions>
         <RelativePanel>
             <AutoSuggestBox x:Name="FindUserBox"
@@ -51,28 +51,38 @@
                     RelativePanel.AlignRightWithPanel="True"
                     Style="{ThemeResource AccentButtonStyle}"/>
         </RelativePanel>
-
+       
         <Grid Grid.Row="1">
-            <!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
-                                  VerticalScrollMode="Enabled">-->
-            <GridView  ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
+            <TextBlock Text="No suitable user available"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Visibility="Collapsed"
+                       x:Name="NoUsersText"/>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" 
+                                  VerticalScrollMode="Enabled"
+                          ViewChanged="ScrollViewer_ViewChanged"
+                          Visibility="Visible">
+                <GridView  ItemsSource="{x:Bind _viewModel.UsersList,Mode=OneWay}"
                                    SelectionMode="None"
                                    x:Name="UsersGridView"
+                       IncrementalLoadingTrigger="Edge"
+                       IncrementalLoadingThreshold="10"
+                       DataFetchSize="10"
+                           Visibility="Visible"
                                    Margin="5">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:Name="UsersList" x:DataType="library:User">
-                        <usercontrol:GridViewItems/>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="DataContext" Value="{Binding}"/>
-                    </Style>
-                </GridView.ItemContainerStyle>
-            </GridView>
-        </Grid>
-        <!--</ScrollViewer>
-                </Grid>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:Name="UsersList" x:DataType="library:User">
+                            <usercontrol:GridViewItems/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="DataContext" Value="{Binding}"/>
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                </GridView>
+            </ScrollViewer>
+            <!--</Grid>
 
             <controls:InAppNotification Name="NotificationControl"
                                         Grid.Row="2"
@@ -81,7 +91,9 @@
             </Grid>
         </ScrollViewer>-->
 
-        <!--</ScrollViewer>
-    </Grid>-->
+            <!--</ScrollViewer>
+    </Grid>--><!--
+        </Grid>-->
     </Grid>
+        </Grid>
 </UserControl>

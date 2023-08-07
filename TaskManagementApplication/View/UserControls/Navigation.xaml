@@ -1055,7 +1055,6 @@
                         SelectionFollowsFocus="Disabled"
                         IsTabStop="False"
                         CornerRadius="10"
-                        Background="Red"
                         SelectionChanged="NavigationView_SelectionChanged"
                         Grid.Row="0">
             <NavigationView.MenuItems>
@@ -1072,15 +1071,16 @@
                 <!--<NavigationViewItem Content="{x:Bind CurrentUser.LoggedInUser.Name}"
                                     FontSize="16"/>-->
             </NavigationView.MenuItems>
-            <Frame x:Name="DashboardContent"
-                   Height="900"
-                   Background="Green"
-                   CornerRadius="10"
-                   IsNavigationStackEnabled="True">
-                <!--<ContentPresenter Background="{ThemeResource AppForegroundBg}">
-                </ContentPresenter>-->
-            </Frame>
-        </NavigationView>
+                <ContentControl x:Name="DashboardContent"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Margin="0,0,0,0"
+                            Height="900">
+                    <ContentPresenter Background="{ThemeResource AppForegroundBg}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
+                </ContentControl>
+            </NavigationView>
     </Grid>
     <Grid x:Load="False"
               x:Name="Projectpage">

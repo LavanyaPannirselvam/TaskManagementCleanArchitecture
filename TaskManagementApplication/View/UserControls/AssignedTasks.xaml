@@ -42,6 +42,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="{ThemeResource AppForegroundBg}"
+          CornerRadius="10"
           x:Name="TaskPage"
           x:Load="True">
         <Grid.RowDefinitions>

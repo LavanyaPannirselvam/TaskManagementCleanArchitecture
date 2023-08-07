@@ -6,85 +6,52 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight ="100"
+    d:DesignWidth="200">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-    <!--<Grid
+    <Grid Padding="5"
+              Width="200"
           PointerEntered="Grid_PointerEntered"
-          PointerExited="Grid_PointerExited">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+          PointerExited="Grid_PointerExited"
+              x:Name="UsersDataTemplate">
         <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="50"/>
-         </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Name}"
-                           Grid.Column="0"
-                           Grid.Row="0"
-                           TextWrapping="Wrap"
-                           HorizontalAlignment="Left"
-                           HorizontalTextAlignment="Left"
-                           />
-                <Button Content="&#xE8BB;"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    Visibility="Collapsed"
-                    FontSize="10"
-                    Grid.Row="0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    x:Name="button"
-                    Click="button_Click"
-                    Grid.Column="1"/>
-    </Grid>-->
-    <Grid Padding="30,20,2,20"
-              Margin="10"
-              BorderBrush="Gray" 
-              x:Name="UsersDataTemplate"  
-              BorderThickness="0.3" 
-              CornerRadius="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition  Width="Auto"/>
-            <ColumnDefinition  Width="Auto"/>
+            <ColumnDefinition  Width="3*"/>
+            <ColumnDefinition  Width="1*"/>
         </Grid.ColumnDefinitions>
-
+        <Grid BorderBrush="Red"
+              BorderThickness="0.5"
+              Margin="5">
         <TextBlock Text="{Binding Name}"
-                           FontSize="22"
-                           MaxWidth="290"
-                           Width="225"
+                           FontSize="16"
                            x:Name="NameTextblock"
                            MaxLines="1"
-                           Margin="0,0,0,5"
-                           Grid.Row="0"
+                           Margin="0"
+                           Padding="0"
                            Grid.Column="0"
                            TextWrapping="Wrap"
-                           FontWeight="SemiBold"
-                           CharacterSpacing="80"
+                           FontWeight="Normal"
                            TextTrimming="CharacterEllipsis"
-                           HorizontalAlignment="Left"/>
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Width="110"/>
+        </Grid>
         <Button x:Name="DeleteUserButton"
                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                            Grid.Row="3"
                             Grid.Column="1"
-                            Margin="0,0,20,0"
                             FontSize="13"
                             Background="Transparent"
                             BorderThickness="0"
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             Content="&#xE107;" 
                             Foreground="Red"
-                            HorizontalAlignment="Right"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
     </Grid>
-    <!--<StackPanel Orientation="Horizontal"
-                PointerEntered="Grid_PointerEntered"
-                PointerExited="Grid_PointerExited">
-        <TextBlock Text="{Binding Name}"/>
-        <Button Content="X"
-                Visibility="Collapsed"
-                x:Name="DeleteUserButton"/>
-    </StackPanel>-->
 </UserControl>

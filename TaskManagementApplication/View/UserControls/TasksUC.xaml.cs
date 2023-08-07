@@ -145,10 +145,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _itemSelected = false;
             }
             AddTaskForm.IsOpen = true;
-            double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 4 + 420;
-            double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2 - 300;
-            AddTaskForm.HorizontalOffset = horizontalOffset;
-            AddTaskForm.VerticalOffset = verticalOffset;
+            //double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 4 + 420;
+            //double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2 - 300;
+            //AddTaskForm.HorizontalOffset = horizontalOffset;
+            //AddTaskForm.VerticalOffset = verticalOffset;
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
