@@ -19,11 +19,14 @@ namespace TaskManagementLibrary.Domain.Usecase
     {
         public CancellationTokenSource CtsSource { get; set; }
         public int projectId;
+        public int count;
+        public int skipCount;
 
-        public GetTasksListRequest(int projectId, CancellationTokenSource cancellationTokenSource)
+        public GetTasksListRequest(int projectId,int count,int skipCount, CancellationTokenSource cancellationTokenSource)
         {
             this.projectId = projectId;
-            CtsSource = cancellationTokenSource;
+            this.count = count;
+            this.skipCount = skipCount;
         }
     }
 

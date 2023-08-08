@@ -17,7 +17,7 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetTasks(GetTasksListRequest request, IUsecaseCallbackBasecase<GetTasksListResponse> response)
         {
-            var assignedTasksList = DBhandler.AssignedTasksListOfAProject(request.projectId);
+            var assignedTasksList = DBhandler.AssignedTasksListOfAProject(request.projectId,request.count,request.skipCount);
             GetTasksListResponse taskResponse = new GetTasksListResponse();
             ZResponse<GetTasksListResponse> zResponse = new ZResponse<GetTasksListResponse>();
             if (assignedTasksList.Count > 0)

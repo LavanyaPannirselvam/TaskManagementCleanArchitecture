@@ -11,7 +11,7 @@ using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Data.DBManager
 {
-    internal class GetAllMatchingUsersDataManager : TaskManagementDataManager, IGetAllMatchingUsersDataManager
+    public class GetAllMatchingUsersDataManager : TaskManagementDataManager, IGetAllMatchingUsersDataManager
     {
         public GetAllMatchingUsersDataManager(IDBHandler dbHandler) : base(dbHandler)
         {
@@ -21,7 +21,7 @@ namespace TaskManagementLibrary.Data.DBManager
         {
             var usersList = DBhandler.MatchingUsers(request.inputText);
             GetAllMatchingUsersResponse usersResponse = new GetAllMatchingUsersResponse();
-            usersResponse.Data = new ObservableCollection<UserBO>(usersList);
+            usersResponse.Data = new ObservableCollection<User>(usersList);
             ZResponse<GetAllMatchingUsersResponse> zResponse = new ZResponse<GetAllMatchingUsersResponse>();
             zResponse.Data = usersResponse;
             callback.OnResponseSuccess(zResponse);

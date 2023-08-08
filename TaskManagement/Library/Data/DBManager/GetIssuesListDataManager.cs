@@ -17,7 +17,7 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetIssues(GetIssuesListRequest request, IUsecaseCallbackBasecase<GetIssuesListResponse> response)
         {
-            var assignedIssuesList = DBhandler.AssignedIssuesListOfAProject(request.projectId);
+            var assignedIssuesList = DBhandler.AssignedIssuesListOfAProject(request.projectId,request.count,request.skipCount);
             GetIssuesListResponse taskResponse = new GetIssuesListResponse();
             ZResponse<GetIssuesListResponse> zResponse = new ZResponse<GetIssuesListResponse>();
             if (assignedIssuesList.Count > 0)

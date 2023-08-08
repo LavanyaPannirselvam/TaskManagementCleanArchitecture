@@ -25,7 +25,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ChangeIssuePriorityResponse response = new ChangeIssuePriorityResponse();
             response.Data = priorityType;
             zResponse.Response = "Issue's priority is updated successfully";
-            zResponse.Data = null;
+            zResponse.Data = response;
             callback.OnResponseSuccess(zResponse);
 
         }

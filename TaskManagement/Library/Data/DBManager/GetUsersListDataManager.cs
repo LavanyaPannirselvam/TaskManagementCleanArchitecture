@@ -14,12 +14,13 @@ namespace TaskManagementLibrary.Data.DBManager
     {
         public GetUsersListDataManager(IDBHandler dbHandler) : base(dbHandler)
         {}
-
         public void GetUsersList(GetUsersListRequest request, IUsecaseCallbackBasecase<GetUsersListResponse> response)
         {
-            var list = DBhandler.UsersList();
+            var entireList = DBhandler.UsersList(request.toFetchCount,request.skipCount);
             GetUsersListResponse userResponse = new GetUsersListResponse();
-            userResponse.Data = list;
+            //var list = (from u in entireList
+            //            select u).Skip(request.pageSize * request.itemsPerPage).Take(request.itemsPerPage);
+            userResponse.Data = entireList;
             ZResponse<GetUsersListResponse> zResponse = new ZResponse<GetUsersListResponse>();
             zResponse.Response = "";
             zResponse.Data = userResponse;
@@ -27,4 +28,3 @@ namespace TaskManagementLibrary.Data.DBManager
         }
     }
 }
-//to get assigned users of a project should write join query on assignment with the projectid getting the userid and then passing to user table to get the user --> need project id as parameter

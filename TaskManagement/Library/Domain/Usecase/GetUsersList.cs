@@ -18,9 +18,14 @@ namespace TaskManagementLibrary.Domain.Usecase
     public class GetUsersListRequest : IRequest
     {
         public CancellationTokenSource CtsSource { get; set; }
-        public GetUsersListRequest(CancellationTokenSource ctsSource)
+        //public int pageSize;
+        public int skipCount;
+        public int toFetchCount;
+        public GetUsersListRequest(int count,int skipCount,CancellationTokenSource ctsSource)
         {
             CtsSource = ctsSource;
+            toFetchCount = count;
+            this.skipCount = skipCount;
         }
     }
 

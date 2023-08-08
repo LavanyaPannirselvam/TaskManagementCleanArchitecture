@@ -50,10 +50,19 @@ namespace TaskManagementLibrary.Data.DBHandler
             return _adapter.GetFromQuery<Project>(query, projectId).FirstOrDefault();
         }
 
-        public List<Project> ProjectsList(string userName,string userEmail)
+        public List<Project> ProjectsList(string userName,string userEmail,int count,int skipCount)
         {
-            var query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail)";
-            return _adapter.GetFromQuery<Project>(query,userName,userEmail);
+            string query;
+            if (skipCount == 0)
+            {
+                query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail) LIMIT @count";
+                return _adapter.GetFromQuery<Project>(query, userName, userEmail,count);
+            }
+            else
+            {
+                query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail) LIMIT @count OFFSET @skipCount";
+                return _adapter.GetFromQuery<Project>(query, userName, userEmail, count,skipCount);
+            }
         }
 
         public void UpdateProject(Project project)
@@ -61,16 +70,16 @@ namespace TaskManagementLibrary.Data.DBHandler
             _adapter.Update(project);
         }
 
-        public List<Tasks> AssignedTasksListOfAProject(int projectId)
+        public List<Tasks> AssignedTasksListOfAProject(int projectId, int count, int skipCount)
         {
-            var query = "SELECT * FROM Tasks WHERE ProjectId = @projectId";
-            return _adapter.GetFromQuery<Tasks>(query, projectId);
+            var query = "SELECT * FROM Tasks WHERE ProjectId = @projectId LIMIT @count OFFSET @skipCount";
+            return _adapter.GetFromQuery<Tasks>(query, projectId,count,skipCount);
         }
 
-        public List<Issue> AssignedIssuesListOfAProject(int projectId)
+        public List<Issue> AssignedIssuesListOfAProject(int projectId,int count,int skipCount)
         {
-            var query = "SELECT * FROM Issues WHERE ProjectId = @projectId";
-            return _adapter.GetFromQuery<Issue>(query, projectId);
+            var query = "SELECT * FROM Issues WHERE ProjectId = @projectId LIMIT @count OFFSET @skipCount";
+            return _adapter.GetFromQuery<Issue>(query, projectId,count,skipCount);
         }
         #endregion
 
@@ -161,10 +170,20 @@ namespace TaskManagementLibrary.Data.DBHandler
             return user;
         }
 
-        public List<Models.User> UsersList()
+        public List<Models.User> UsersList(int count,int toSkip)
         {
-            string query = "SELECT * FROM User "; 
-            return _adapter.GetFromQuery<Models.User>(query); 
+            //int times = 0;
+            string query;
+            if (toSkip > 0)
+            {
+                query = "SELECT * FROM User LIMIT @count OFFSET @toSkip";
+                return _adapter.GetFromQuery<Models.User>(query, count, toSkip);
+            }
+            else
+            {
+                query = "SELECT * FROM User LIMIT @count";
+                return _adapter.GetFromQuery<Models.User>(query, count);
+            }
         }
 
         public bool CheckUser(string email)
@@ -174,7 +193,7 @@ namespace TaskManagementLibrary.Data.DBHandler
             return result.Count == 0;
         }
 
-        public List<UserBO> AssignedUsersList(int activityId,int activityType)//TODO
+        public List<UserBO> AssignedUsersList(int activityId,int activityType)
         {
             var query = "SELECT Name,Email FROM User JOIN Assignment ON User.Email = Assignment.UserEmail WHERE Assignment.ActivityId = @activityId AND Assignment.Type = @activityType";
             return _adapter.GetFromQuery<UserBO>(query, activityId,activityType);
@@ -186,10 +205,16 @@ namespace TaskManagementLibrary.Data.DBHandler
             return _adapter.GetFromQuery<Assignment>(query, userEmail);
         }
 
-        public List<UserBO> MatchingUsers(string input)
+        public List<UserBO> MatchingUsersBO(string input)
         {
             var query = "SELECT Name , Email FROM User WHERE Name LIKE @input";
             return _adapter.GetFromQuery<UserBO>(query,("%" + input + "%"));
+        }
+
+        public List<Models.User> MatchingUsers(string input)
+        {
+            var query = "SELECT * FROM User WHERE Name LIKE @input";
+            return _adapter.GetFromQuery<Models.User>(query, ("%" + input + "%"));
         }
         #endregion
 
@@ -294,6 +319,8 @@ namespace TaskManagementLibrary.Data.DBHandler
         {
             _adapter.Update(issue);
         }
+
+       
 
         #endregion
     }

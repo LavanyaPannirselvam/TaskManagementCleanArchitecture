@@ -17,7 +17,7 @@ namespace TaskManagementLibrary.Data.DBManager
 
         public void GetProjects(GetProjectListRequest request, IUsecaseCallbackBasecase<GetProjectListResponse> response)
         {
-            var projectsList = DBhandler.ProjectsList(request.userName,request.userEmail);
+            var projectsList = DBhandler.ProjectsList(request.userName,request.userEmail,request.count,request.skipCount);
             GetProjectListResponse projectsResponse = new GetProjectListResponse();
             ZResponse<GetProjectListResponse> zResponse = new ZResponse<GetProjectListResponse>();
             if (projectsList.Count > 0)

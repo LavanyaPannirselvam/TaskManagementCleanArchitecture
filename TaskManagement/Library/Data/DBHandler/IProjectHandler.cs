@@ -14,8 +14,8 @@ namespace TaskManagementLibrary.Data.DBHandler
         void DeleteProject(int projectId);
         Project GetProject(int projectId);
         void UpdateProject(Project project);
-        List<Project> ProjectsList(string userName,string userEmail);
-        List<Tasks> AssignedTasksListOfAProject(int projectId);
-        List<Issue> AssignedIssuesListOfAProject(int projectId);
+        List<Project> ProjectsList(string userName,string userEmail,int count,int skipCount);
+        List<Tasks> AssignedTasksListOfAProject(int projectId, int count, int skipCount);
+        List<Issue> AssignedIssuesListOfAProject(int projectId,int count,int skipCount);
     }
 }

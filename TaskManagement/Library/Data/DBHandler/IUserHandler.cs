@@ -14,9 +14,10 @@ namespace TaskManagementLibrary.Data.DBHandler
         User GetUser(int userId);
         User GetUser(string email);
         bool CheckUser(string email);
-        List<User> UsersList();
+        List<User> UsersList(int count,int times);
         List<UserBO> AssignedUsersList(int activityId,int activityType);
         List<Assignment> AssignmentsList(string userEmail);
-        List<UserBO> MatchingUsers(string input);
+        List<UserBO> MatchingUsersBO(string input);
+        List<User> MatchingUsers(string input);
     }
 }

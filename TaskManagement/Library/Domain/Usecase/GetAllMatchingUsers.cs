@@ -19,7 +19,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     public class GetAllMatchingUsersRequest : IRequest
     {
         public string inputText;
-        public CancellationTokenSource CtsSource { get ; set; }
+        public CancellationTokenSource CtsSource { get; set; }
 
         public GetAllMatchingUsersRequest(string inputText, CancellationTokenSource ctsSource)
         {
@@ -38,7 +38,7 @@ namespace TaskManagementLibrary.Domain.Usecase
         private IPresenterGetAllMatchingUsersCallback _response;
         private GetAllMatchingUsersRequest _request;
 
-        public GetAllMatchingUsers(GetAllMatchingUsersRequest request,IPresenterGetAllMatchingUsersCallback response)
+        public GetAllMatchingUsers(GetAllMatchingUsersRequest request, IPresenterGetAllMatchingUsersCallback response)
         {
             _dataManager = ServiceProvider.GetInstance().Services.GetService<IGetAllMatchingUsersDataManager>();
             _response = response;
@@ -77,7 +77,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class GetAllMatchingUsersResponse : ZResponse<ObservableCollection<UserBO>>
+    public class GetAllMatchingUsersResponse : ZResponse<ObservableCollection<User>>
     {
 
     }
