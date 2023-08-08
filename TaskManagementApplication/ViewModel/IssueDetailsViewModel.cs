@@ -97,8 +97,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
         public void GetMatchingUsers(string input)
         {
-            GetAllMatchingUsers _getAllUsers;
-            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersCallback(this));
+            GetAllMatchingUsersBO _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfIssueCallback(this));
             _getAllUsers.Execute();
         }
 
@@ -277,11 +277,11 @@ namespace TaskManagementCleanArchitecture.ViewModel
         }
     }
 
-    public class PresenterAllMatchingUsersCallback : IPresenterGetAllMatchingUsersCallback
+    public class PresenterAllMatchingUsersOfIssueCallback : IPresenterGetAllMatchingUsersBOCallback
     {
         private IssueDetailsViewModelBase _getMatchingUsers;
 
-        public PresenterAllMatchingUsersCallback(IssueDetailsViewModelBase obj)
+        public PresenterAllMatchingUsersOfIssueCallback(IssueDetailsViewModelBase obj)
         {
             _getMatchingUsers = obj;
         }
@@ -290,12 +290,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
             throw new NotImplementedException();
         }
 
-        public void OnFailure(ZResponse<GetAllMatchingUsersResponse> response)
+        public void OnFailure(ZResponse<GetAllMatchingUsersBOResponse> response)
         {
             throw new NotImplementedException();
         }
 
-        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersResponse> response)
+        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersBOResponse> response)
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
@@ -328,9 +328,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                // _viewModel.ResponseString = response.Response;
-                //UIUpdation.OnPriorityChanged(response.Data.Data);
-               // _viewModel.issueDetailsPageNotification.IssueDetailsPageNotification();
+                 _viewModel.ResponseString = response.Response;
+                UIUpdation.OnPriorityChanged(response.Data.Data);
+                _viewModel.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }

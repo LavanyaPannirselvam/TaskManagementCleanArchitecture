@@ -73,7 +73,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
         public ObservableCollection<User> UsersList = new ObservableCollection<User>();
         public abstract void GetAllUsersList(int count,int skipCount);
         public IDeleteUserPageUpdateNotification deleteUserPageUpdateNotification { get; set; }
-
+        public IUpdateSearchedUser updateSearchedUser { get; set; }
+        
         private string _responseString = string.Empty;
         public string ResponseString
         {
@@ -85,11 +86,29 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
+        private ObservableCollection<User> _matchingUsers = new ObservableCollection<User>();
+        public ObservableCollection<User> MatchingUsers
+        {
+            get { return _matchingUsers; }
+            set
+            {
+                _matchingUsers = value;
+                OnPropertyChanged(nameof(MatchingUsers));
+            }
+        }
+
         public void DeleteUser(string email)
         {
             DeleteUser _deleteUser;
             _deleteUser = new DeleteUser(new DeleteUserRequest(email,new CancellationTokenSource()),new PresenterDeleteUserCallback(this));
             _deleteUser.Execute();
+        }
+
+        public void GetMatchingUsers(string input)
+        {
+            GetAllMatchingUsers _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersCallback(this));
+            _getAllUsers.Execute();
         }
     }
 
@@ -97,6 +116,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public interface IDeleteUserPageUpdateNotification
     {
         void NotificationMessage();
+    }
+
+
+    public interface IUpdateSearchedUser
+    {
+        void UpdateSearchedUser();
     }
 
 
@@ -126,6 +151,35 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _userViewModel.ResponseString = response.Response.ToString();
                 _userViewModel.deleteUserPageUpdateNotification.NotificationMessage();
                 UIUpdation.OnUserDeleted(response.Data.Data);
+            });
+        }
+    }
+
+
+    public class PresenterAllMatchingUsersCallback : IPresenterGetAllMatchingUsersCallback
+    {
+        private UserViewModelBase _getMatchingUsers;
+
+        public PresenterAllMatchingUsersCallback(UserViewModelBase obj)
+        {
+            _getMatchingUsers = obj;
+        }
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<GetAllMatchingUsersResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _getMatchingUsers.MatchingUsers = response.Data.Data;
+                _getMatchingUsers.updateSearchedUser.UpdateSearchedUser();
             });
         }
     }

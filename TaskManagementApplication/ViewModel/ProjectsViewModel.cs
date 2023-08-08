@@ -23,9 +23,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         private GetProjectsList _getProjectsList;
         //private GetUsersList _getUsersList; 
         
-        public override void GetProjectsList(string name,string email)
+        public override void GetProjectsList(string name,string email,int count,int skipCount)
         {
-            _getProjectsList = new GetProjectsList(new PresenterGetProjectsList(this),new GetProjectListRequest(name,email,new CancellationTokenSource()));
+            _getProjectsList = new GetProjectsList(new PresenterGetProjectsList(this),new GetProjectListRequest(name,email,count,skipCount,new CancellationTokenSource()));
             _getProjectsList.Execute();
         }
     }
@@ -120,7 +120,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public ObservableCollection<Project> ProjectsList = new ObservableCollection<Project>();
         public IProjectPageUpdate projectPageUpdate { get; set; }
-        public abstract void GetProjectsList(string name,string email);
+        public abstract void GetProjectsList(string name,string email,int count,int skipCount);
 
         public void CreateProject(Project project)
         {

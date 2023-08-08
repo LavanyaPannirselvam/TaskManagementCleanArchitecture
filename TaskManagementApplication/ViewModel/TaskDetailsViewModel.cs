@@ -93,8 +93,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
         public void GetMatchingUsers(string input)
         {
-            GetAllMatchingUsers _getAllUsers;
-            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfTaskCallback(this));
+            GetAllMatchingUsersBO _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfTaskCallback(this));
             _getAllUsers.Execute();
         }
 
@@ -264,7 +264,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         }
     }
 
-    public class PresenterAllMatchingUsersOfTaskCallback : IPresenterGetAllMatchingUsersCallback
+    public class PresenterAllMatchingUsersOfTaskCallback : IPresenterGetAllMatchingUsersBOCallback
     {
         private TaskDetailsViewModelBase _getMatchingUsers;
 
@@ -277,12 +277,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
             throw new NotImplementedException();
         }
 
-        public void OnFailure(ZResponse<GetAllMatchingUsersResponse> response)
+        public void OnFailure(ZResponse<GetAllMatchingUsersBOResponse> response)
         {
             throw new NotImplementedException();
         }
 
-        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersResponse> response)
+        public async void OnSuccessAsync(ZResponse<GetAllMatchingUsersBOResponse> response)
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
