@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.View.UserControls;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -42,7 +43,8 @@ namespace TaskManagementCleanArchitecture
                 MainFrame.Navigate(typeof(LoginPage));
             else MainFrame.Navigate(typeof(FirstPage));
             LoginPage.OnLoginSuccess += NavigateToFirstPage;
-            FirstPage.LogoutEvent += LogoutUser;
+            UIUpdation.UserLogout += LogoutUser;
+            //FirstPage.LogoutEvent += LogoutUser;
             // TasksPage.OnLoadingSuccess += NavigateToTasksPage;
             //MainFrame.Navigate(typeof(FirstPage));
         }

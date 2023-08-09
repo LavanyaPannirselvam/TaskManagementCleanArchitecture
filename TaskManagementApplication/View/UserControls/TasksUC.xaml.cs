@@ -159,6 +159,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (pro != null)
             {
                 AddTaskForm.IsOpen = false;
+                CreateTaskForm.ClearFormData();
                 _taskViewModel.CreateNewTask(pro);
             }
         }

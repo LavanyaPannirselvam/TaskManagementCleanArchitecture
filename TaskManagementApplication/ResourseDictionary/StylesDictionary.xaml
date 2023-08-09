@@ -7,6 +7,8 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Name="Light" >
 
+            <Color x:Key="SystemAccentColor">DeepPink</Color>
+            
             <AcrylicBrush x:Key="MyAcrylicBrush"
             BackgroundSource="Backdrop"
             TintColor="#eaf3fa"
@@ -17,7 +19,7 @@
                              Color="#eff2f9"></SolidColorBrush>
 
             <SolidColorBrush x:Key="HorizontalSeperator"
-                             Color="#bec0c5"/>
+                             Color="#A3A6AD"/>
 
             <SolidColorBrush x:Key="HeaderForeground"
                              Color="Black"/>
@@ -25,16 +27,16 @@
             <SolidColorBrush x:Key="HeaderBackground"
                    Color="#99ddff"/>
            
-            <SolidColorBrush x:Key="OppositeColour"
+            <SolidColorBrush x:Key="OppositeColor"
                              Color="Black"></SolidColorBrush>
 
             <SolidColorBrush x:Key="AppForegroundBg" 
-                             Color="#FEFEFE"></SolidColorBrush>
-           
-            <SolidColorBrush x:Key="SupportingColour" 
                              Color="#cfd6df"></SolidColorBrush>
            
-            <SolidColorBrush x:Key="NotificationColour" 
+            <SolidColorBrush x:Key="SupportingColor" 
+                             Color="#DFE5F3"></SolidColorBrush>
+           
+            <SolidColorBrush x:Key="NotificationColor" 
                              Color="#cfd6df"></SolidColorBrush>
 
 
@@ -1490,7 +1492,7 @@
 
         <ResourceDictionary x:Name="Dark">
 
-
+            <Color x:Key="SystemAccentColor">OrangeRed</Color>
             <!--<Style TargetType="controlsprimitives:DataGridColumnHeader" x:Key="DataGridHeader">
                 <Setter Property="Background" Value="#182a4c"/>
                 <Setter Property="Foreground" Value="white"/>
@@ -1507,7 +1509,7 @@
             FallbackColor="#eaf3fa"/>
 
             <SolidColorBrush x:Key="AppForegroundBg" 
-                             Color="#979797"></SolidColorBrush>
+                             Color="#1e2629"></SolidColorBrush>
             
             <SolidColorBrush x:Key="AppBackground" 
                              Color="#1a1a1a"></SolidColorBrush>
@@ -2985,11 +2987,11 @@
 
             <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#272e40"></SolidColorBrush>
 
-            <SolidColorBrush x:Key="SupportingColour" Color="#212732"></SolidColorBrush>
+            <SolidColorBrush x:Key="SupportingColor" Color="#728E98"></SolidColorBrush>
            
-            <SolidColorBrush x:Key="NotificationColour" Color="#4b4f55"></SolidColorBrush>
+            <SolidColorBrush x:Key="NotificationColor" Color="#4b4f55"></SolidColorBrush>
             
-            <SolidColorBrush x:Key="OppositeColour"
+            <SolidColorBrush x:Key="OppositeColor"
                              Color="White"></SolidColorBrush>
 
             <!--<SolidColorBrush x:Key="Positive" Color="#0e8153"></SolidColorBrush>
@@ -3000,6 +3002,7 @@
             <!--<SolidColorBrush x:Key="Positive" Color="#14b474"></SolidColorBrush>
             <SolidColorBrush x:Key="Negative" Color="#fd3a36"></SolidColorBrush>-->
         </ResourceDictionary>
+   
     </ResourceDictionary.ThemeDictionaries>
 
 

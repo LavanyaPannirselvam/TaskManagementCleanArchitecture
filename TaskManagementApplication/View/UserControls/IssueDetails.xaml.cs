@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -19,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static System.Net.Mime.MediaTypeNames;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -31,9 +33,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private ObservableCollection<UserBO> _suitableItems;
         private ObservableCollection<UserBO> _assignedUsers;
         public static event Action<string> Notification;
+        private readonly TextInfo _myTI = new CultureInfo("en-US", false).TextInfo;
         private UserBO _selectedUser;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
-        //public static event Action<UserBO> RemoveUser; 
+        
         public IssueDetails()
         {
             this.InitializeComponent();
@@ -44,8 +47,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _suitableItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
             _selectedUser = null;
-            //var priorityList = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
-           
         }
 
         public IssueDetails(int id)
@@ -76,35 +77,26 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //    _issueViewModel.AssignUserToIssue(_selectedUser.Email, _issueViewModel.SelectedIssue.Id);
             //}
             //_selectedUser = null;
-            AssignUserBox.Text = args.QueryText;
+           // AssignUserBox.Text = args.QueryText;
 
         }
 
         public void IssueDetailsPageNotification()
         {
             Notification.Invoke(_issueViewModel.ResponseString);
+            _issueViewModel.ResponseString = string.Empty;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            PriorityCBox.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
-            PriorityCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-            StatusCBox.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
-            StatusCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             Notification += ShowNotification;
             UpdateUsers += IssueDetailsPage_UpdateUsers;
             UIUpdation.UserAdded += UIUpdation_UserAdded;
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
-            UIUpdation.PriorityChanged += UIUpdation_PriorityChanged;
         }
 
-        private void UIUpdation_PriorityChanged(PriorityType obj)
-        {
-            _issueViewModel.SelectedIssue.Priority = obj;
-            //PriorityCBox.SelectedItem = obj;
-        }
-
+      
         private void UIUpdation_UserSelected(UserBO obj)
         {
             _issueViewModel.RemoveUserFromIssue(obj.Email,_issueViewModel.SelectedIssue.Id);
@@ -129,9 +121,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 AssignUserBox.ItemsSource = _suitableItems;
             }
-            else 
-            { 
-                AssignUserBox.ItemsSource = null; 
+            else
+            {
+                AssignUserBox.ItemsSource = null;
             }
         }
 
@@ -160,7 +152,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded -= UIUpdation_UserAdded;
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
-            UIUpdation.PriorityChanged -= UIUpdation_PriorityChanged;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -195,17 +186,79 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         //    //AssignUserBox.TextMemberPath = _selectedUser.Name.ToString();
         //}
 
-        private void PriorityCBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (_issueViewModel.SelectedIssue.Priority != (PriorityType)e.AddedItems[0])
+            PriorityCombo.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            PriorityCombo.SelectedIndex = 0;
+        }
+
+        private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
+        {
+            StatusCombo.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
+            StatusCombo.SelectedIndex = 0;
+            //StatusCombo.SelectedItem = null;
+        }
+
+        private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //StatusCombo.SelectedItem = _issueViewModel.SelectedIssue.Status;
+            if (_issueViewModel.SelectedIssue != null &&  _issueViewModel.SelectedIssue.Status != (StatusType)e.AddedItems[0])
             {
-                _issueViewModel.ChangePriority(_issueViewModel.SelectedIssue.Id, (PriorityType)PriorityCBox.SelectedItem);
+                _issueViewModel.ChangeStatus(_issueViewModel.SelectedIssue.Id, (StatusType)StatusCombo.SelectedItem);
             }
         }
 
-        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
+        private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           // PriorityCBox.SelectionChanged += PriorityCBox_SelectionChanged;;
-        }        
+            //PriorityCombo.SelectedItem = _issueViewModel?.SelectedIssue.Priority;
+            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Priority != (PriorityType)e.AddedItems[0])
+            {
+                _issueViewModel.ChangePriority(_issueViewModel.SelectedIssue.Id, (PriorityType)PriorityCombo.SelectedItem);
+            }
+        }
+
+        private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            var date = (CalendarDatePicker)sender;
+            if(date.Date > _issueViewModel.SelectedIssue.StartDate) 
+            {
+                _issueViewModel.ChangeStartDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
+            }
+        }
+
+        private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            var date = (CalendarDatePicker)sender;
+            if (date.Date > _issueViewModel.SelectedIssue.EndDate)
+            {
+                _issueViewModel.ChangeEndDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
+            }
+        }
+
+        private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //var text = (TextBox)sender;
+            //if (text.ToString() != string.Empty && text.ToString() != _issueViewModel.SelectedIssue.Desc)
+            //{
+            //    _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, text.ToString());
+            //}
+        }
+
+       // private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
+       //{
+       //     var text = (TextBox)e.OriginalSource;
+       //     if (text != null)// && text != _issueViewModel.SelectedIssue.Name)
+       //     {
+       //     }
+       // }
+
+        private void DescriptionBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            var newText = args.NewText;
+            var oldText = sender.Text; if (newText != oldText && oldText != "" && newText != "")
+            {
+                _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, newText);
+            }
+        }
     }
 }

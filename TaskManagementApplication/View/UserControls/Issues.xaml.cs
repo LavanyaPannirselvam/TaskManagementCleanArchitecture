@@ -42,14 +42,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private double _windowWidth;
         private bool _narrowLayout;
 
-        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(IssuesPage), new PropertyMetadata(null));
-
-        //public LoggedInUserBO CUser
-        //{
-        //    get { return (LoggedInUserBO)GetValue(UserProperty); }
-        //    set { SetValue(UserProperty, value); }
-        //}
-
         public Issues()
         {
             this.InitializeComponent();
@@ -138,9 +130,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 issueDetailsPage = new IssueDetails(issue.Id);
                 issueDetailsPage.DataContext = issue;
                 IssuesList.DataContext = _issue;
-                issueID = issue.Id;
                 IssueOfAProject.SelectedIndex = -1;
-                //TasksList.DataContext = _task;
             }
         }
 
@@ -158,12 +148,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Id);
             }
         }
-
-        //private void AddIssueForm_Closed(object sender, object e)
-        //{
-        //    CreateIssueForm.ClearFormData();
-        //    ErrorMessage.Text = string.Empty;
-        //}
 
         public async Task<int> ConfirmtionDialogue()
         {
@@ -207,6 +191,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (pro != null)
             {
                 AddIssueForm.IsOpen = false;
+                CreateIssueForm.ClearFormData();
                 _issueViewModel.CreateIssue(pro);
             }
         }
@@ -273,6 +258,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             IssuePageNotification += ShowIssuePageNotification;
             UIUpdation.IssueCreated += UIUpdation_IssueCreated;
             UIUpdation.IssueDeleted += UIUpdation_IssueDeleted;
+            UIUpdation.IssueUpdated += UIUpdation_IssueUpdated;
             this.FindName("IssuePage");
             this.UnloadObject(Projectpage);
             IssuesList.Visibility = Visibility.Visible;
@@ -281,13 +267,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumn(IssuesList, 0);
             Grid.SetColumnSpan(IssuesList, 3);
             _itemSelected = false;
-            UIUpdation.PriorityChanged += UIUpdation_PriorityChanged;
         }
 
-        private void UIUpdation_PriorityChanged(TaskManagementLibrary.Enums.PriorityType obj)
+        private void UIUpdation_IssueUpdated(Issue obj)
         {
-            Issue priorityChangedIssue = _issueViewModel.IssuesList.Where(i => i.Id == issueID).FirstOrDefault();
-            priorityChangedIssue.Priority = obj;
+            var issue = _issueViewModel.IssuesList.Where(i => i.Id == obj.Id).FirstOrDefault();
+            var index = _issueViewModel.IssuesList.IndexOf(issue);
+            _issueViewModel.IssuesList.Remove(issue);
+            _issueViewModel.IssuesList.Insert(index, obj);
+            issueDetailsPage._issueViewModel.GetAIssue(obj.Id);
         }
 
         private void UIUpdation_IssueDeleted(Issue issue)
@@ -306,6 +294,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             IssuePageNotification -= ShowIssuePageNotification;
             UIUpdation.IssueCreated -= UIUpdation_IssueCreated;
             UIUpdation.IssueDeleted -= UIUpdation_IssueDeleted;
+            UIUpdation.IssueUpdated -= UIUpdation_IssueUpdated;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

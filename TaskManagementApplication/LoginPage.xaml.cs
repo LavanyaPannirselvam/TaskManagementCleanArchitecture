@@ -34,6 +34,7 @@ namespace TaskManagementCleanArchitecture
             this.InitializeComponent();
             _loginBaseViewModel = PresenterService.GetInstance().Services.GetService<LoginViewModelBase>();
             _loginBaseViewModel.LoginView = this;
+            _loginBaseViewModel.LoginResponseValue = string.Empty;
         }
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)

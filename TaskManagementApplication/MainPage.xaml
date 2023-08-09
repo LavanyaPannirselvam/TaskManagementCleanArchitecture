@@ -6,6 +6,6 @@
     Loaded="Page_Loaded">
     
     <Grid>
-    <Frame Name="MainFrame"/>
+        <Frame Name="MainFrame"/>
     </Grid>
 </Page>

@@ -29,8 +29,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private string _description;
         private PriorityType _priorityType;
         private StatusType _statusType;
-        private DateTime _startDate;
-        private DateTime _endDate;
+        private DateTimeOffset _startDate;
+        private DateTimeOffset _endDate;
         public CreateNewIssue()
         {
             this.InitializeComponent();
@@ -68,7 +68,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _startDate = date.Date.Value.DateTime;
+            _startDate = (DateTimeOffset)date.Date;//.Value.DateTime;
             if (_startDate < DateTime.Today)
             {
                 ErrorMessage.Text = "Start date cannot be yesterday";
@@ -81,7 +81,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _endDate = date.Date.Value.DateTime;
+            _endDate = (DateTimeOffset)date.Date;//.Value.DateTime;
             if (_endDate < _startDate)
             {
                 ErrorMessage.Text = "End date should be greater than start date";
@@ -130,10 +130,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueName = string.Empty;
             DescriptionBox.Text = string.Empty;
             _description = string.Empty;
-            startdate.Date = DateTime.Now;
-            _startDate = DateTime.Now;
-            enddate.Date = DateTime.Now;
-            _endDate = DateTime.Now;
+            startdate.Date = DateTimeOffset.Now.Date;//.ToShortDateString();
+            _startDate = DateTimeOffset.Now.Date;
+            enddate.Date = DateTimeOffset.Now.Date;
+            _endDate = DateTimeOffset.Now.Date;
             prioritybox.Text = string.Empty;
             statusbox.Text = string.Empty;
             _priorityType = PriorityType.HIGH;

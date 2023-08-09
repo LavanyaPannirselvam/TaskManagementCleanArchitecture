@@ -11,6 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.View.UserControls;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -38,9 +39,9 @@ namespace TaskManagementCleanArchitecture
         //private int projectId = 0;
 
         //public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(FirstPage), new PropertyMetadata(null));
-        public static readonly DependencyProperty SelectedUserControlProperty = DependencyProperty.Register(nameof(SelectedUserControl),typeof(UserControl),typeof(FirstPage),new PropertyMetadata(null));
+        //public static readonly DependencyProperty SelectedUserControlProperty = DependencyProperty.Register(nameof(SelectedUserControl),typeof(UserControl),typeof(FirstPage),new PropertyMetadata(null));
         public event PropertyChangedEventHandler PropertyChanged;
-        public static event Action LogoutEvent;
+       // public static event Action LogoutEvent;
         
         public FirstPage()
         {
@@ -48,19 +49,9 @@ namespace TaskManagementCleanArchitecture
             this.DataContext = this;
         }
 
-        //public LoggedInUserBO CurrentUser
-        //{
-        //    get { return (LoggedInUserBO)GetValue(UserProperty); }
-        //    set { SetValue(UserProperty, value); }
-        //}
         public LoggedInUserBO CurrentUser = CurrentUserClass.CurrentUser;
        
-        public UserControl SelectedUserControl
-        {
-            get { return (UserControl) GetValue(SelectedUserControlProperty);}
-            set { SetValue(SelectedUserControlProperty, value);}
-        }
-
+       
         private String _headerTitle = "Projects";
         public String HeaderTitle
         {
@@ -154,7 +145,7 @@ namespace TaskManagementCleanArchitecture
 
         private void Logout_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            LogoutEvent?.Invoke();
+            UIUpdation.OnUserLogout();
         }
 
         //private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, NavigationViewSelectionChangedEventArgs args)

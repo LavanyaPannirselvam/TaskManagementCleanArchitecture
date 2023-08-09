@@ -196,7 +196,7 @@
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="11,0,5,0" 
-                                               Text="{x:Bind StartDate}"
+                                               Text="{x:Bind StartDate.Date.ToShortDateString()}"
                                                VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
@@ -205,7 +205,7 @@
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="11,0,5,0" 
-                                               Text="{x:Bind EndDate}"
+                                               Text="{x:Bind EndDate.Date.ToShortDateString()}"
                                                VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>

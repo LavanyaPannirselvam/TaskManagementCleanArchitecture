@@ -37,21 +37,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private double _windowHeight;
         private double _windowWidth;
 
-        ////public static readonly DependencyProperty UserProperty = DependencyProperty.Register("CUser", typeof(LoggedInUserBO), typeof(Projects), new PropertyMetadata(null));
-
-        ////public LoggedInUserBO CUser
-        ////{
-        ////    get { return (LoggedInUserBO)GetValue(UserProperty); }
-        ////    set { SetValue(UserProperty, value); }
-        ////}
-
         public Projects()
         {
             this.InitializeComponent();
             _projectsPageViewModel = PresenterService.GetInstance().Services.GetService<ProjectsViewModelBase>();
             _projectsPageViewModel.projectPageUpdate = this;
-            //_projectsPageViewModel.ProjectsList.Clear();
-            //_projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

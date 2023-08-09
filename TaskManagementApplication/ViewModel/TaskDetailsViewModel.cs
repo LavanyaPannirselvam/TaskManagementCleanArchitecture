@@ -264,6 +264,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         }
     }
 
+
     public class PresenterAllMatchingUsersOfTaskCallback : IPresenterGetAllMatchingUsersBOCallback
     {
         private TaskDetailsViewModelBase _getMatchingUsers;

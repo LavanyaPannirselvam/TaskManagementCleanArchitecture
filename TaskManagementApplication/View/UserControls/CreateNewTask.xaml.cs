@@ -30,14 +30,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private string _description;
         private PriorityType _priorityType;
         private StatusType _statusType;
-        private DateTime _startDate;
-        private DateTime _endDate;
+        private DateTimeOffset _startDate;
+        private DateTimeOffset _endDate;
 
         public CreateNewTask()
         {
             this.InitializeComponent();
-            startdate.Date = DateTime.Now;
-            enddate.Date = DateTime.Now;
+            startdate.Date = DateTimeOffset.Now.Date;
+            enddate.Date = DateTimeOffset.Now.Date;
             prioritybox.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
             statusbox.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
             prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
@@ -76,7 +76,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _startDate = date.Date.Value.DateTime;
+            _startDate = (DateTimeOffset)date.Date;//.Value.DateT;
             if (_startDate < DateTime.Today)
             {
                 ErrorMessage.Text = "Start date cannot be yesterday";
@@ -89,7 +89,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _endDate = date.Date.Value.DateTime;
+            _endDate = (DateTimeOffset)date.Date;
             if (_endDate < _startDate)
             {
                 ErrorMessage.Text = "End date should be greater than start date";
@@ -113,7 +113,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public Tasks GetFormData(string ownerName,int id)
         {
             if (IsTaskNameEmpty(_taskName))
-                return new Tasks(_taskName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate,id);
+                return new Tasks(_taskName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate, id);
             else return null;
         }
 
@@ -138,10 +138,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _taskName = string.Empty;
             DescriptionBox.Text = string.Empty;
             _description = string.Empty;
-            startdate.Date = DateTime.Now;
-            _startDate = DateTime.Now;
-            enddate.Date = DateTime.Now;
-            _endDate = DateTime.Now;
+            startdate.Date = DateTimeOffset.Now.Date;
+            _startDate = DateTimeOffset.Now.Date;
+            enddate.Date = DateTimeOffset.Now.Date;
+            _endDate = DateTimeOffset.Now.Date;
             prioritybox.Text = string.Empty;
             _priorityType = PriorityType.HIGH;
             statusbox.Text = string.Empty;
