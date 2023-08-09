@@ -18,10 +18,10 @@ namespace TaskManagementLibrary.Models
         public string CreatedBy { get; set; }
         public StatusType Status { get; set; }
         public PriorityType Priority { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
-        public Project(string name, string desc,string ownerName, StatusType status, PriorityType type, DateTime startDate, DateTime endDate)
+        public Project(string name, string desc,string ownerName, StatusType status, PriorityType type, DateTimeOffset startDate, DateTimeOffset endDate)
         {
             Name = name;
             Desc = desc;

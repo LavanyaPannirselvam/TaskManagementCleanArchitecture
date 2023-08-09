@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TaskManagementLibrary.Enums;
+using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
@@ -79,7 +80,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class ChangeIssuePriorityResponse : ZResponse<PriorityType>
+    public class ChangeIssuePriorityResponse : ZResponse<Issue>
     {
     }
 }

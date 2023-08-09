@@ -62,6 +62,10 @@ namespace TaskManagementLibrary.Domain
             services.AddSingleton<IChangeIssueStatusDataManager, ChangeIssueStatusDataManager>();
             services.AddSingleton<IChangeTaskPriorityDataManager, ChangeTaskPriorityDataManager>();
             services.AddSingleton<IChangeTaskStatusDataManager, ChangeTaskStatusDataManager>();
+            services.AddSingleton<IChangeStartDateofIssueDataManager, ChangeStartDateofIssueDataManager>();
+            services.AddSingleton<IChangeEndDateofIssueDataManager, ChangeEndDateofIssueDataManager>();
+            services.AddSingleton<IChangeIssueNameDataManager, ChangeIssueNameDataManager>();
+            services.AddSingleton<IChangeIssueDescriptionDataManager, ChangeIssueDescriptionDataManager>();
             services.AddSingleton<IDBHandler, DBHandler>();
            // services.AddSingleton<DatabasePath>();
             services.AddSingleton<DatabaseConnection>();

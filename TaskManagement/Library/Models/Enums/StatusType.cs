@@ -8,6 +8,6 @@ namespace TaskManagementLibrary.Enums
 {
     public enum StatusType
     {
-        OPEN, CLOSED, ONHOLD, INPROGRESS
+        OPEN, ON_HOLD, IN_PROGRESS, CLOSED
     }
 }

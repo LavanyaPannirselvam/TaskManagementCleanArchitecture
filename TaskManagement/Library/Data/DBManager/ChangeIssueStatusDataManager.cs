@@ -17,14 +17,14 @@ namespace TaskManagementLibrary.Data.DBManager
         public void ChangeStatusOfIssue(ChangeIssueStatusRequest request, IUsecaseCallbackBasecase<ChangeIssueStatusResponse> callback)
         {
             StatusType status = request.status;
-            var task = DBhandler.GetTask(request.issueId);
-            task.Status = status;
-            DBhandler.UpdateTask(task);
+            var issue = DBhandler.GetIssue(request.issueId);
+            issue.Status = status;
+            DBhandler.UpdateIssue(issue);
             ZResponse<ChangeIssueStatusResponse> zResponse = new ZResponse<ChangeIssueStatusResponse>();
             ChangeIssueStatusResponse response = new ChangeIssueStatusResponse();
-            response.Data = true;
+            response.Data = DBhandler.GetIssue(request.issueId);
             zResponse.Response = "Issue's status updated";
-            zResponse.Data = null;
+            zResponse.Data = response;
             callback.OnResponseSuccess(zResponse);
         }
     }

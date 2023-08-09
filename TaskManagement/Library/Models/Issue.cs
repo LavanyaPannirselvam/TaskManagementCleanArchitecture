@@ -20,10 +20,10 @@ namespace TaskManagementLibrary.Models
         public string CreatedBy { get; set; }
         public StatusType Status { get; set; }
         public PriorityType Priority { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
-        public Issue(string name, string desc, string owner, StatusType status, PriorityType type, DateTime startDate, DateTime endDate, int projectId)
+        public Issue(string name, string desc, string owner, StatusType status, PriorityType type, DateTimeOffset startDate, DateTimeOffset endDate, int projectId)
         {
            
             ProjectId = projectId;
@@ -36,7 +36,7 @@ namespace TaskManagementLibrary.Models
             EndDate = endDate;
         }
 
-        public Issue(int id,string name, string desc, string owner, StatusType status, PriorityType type, DateTime startDate, DateTime endDate, int projectId)
+        public Issue(int id,string name, string desc, string owner, StatusType status, PriorityType type, DateTimeOffset startDate, DateTimeOffset endDate, int projectId)
         {
             Id = id;
             ProjectId = projectId;
