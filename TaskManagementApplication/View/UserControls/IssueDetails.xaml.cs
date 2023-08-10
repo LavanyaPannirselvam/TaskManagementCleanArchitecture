@@ -26,17 +26,241 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class IssueDetails : UserControl , IIssueDetailsPageNotification , IUpdateMatchingUsersOfIssue
+    //    public sealed partial class IssueDetails : UserControl, IIssueDetailsPageNotification, IUpdateMatchingUsersOfIssue
+    //    {
+    //        public IssueDetailsViewModelBase _issueViewModel;
+    //        private ObservableCollection<UserBO> _matchingUsers;
+    //        private ObservableCollection<UserBO> _suggestedItems;
+    //        private ObservableCollection<UserBO> _assignedUsers;
+    //        public static event Action<string> Notification;
+    //        public static event Action<UserBO> removeUser;
+    //        public static event Action<ObservableCollection<UserBO>> UpdateUsers;
+
+    //        public IssueDetails()
+    //        {
+    //            this.InitializeComponent();
+    //            _issueViewModel = PresenterService.GetInstance().Services.GetService<IssueDetailsViewModelBase>();
+    //            _issueViewModel.issueDetailsPageNotification = this;
+    //            _issueViewModel.updateMatchingUsers = this;
+    //            _matchingUsers = new ObservableCollection<UserBO>();
+    //            _suggestedItems = new ObservableCollection<UserBO>();
+    //            _assignedUsers = new ObservableCollection<UserBO>();
+    //            // _selectedUser = null;
+    //        }
+
+    //        public IssueDetails(int id)
+    //        {
+    //            if (_issueViewModel == null)
+    //            {
+    //                _issueViewModel = PresenterService.GetInstance().Services.GetService<IssueDetailsViewModelBase>();
+    //                _issueViewModel.issueDetailsPageNotification = this;
+    //            }
+    //            _issueViewModel.GetAIssue(id);
+    //        }
+
+    //        private void ShowNotification(string msg)
+    //        {
+    //            NotificationControl.Show(msg, 3000);
+    //        }
+
+    //        private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    //        {
+    //            if (args.ChosenSuggestion != null && args.ChosenSuggestion is UserBO user)
+    //            {
+    //                // _suggestedItems.Remove();
+    //                //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
+    //                AssignUserBox.Text = string.Empty;
+    //                _issueViewModel.AssignUserToIssue(user.Email, _issueViewModel.SelectedIssue.Id);
+    //            }
+    //        }
+
+    //        public void IssueDetailsPageNotification()
+    //        {
+    //            Notification.Invoke(_issueViewModel.ResponseString);
+    //            _issueViewModel.ResponseString = string.Empty;
+    //        }
+
+    //        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    //        {
+    //            Notification += ShowNotification;
+    //            UpdateUsers += IssueDetailsPage_UpdateUsers;
+    //            UIUpdation.UserAdded += UIUpdation_UserAdded;
+    //            UIUpdation.UserRemoved += UIUpdation_UserRemoved;
+    //            UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
+    //            removeUser += IssueDetails_removeUser;
+    //        }
+
+    //        private void IssueDetails_removeUser(UserBO obj)
+    //        {
+    //            _suggestedItems.Remove(obj);
+    //        }
+
+    //        private void UIUpdation_UserSelected(UserBO obj)
+    //        {
+    //            _issueViewModel.RemoveUserFromIssue(obj.Email, _issueViewModel.SelectedIssue.Id);
+    //        }
+
+    //        private void IssueDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
+    //        {
+    //            _matchingUsers.Clear();
+    //            _matchingUsers = _issueViewModel.MatchingUsers;
+    //            foreach (var user in _matchingUsers)
+    //            {
+    //                if (!_assignedUsers.Contains<UserBO>(user))
+    //                {
+    //                    _suggestedItems.Add(user);
+    //                }
+    //            }
+    //            if (_suggestedItems.Count == 0)
+    //            {
+    //                _suggestedItems.Add(new UserBO("No results found", string.Empty));
+    //            }
+    //            if (AssignUserBox.Text != string.Empty)
+    //            {
+    //                AssignUserBox.ItemsSource = _suggestedItems;
+    //            }
+    //            else
+    //            {
+    //                AssignUserBox.ItemsSource = null;
+    //            }
+    //        }
+
+    //        private void UIUpdation_UserRemoved(ObservableCollection<UserBO> obj)
+    //        {
+    //            _issueViewModel.AssignedUsersList.Clear();
+    //            foreach (var user in obj)
+    //            {
+    //                _issueViewModel.AssignedUsersList.Add(user);
+    //            }
+    //        }
+
+    //        private void UIUpdation_UserAdded(ObservableCollection<UserBO> obj)
+    //        {
+    //            _issueViewModel.AssignedUsersList.Clear();
+    //            foreach (var user in obj)
+    //            {
+    //                _issueViewModel.AssignedUsersList.Add(user);
+    //            }
+    //        }
+
+    //        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    //        {
+    //            Notification -= ShowNotification;
+    //            UpdateUsers -= IssueDetailsPage_UpdateUsers;
+    //            UIUpdation.UserAdded -= UIUpdation_UserAdded;
+    //            UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
+    //            UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
+    //            removeUser -= IssueDetails_removeUser;
+    //        }
+
+    //        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    //        {
+    //            _assignedUsers = _issueViewModel.AssignedUsersList;
+    //            _issueViewModel.MatchingUsers.Clear();
+    //            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+    //            {
+    //                if (args.Reason != AutoSuggestionBoxTextChangeReason.SuggestionChosen)
+    //                {
+    //                    if (sender.Text.Length != 0)
+    //                    {
+    //                        _suggestedItems.Clear();
+    //                        _issueViewModel.GetMatchingUsers(sender.Text);
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    AssignUserBox.IsSuggestionListOpen = true;
+    //                }
+    //            }
+    //        }
+
+    //        public void UpdateMatchingUsers()
+    //        {
+    //            UpdateUsers.Invoke(_issueViewModel.MatchingUsers);
+    //        }
+
+    //        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
+    //        {
+    //            PriorityCombo.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+    //            PriorityCombo.SelectedIndex = 0;
+    //        }
+
+    //        private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
+    //        {
+    //            StatusCombo.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
+    //            StatusCombo.SelectedIndex = 0;
+    //        }
+
+    //        private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    //        {
+    //            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Status != (StatusType)e.AddedItems[0])
+    //            {
+    //                _issueViewModel.ChangeStatus(_issueViewModel.SelectedIssue.Id, (StatusType)StatusCombo.SelectedItem);
+    //            }
+    //        }
+
+    //        private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    //        {
+    //            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Priority != (PriorityType)e.AddedItems[0])
+    //            {
+    //                _issueViewModel.ChangePriority(_issueViewModel.SelectedIssue.Id, (PriorityType)PriorityCombo.SelectedItem);
+    //            }
+    //        }
+
+    //        private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+    //        {
+    //            //StartdateCalender.MinDate = DateTimeOffset.Now;
+    //            var date = (CalendarDatePicker)sender;
+    //            if (date.Date > _issueViewModel.SelectedIssue.StartDate)
+    //            {
+    //                //EnddateCalender.MinDate = _issueViewModel.SelectedIssue.StartDate;
+    //                _issueViewModel.ChangeStartDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
+    //            }
+    //        }
+
+    //        private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+    //        {
+    //            //EnddateCalender.MinDate = (DateTimeOffset)_issueViewModel.SelectedIssue.StartDate;
+    //            var date = (CalendarDatePicker)sender;
+    //            if (date.Date > _issueViewModel.SelectedIssue.EndDate)
+    //            {
+    //                _issueViewModel.ChangeEndDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
+    //            }
+    //        }
+
+    //        private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+    //        {
+    //            var text = ((TextBox)sender).Text;
+    //            _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, text.ToString());
+    //        }
+
+    //        private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
+    //        {
+    //            var text = ((TextBox)sender).Text;
+    //            if (text != null)// && text != _issueViewModel.SelectedIssue.Name)
+    //            {
+    //                _issueViewModel.ChangeName(_issueViewModel.SelectedIssue.Id, text);
+    //            }
+    //        }
+
+    //        private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    //        {
+    //            if (args.SelectedItem is UserBO user)
+    //            {
+    //                sender.Text = user.Name;
+    //            }
+    //        }
+    //    }
+    //}
+    public sealed partial class IssueDetails : UserControl, IIssueDetailsPageNotification, IUpdateMatchingUsersOfIssue
     {
         public IssueDetailsViewModelBase _issueViewModel;
         private ObservableCollection<UserBO> _userOption;
         private ObservableCollection<UserBO> _suitableItems;
         private ObservableCollection<UserBO> _assignedUsers;
         public static event Action<string> Notification;
-        private readonly TextInfo _myTI = new CultureInfo("en-US", false).TextInfo;
-        private UserBO _selectedUser;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
-        
+
         public IssueDetails()
         {
             this.InitializeComponent();
@@ -46,12 +270,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _userOption = new ObservableCollection<UserBO>();
             _suitableItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
-            _selectedUser = null;
         }
 
         public IssueDetails(int id)
         {
-            if(_issueViewModel == null)
+            if (_issueViewModel == null)
             {
                 _issueViewModel = PresenterService.GetInstance().Services.GetService<IssueDetailsViewModelBase>();
                 _issueViewModel.issueDetailsPageNotification = this;
@@ -66,19 +289,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            //if (_selectedUser == null)
-            //{
-            //    ErrorMessage.Text = "User doesnot exists";
-            //    ErrorMessage.Visibility = Visibility.Visible;
-            //}
-            //else
-            //{
-            //    ErrorMessage.Visibility = Visibility.Collapsed;
-            //    _issueViewModel.AssignUserToIssue(_selectedUser.Email, _issueViewModel.SelectedIssue.Id);
-            //}
-            //_selectedUser = null;
-           // AssignUserBox.Text = args.QueryText;
-
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion is UserBO user)
+            {
+                // _suggestedItems.Remove();
+                //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
+                //AssignUserBox.Text = string.Empty;
+                _issueViewModel.AssignUserToIssue(user.Email, _issueViewModel.SelectedIssue.Id);
+            }
+            //AssignUserBox.Text = args.QueryText;
         }
 
         public void IssueDetailsPageNotification()
@@ -94,12 +312,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded += UIUpdation_UserAdded;
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
+            NameBox.TextChanged += NameBox_TextChanged;
         }
 
-      
         private void UIUpdation_UserSelected(UserBO obj)
         {
-            _issueViewModel.RemoveUserFromIssue(obj.Email,_issueViewModel.SelectedIssue.Id);
+            _issueViewModel.RemoveUserFromIssue(obj.Email, _issueViewModel.SelectedIssue.Id);
         }
 
         private void IssueDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
@@ -152,6 +370,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded -= UIUpdation_UserAdded;
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
+            NameBox.TextChanged -= NameBox_TextChanged;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -194,7 +413,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
         {
-            StatusCombo.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
+            StatusCombo.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
             StatusCombo.SelectedIndex = 0;
             //StatusCombo.SelectedItem = null;
         }
@@ -202,7 +421,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //StatusCombo.SelectedItem = _issueViewModel.SelectedIssue.Status;
-            if (_issueViewModel.SelectedIssue != null &&  _issueViewModel.SelectedIssue.Status != (StatusType)e.AddedItems[0])
+            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Status != (StatusType)e.AddedItems[0])
             {
                 _issueViewModel.ChangeStatus(_issueViewModel.SelectedIssue.Id, (StatusType)StatusCombo.SelectedItem);
             }
@@ -220,7 +439,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            if(date.Date > _issueViewModel.SelectedIssue.StartDate) 
+            if (date.Date > _issueViewModel.SelectedIssue.StartDate)
             {
                 _issueViewModel.ChangeStartDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
             }
@@ -237,27 +456,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //var text = (TextBox)sender;
-            //if (text.ToString() != string.Empty && text.ToString() != _issueViewModel.SelectedIssue.Desc)
-            //{
-            //    _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, text.ToString());
-            //}
+            var text = ((TextBox)sender).Text;
+            _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, text.ToString());
         }
 
-       // private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
-       //{
-       //     var text = (TextBox)e.OriginalSource;
-       //     if (text != null)// && text != _issueViewModel.SelectedIssue.Name)
-       //     {
-       //     }
-       // }
-
-        private void DescriptionBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var newText = args.NewText;
-            var oldText = sender.Text; if (newText != oldText && oldText != "" && newText != "")
+            var text = ((TextBox)sender).Text;
+            if (text != null)// && text != _issueViewModel.SelectedIssue.Name)
             {
-                _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, newText);
+                _issueViewModel.ChangeName(_issueViewModel.SelectedIssue.Id, text);
+            }
+        }
+
+        private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if(args.SelectedItem is UserBO user)
+            {
+                sender.Text = user.Name;
             }
         }
     }

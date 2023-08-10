@@ -53,10 +53,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _userOption = new ObservableCollection<UserBO>();
             _suitableItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
-            PriorityCBox.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
-            PriorityCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-            StatusCBox.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
-            StatusCBox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
         }
 
         public TaskDetails(int id)
@@ -83,6 +79,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public void TaskDetailsNotification()
         {
             Notification.Invoke(_taskDetailsViewModel.ResponseString);
+            _taskDetailsViewModel.ResponseString = string.Empty;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -167,42 +164,61 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _taskDetailsViewModel.GetMatchingUsers(splitText);
             }
         }
-        
+
         private void AssignUserBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            //var input = args.QueryText;
-            //var user = _suitableItems.Where(i=> i.Email == input).FirstOrDefault();
-            //_taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
-            //_selectedUser = null;
-            //AssignUserBox.Text = string.Empty;
-            if (_selectedUser == null)
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion is UserBO user)
             {
-                ErrorMessage.Text = "User doesnot exists";
-                ErrorMessage.Visibility = Visibility.Visible;
+                // _suggestedItems.Remove();
+                //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
+                //AssignUserBox.Text = string.Empty;
+                _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
             }
-            else
-            {
-                ErrorMessage.Visibility = Visibility.Collapsed;
-                _taskDetailsViewModel.AssignTask(_selectedUser.Email, _taskDetailsViewModel.SelectedTask.Id);
-            }
-            _selectedUser = null;
         }
 
         private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-        //    _selectedUser = args.SelectedItem as UserBO;
-        //    AssignUserBox.Text = _selectedUser.Name;
-        //    AssignUserBox.IsSuggestionListOpen = true;
-        AssignUserBox.Text = (args.SelectedItem as UserBO).Name.ToString();
+            
         }
 
-        private void AssignUserBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(e.Key == VirtualKey.Enter)
-            {
-                AssignUserBox.Text = sender.ToString();
-                
-            }
+
+        }
+
+        private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+
+        }
+
+        private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+
         }
     }
 }

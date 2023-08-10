@@ -23,7 +23,7 @@
               MinWidth="400"
               PointerEntered="Grid_PointerEntered"
               PointerExited="Grid_PointerExited"
-              Background="{ThemeResource SupportingColour}">
+              Background="{ThemeResource SupportingColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>

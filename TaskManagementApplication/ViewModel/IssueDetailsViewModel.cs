@@ -158,6 +158,16 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
+        private string _issueName;
+        public string IssueName
+        {
+            get { return _issueName; }
+            set
+            {
+                _issueName = value;
+                OnPropertyChanged(nameof(IssueName));
+            }
+        }
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility
         {
@@ -261,7 +271,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _assignIssueToUser.ResponseString = response.Response.ToString();
                 _assignIssueToUser.NotificationVisibility = Visibility.Visible;
-                _assignIssueToUser.issueDetailsPageNotification.IssueDetailsPageNotification();
                 UIUpdation.UserAddedUpdate(response.Data.Data);
                 _assignIssueToUser.ListVisibility = Visibility.Visible;
                 _assignIssueToUser.TextVisibility = Visibility.Collapsed;
@@ -294,7 +303,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _removeIssue.NotificationVisibility = Visibility.Visible;
                 _removeIssue.ResponseString = response.Response.ToString();
-                _removeIssue.issueDetailsPageNotification.IssueDetailsPageNotification();
                 _removeIssue.AssignedUsersList.Clear();
                 UIUpdation.UserRemovedUpdate(response.Data.Data);
                 if(_removeIssue.AssignedUsersList.Count == 0)
@@ -366,7 +374,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                  _viewModel.ResponseString = response.Response;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
-                _viewModel.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }
@@ -396,7 +403,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _viewModel.ResponseString = response.Response;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
-                _viewModel.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }
@@ -427,7 +433,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _issueDetailsViewModelBase.ResponseString = response.Response;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
-                _issueDetailsViewModelBase.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }
@@ -458,7 +463,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _issueDetailsViewModelBase.ResponseString = response.Response;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
-                _issueDetailsViewModelBase.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }
@@ -489,7 +493,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _issueDetailsViewModelBase.ResponseString = response.Response;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
-                _issueDetailsViewModelBase.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }
@@ -520,7 +523,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _issueDetailsViewModelBase.ResponseString = response.Response;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
-                _issueDetailsViewModelBase.issueDetailsPageNotification.IssueDetailsPageNotification();
             });
         }
     }

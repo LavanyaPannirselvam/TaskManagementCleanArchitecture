@@ -216,16 +216,16 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid VerticalAlignment="Stretch"
+    <!--<Grid VerticalAlignment="Stretch"
           HorizontalAlignment="Stretch"
           Height="680"
           Background="{ThemeResource AppForegroundBg}">
-        <!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
+        --><!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
                       VerticalScrollMode="Enabled" >-->
-        <!--<Grid ScrollViewer.HorizontalScrollMode="Enabled">-->
+        <!--<Grid ScrollViewer.HorizontalScrollMode="Enabled">--><!--
         <Grid>
             <Grid.RowDefinitions>
-                <!--<RowDefinition Height="Auto"></RowDefinition>-->
+                --><!--<RowDefinition Height="Auto"></RowDefinition>--><!--
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -246,7 +246,7 @@
                     <RowDefinition Height="1*"></RowDefinition>
                     <RowDefinition Height="1*"></RowDefinition>
                     <RowDefinition Height="1*"></RowDefinition>
-                    <!--<RowDefinition Height="1*"></RowDefinition>-->
+                    --><!--<RowDefinition Height="1*"></RowDefinition>--><!--
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Vertical" Grid.Row="0" Margin="3">
@@ -363,8 +363,8 @@
                                     <TextBlock Text="{x:Bind Name,Mode=OneWay}"
                                                    FontSize="16"
                                                    Margin="0,0,3,0"/>
-                                    <!--<TextBlock Text="{x:Bind Email,Mode=OneWay}"
-                                                   FontSize="13"/>-->
+                                    --><!--<TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                   FontSize="13"/>--><!--
                                 </StackPanel>
                             </DataTemplate>
                         </AutoSuggestBox.ItemTemplate>
@@ -402,7 +402,7 @@
                         </ListView.Resources>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="library:UserBO">
-                                <usercontrol:ListViewItems />
+                                <usercontrol:ListViewItems HorizontalAlignment="Stretch" Width="260"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemContainerStyle>
@@ -420,8 +420,268 @@
                                                 HorizontalAlignment="Stretch"
                                                 ShowDismissButton="False"/>
             </Grid>
-            <!--</Grid>-->
-            <!--</ScrollViewer>-->
+            --><!--</Grid>-->
+            <!--</ScrollViewer>--><!--
+        </Grid>
+    </Grid>-->
+
+    <Grid Padding="5"
+          Height="690"
+          Background="{ThemeResource AppForegroundBg}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel CornerRadius="3"
+                    Margin="5,3"
+                    Background="{ThemeResource SupportingColor}"
+                    Padding="10">
+            <TextBox Grid.Row="0"
+                   Margin="5,2"
+                   Padding="2"
+                   FontSize="18"
+                   FontStretch="Normal"
+                   FontWeight="SemiBold"
+                   x:Name="NameBox"
+                   TextChanged="NameBox_TextChanged"
+                   Text="{x:Bind _taskDetailsViewModel.SelectedIssue.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="Left"
+                   HorizontalTextAlignment="Left"
+                   VerticalAlignment="Center"/>
+            <TextBlock FontSize="14"
+                       Margin="5,5,0,0">
+                <Run Text="BY "
+                     FontWeight="SemiLight"/>
+                <Run Text="{x:Bind _taskDetailsViewModel.SelectedIssue.CreatedBy,Mode=OneWay}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <Grid Grid.Row="1" 
+            Margin="5,3"
+              CornerRadius="3"
+              Padding="10"
+              Background="{ThemeResource SupportingColor}">
+            <StackPanel>
+                <ComboBox Margin="5"
+                  FontSize="16"
+                  FontWeight="SemiBold"
+                  SelectedItem="{x:Bind _taskDetailsViewModel.SelectedIssue.Priority,Mode=OneWay}"
+                  Loaded="PriorityCBox_Loaded"
+                  SelectionChanged="PriorityCombo_SelectionChanged"
+                  x:Name="PriorityCombo">
+                </ComboBox>
+                <TextBlock Text="CURRENT PRIORITY"
+                       FontSize="14"
+                       FontWeight="SemiLight"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2"
+              Margin="5,3"
+              Padding="10"
+              Background="{ThemeResource SupportingColor}"
+              CornerRadius="3">
+            <StackPanel>
+                <TextBlock Text="DESCRIPTION"
+                           FontWeight="SemiLight"
+                           Margin="0,3"/>
+                <TextBox x:Name="DescriptionBox"
+                     AcceptsReturn="True" 
+                     TextWrapping="Wrap"
+                     MaxHeight="120" 
+                     HorizontalAlignment="Stretch"
+                     TextChanged="DescriptionBox_TextChanged"
+                     Grid.Row="1"
+                     Margin="0,0,10,0"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="3"
+              Margin="5,3"
+              Background="{ThemeResource SupportingColor}"
+              CornerRadius="3"
+              Height="400"
+              VerticalAlignment="Top"
+              Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                       Text="Issue Information"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       CharacterSpacing="50"
+                       Margin="0,10"/>
+
+            <StackPanel Grid.Row="1"
+                        Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal"
+                        Grid.Row="1">
+                    <TextBlock Text="CURRENT STATUS"
+                       FontSize="14"
+                       FontWeight="SemiLight"
+                       Margin="0,0,10,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+                    <ComboBox Margin="0"
+                  FontSize="16"
+                  FontWeight="SemiBold"
+                  SelectedItem="{x:Bind _taskDetailsViewModel.SelectedIssue.Status,Mode=OneWay}"
+                  Loaded="StatusCombo_Loaded"
+                  SelectionChanged="StatusCombo_SelectionChanged"
+                  x:Name="StatusCombo"/>
+                </StackPanel>
+                <Line  X1="00" Y1="10"
+                         X2="1500" Y2="10"
+                        Stroke="{ThemeResource HorizontalSeperator}"
+                        StrokeThickness="0.4"/>
+            </StackPanel>
+
+            <Grid Grid.Row="2"
+                  Margin="0,5,0,0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Grid.Row="0">
+                    <TextBlock Text="START DATE "
+                               FontSize="14"
+                               FontWeight="SemiLight"
+                           Margin="0,0,20,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                    <CalendarDatePicker Margin="2"
+                                  FontSize="16"
+                                   DateChanged="StartdateCalender_DateChanged"
+                                  Date="{x:Bind _taskDetailsViewModel.SelectedIssue.StartDate,Mode=OneWay}"
+                                  FontWeight="SemiBold"
+                                  x:Name="StartdateCalender"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Grid.Row="0">
+                    <TextBlock Text="END DATE"
+                       FontSize="14"
+                       FontWeight="SemiLight"
+                           Margin="2,0,20,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                    <CalendarDatePicker Margin="2"
+                  FontSize="16"
+                  FontWeight="SemiBold"
+                  DateChanged="EnddateCalender_DateChanged"
+                  Date="{x:Bind _taskDetailsViewModel.SelectedIssue.EndDate,Mode=OneWay}"
+                  x:Name="EnddateCalender"/>
+                </StackPanel>
+                <Line  X1="00" Y1="10"
+                       X2="1500" Y2="10"
+                       Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                        Stroke="{ThemeResource HorizontalSeperator}"
+                        StrokeThickness="0.4"/>
+            </Grid>
+
+            <Grid Grid.Row="3"
+                  Margin="0,5,0,0">
+                <StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="ASSIGNED USERS"
+                                   FontSize="14"
+                                   FontWeight="SemiLight"
+                                   Margin="0,5"/>
+                        <AutoSuggestBox Width="300"
+                                        HorizontalAlignment="Left"
+                                        CornerRadius="7"
+                                        QueryIcon="Find"
+                                        PlaceholderText="Assign User"
+                                        IsSuggestionListOpen="False"
+                                        QuerySubmitted="AssignUserBox_QuerySubmitted"
+                                        TextMemberPath="Name"
+                                        TextChanged="AutoSuggestBox_TextChanged"
+                                        SuggestionChosen="AssignUserBox_SuggestionChosen"
+                                        Margin="0,5"
+                                        x:Name="AssignUserBox">
+                            <AutoSuggestBox.ItemTemplate>
+                                <DataTemplate x:DataType="library:UserBO">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                                   FontSize="16"
+                                                   FontWeight="Black"
+                                                   Margin="0,0,3,0"/>
+                                        <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                   FontSize="13"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </AutoSuggestBox.ItemTemplate>
+                        </AutoSuggestBox>
+                    </StackPanel>
+                    <Grid>
+                        <TextBlock Text="{x:Bind _taskDetailsViewModel.ResponseString,Mode=OneWay}"
+                               Padding="5"
+                               Margin="0"
+                               Grid.Row="0"
+                               Visibility="{x:Bind _taskDetailsViewModel.TextVisibility,Mode=OneWay}"/>
+                        <ListView x:Name="UsersForTasks"
+                                    Margin="0,5"
+                                    MaxHeight="120"
+                                    Width="300"
+                                    ItemsSource="{x:Bind _taskDetailsViewModel.AssignedUsersList,Mode=OneWay}"
+                                    HorizontalAlignment="Left"
+                                    ScrollViewer.VerticalScrollMode="Auto"
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <ListView.Resources>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="IsFocusEngaged" Value="False"/>
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="library:UserBO">
+                                    <usercontrol:ListViewItems HorizontalAlignment="Stretch"
+                                                               Height="40"
+                                                               Width="300"
+                                                               Margin="0"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="DataContext" Value="{Binding}"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemContainerTransitions>
+                                <TransitionCollection/>
+                            </ListView.ItemContainerTransitions>
+                        </ListView>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <controls:InAppNotification Grid.Row="4"                                      
+                                        Name="NotificationControl"
+                                        HorizontalAlignment="Stretch"
+                                        ShowDismissButton="False"/>
         </Grid>
     </Grid>
 </UserControl>

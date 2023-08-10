@@ -16,13 +16,17 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Padding="5"
-          HorizontalAlignment="Stretch"
-         
-              x:Name="UsersDataTemplate">
-        <Grid  PointerEntered="Grid_PointerEntered"
+    <Grid Padding="0"
+          HorizontalAlignment="Stretch" 
+          VerticalAlignment="Stretch"
+          x:Name="UsersDataTemplate"
+           PointerEntered="Grid_PointerEntered"
           PointerExited="Grid_PointerExited">
-        <StackPanel Orientation="Horizontal">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
         <TextBlock Text="{Binding Name}"
                            FontSize="16"
                            x:Name="NameTextblock"
@@ -31,21 +35,23 @@
                            Padding="0"
                            TextWrapping="Wrap"
                            FontWeight="Normal"
+                           MaxWidth="250"
                            TextTrimming="CharacterEllipsis"
                            HorizontalAlignment="Left"
+                   HorizontalTextAlignment="Start"
                            VerticalAlignment="Center"/>
-        <Button x:Name="DeleteUserButton"
+            <TextBlock Grid.Column="1"/>
+            <Button x:Name="DeleteUserButton"
+                Grid.Column="2"
                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                            Grid.Column="1"
                             FontSize="13"
                             Background="Transparent"
                             BorderThickness="0"
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             Content="&#xE107;" 
                             Foreground="Red"
-                            HorizontalAlignment="Center"
+                            Click="button_Click"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"/>
-        </StackPanel>
-    </Grid>
     </Grid>
 </UserControl>

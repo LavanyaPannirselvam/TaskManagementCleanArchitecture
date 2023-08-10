@@ -31,6 +31,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTimeOffset _startDate;
         private DateTimeOffset _endDate;
+        
         public CreateNewIssue()
         {
             this.InitializeComponent();

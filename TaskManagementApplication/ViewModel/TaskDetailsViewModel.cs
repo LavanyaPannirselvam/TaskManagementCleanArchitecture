@@ -11,6 +11,7 @@ using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Models;
 using Windows.UI.Xaml;
 using TaskManagementLibrary.Notifications;
+using TaskManagementLibrary.Enums;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
@@ -96,6 +97,48 @@ namespace TaskManagementCleanArchitecture.ViewModel
             GetAllMatchingUsersBO _getAllUsers;
             _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfTaskCallback(this));
             _getAllUsers.Execute();
+        }
+
+        public void ChangePriority(int issueId, PriorityType priorityType)
+        {
+            ChangeTaskPriority _changePriority;
+            _changePriority = new ChangeTaskPriority(new ChangeTaskPriorityRequest(new CancellationTokenSource(), issueId, priorityType), new PresenterChangeTaskPriorityCallback(this));
+            _changePriority.Execute();
+        }
+
+        public void ChangeStatus(int issueId, StatusType status)
+        {
+            ChangeTaskStatus _changeStatus;
+            _changeStatus = new ChangeTaskStatus(new ChangeTaskStatusRequest(issueId, status, new CancellationTokenSource()), new PresenterChangeTaskStatusCallback(this));
+            _changeStatus.Execute();
+        }
+
+        public void ChangeName(int issueId, string name)
+        {
+            ChangeTaskName _changeName;
+            _changeName = new ChangeTaskName(new ChangeTaskNameRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeNameOfTaskCallback(this));
+            _changeName.Execute();
+        }
+
+        public void ChangeDescription(int issueId, string name)
+        {
+            ChangeTaskDescription _changeDescription;
+            _changeDescription = new ChangeTaskDescription(new ChangeTaskDescriptionRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeDescriptionOfTaskCallback(this));
+            _changeDescription.Execute();
+        }
+
+        public void ChangeStartDate(int issueId, DateTimeOffset date)
+        {
+            ChangeStartDateofTask _changeStartDateofTask;
+            _changeStartDateofTask = new ChangeStartDateofTask(new ChangeStartDateofTaskRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeStartDateOfTaskCallback(this));
+            _changeStartDateofTask.Execute();
+        }
+
+        public void ChangeEndDate(int issueId, DateTimeOffset date)
+        {
+            ChangeEndDateofTask _changeEndDateofTask;
+            _changeEndDateofTask = new ChangeEndDateofTask(new ChangeEndDateofTaskRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeEndDateOfTaskCallback(this));
+            _changeEndDateofTask.Execute();
         }
 
         public ITaskDetailsNotification taskDetailsNotification { get; set; }
@@ -289,6 +332,185 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _getMatchingUsers.MatchingUsers = response.Data.Data;
                 _getMatchingUsers.updateMatchingUsers.UpdateMatchingUsers();
+            });
+        }
+    }
+
+
+    public class PresenterChangeTaskPriorityCallback : IPresenterChangeTaskPriorityCallback
+    {
+        private TaskDetailsViewModelBase _viewModel;
+
+        public PresenterChangeTaskPriorityCallback(TaskDetailsViewModelBase taskDetailsViewModelBase)
+        {
+            this._viewModel = taskDetailsViewModelBase;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeTaskPriorityResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeTaskPriorityResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                 _viewModel.ResponseString = response.Response;
+                UIUpdation.OnTaskUpdate(response.Data.Data);
+            });
+        }
+    }
+
+
+    public class PresenterChangeTaskStatusCallback : IPresenterChangeTaskStatusCallback
+    {
+        TaskDetailsViewModelBase _viewModel;
+        public PresenterChangeTaskStatusCallback(TaskDetailsViewModelBase viewModel)
+        {
+            _viewModel = viewModel;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeTaskStatusResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeTaskStatusResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _viewModel.ResponseString = response.Response;
+                UIUpdation.OnTaskUpdate(response.Data.Data);
+            });
+        }
+    }
+
+
+    public class PresenterChangeNameOfTaskCallback : IPresenterChangeTaskNameCallback
+    {
+        private TaskDetailsViewModelBase _taskDetailsViewModel;
+
+        public PresenterChangeNameOfTaskCallback(TaskDetailsViewModelBase issueDetailsViewModelBase)
+        {
+            this._taskDetailsViewModel = issueDetailsViewModelBase;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeTaskNameResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeTaskNameResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _taskDetailsViewModel.ResponseString = response.Response;
+                UIUpdation.OnTaskUpdate(response.Data.Data);
+            });
+        }
+    }
+
+
+    public class PresenterChangeDescriptionOfTaskCallback : IPresenterChangeTaskDescriptionCallback
+    {
+        private TaskDetailsViewModelBase _taskDetailsViewModelBase;
+
+        public PresenterChangeDescriptionOfTaskCallback(TaskDetailsViewModelBase issueDetailsViewModelBase)
+        {
+            this._taskDetailsViewModelBase = issueDetailsViewModelBase;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeTaskDescriptionResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeTaskDescriptionResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _taskDetailsViewModelBase.ResponseString = response.Response;
+                UIUpdation.OnTaskUpdate(response.Data.Data);
+            });
+        }
+    }
+
+
+    public class PresenterChangeStartDateOfTaskCallback : IPresenterChangeStartDateOfTaskCallback
+    {
+        private TaskDetailsViewModelBase _taskDetailsViewModelBase;
+
+        public PresenterChangeStartDateOfTaskCallback(TaskDetailsViewModelBase issueDetailsViewModelBase)
+        {
+            this._taskDetailsViewModelBase = issueDetailsViewModelBase;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeStartDateofTaskResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeStartDateofTaskResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _taskDetailsViewModelBase.ResponseString = response.Response;
+                UIUpdation.OnTaskUpdate(response.Data.Data);
+            });
+        }
+    }
+
+
+    public class PresenterChangeEndDateOfTaskCallback : IPresenterChangeEndDateOfTaskCallback
+    {
+        private TaskDetailsViewModelBase _issueDetailsViewModelBase;
+
+        public PresenterChangeEndDateOfTaskCallback(TaskDetailsViewModelBase issueDetailsViewModelBase)
+        {
+            this._issueDetailsViewModelBase = issueDetailsViewModelBase;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnFailure(ZResponse<ChangeEndDateofTaskResponse> response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void OnSuccessAsync(ZResponse<ChangeEndDateofTaskResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                _issueDetailsViewModelBase.ResponseString = response.Response;
+                UIUpdation.OnTaskUpdate(response.Data.Data);
             });
         }
     }
