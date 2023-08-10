@@ -22,7 +22,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<ChangeIssuePriorityResponse> zResponse = new ZResponse<ChangeIssuePriorityResponse>();
             ChangeIssuePriorityResponse response = new ChangeIssuePriorityResponse();
             response.Data = DBhandler.GetIssue(request.issueId);
-            zResponse.Response = "Issue's priority is updated successfully";
+            zResponse.Response = "";
             zResponse.Data = response;
             callback.OnResponseSuccess(zResponse);
 

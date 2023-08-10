@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TaskManagementLibrary.Data.DBManager;
 using TaskManagementLibrary.Enums;
+using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
@@ -40,14 +41,14 @@ namespace TaskManagementLibrary.Domain.Usecase
         private IChangeTaskPriorityDataManager _dataManager;
         private ChangeTaskPriorityRequest _request;
         private IPresenterChangeTaskPriorityCallback _response;
-        
+
         public ChangeTaskPriority(ChangeTaskPriorityRequest request, IPresenterChangeTaskPriorityCallback response)
         {
             _dataManager = ServiceProvider.GetInstance().Services.GetService<IChangeTaskPriorityDataManager>();
             _request = request;
             _response = response;
         }
-        
+
         public override void Action()
         {
             this._dataManager.ChangePriorityOfTask(_request,new ChangeTaskPriorityCallback(this));
@@ -80,7 +81,7 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
     
     
-    public class ChangeTaskPriorityResponse : ZResponse<bool>
+    public class ChangeTaskPriorityResponse : ZResponse<Tasks>
     {
     }
 }

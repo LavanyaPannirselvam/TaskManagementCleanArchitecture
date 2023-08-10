@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TaskManagementLibrary.Enums;
+using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
@@ -81,6 +82,6 @@ namespace TaskManagementLibrary.Domain.Usecase
     }
 
 
-    public class ChangeTaskStatusResponse : ZResponse<bool>
+    public class ChangeTaskStatusResponse : ZResponse<Tasks>
     { }
 }

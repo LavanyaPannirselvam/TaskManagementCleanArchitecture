@@ -9,12 +9,12 @@ using TaskManagementLibrary.Models;
 
 namespace TaskManagementLibrary.Domain.Usecase
 {
-   
+
     public interface IChangeIssueNameDataManager
     {
         void ChangeName(ChangeIssueNameRequest request, IUsecaseCallbackBasecase<ChangeIssueNameResponse> reqponse);
     }
-    
+
 
     public class ChangeIssueNameRequest : IRequest
     {

@@ -23,8 +23,8 @@ namespace TaskManagementLibrary.Data.DBManager
             DBhandler.UpdateTask(task);
             ZResponse<ChangeTaskStatusResponse> zResponse = new ZResponse<ChangeTaskStatusResponse>();
             ChangeTaskStatusResponse response = new ChangeTaskStatusResponse();
-            response.Data = true;
-            zResponse.Response = "Task's status updated";
+            response.Data = DBhandler.GetTask(request.taskId);
+            zResponse.Response = "";
             zResponse.Data = null;
             callback.OnResponseSuccess(zResponse);
         }

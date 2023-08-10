@@ -18,13 +18,12 @@ namespace TaskManagementLibrary.Data.DBManager
         public void ChangePriorityOfTask(ChangeTaskPriorityRequest request, IUsecaseCallbackBasecase<ChangeTaskPriorityResponse> callback)
         {
             PriorityType priorityType = request.priority;
-            int taskId = request.taskId;
-            var project = DBhandler.GetTask(taskId);
+            var project = DBhandler.GetTask(request.taskId);
             project.Priority = priorityType;
             DBhandler.UpdateTask(project);
             ZResponse<ChangeTaskPriorityResponse> zResponse = new ZResponse<ChangeTaskPriorityResponse>();
             ChangeTaskPriorityResponse response = new ChangeTaskPriorityResponse();
-            response.Data = true;
+            response.Data = DBhandler.GetTask(request.taskId);
             zResponse.Response = "Task's priority is updated successfully";
             zResponse.Data = null;
             callback.OnResponseSuccess(zResponse);

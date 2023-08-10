@@ -24,7 +24,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<ChangeIssueDescriptionResponse> zResponse = new ZResponse<ChangeIssueDescriptionResponse>();
             response.Data = DBhandler.GetIssue(request.issueId);
             zResponse.Data = response;
-            zResponse.Response = "Issue's description updated successfully";
+            zResponse.Response = "";
             callback.OnResponseSuccess(zResponse);
         }
     }

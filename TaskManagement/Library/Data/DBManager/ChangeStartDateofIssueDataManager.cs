@@ -24,7 +24,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<ChangeStartDateofIssueResponse> zResponse = new ZResponse<ChangeStartDateofIssueResponse>();
             response.Data = DBhandler.GetIssue(request.issueId);
             zResponse.Data = response;
-            zResponse.Response = "Issue's start date updated successfully";
+            zResponse.Response = "";
             callback.OnResponseSuccess(zResponse);
         }
     }

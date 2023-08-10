@@ -23,7 +23,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<ChangeIssueStatusResponse> zResponse = new ZResponse<ChangeIssueStatusResponse>();
             ChangeIssueStatusResponse response = new ChangeIssueStatusResponse();
             response.Data = DBhandler.GetIssue(request.issueId);
-            zResponse.Response = "Issue's status updated";
+            zResponse.Response = "";
             zResponse.Data = response;
             callback.OnResponseSuccess(zResponse);
         }

@@ -55,26 +55,26 @@ namespace TaskManagementLibrary.Domain.Usecase
 
         public class PresenterChangeIssueDescriptionCallback : IUsecaseCallbackBasecase<ChangeIssueDescriptionResponse>
         {
-            private ChangeIssueDescription changeIssueName;
+            private ChangeIssueDescription changeIssueDescription;
 
-            public PresenterChangeIssueDescriptionCallback(ChangeIssueDescription changeIssueName)
+            public PresenterChangeIssueDescriptionCallback(ChangeIssueDescription changeIssueDesc)
             {
-                this.changeIssueName = changeIssueName;
+                this.changeIssueDescription = changeIssueDesc;
             }
 
             public void OnResponseError(BaseException response)
             {
-                changeIssueName._callback.OnError(response);
+                changeIssueDescription._callback.OnError(response);
             }
 
             public void OnResponseFailure(ZResponse<ChangeIssueDescriptionResponse> response)
             {
-                changeIssueName._callback.OnFailure(response);
+                changeIssueDescription._callback.OnFailure(response);
             }
 
             public void OnResponseSuccess(ZResponse<ChangeIssueDescriptionResponse> response)
             {
-                changeIssueName._callback.OnSuccessAsync(response);
+                changeIssueDescription._callback.OnSuccessAsync(response);
             }
         }
     }
