@@ -38,9 +38,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public static event Action<string> Notification;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
         private ObservableCollection<UserBO> _userOption;
-        private ObservableCollection<UserBO> _suitableItems;
+        private ObservableCollection<UserBO> _suggestedItems;
         private ObservableCollection<UserBO> _assignedUsers;
-        private UserBO _selectedUser;
         public TaskDetailsViewModelBase _taskDetailsViewModel;
 
         public TaskDetails()
@@ -51,7 +50,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _taskDetailsViewModel.taskDetailsNotification = this;
             _taskDetailsViewModel.updateMatchingUsers = this;
             _userOption = new ObservableCollection<UserBO>();
-            _suitableItems = new ObservableCollection<UserBO>();
+            _suggestedItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
         }
 
@@ -70,12 +69,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //NotificationControl.Show(msg, 3000);
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            var data = ((FrameworkElement)sender).DataContext as UserBO;
-            _taskDetailsViewModel.RemoveTask(data.Email, _taskDetailsViewModel.SelectedTask.Id);
-        }
-
         public void TaskDetailsNotification()
         {
             Notification.Invoke(_taskDetailsViewModel.ResponseString);
@@ -89,8 +82,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
             UpdateUsers += TaskDetailsPage_UpdateUsers;
             Notification += ShowNotification;
+            NameBox.TextChanged += NameBox_TextChanged;
+            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
+            StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
+            PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
+            StartdateCalender.DateChanged += StartdateCalender_DateChanged;
+            EnddateCalender.DateChanged += EnddateCalender_DateChanged;
         }
-
+ 
         private void UIUpdation_UserSelected(UserBO obj)
         {
             _taskDetailsViewModel.RemoveTask(obj.Email,_taskDetailsViewModel.SelectedTask.Id);
@@ -104,16 +103,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 if (!_assignedUsers.Contains<UserBO>(user))
                 {
-                    _suitableItems.Add(user);
+                    _suggestedItems.Add(user);
                 }
             }
-            if (_suitableItems.Count == 0)
+            if (_suggestedItems.Count == 0)
             {
-                _suitableItems.Add(new UserBO("No results found", string.Empty));
+                _suggestedItems.Add(new UserBO("No results found", string.Empty));
             }
             if (AssignUserBox.Text != string.Empty)
             {
-                AssignUserBox.ItemsSource = _suitableItems;
+                AssignUserBox.ItemsSource = _suggestedItems;
             }
             else
             {
@@ -146,6 +145,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
             Notification -= ShowNotification;
             UpdateUsers -= TaskDetailsPage_UpdateUsers;
+            NameBox.TextChanged -= NameBox_TextChanged;
+            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
+            StatusCombo.SelectionChanged -= StatusCombo_SelectionChanged;
+            PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
+            StartdateCalender.DateChanged -= StartdateCalender_DateChanged;
+            EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
         }
 
         public void UpdateMatchingUsers()
@@ -157,11 +162,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             _assignedUsers = _taskDetailsViewModel.AssignedUsersList;
             _taskDetailsViewModel.MatchingUsers.Clear();
-            _suitableItems.Clear();
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var splitText = sender.Text;
-                _taskDetailsViewModel.GetMatchingUsers(splitText);
+                if (args.Reason != AutoSuggestionBoxTextChangeReason.SuggestionChosen)
+                {
+                    if (sender.Text.Length != 0)
+                    {
+                        _suggestedItems.Clear();
+                        _taskDetailsViewModel.GetMatchingUsers(sender.Text);
+                    }
+                }
+                else
+                {
+                    AssignUserBox.IsSuggestionListOpen = true;
+                }
             }
         }
 
@@ -178,47 +192,74 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            
+            if (args.SelectedItem is UserBO user)
+            {
+                sender.Text = user.Name;
+            }
         }
 
         private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            var text = ((TextBox)sender).Text;
+            if (text != null && text != _taskDetailsViewModel.SelectedTask.Name)// && text != _issueViewModel.SelectedIssue.Name)
+            {
+                _taskDetailsViewModel.ChangeName(_taskDetailsViewModel.SelectedTask.Id, text);
+            }
         }
 
         private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (_taskDetailsViewModel.SelectedTask != null && _taskDetailsViewModel.SelectedTask.Priority != (PriorityType)e.AddedItems[0])
+            {
+                _taskDetailsViewModel.ChangePriority(_taskDetailsViewModel.SelectedTask.Id, (PriorityType)PriorityCombo.SelectedItem);
+            }
         }
 
         private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
         {
-
+            PriorityCombo.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            PriorityCombo.SelectedIndex = 0;
         }
 
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            var text = ((TextBox)sender).Text;
+            if (text != null && text != _taskDetailsViewModel.SelectedTask.Desc)
+            {
+                _taskDetailsViewModel.ChangeDescription(_taskDetailsViewModel.SelectedTask.Id, text.ToString());
+            }
         }
 
         private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
         {
-
+            StatusCombo.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
+            StatusCombo.SelectedIndex = 0;
         }
 
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (_taskDetailsViewModel.SelectedTask != null && _taskDetailsViewModel.SelectedTask.Status != (StatusType)e.AddedItems[0])
+            {
+                _taskDetailsViewModel.ChangeStatus(_taskDetailsViewModel.SelectedTask.Id, (StatusType)StatusCombo.SelectedItem);
+            }
         }
 
         private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-
+            var date = (CalendarDatePicker)sender;
+            if (date.Date > _taskDetailsViewModel.SelectedTask.StartDate)
+            {
+                _taskDetailsViewModel.ChangeStartDate(_taskDetailsViewModel.SelectedTask.Id, (DateTimeOffset)date.Date);
+            }
         }
 
         private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-
+            var date = (CalendarDatePicker)sender;
+            if(date.Date > _taskDetailsViewModel.SelectedTask.EndDate)
+            {
+                _taskDetailsViewModel.ChangeEndDate(_taskDetailsViewModel.SelectedTask.Id, (DateTimeOffset)date.Date);
+            }
         }
     }
 }

@@ -41,6 +41,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             statusbox.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
             prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            statusbox.SelectedIndex = 0;
+            prioritybox.SelectedIndex = 0;
         }
 
         private void ProjectName_TextChanged(object sender, TextChangedEventArgs e)
@@ -125,11 +127,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _startDate = DateTimeOffset.Now.Date;
             enddate.Date = DateTimeOffset.Now.Date;
             _endDate = DateTimeOffset.Now.Date;
-            statusbox.SelectedIndex = 0; 
-            //prioritybox.PlaceholderText = "Choose Priority";
-            //prioritybox.SelectedIndex = 0;
-            _priorityType = PriorityType.HIGH;      
-            _statusType = StatusType.OPEN;
+            statusbox.SelectedIndex = 0;
+            prioritybox.SelectedIndex = 0;
+          
             ErrorMessage.Text = string.Empty;
             ErrorMessage.Visibility = Visibility.Collapsed;
         }

@@ -12,7 +12,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </Page.Resources>
     <Page.Background>
@@ -54,7 +53,6 @@
                          Grid.Row="2" 
                          Header="User ID"  
                          x:Name="UserId"
-                         Style="{ThemeResource InputFieldTextBox}" 
                          />
                 <StackPanel  Grid.Row="3">
                     <PasswordBox MaxLength="100"
@@ -63,7 +61,6 @@
                                      Header="Password"
                                      PasswordRevealMode="Hidden"
                                      Foreground="Black"
-                                     Style="{ThemeResource PasswordBoxCustom}"
                                      PasswordChanged="PasswordChanged"
                                      x:Name="Password" >
                         <ToolTipService.ToolTip >
@@ -79,7 +76,6 @@
                                    Name="revealModeCheckBox"
                                    Content="Show password"
                                    IsChecked="False"
-                                   Style="{StaticResource CheckBoxCustom}"
                                    Checked="RevealModeCheckbox_Changed"
                                    Unchecked="RevealModeCheckbox_Changed"/>
                 </StackPanel>

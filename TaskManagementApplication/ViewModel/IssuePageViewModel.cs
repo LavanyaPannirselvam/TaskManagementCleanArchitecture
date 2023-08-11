@@ -18,9 +18,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         private GetIssuesList _getIssuesList;
 
-        public override void GetIssues(int projectId, int count, int skipCount)
+        public override void GetIssues(int projectId)//, int count, int skipCount)
         {
-            _getIssuesList = new GetIssuesList(new GetIssuesListRequest(projectId,count,skipCount ,new CancellationTokenSource()), new PresenterGetIssuesList(this));
+            _getIssuesList = new GetIssuesList(new GetIssuesListRequest(projectId, new CancellationTokenSource()), new PresenterGetIssuesList(this));
             _getIssuesList.Execute();
         }
     }
@@ -74,7 +74,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public ObservableCollection<Issue> IssuesList = new ObservableCollection<Issue>();
         public int projectId { get; set; }
-        public abstract void GetIssues(int projectId, int count, int skipCount);
+        public abstract void GetIssues(int projectId);//, int count, int skipCount);
         public IIssuePageUpdateNotification Notification { get; set; }
 
         public void CreateIssue(Issue issue)

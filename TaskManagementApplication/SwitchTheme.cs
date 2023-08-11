@@ -48,17 +48,17 @@ namespace TaskManagementCleanArchitecture
         {
             try
             {
-                var check = ApplicationData.Current.LocalSettings.Values["ThemeSetting"];
+                var check = ApplicationData.Current.LocalSettings.Values["Theme"];
                 if (check == null)
                 {
-                    ApplicationData.Current.LocalSettings.Values["ThemeSetting"] = GetCurrentTheme();
+                    ApplicationData.Current.LocalSettings.Values["Theme"] = GetCurrentTheme();
                 }
-                CurrentTheme = (ElementTheme)((int)check);
+                CurrentTheme = (ElementTheme)(int)check;
 
             }
             catch (KeyNotFoundException)
             {
-                ApplicationData.Current.LocalSettings.Values["ThemeSetting"] = (int)ElementTheme.Default;
+                ApplicationData.Current.LocalSettings.Values["Theme"] = (int)ElementTheme.Default;
             }
         }
 
@@ -74,7 +74,7 @@ namespace TaskManagementCleanArchitecture
 
         public async static Task ChangeTheme(ElementTheme theme)
         {
-            ApplicationData.Current.LocalSettings.Values["ThemeSetting"] = (int)theme;
+            ApplicationData.Current.LocalSettings.Values["Theme"] = (int)theme;
             CurrentTheme = theme;
             foreach (var rootCollection in XamlRootCollections)
             {

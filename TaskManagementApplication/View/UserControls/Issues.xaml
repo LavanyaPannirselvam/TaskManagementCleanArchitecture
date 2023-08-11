@@ -48,8 +48,9 @@
           x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="700"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
@@ -101,7 +102,7 @@
 
                 <Grid x:Name="IssuesList" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" x:Name="GridRow"></RowDefinition>
                         <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
 
@@ -234,8 +235,8 @@
                     <controls:InAppNotification x:Name="NoitificationBox"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Bottom"
-                                                ShowDismissButton="False"
-                                                Grid.Row="1"/>
+                                                Grid.Row="3"
+                                                ShowDismissButton="False"/>
                 </Grid>
                 <controls:GridSplitter Visibility="Collapsed" 
                                    x:Name="IssueGridSplitter" 
@@ -301,7 +302,7 @@
                         </RelativePanel>
                         <RelativePanel HorizontalAlignment="Right"
                                 Grid.Column="1">
-                            <!--<Button CornerRadius="5"
+                            <Button CornerRadius="5"
                                     Margin="10,0,0,0"
                                     Background="Transparent"
                                     BorderThickness="0"
@@ -312,8 +313,8 @@
                                     RelativePanel.LeftOf="DeleteIssue"
                                     Name="PopoutButton"
                                     ToolTipService.ToolTip="New Window"
-                                    Click="PopoutButton_Click">-->
-                            <!--</Button>-->
+                                    Click="PopoutButton_Click">
+                            </Button>
                             <Button CornerRadius="5"
                                         Margin="0,0,0,0"
                                         Foreground="Red" 

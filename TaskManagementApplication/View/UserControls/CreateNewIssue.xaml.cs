@@ -41,6 +41,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             statusbox.ItemsSource = Enum.GetValues(typeof (StatusType)).Cast<StatusType>();
             prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            statusbox.SelectedIndex = 0;
+            prioritybox.SelectedIndex = 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -93,14 +95,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            string priority = e.AddedItems[0].ToString();
-            _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), priority.ToUpper().Replace(" ", ""));
+            _priorityType = (PriorityType)e.AddedItems[0];
         }
 
         private void Status_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            string status = e.AddedItems[0].ToString();
-            _statusType = (StatusType)Enum.Parse(typeof(StatusType), status.ToUpper().Replace(" ", ""));
+            _statusType = (StatusType)e.AddedItems[0];
         }
 
         public Issue GetFormData(string ownerName, int id)
@@ -135,10 +135,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _startDate = DateTimeOffset.Now.Date;
             enddate.Date = DateTimeOffset.Now.Date;
             _endDate = DateTimeOffset.Now.Date;
-            prioritybox.Text = string.Empty;
-            statusbox.Text = string.Empty;
-            _priorityType = PriorityType.HIGH;
-            _statusType = StatusType.OPEN;
+            statusbox.SelectedIndex = 0;
+            prioritybox.SelectedIndex = 0;
             ErrorMessage.Text = string.Empty;
             ErrorMessage.Visibility = Visibility.Collapsed;
         }

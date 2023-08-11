@@ -51,7 +51,7 @@
                    FontWeight="SemiBold"
                    x:Name="NameBox"
                    TextChanged="NameBox_TextChanged"
-                   Text="{x:Bind _issueViewModel.SelectedIssue.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                   Text="{x:Bind _issueViewModel.SelectedIssue.Name,Mode=OneWay}"
                    HorizontalAlignment="Left"
                    HorizontalTextAlignment="Left"
                    VerticalAlignment="Center"/>
@@ -74,7 +74,6 @@
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay}"
                   Loaded="PriorityCBox_Loaded"
-                  SelectionChanged="PriorityCombo_SelectionChanged"
                   x:Name="PriorityCombo">
                 </ComboBox>
                 <TextBlock Text="CURRENT PRIORITY"
@@ -97,8 +96,8 @@
                      TextWrapping="Wrap"
                      MaxHeight="120" 
                      HorizontalAlignment="Stretch"
-                     TextChanged="DescriptionBox_TextChanged"
                      Grid.Row="1"
+                     Text="{x:Bind _issueViewModel.SelectedIssue.Desc,Mode=OneWay}"  
                      Margin="0,0,10,0"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
             </StackPanel>
@@ -139,7 +138,6 @@
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay}"
                   Loaded="StatusCombo_Loaded"
-                  SelectionChanged="StatusCombo_SelectionChanged"
                   x:Name="StatusCombo"/>
                 </StackPanel>
                 <Line  X1="00" Y1="10"
@@ -173,7 +171,6 @@
                            VerticalAlignment="Center"/>
                     <CalendarDatePicker Margin="2"
                                   FontSize="16"
-                                   DateChanged="StartdateCalender_DateChanged"
                                   Date="{x:Bind _issueViewModel.SelectedIssue.StartDate,Mode=OneWay}"
                                   FontWeight="SemiBold"
                                   x:Name="StartdateCalender"/>
@@ -193,7 +190,6 @@
                     <CalendarDatePicker Margin="2"
                   FontSize="16"
                   FontWeight="SemiBold"
-                  DateChanged="EnddateCalender_DateChanged"
                   Date="{x:Bind _issueViewModel.SelectedIssue.EndDate,Mode=OneWay}"
                   x:Name="EnddateCalender"/>
                 </StackPanel>

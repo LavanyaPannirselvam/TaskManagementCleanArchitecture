@@ -100,8 +100,6 @@
                   Width="340"
                   Grid.Row="2"
                   Grid.Column="1"/>
-
-
             </Grid>
             
             <TextBlock Text="{x:Bind _createUser.ResponseString,Mode=OneWay}"

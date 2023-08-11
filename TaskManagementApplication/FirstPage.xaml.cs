@@ -34,14 +34,8 @@ namespace TaskManagementCleanArchitecture
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class FirstPage : Page, INotifyPropertyChanged
-    {
-        //public FirstPageViewModelBase _firstPageViewModel;
-        //private int projectId = 0;
-
-        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CurrentUser), typeof(LoggedInUserBO), typeof(FirstPage), new PropertyMetadata(null));
-        //public static readonly DependencyProperty SelectedUserControlProperty = DependencyProperty.Register(nameof(SelectedUserControl),typeof(UserControl),typeof(FirstPage),new PropertyMetadata(null));
+    {        
         public event PropertyChangedEventHandler PropertyChanged;
-       // public static event Action LogoutEvent;
         
         public FirstPage()
         {
@@ -50,7 +44,6 @@ namespace TaskManagementCleanArchitecture
         }
 
         public LoggedInUserBO CurrentUser = CurrentUserClass.CurrentUser;
-       
        
         private String _headerTitle = "Projects";
         public String HeaderTitle

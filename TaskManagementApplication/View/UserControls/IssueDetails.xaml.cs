@@ -256,7 +256,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     {
         public IssueDetailsViewModelBase _issueViewModel;
         private ObservableCollection<UserBO> _userOption;
-        private ObservableCollection<UserBO> _suitableItems;
+        private ObservableCollection<UserBO> _suggestedItems;
         private ObservableCollection<UserBO> _assignedUsers;
         public static event Action<string> Notification;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
@@ -268,7 +268,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueViewModel.issueDetailsPageNotification = this;
             _issueViewModel.updateMatchingUsers = this;
             _userOption = new ObservableCollection<UserBO>();
-            _suitableItems = new ObservableCollection<UserBO>();
+            _suggestedItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
         }
 
@@ -313,6 +313,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
             NameBox.TextChanged += NameBox_TextChanged;
+            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
+            StartdateCalender.DateChanged += StartdateCalender_DateChanged;
+            EnddateCalender.DateChanged += EnddateCalender_DateChanged;
+            PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
+            StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -328,16 +333,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 if (!_assignedUsers.Contains<UserBO>(user))
                 {
-                    _suitableItems.Add(user);
+                    _suggestedItems.Add(user);
                 }
             }
-            if (_suitableItems.Count == 0)
+            if (_suggestedItems.Count == 0)
             {
-                _suitableItems.Add(new UserBO("No results found", string.Empty));
+                _suggestedItems.Add(new UserBO("No results found", string.Empty));
             }
             if (AssignUserBox.Text != string.Empty)
             {
-                AssignUserBox.ItemsSource = _suitableItems;
+                AssignUserBox.ItemsSource = _suggestedItems;
             }
             else
             {
@@ -371,19 +376,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
             NameBox.TextChanged -= NameBox_TextChanged;
+            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
+            StartdateCalender.DateChanged -= StartdateCalender_DateChanged;
+            EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
+            PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
+            StatusCombo.SelectionChanged -= StatusCombo_SelectionChanged;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             _assignedUsers = _issueViewModel.AssignedUsersList;
             _issueViewModel.MatchingUsers.Clear();
-            _suitableItems.Clear();
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 if (args.Reason != AutoSuggestionBoxTextChangeReason.SuggestionChosen)
                 {
                     if (sender.Text.Length != 0)
                     {
+                        _suggestedItems.Clear();
                         _issueViewModel.GetMatchingUsers(sender.Text);
                     }
                 }
@@ -421,6 +431,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //StatusCombo.SelectedItem = _issueViewModel.SelectedIssue.Status;
+           
             if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Status != (StatusType)e.AddedItems[0])
             {
                 _issueViewModel.ChangeStatus(_issueViewModel.SelectedIssue.Id, (StatusType)StatusCombo.SelectedItem);
@@ -457,13 +468,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = ((TextBox)sender).Text;
-            _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, text.ToString());
+            if (text != null && text != _issueViewModel.SelectedIssue.Desc)
+            {
+                _issueViewModel.ChangeDescription(_issueViewModel.SelectedIssue.Id, text.ToString());
+            }
         }
 
         private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = ((TextBox)sender).Text;
-            if (text != null)// && text != _issueViewModel.SelectedIssue.Name)
+            if (text != null && text!= _issueViewModel.SelectedIssue.Name)// && text != _issueViewModel.SelectedIssue.Name)
             {
                 _issueViewModel.ChangeName(_issueViewModel.SelectedIssue.Id, text);
             }

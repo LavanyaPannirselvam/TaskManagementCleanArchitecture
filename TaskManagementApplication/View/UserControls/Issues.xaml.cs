@@ -34,9 +34,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private static bool _itemSelected; 
         private Issue _issue = new Issue();
         public IssuesViewModelBase _issueViewModel;
+        public IssueDetails issueDetailsPage1;
         public IssueDetails issueDetailsPage;
         public static event Action<string> IssuePageNotification;
-        //private static Dictionary<int, AppWindow> _appWindows = new Dictionary<int, AppWindow>();
+        private static Dictionary<int, AppWindow> _appWindows = new Dictionary<int, AppWindow>();
         private double _windowHeight;
         static int issueID;
         private double _windowWidth;
@@ -47,6 +48,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _issueViewModel = PresenterService.GetInstance().Services.GetService<IssuesViewModelBase>();
             _issueViewModel.Notification = this;
+           // issueDetailsPage = new IssueDetails();
         }
 
         private void NewIssueButton_Click(object sender, RoutedEventArgs e)
@@ -145,7 +147,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 Grid.SetColumn(IssuesList, 0);
                 Grid.SetColumnSpan(IssuesList, 3);
                 _itemSelected = false;
-                _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Id);
+                _issueViewModel.DeleteIssue(issueDetailsPage1._issueViewModel.SelectedIssue.Id);
             }
         }
 
@@ -267,6 +269,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumn(IssuesList, 0);
             Grid.SetColumnSpan(IssuesList, 3);
             _itemSelected = false;
+            if(_issueViewModel.IssuesList.Count >= 20)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
         }
 
         private void UIUpdation_IssueUpdated(Issue obj)
@@ -274,7 +280,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var issue = _issueViewModel.IssuesList.Where(i => i.Id == obj.Id).FirstOrDefault();
             var index = _issueViewModel.IssuesList.IndexOf(issue);
             _issueViewModel.IssuesList.Remove(issue);
-            _issueViewModel.IssuesList.Insert(index, obj);
+           _issueViewModel.IssuesList.Insert(index, obj);
             issueDetailsPage._issueViewModel.GetAIssue(obj.Id);
         }
 
@@ -287,6 +293,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UIUpdation_IssueCreated(Issue obj)
         {
             _issueViewModel.IssuesList.Add(obj);
+            if (_issueViewModel.IssuesList.Count >= 20)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -309,9 +319,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             CreateIssueForm.ClearFormData();
         }
 
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private void PopoutButton_Click(object sender, RoutedEventArgs e)
         {
-            _issueViewModel.GetIssues(_issueViewModel.IssuesList.First().ProjectId, 20, _issueViewModel.IssuesList.Count);
+
         }
+
+        //private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        //{
+        //    _issueViewModel.GetIssues(_issueViewModel.IssuesList.First().ProjectId, 20, _issueViewModel.IssuesList.Count);
+        //}
     }
 }

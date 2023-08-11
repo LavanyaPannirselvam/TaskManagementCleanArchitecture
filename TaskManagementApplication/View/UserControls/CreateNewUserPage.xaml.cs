@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Enums;
 using Windows.Foundation;
@@ -32,8 +33,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             this.InitializeComponent();
             _createUser = PresenterService.GetInstance().Services.GetService<CreateUserViewModelBase>();
-            UserRoleEnter.ItemsSource = Enum.GetValues(typeof(Role)).Cast<Role>();
-            UserRoleEnter.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            var roleList  = Enum.GetValues(typeof(Role)).Cast<Role>();
+            UserRoleEnter.ItemsSource = roleList;
+            UserRoleEnter.SelectedIndex = 0;
+            ErrorMessage.Text = string.Empty;
             //UserNameEnter.Select(); // to Set Focus
             //UserNameEnter.Select(UserNameEnter.Text.Length, 0);
         }
@@ -70,6 +73,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             CredentialsGrid.Visibility = Visibility.Collapsed;
+            ErrorMessage.Text = string.Empty;
+            UserRoleEnter.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+
         }
     }
 }

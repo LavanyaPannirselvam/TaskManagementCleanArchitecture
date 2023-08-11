@@ -38,16 +38,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private double _windowHeight;
         TaskDetails taskDetailsPage;
         private bool _narrowLayout;
-        //public CreateNewProjectPage CreateNewProjectPage;
-        //public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(CUser), typeof(LoggedInUserBO), typeof(TasksPage), new PropertyMetadata(null));
         public static event Action<string> TaskPageNotification;
         
-        //public LoggedInUserBO CUser
-        //{
-        //    get { return (LoggedInUserBO)GetValue(UserProperty); }
-        //    set { SetValue(UserProperty, value); }
-        //}
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
@@ -88,7 +80,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void BackToList_Click(object sender, RoutedEventArgs e)
         {
             TasksOfAProject.Visibility = Visibility.Visible;
-            //TasksList.Visibility = Visible
             BackToList.Visibility = Visibility.Collapsed;
             _itemSelected = false;
             Grid.SetColumn(TasksList, 0);
@@ -256,6 +247,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             UIUpdation.TaskCreated += UpdateNewTask;
             UIUpdation.TaskDeleted += UpdateDeleteTask;
+            UIUpdation.TaskUpdated += UIUpdation_TaskUpdated;
             TaskPageNotification += ShowTaskPageNotiifcation;
             this.FindName("TaskPage");
             this.UnloadObject(Projectpage);
@@ -264,7 +256,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksDetailGrid.Visibility = Visibility.Collapsed;
             Grid.SetColumn(TasksList, 0);
             Grid.SetColumnSpan(TasksList, 3);
+            if(_taskViewModel.TasksList.Count >=20)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
             _itemSelected = false;
+        }
+
+        private void UIUpdation_TaskUpdated(Tasks obj)
+        {
+            var issue = _taskViewModel.TasksList.Where(i => i.Id == obj.Id).FirstOrDefault();
+            var index = _taskViewModel.TasksList.IndexOf(issue);
+            _taskViewModel.TasksList.Remove(issue);
+            _taskViewModel.TasksList.Insert(index, obj);
+            taskDetailsPage._taskDetailsViewModel.GetATask(obj.Id);
         }
 
         private void UpdateDeleteTask(Tasks tasks)
@@ -277,6 +282,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UpdateNewTask(Tasks tasks)
         {
             _taskViewModel.TasksList.Add(tasks);
+            if (_taskViewModel.TasksList.Count >= 20)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -284,6 +293,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TaskPageNotification -= ShowTaskPageNotiifcation;
             UIUpdation.TaskCreated -= UpdateNewTask;
             UIUpdation .TaskDeleted -= UpdateDeleteTask;
+            UIUpdation.TaskUpdated -= UIUpdation_TaskUpdated;
         }
 
         public void TaskUpdationNotification()
@@ -313,10 +323,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         //    await appWindow.TryShowAsync();
         //}
 
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            _taskViewModel.GetTasks(_taskViewModel.TasksList.First().ProjectId,20,_taskViewModel.TasksList.Count);
-        }
+        //private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        //{
+        //    _taskViewModel.GetTasks(_taskViewModel.TasksList.First().ProjectId,20,_taskViewModel.TasksList.Count);
+        //}
     }
 }
 

@@ -432,6 +432,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _issueDetailsViewModelBase.ResponseString = response.Response;
+                _issueDetailsViewModelBase.IssueName = response.Data.Data.Name;
                 UIUpdation.OnIssueUpdate(response.Data.Data);
             });
         }

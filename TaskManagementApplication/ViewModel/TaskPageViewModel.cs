@@ -20,9 +20,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         private GetTasksList _getTasksList;
 
-        public override void GetTasks(int projectId, int count, int skipCount)
+        public override void GetTasks(int projectId)//, int count, int skipCount)
         {
-            _getTasksList = new GetTasksList(new GetTasksListRequest(projectId,count,skipCount ,new CancellationTokenSource()), new PresenterGetTasksList(this));
+            _getTasksList = new GetTasksList(new GetTasksListRequest(projectId ,new CancellationTokenSource()), new PresenterGetTasksList(this));
             _getTasksList.Execute();
         }
     }
@@ -78,7 +78,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         public ObservableCollection<Tasks> TasksList = new ObservableCollection<Tasks>();
         public int projectId { get; set; }
         public ITaskUpdation updation { get; set; }
-        public abstract void GetTasks(int projectId,int count,int skipCount);
+        public abstract void GetTasks(int projectId);//,int count,int skipCount);
 
         public void CreateNewTask(Tasks pro)
         {

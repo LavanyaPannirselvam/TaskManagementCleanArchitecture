@@ -58,6 +58,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="750"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
@@ -92,7 +93,7 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto" x:Name="GridRow"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -115,6 +116,9 @@
                        SelectionChanged="ProjectsList_SelectionChanged"
                        AutoGeneratingColumn="ProjectsList_AutoGeneratingColumn"
                        IsReadOnly="True"
+                       HorizontalScrollBarVisibility="Visible"
+                       VerticalScrollBarVisibility="Visible"
+                       HorizontalAlignment="Stretch"
                        Visibility="{x:Bind _projectsPageViewModel.DataGridVisibility,Mode=OneWay}"
                        SelectionMode="Single"
                        RowHeight="35"
@@ -213,6 +217,8 @@
                     </controls:DataGrid>
                 <!--</ScrollViewer>-->
                 <controls:InAppNotification x:Name="NoitificationBox"
+                                            Grid.Row="3"
+                                            VerticalAlignment="Bottom"
                                     HorizontalAlignment="Stretch"
                                     ShowDismissButton="False"
                                     Grid.ColumnSpan="2"/>

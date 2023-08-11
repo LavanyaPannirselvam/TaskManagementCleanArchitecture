@@ -71,9 +71,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 tasksPage._taskViewModel.projectId = projectId;
                 issuePage._issueViewModel.projectId = projectId;
                 tasksPage._taskViewModel.TasksList.Clear();
-                tasksPage._taskViewModel.GetTasks(projectId,20,tasksPage._taskViewModel.TasksList.Count);
+                tasksPage._taskViewModel.GetTasks(projectId);//,20,tasksPage._taskViewModel.TasksList.Count);
                 issuePage._issueViewModel.IssuesList.Clear();
-                issuePage._issueViewModel.GetIssues(projectId,20,issuePage._issueViewModel.IssuesList.Count);
+                issuePage._issueViewModel.GetIssues(projectId);// 20,issuePage._issueViewModel.IssuesList.Count);
                 ProjectsList.SelectedIndex = -1;
                
                 ProjectPageGrid.Visibility = Visibility.Collapsed; //this
@@ -101,7 +101,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //this.UnloadObject(taskofaproject);
             //this.FindName("ProjectPageGrid");
             _projectsPageViewModel.ProjectsList.Clear();
-             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email,25,_projectsPageViewModel.ProjectsList.Count);
+             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
+            if(_projectsPageViewModel.ProjectsList.Count >= 2)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
             //_projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name, CUser.LoggedInUser.Email);
             Notification += ShowNotification;
             UIUpdation.ProjectCreated += UpdateNewProject;
@@ -110,6 +114,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UpdateNewProject(Project project)
         {
             _projectsPageViewModel.ProjectsList.Add(project);
+            if(_projectsPageViewModel.ProjectsList.Count >= 20)
+            {
+                //ProjectsListGrid.Height = 00;
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
         }
 
         private void ShowNotification(string obj)
@@ -167,11 +176,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             AddProjectForm.IsOpen = false;
             CreateProjectForm.ClearFormData() ;
-        }
-
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email, 15, _projectsPageViewModel.ProjectsList.Count);
         }
     }
 }
