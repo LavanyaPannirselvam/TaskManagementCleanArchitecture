@@ -25,7 +25,7 @@ namespace TaskManagementLibrary.Data.DBManager
             ChangeTaskStatusResponse response = new ChangeTaskStatusResponse();
             response.Data = DBhandler.GetTask(request.taskId);
             zResponse.Response = "";
-            zResponse.Data = null;
+            zResponse.Data = response;
             callback.OnResponseSuccess(zResponse);
         }
     }

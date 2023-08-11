@@ -20,15 +20,11 @@ namespace TaskManagementLibrary.Domain.Usecase
         public CancellationTokenSource CtsSource { get; set ; }
         public string userName;
         public string userEmail;
-        public int count;
-        public int skipCount;
-        public GetProjectListRequest(string name,string email, int count, int skipCount,CancellationTokenSource ctsSource)
+        public GetProjectListRequest(string name,string email,CancellationTokenSource ctsSource)
         {
             userName = name;
             userEmail = email;
             CtsSource = ctsSource;
-            this.count = count;
-            this.skipCount = skipCount;
         }
     }
 

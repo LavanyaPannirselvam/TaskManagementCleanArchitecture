@@ -50,19 +50,10 @@ namespace TaskManagementLibrary.Data.DBHandler
             return _adapter.GetFromQuery<Project>(query, projectId).FirstOrDefault();
         }
 
-        public List<Project> ProjectsList(string userName,string userEmail,int count,int skipCount)
+        public List<Project> ProjectsList(string userName, string userEmail)
         {
-            string query;
-            if (skipCount == 0)
-            {
-                query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail) LIMIT @count";
-                return _adapter.GetFromQuery<Project>(query, userName, userEmail,count);
-            }
-            else
-            {
-                query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail) LIMIT @count OFFSET @skipCount";
-                return _adapter.GetFromQuery<Project>(query, userName, userEmail, count,skipCount);
-            }
+            string query = "SELECT * FROM Project WHERE CreatedBy IN (SELECT Name FROM User WHERE Name = @userName AND Email = @userEmail)";// LIMIT @count OFFSET @skipCount";
+            return _adapter.GetFromQuery<Project>(query, userName, userEmail);
         }
 
         public void UpdateProject(Project project)
@@ -70,16 +61,16 @@ namespace TaskManagementLibrary.Data.DBHandler
             _adapter.Update(project);
         }
 
-        public List<Tasks> AssignedTasksListOfAProject(int projectId, int count, int skipCount)
+        public List<Tasks> AssignedTasksListOfAProject(int projectId)
         {
-            var query = "SELECT * FROM Tasks WHERE ProjectId = @projectId LIMIT @count OFFSET @skipCount";
-            return _adapter.GetFromQuery<Tasks>(query, projectId,count,skipCount);
+            var query = "SELECT * FROM Tasks WHERE ProjectId = @projectId";// LIMIT @count OFFSET @skipCount";
+            return _adapter.GetFromQuery<Tasks>(query, projectId);
         }
 
-        public List<Issue> AssignedIssuesListOfAProject(int projectId,int count,int skipCount)
+        public List<Issue> AssignedIssuesListOfAProject(int projectId)
         {
-            var query = "SELECT * FROM Issues WHERE ProjectId = @projectId LIMIT @count OFFSET @skipCount";
-            return _adapter.GetFromQuery<Issue>(query, projectId,count,skipCount);
+            var query = "SELECT * FROM Issues WHERE ProjectId = @projectId";// LIMIT @count OFFSET @skipCount";
+            return _adapter.GetFromQuery<Issue>(query, projectId);
         }
         #endregion
 

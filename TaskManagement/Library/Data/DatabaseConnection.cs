@@ -35,11 +35,14 @@ namespace TaskManagementLibrary.Data
         private static readonly object Instancelock = new object();
         public static SQLiteConnection GetDBConnection()
         {
-            lock (Instancelock)
+            if (DbConnection == null)
             {
-                if (DbConnection == null)
+                lock (Instancelock)
                 {
-                    DbConnection = new SQLiteConnection(GetPath());
+                    if (DbConnection == null)
+                    {
+                        DbConnection = new SQLiteConnection(GetPath());
+                    }
                 }
             }
             return DbConnection;

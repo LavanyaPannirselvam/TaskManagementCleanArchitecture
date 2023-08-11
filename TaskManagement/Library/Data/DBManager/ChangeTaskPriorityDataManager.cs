@@ -24,8 +24,8 @@ namespace TaskManagementLibrary.Data.DBManager
             ZResponse<ChangeTaskPriorityResponse> zResponse = new ZResponse<ChangeTaskPriorityResponse>();
             ChangeTaskPriorityResponse response = new ChangeTaskPriorityResponse();
             response.Data = DBhandler.GetTask(request.taskId);
-            zResponse.Response = "Task's priority is updated successfully";
-            zResponse.Data = null;
+            zResponse.Response = "";
+            zResponse.Data = response;
             callback.OnResponseSuccess(zResponse);
         }
     }
