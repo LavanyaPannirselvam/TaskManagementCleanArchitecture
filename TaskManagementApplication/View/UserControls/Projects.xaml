@@ -52,13 +52,12 @@
         <Grid CornerRadius="10"
           Background="{ThemeResource AppForegroundBg}"
           x:Name="ProjectPageGrid"
-          x:Load="True"
-              Visibility="Visible">
+          x:Load="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="750"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
+                <!--<RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
@@ -93,22 +92,17 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" x:Name="GridRow"/>
+                        <RowDefinition Height="{x:Bind _projectsPageViewModel.DataGridHeight,Mode=OneWay}" x:Name="GridRow"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{x:Bind _projectsPageViewModel.ResponseString,Mode=OneWay}"
+                <TextBlock Text="{x:Bind _projectsPageViewModel.ResponseString,Mode=OneWay}"
                        Visibility="{x:Bind _projectsPageViewModel.TextVisibility,Mode=OneWay}"
                        FontSize="16"
                        x:Name="textBlock"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"/>
-                <!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
-                           VerticalScrollMode="Enabled"
-                          ViewChanged="ScrollViewer_ViewChanged"
-                          Visibility="Visible"
-                          x:Name="GridViewScroller">-->
-                    <controls:DataGrid x:Name="ProjectsList"
+                <controls:DataGrid x:Name="ProjectsList"
                        AutoGenerateColumns="False"
                        ItemsSource="{x:Bind _projectsPageViewModel.ProjectsList}"
                        GridLinesVisibility="Horizontal"
@@ -215,16 +209,8 @@
                             </Style>
                         </controls:DataGrid.ColumnHeaderStyle>
                     </controls:DataGrid>
-                <!--</ScrollViewer>-->
-                <controls:InAppNotification x:Name="NoitificationBox"
-                                            Grid.Row="3"
-                                            VerticalAlignment="Bottom"
-                                    HorizontalAlignment="Stretch"
-                                    ShowDismissButton="False"
-                                    Grid.ColumnSpan="2"/>
                 </Grid>
 
-            <!--</ScrollViewer>-->
             <Popup Name="AddProjectForm"
                    Grid.Row="1"
                    HorizontalAlignment="Left"
@@ -301,12 +287,18 @@
                     </Grid>
                 </controls:DropShadowPanel>
             </Popup>
+         
+                <controls:InAppNotification x:Name="NoitificationBox"
+                                        Grid.Row="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Stretch"
+                                        ShowDismissButton="False"
+                                        Grid.ColumnSpan="2"/>
         </Grid>
 
-        <Grid x:Load="True"
+        <Grid x:Load="False"
               Name="taskofaproject"
-              Grid.ColumnSpan="2"
-              Visibility="Collapsed">
+              Grid.ColumnSpan="2">
             <local:Navigation/>
         </Grid>
     </Grid>

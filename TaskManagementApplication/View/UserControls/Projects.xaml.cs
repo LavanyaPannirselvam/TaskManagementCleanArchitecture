@@ -71,22 +71,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 tasksPage._taskViewModel.projectId = projectId;
                 issuePage._issueViewModel.projectId = projectId;
                 tasksPage._taskViewModel.TasksList.Clear();
-                tasksPage._taskViewModel.GetTasks(projectId);//,20,tasksPage._taskViewModel.TasksList.Count);
+                tasksPage._taskViewModel.GetTasks(projectId);
                 issuePage._issueViewModel.IssuesList.Clear();
-                issuePage._issueViewModel.GetIssues(projectId);// 20,issuePage._issueViewModel.IssuesList.Count);
+                issuePage._issueViewModel.GetIssues(projectId);
                 ProjectsList.SelectedIndex = -1;
-               
-                ProjectPageGrid.Visibility = Visibility.Collapsed; //this
+                //ProjectPageGrid.Visibility = Visibility.Collapsed; //this
                 _projectsPageViewModel.ProjectsList.Clear();
-                taskofaproject.Visibility = Visibility.Visible; //this
-                //this.FindName("taskofaproject");
-                //this.UnloadObject(ProjectPageGrid);
+               // taskofaproject.Visibility = Visibility.Visible; //this
+                this.FindName("taskofaproject");
+                this.UnloadObject(ProjectPageGrid);
             }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            //ErrorMessage.Text = string.Empty;
             Project pro = CreateProjectForm.GetFormData(CurrentUserClass.CurrentUser.Name);
             if (pro != null)
             {
@@ -100,30 +98,36 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             //this.UnloadObject(taskofaproject);
             //this.FindName("ProjectPageGrid");
-            _projectsPageViewModel.ProjectsList.Clear();
-             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
-            if(_projectsPageViewModel.ProjectsList.Count >= 2)
-            {
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
-            }
-            //_projectsPageViewModel.GetProjectsList(CUser.LoggedInUser.Name, CUser.LoggedInUser.Email);
+            //_projectsPageViewModel.ProjectsList.Clear();
+            _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
+            //if(_projectsPageViewModel.ProjectsList.Count >= 20)
+            //{
+            //    GridRow.Height;
+            //}
             Notification += ShowNotification;
             UIUpdation.ProjectCreated += UpdateNewProject;
         }
 
         private void UpdateNewProject(Project project)
         {
-            _projectsPageViewModel.ProjectsList.Add(project);
-            if(_projectsPageViewModel.ProjectsList.Count >= 20)
+            if (!_projectsPageViewModel.ProjectsList.Contains<Project>(project))
             {
-                //ProjectsListGrid.Height = 00;
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                _projectsPageViewModel.ProjectsList.Add(project);
+                if (ProjectPageGrid != null && ProjectPageGrid.IsLoaded)
+                {
+
+                    if (_projectsPageViewModel.ProjectsList.Count >= 20)
+                    {
+                        //ProjectsListGrid.Height = 00;
+                        GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                    }
+                }
             }
         }
 
         private void ShowNotification(string obj)
         {
-            NoitificationBox.Show(obj, 3000);
+            //NoitificationBox.Show(obj, 3000);
         }
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
@@ -144,20 +148,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            //this.FindName("ProjectPageGrid");
             _windowHeight = e.NewSize.Height;
             _windowWidth = e.NewSize.Width;
-
-            if (_windowWidth < 900)
+            if (ProjectPageGrid != null && ProjectPageGrid.IsLoaded)
             {
-                NewProjectButton.Visibility = Visibility.Collapsed;
-                ProjectsList.FrozenColumnCount = 1;
-                AddProjectForm.IsOpen = false;
+                if (_windowWidth < 900)
+                {
+                    NewProjectButton.Visibility = Visibility.Collapsed;
+                    ProjectsList.FrozenColumnCount = 1;
+                    AddProjectForm.IsOpen = false;
+                }
+                else
+                {
+                    NewProjectButton.Visibility = Visibility.Visible;
+                    ProjectsList.FrozenColumnCount = 2;
+                }
             }
-            else
-            {
-                NewProjectButton.Visibility = Visibility.Visible;
-                ProjectsList.FrozenColumnCount = 2;
-            }
+            //this.UnloadObject(ProjectPageGrid);
         }
 
         public void ProjectUpdateNotification()

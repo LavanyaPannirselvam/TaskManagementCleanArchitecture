@@ -147,7 +147,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 Grid.SetColumn(IssuesList, 0);
                 Grid.SetColumnSpan(IssuesList, 3);
                 _itemSelected = false;
-                _issueViewModel.DeleteIssue(issueDetailsPage1._issueViewModel.SelectedIssue.Id);
+                _issueViewModel.DeleteIssue(issueDetailsPage._issueViewModel.SelectedIssue.Id);
             }
         }
 
@@ -269,9 +269,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumn(IssuesList, 0);
             Grid.SetColumnSpan(IssuesList, 3);
             _itemSelected = false;
-            if(_issueViewModel.IssuesList.Count >= 20)
+            if(_issueViewModel.IssuesList.Count >= 1)
             {
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(500, GridUnitType.Pixel);
             }
         }
 
@@ -286,14 +286,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UIUpdation_IssueDeleted(Issue issue)
         {
+            
             var delete = _issueViewModel.IssuesList.Where(i => i.Id == issue.Id);
             _issueViewModel.IssuesList.Remove(delete.FirstOrDefault());
+            IssuesList.Visibility = Visibility.Visible;
+            Grid.SetColumn(IssuesList, 0);
+            Grid.SetColumnSpan(IssuesList, 3);
+            IssueGridSplitter.Visibility = Visibility.Collapsed;
+            IssueDetailGrid.Visibility = Visibility.Collapsed;
         }
 
         private void UIUpdation_IssueCreated(Issue obj)
         {
             _issueViewModel.IssuesList.Add(obj);
-            if (_issueViewModel.IssuesList.Count >= 20)
+            if (_issueViewModel.IssuesList.Count >= 1)
             {
                 GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }

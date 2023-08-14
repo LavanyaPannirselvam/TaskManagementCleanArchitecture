@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementCleanArchitecture.ViewModel.TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
+using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -45,9 +46,21 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksList.Visibility = Visibility.Visible;
             TasksGridSplitter.Visibility = Visibility.Collapsed;
             TasksDetailGrid.Visibility = Visibility.Collapsed;
+            UIUpdation.TaskDeleted += UIUpdation_TaskDeleted;
             Grid.SetColumn(TasksList, 0);
             Grid.SetColumnSpan(TasksList, 3);
             _itemSelected = false;
+        }
+
+        private void UIUpdation_TaskDeleted(Tasks obj)
+        {
+            var delete = _createdTask.TasksList.Where(task => task.Id == obj.Id);
+            _createdTask.TasksList.Remove(delete.FirstOrDefault());
+            TasksList.Visibility = Visibility.Visible;
+            TasksGridSplitter.Visibility = Visibility.Collapsed;
+            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(TasksList, 0);
+            Grid.SetColumnSpan(TasksList, 3);
         }
 
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -128,11 +141,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
-                TasksList.Visibility = Visibility.Visible;
-                TasksGridSplitter.Visibility = Visibility.Collapsed;
-                TasksDetailGrid.Visibility = Visibility.Collapsed;
-                Grid.SetColumn(TasksList, 0);
-                Grid.SetColumnSpan(TasksList, 3);
+               
                 _itemSelected = false;//TODO
                 _createdTask.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
@@ -201,5 +210,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             _createdTask.TasksList.Clear();
         }
+
+        //private void NewTaskButton_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //}
     }
 }

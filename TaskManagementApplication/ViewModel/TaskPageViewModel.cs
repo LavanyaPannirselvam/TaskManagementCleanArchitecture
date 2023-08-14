@@ -54,6 +54,14 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 if (response.Data.Data.Count != 0)
                 {
                     PopulateData(response.Data.Data);
+                    if(_viewModel.TasksList.Count >= 1)
+                    {
+                        _viewModel.DataGridHeight = new GridLength(750, GridUnitType.Pixel);
+                    }
+                    else
+                    {
+                        _viewModel.DataGridHeight = new GridLength(0, GridUnitType.Auto);
+                    }
                     _viewModel.TextVisibility = Visibility.Collapsed;
                     _viewModel.DataGridVisibility = Visibility.Visible;
                 }
@@ -94,12 +102,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             _deleteTask.Execute();
         }
 
-        public void ChangePriorityOfTask(int taskId,PriorityType priority)
-        {
-            ChangeTaskPriority changeTaskPriority;
-           // changeTaskPriority = new ChangeTaskPriority(new ChangeTaskPriorityRequest(new CancellationTokenSource(),taskId,priority),new PresenterChangeTaskPriorityCallback(this));
-        }
-
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility
         {
@@ -132,7 +134,19 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 OnPropertyChanged(nameof(DataGridVisibility));
             }
         }
+
+        private GridLength _dataGridHeight;//= 700;
+        public GridLength DataGridHeight
+        {
+            get { return _dataGridHeight; }
+            set
+            {
+                _dataGridHeight = value;
+                OnPropertyChanged(nameof(DataGridHeight));
+            }
+        }
     }
+
 
     public interface ITaskUpdation
     {

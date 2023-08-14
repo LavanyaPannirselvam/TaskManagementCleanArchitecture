@@ -48,7 +48,7 @@
           x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="700"/>
+            <RowDefinition Height="750"/>
             <!--<RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -91,6 +91,7 @@
            
             <Grid Grid.Row="1"
               Grid.Column="0"
+              Height="750"
               Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="500" MaxWidth="600"/>
@@ -100,7 +101,7 @@
 
                 <Grid x:Name="TasksList" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" x:Name="GridRow"></RowDefinition>
+                        <RowDefinition Height="{x:Bind _taskViewModel.DataGridHeight,Mode=OneWay}" x:Name="GridRow"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
@@ -109,21 +110,20 @@
                            HorizontalAlignment="Center"
                            Visibility="{x:Bind _taskViewModel.TextVisibility,Mode=OneWay}"/>
                     <controls:DataGrid x:Name="TasksOfAProject"
-                       ItemsSource="{x:Bind _taskViewModel.TasksList}"
                        AutoGenerateColumns="False"
+                       Grid.ColumnSpan="3"
+                       ItemsSource="{x:Bind _taskViewModel.TasksList}"
                        GridLinesVisibility="Horizontal"
-                       ScrollViewer.HorizontalScrollMode="Disabled"
-                       ScrollViewer.VerticalScrollMode="Enabled"
-                       ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                       HorizontalGridLinesBrush="{ThemeResource HorizontalSeperator}"          
+                       SelectionChanged="TasksOfAProject_SelectionChanged"
                        AutoGeneratingColumn="TasksList_AutoGeneratingColumn"
                        IsReadOnly="True"
-                       RowHeight="35"
-                       FrozenColumnCount="2"
-                       SelectionMode="Single"
-                       HorizontalGridLinesBrush="{ThemeResource HorizontalSeperator}"          
+                       HorizontalScrollBarVisibility="Visible"
+                       VerticalScrollBarVisibility="Visible"
+                       HorizontalAlignment="Stretch"
                        Visibility="{x:Bind _taskViewModel.DataGridVisibility,Mode=OneWay}"
-                       SelectionChanged="TasksOfAProject_SelectionChanged"
+                       SelectionMode="Single"
+                       RowHeight="35"
                        Background="{ThemeResource AppForegroundBg}">
                         <controls:DataGrid.Columns>
                             <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">

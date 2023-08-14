@@ -31,13 +31,13 @@ namespace TaskManagementCleanArchitecture
         public App()
         {
             this.InitializeComponent();
-            object value = ApplicationData.Current.LocalSettings.Values["themeSetting"];
+            //object value = ApplicationData.Current.LocalSettings.Values["themeSetting"];
 
-            if (value != null)
-            {
-                // Apply theme choice.
-                App.Current.RequestedTheme = (ApplicationTheme)(int)value;
-            }
+            //if (value != null)
+            //{
+            //    // Apply theme choice.
+            //    App.Current.RequestedTheme = (ApplicationTheme)(int)value;
+            //}
             this.Suspending += OnSuspending;
         }
 

@@ -166,11 +166,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
-                TasksList.Visibility = Visibility.Visible;
-                TasksGridSplitter.Visibility = Visibility.Collapsed;
-                TasksDetailGrid.Visibility = Visibility.Collapsed;
-                Grid.SetColumn(TasksList, 0);
-                Grid.SetColumnSpan(TasksList, 3);
+                //TasksList.Visibility = Visibility.Visible;
+                //TasksGridSplitter.Visibility = Visibility.Collapsed;
+                //TasksDetailGrid.Visibility = Visibility.Collapsed;
+                //Grid.SetColumn(TasksList, 0);
+                //Grid.SetColumnSpan(TasksList, 3);
                 _itemSelected = false;//TODO
                 _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
@@ -256,9 +256,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksDetailGrid.Visibility = Visibility.Collapsed;
             Grid.SetColumn(TasksList, 0);
             Grid.SetColumnSpan(TasksList, 3);
-            if(_taskViewModel.TasksList.Count >=20)
+            if (_taskViewModel.TasksList.Count >= 1)
             {
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
             }
             _itemSelected = false;
         }
@@ -274,15 +274,19 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UpdateDeleteTask(Tasks tasks)
         {
-            TasksDetailGrid.Visibility = Visibility.Collapsed;
             var delete = _taskViewModel.TasksList.Where(task => task.Id == tasks.Id);
             _taskViewModel.TasksList.Remove(delete.FirstOrDefault());
+            TasksList.Visibility = Visibility.Visible;
+            TasksGridSplitter.Visibility = Visibility.Collapsed;
+            TasksDetailGrid.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(TasksList, 0);
+            Grid.SetColumnSpan(TasksList, 3);
         }
 
         private void UpdateNewTask(Tasks tasks)
         {
             _taskViewModel.TasksList.Add(tasks);
-            if (_taskViewModel.TasksList.Count >= 20)
+            if (_taskViewModel.TasksList.Count >= 1)
             {
                 GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }

@@ -102,14 +102,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            string priority = e.AddedItems[0].ToString();
-            _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), priority.ToUpper().Replace(" ", ""));
+            _priorityType = (PriorityType)e.AddedItems[0];
         }
 
         private void Status_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            string status = e.AddedItems[0].ToString();
-            _statusType = (StatusType)Enum.Parse(typeof(StatusType), status.ToUpper().Replace(" ", ""));
+            _statusType = (StatusType)e.AddedItems[0];
         }
 
         public Tasks GetFormData(string ownerName,int id)

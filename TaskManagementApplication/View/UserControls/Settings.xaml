@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="TaskManagementCleanArchitecture.View.UserControls.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Background="{ThemeResource AppBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0"
+              Tapped="Grid_Tapped"
+              Margin="2" 
+                   Width="50"
+                   Height="50"
+                   VerticalAlignment="Top"
+                   Background="Pink">
+        </Grid>
+        <Grid Grid.Column="1"
+              Margin="2"
+              Tapped="Grid_Tapped">
+            <Ellipse Grid.Column="1"
+                   Width="50"
+                   Height="50"
+                   VerticalAlignment="Top"
+                   Fill="Orange"/>
+        </Grid>
+    </Grid>
+</Page>

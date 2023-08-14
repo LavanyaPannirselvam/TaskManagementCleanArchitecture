@@ -55,6 +55,14 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 if(response.Data.Data != null)
                 {
                     PopulateData(response.Data.Data);
+                    if(projectPageViewModel.ProjectsList.Count >= 20)
+                    {
+                        projectPageViewModel.DataGridHeight = new GridLength(750, GridUnitType.Pixel);
+                    }
+                    else
+                    {
+                        projectPageViewModel.DataGridHeight = new GridLength(0, GridUnitType.Auto);
+                    }
                     projectPageViewModel.DataGridVisibility = Visibility.Visible;
                     projectPageViewModel.TextVisibility = Visibility.Collapsed;
                 }
@@ -163,16 +171,16 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
         }
 
-        //private int _dataGridHeight;//= 700;
-        //public int DataGridHeight
-        //{
-        //    get { return _dataGridHeight; }
-        //    set
-        //    {
-        //        _dataGridHeight = value;
-        //        OnPropertyChanged(nameof(DataGridHeight));
-        //    }
-        //}
+        private GridLength _dataGridHeight;//= 700;
+        public GridLength DataGridHeight
+        {
+            get { return _dataGridHeight; }
+            set
+            {
+                _dataGridHeight = value;
+                OnPropertyChanged(nameof(DataGridHeight));
+            }
+        }
     }
 
 
