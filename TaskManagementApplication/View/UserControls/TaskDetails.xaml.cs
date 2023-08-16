@@ -185,7 +185,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 // _suggestedItems.Remove();
                 //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
-                //AssignUserBox.Text = string.Empty;
+                AssignUserBox.Text = string.Empty;
+                AssignUserBox.IsSuggestionListOpen = false;
                 _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
             }
         }

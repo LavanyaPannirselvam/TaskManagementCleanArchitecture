@@ -16,6 +16,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -70,12 +71,9 @@ namespace TaskManagementCleanArchitecture
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //Navigation navigation = new Navigation();
             if (e.Parameter is FirstPage pg)
             {
-                //CurrentUser = pg.CurrentUser;
                 AdminTabVisibility = pg.AdminTabVisibility;
-                //navigation.CurrentUser = pg.CurrentUser;
             }
         }
 
@@ -102,19 +100,19 @@ namespace TaskManagementCleanArchitecture
                 NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate3"]).LoadContent();
                 MainPageNV.AlwaysShowHeader = true;
             }
+            else if(args.SelectedItem == SettingsTab)
+            {
+                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate4"]).LoadContent();
+                MainPageNV.AlwaysShowHeader = true;
+            }
         }
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            // Save theme choice to LocalSettings. 
-            // ApplicationTheme enum values: 0 = Light, 1 = Dark
+            var result = MainPageNV.IsPaneOpen;
+            MainPageNV.IsPaneOpen = result;
             var theme = ((ToggleSwitch)sender).IsOn ? 0 : 1;
             ThemeChange_Tapped(theme);
-        }
-
-        private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
-        {
-            ((ToggleSwitch)sender).IsOn = true;
         }
 
         private async void ThemeChange_Tapped(int value)
@@ -134,6 +132,8 @@ namespace TaskManagementCleanArchitecture
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             MainPageNV.SelectedItem = ProjectsTab;
+            ThemeChange.Toggled += ToggleSwitch_Toggled;
+            ThemeChange.IsOn = SwitchTheme.CurrentTheme == ElementTheme.Dark;
         }
 
         private void Logout_Tapped(object sender, TappedRoutedEventArgs e)
@@ -141,23 +141,9 @@ namespace TaskManagementCleanArchitecture
             UIUpdation.OnUserLogout();
         }
 
-        //private void MainPageNV_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        //{
-        //    NavigationContentControl.DataContext = this;
-        //    if (args.SelectedItem == ProjectsTab)
-        //    {
-        //        NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate1"]).LoadContent();
-        //        ProjectsPage projectsPage = new ProjectsPage();
-        //        SelectedUserControl = projectsPage;
-        //        MainPageNV.AlwaysShowHeader = true;
-        //    }
-        //    else if (args.SelectedItem == TasksTab)
-        //    {
-        //        NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate2"]).LoadContent();
-        //        TasksPage tasksPage = new TasksPage();
-        //        SelectedUserControl = tasksPage;
-        //        MainPageNV.AlwaysShowHeader = true;
-        //    }
-        //}
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ThemeChange.Toggled -= ToggleSwitch_Toggled;
+        }
     }
 }

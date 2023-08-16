@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementLibrary;
+using TaskManagementLibrary.Notifications;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -49,6 +51,7 @@ namespace TaskManagementCleanArchitecture
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+           // Application.Current.Resources["SystemAccentColor"] = Color.FromArgb(100, 100, 100, 100);
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -81,6 +84,11 @@ namespace TaskManagementCleanArchitecture
                 Window.Current.Activate();
             }
             SwitchTheme.AddUIRootElement(rootFrame);
+            var uiSettings = new Windows.UI.ViewManagement.UISettings();
+            var rgba = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
+            ////    object value = ApplicationData.Current.LocalSettings.Values["SystemAccentColor"];
+            ChangeAccent.AppAccentColor = rgba;
+            //UIUpdation.OnAccentColorChanged(rgba);
             LibraryInitialization libraryInitialization;
             libraryInitialization = LibraryInitialization.GetInstance();
             libraryInitialization.InitializeDb();

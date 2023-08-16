@@ -294,6 +294,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 // _suggestedItems.Remove();
                 //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
                 //AssignUserBox.Text = string.Empty;
+                AssignUserBox.Text = string.Empty;
+                AssignUserBox.IsSuggestionListOpen = false;
                 _issueViewModel.AssignUserToIssue(user.Email, _issueViewModel.SelectedIssue.Id);
             }
             //AssignUserBox.Text = args.QueryText;

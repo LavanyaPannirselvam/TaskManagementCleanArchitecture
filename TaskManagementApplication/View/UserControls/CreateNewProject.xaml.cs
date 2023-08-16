@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
@@ -18,6 +19,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using EnumConverter = TaskManagementCleanArchitecture.Converter.EnumConverter;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -31,16 +33,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTimeOffset _startDate;
         private DateTimeOffset _endDate;
+        EnumConverter _enumConverter;
         public CreateNewProject()
         {
             this.InitializeComponent();
             startdate.Date = DateTime.Now;
             enddate.Date = DateTime.Now;
             //statusbox.SelectedIndex = -1;
-            prioritybox.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
-            statusbox.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
-            prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-            statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            prioritybox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
+            statusbox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
+           // prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            //statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            _enumConverter = new EnumConverter();
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
         }
@@ -59,15 +63,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void Status_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            string status = e.AddedItems[0].ToString();
-            _statusType = (StatusType)Enum.Parse(typeof(StatusType), status.ToUpper().Replace(" ", ""));
+            _statusType = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(StatusType),null,null);
         }
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            string priority = e.AddedItems[0].ToString();
-            _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), priority.ToUpper().Replace(" ",""));
-           // _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), value.ToUpper().Replace(" ", ""));
+            _priorityType = (PriorityType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(PriorityType), null, null);
+            // _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), value.ToUpper().Replace(" ", ""));
         }
 
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)

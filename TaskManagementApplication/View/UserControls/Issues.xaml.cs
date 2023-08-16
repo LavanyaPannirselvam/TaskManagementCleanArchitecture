@@ -271,7 +271,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _itemSelected = false;
             if(_issueViewModel.IssuesList.Count >= 1)
             {
-                GridRow.Height = new GridLength(500, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
             }
         }
 

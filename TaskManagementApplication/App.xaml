@@ -2,7 +2,7 @@
     x:Class="TaskManagementCleanArchitecture.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:local="using:TaskManagementCleanArchitecture"
     >
     <Application.Resources>
@@ -10,6 +10,7 @@
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="ResourseDictionary/StylesDictionary.xaml"/>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
        

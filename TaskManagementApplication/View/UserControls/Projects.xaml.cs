@@ -115,10 +115,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _projectsPageViewModel.ProjectsList.Add(project);
                 if (ProjectPageGrid != null && ProjectPageGrid.IsLoaded)
                 {
-
                     if (_projectsPageViewModel.ProjectsList.Count >= 20)
                     {
-                        //ProjectsListGrid.Height = 00;
                         GridRow.Height = new GridLength(750, GridUnitType.Pixel);
                     }
                 }
@@ -148,7 +146,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //this.FindName("ProjectPageGrid");
             _windowHeight = e.NewSize.Height;
             _windowWidth = e.NewSize.Width;
             if (ProjectPageGrid != null && ProjectPageGrid.IsLoaded)

@@ -48,17 +48,17 @@ namespace TaskManagementCleanArchitecture
         {
             try
             {
-                var check = ApplicationData.Current.LocalSettings.Values["Theme"];
+                var check = ApplicationData.Current.LocalSettings.Values["themeSetting"];
                 if (check == null)
                 {
-                    ApplicationData.Current.LocalSettings.Values["Theme"] = GetCurrentTheme();
+                    ApplicationData.Current.LocalSettings.Values["themeSetting"] = GetCurrentTheme();
                 }
                 CurrentTheme = (ElementTheme)(int)check;
 
             }
             catch (KeyNotFoundException)
             {
-                ApplicationData.Current.LocalSettings.Values["Theme"] = (int)ElementTheme.Default;
+                ApplicationData.Current.LocalSettings.Values["themeSetting"] = (int)ElementTheme.Default;
             }
         }
 
@@ -74,7 +74,7 @@ namespace TaskManagementCleanArchitecture
 
         public async static Task ChangeTheme(ElementTheme theme)
         {
-            ApplicationData.Current.LocalSettings.Values["Theme"] = (int)theme;
+            ApplicationData.Current.LocalSettings.Values["themeSetting"] = (int)theme;
             CurrentTheme = theme;
             foreach (var rootCollection in XamlRootCollections)
             {
@@ -82,14 +82,6 @@ namespace TaskManagementCleanArchitecture
                 {
                     rootCollection.Value.RequestedTheme = CurrentTheme;
                 });
-            }
-        }
-
-        public static void ChangeAccentColor(Color color)
-        {
-            if (!new AccessibilitySettings().HighContrast)
-            {
-                Application.Current.Resources["SystemAccentColor"] = color;
             }
         }
     }

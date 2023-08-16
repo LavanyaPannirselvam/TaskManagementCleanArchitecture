@@ -41,6 +41,7 @@ namespace TaskManagementCleanArchitecture
             services.AddSingleton<CreatedTasksPageViewModelBase,CreatedTasksPageViewModel>();
             services.AddSingleton<CreateUserViewModelBase, CreateUserViewModel>();
             services.AddSingleton<UserViewModelBase,UserViewModel>();
+            services.AddSingleton<SettingsViewModel>();
             return services.BuildServiceProvider();
         }
     }
