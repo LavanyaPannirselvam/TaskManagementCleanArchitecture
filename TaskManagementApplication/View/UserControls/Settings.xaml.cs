@@ -43,17 +43,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //UIUpdation.AccentColorChange += UIUpdation_AccentColorChange;
         }
-
-        //private async void UIUpdation_AccentColorChange(Color obj)
-        //{
-
-        //}
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            //UIUpdation.AccentColorChange -= UIUpdation_AccentColorChange;
         }
     }
 }
