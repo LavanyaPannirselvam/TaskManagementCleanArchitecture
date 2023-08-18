@@ -44,6 +44,7 @@
                             Header="Start Date"
                             Name="startdate"
                             PlaceholderText=""
+                            Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             HorizontalAlignment="Stretch"
                             DateChanged="StartDate_DataChanged"
                             Margin="5"/>
@@ -51,6 +52,7 @@
                             Header="End Date"
                             Name="enddate"
                             PlaceholderText=""
+                            Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             HorizontalAlignment="Stretch"
                             DateChanged="EndDate_DataChanged"
                             Margin="5"/>

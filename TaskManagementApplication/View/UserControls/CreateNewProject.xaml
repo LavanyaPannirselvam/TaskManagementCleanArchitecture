@@ -46,6 +46,7 @@
                             PlaceholderText=""
                             HorizontalAlignment="Stretch"
                             DateChanged="StartDate_DataChanged"
+                            Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             Header="End Date"
@@ -53,6 +54,7 @@
                             PlaceholderText=""
                             HorizontalAlignment="Stretch"
                             DateChanged="EndDate_DataChanged"
+                            Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             Margin="5"/>
         <ComboBox Grid.Row="4"
                   Header="Select Priority"
@@ -60,7 +62,6 @@
                   Name="prioritybox"
                   HorizontalAlignment="Stretch"
                   SelectionChanged="Priority_Selectionchanged"
-                  Style="{ThemeResource ComboBoxCustomStyle}"
                   Margin="5">
             <!--<x:String>High</x:String>
             <x:String>Medium</x:String>

@@ -48,11 +48,13 @@
                             Name="startdate"
                             PlaceholderText=""
                             HorizontalAlignment="Stretch"
+                            Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             DateChanged="StartDate_DataChanged"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             Header="End Date"
                             Name="enddate"
+                            Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             PlaceholderText=""
                             HorizontalAlignment="Stretch"
                             DateChanged="EndDate_DataChanged"

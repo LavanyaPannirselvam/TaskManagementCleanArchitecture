@@ -85,10 +85,11 @@ namespace TaskManagementCleanArchitecture
             }
             SwitchTheme.AddUIRootElement(rootFrame);
             var uiSettings = new Windows.UI.ViewManagement.UISettings();
-            var rgba = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
-            ////    object value = ApplicationData.Current.LocalSettings.Values["SystemAccentColor"];
+            var rgba = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
             ChangeAccent.AppAccentColor = rgba;
-            //UIUpdation.OnAccentColorChanged(rgba);
+            ////    object value = ApplicationData.Current.LocalSettings.Values["SystemAccentColor"];
+            //ChangeAccent.AppAccentColor = rgba;
+            UIUpdation.OnAccentColorChanged();
             LibraryInitialization libraryInitialization;
             libraryInitialization = LibraryInitialization.GetInstance();
             libraryInitialization.InitializeDb();

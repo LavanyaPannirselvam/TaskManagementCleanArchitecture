@@ -59,6 +59,8 @@
                   FontSize="16"
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Priority,Mode=OneWay}"
+                  Style="{ThemeResource ComboBoxStyleCustom}"
+                          ItemContainerStyle="{ThemeResource DefaultComboBoxItemStyle}"
                   Loaded="PriorityCBox_Loaded"
                   x:Name="PriorityCombo">
                 </ComboBox>
@@ -159,6 +161,7 @@
                            VerticalAlignment="Center"/>
                     <CalendarDatePicker Margin="2"
                                   FontSize="16"
+                                  Style="{ThemeResource CalendarDatePickerCustomStyle}"
                                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.StartDate,Mode=OneWay}"
                                   FontWeight="SemiBold"
                                   x:Name="StartdateCalender"/>
@@ -179,6 +182,7 @@
                   FontSize="16"
                   FontWeight="SemiBold"
                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.EndDate,Mode=OneWay}"
+                  Style="{ThemeResource CalendarDatePickerCustomStyle}"
                   x:Name="EnddateCalender"/>
                 </StackPanel>
                 <Line  X1="00" Y1="10"
@@ -208,6 +212,7 @@
                                         TextChanged="AutoSuggestBox_TextChanged"
                                         SuggestionChosen="AssignUserBox_SuggestionChosen"
                                         Margin="0,5"
+                                        Style="{ThemeResource AutoSuggestBoxCustomStyle}"
                                         x:Name="AssignUserBox">
                             <AutoSuggestBox.ItemTemplate>
                                 <DataTemplate x:DataType="library:UserBO">
