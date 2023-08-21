@@ -10,6 +10,7 @@ using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -46,6 +47,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
            // statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             _enumConverter = new EnumConverter();
             statusbox.SelectedIndex = 0;
+            ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
             prioritybox.SelectedIndex = 0;
         }
 
@@ -78,7 +80,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _startDate = (DateTimeOffset)date.Date;//.Value.DateTime;
             if (_startDate < DateTime.Today)
             {
-                ErrorMessage.Text = "Start date cannot be yesterday";
+                //ErrorMessage.Text = "Start date cannot be yesterday";
+                //ErrorMessage.Visibility = Visibility.Visible;
+                ErrorMessage.Text = resourceLoader.GetString("StartDateErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else
@@ -99,15 +103,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-           // _priorityType = (PriorityType)e.AddedItems[0];
            _priorityType = (PriorityType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(PriorityType),null,null);
         }
 
         private void Status_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            //_statusType = (StatusType)e.AddedItems[0]; 
             _statusType = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(StatusType),null,null);
-
         }
 
         public Issue GetFormData(string ownerName, int id)

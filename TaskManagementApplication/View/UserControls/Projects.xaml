@@ -13,7 +13,6 @@
     Unloaded="UserControl_Unloaded"
     SizeChanged="UserControl_SizeChanged"
     xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
-    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" 
     xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel"
     xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     x:Name="Projectspage">
@@ -38,8 +37,8 @@
                 <RowDefinition Height="auto"/>-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="430"/>
             </Grid.ColumnDefinitions>
             <RelativePanel Margin="0,0,0,20"
                            Grid.ColumnSpan="2"

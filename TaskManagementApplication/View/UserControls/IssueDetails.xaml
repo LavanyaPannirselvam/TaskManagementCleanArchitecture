@@ -12,25 +12,27 @@
     xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls"
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded">
-    <Grid Padding="5"
-          Height="690"
+    <Grid>
+        <ScrollViewer VerticalScrollMode="Auto"
+                      VerticalScrollBarVisibility="Visible"
+                      Height="680">
+            <Grid Padding="5"
           Background="{ThemeResource AppForegroundBg}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        <StackPanel CornerRadius="3"
+                <StackPanel CornerRadius="3"
                     Margin="5,3"
                     Background="{ThemeResource SupportingColor}"
                     Padding="10">
-            <TextBox Grid.Row="0"
-                   Margin="5,2"
+                    <TextBox Grid.Row="0"
                    Padding="2"
                    FontSize="18"
                    FontStretch="Normal"
@@ -42,164 +44,167 @@
                    Text="{x:Bind _issueViewModel.SelectedIssue.Name,Mode=OneWay}"
                    HorizontalTextAlignment="Left"
                    VerticalAlignment="Center"/>
-            <TextBlock FontSize="14"
-                       Margin="5,5,0,0">
-                <Run Text="BY "
+                    <TextBlock FontSize="14">
+                <Run Text="By "
                      FontWeight="SemiLight"/>
                 <Run Text="{x:Bind _issueViewModel.SelectedIssue.CreatedBy,Mode=OneWay}"/>
-            </TextBlock>
-        </StackPanel>
+                    </TextBlock>
+                </StackPanel>
 
-        <Grid Grid.Row="1" 
+                <Grid Grid.Row="1" 
             Margin="5,3"
               CornerRadius="3"
               Padding="10"
               Background="{ThemeResource SupportingColor}">
-            <StackPanel>
-                <ComboBox Margin="5"
-                  FontSize="16"
+                    <StackPanel>
+                        <TextBlock Text="Current Priority"
+                                   FontSize="14"
+                                   Margin="0,0,0,7"
+                       FontWeight="SemiLight"/>
+                        <ComboBox FontSize="16"
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay}"
                   Loaded="PriorityCBox_Loaded"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="PriorityCombo">
-                </ComboBox>
-                <TextBlock Text="CURRENT PRIORITY"
-                       FontSize="14"
-                       FontWeight="SemiLight"/>
-            </StackPanel>
-        </Grid>
+                        </ComboBox>
+                       
+                    </StackPanel>
+                </Grid>
 
-        <Grid Grid.Row="2"
+                <Grid Grid.Row="2"
               Margin="5,3"
               Padding="10"
               Background="{ThemeResource SupportingColor}"
               CornerRadius="3">
-            <StackPanel>
-                <TextBlock Text="DESCRIPTION"
+                    <StackPanel>
+                        <TextBlock Text="Description"
                            FontWeight="SemiLight"
                            Margin="0,3"/>
-                <TextBox x:Name="DescriptionBox"
+                        <TextBox x:Name="DescriptionBox"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
-                     MaxHeight="40" 
+                     Height="120" 
                      HorizontalAlignment="Stretch"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      Grid.Row="1"
                      Text="{x:Bind _issueViewModel.SelectedIssue.Desc,Mode=OneWay}"  
                      Margin="0,0,10,0"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-            </StackPanel>
-        </Grid>
+                    </StackPanel>
+                </Grid>
 
-        <Grid Grid.Row="3"
+                <Grid Grid.Row="3"
               Margin="5,3"
               Background="{ThemeResource SupportingColor}"
               CornerRadius="3"
-              Height="400"
               VerticalAlignment="Top"
               Padding="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" 
                        Text="Issue Information"
                        FontSize="18"
                        FontWeight="SemiBold"
                        CharacterSpacing="50"
                        Margin="0,10"/>
-            
-            <StackPanel Grid.Row="1"
+
+                    <StackPanel Grid.Row="1"
                         Margin="0,5,0,0">
-                <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                         Grid.Row="1">
-                    <TextBlock Text="CURRENT STATUS"
+                            <TextBlock Text="Current Status"
                        FontSize="14"
                        FontWeight="SemiLight"
                        Margin="0,0,10,0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
-                    <ComboBox Margin="0"
+                            <ComboBox Margin="0"
                   FontSize="16"
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay}"
                   Loaded="StatusCombo_Loaded"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="StatusCombo"/>
-                </StackPanel>
-                <Line  X1="00" Y1="10"
+                        </StackPanel>
+                        <Line  X1="00" Y1="10"
                          X2="1500" Y2="10"
                         Stroke="{ThemeResource HorizontalSeperator}"
                         StrokeThickness="0.4"/>
-            </StackPanel>
-            
-            <Grid Grid.Row="2"
+                    </StackPanel>
+
+                    <Grid Grid.Row="2"
                   Margin="0,5,0,0"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal"
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Grid.Row="0">
-                    <TextBlock Text="START DATE "
+                            <TextBlock Text="Start Date "
                                FontSize="14"
                                FontWeight="SemiLight"
                            Margin="0,0,20,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
-                    <CalendarDatePicker Margin="2"
+                            <CalendarDatePicker Margin="2"
                                   FontSize="16"
                                    Style="{ThemeResource CalendarDatePickerCustomStyle}"
                                   Date="{x:Bind _issueViewModel.SelectedIssue.StartDate,Mode=OneWay}"
                                   FontWeight="SemiBold"
                                   x:Name="StartdateCalender"/>
-                </StackPanel>
+                        </StackPanel>
 
-                <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                             Grid.Column="1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Grid.Row="0">
-                    <TextBlock Text="END DATE"
+                            <TextBlock Text="End Date"
                        FontSize="14"
                        FontWeight="SemiLight"
                            Margin="2,0,20,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
-                    <CalendarDatePicker Margin="2"
+                            <CalendarDatePicker Margin="2"
                   FontSize="16"
                   FontWeight="SemiBold"
                   Date="{x:Bind _issueViewModel.SelectedIssue.EndDate,Mode=OneWay}"
                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                   x:Name="EnddateCalender"/>
-                </StackPanel>
-                <Line  X1="00" Y1="10"
+                        </StackPanel>
+                        <Line  X1="00" Y1="10"
                        X2="1500" Y2="10"
                        Grid.Row="1"
                        Grid.ColumnSpan="2"
                         Stroke="{ThemeResource HorizontalSeperator}"
                         StrokeThickness="0.4"/>
-            </Grid>
+                    </Grid>
 
-            <Grid Grid.Row="3"
+                    <Grid Grid.Row="3"
                   Margin="0,5,0,0">
-                <StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="ASSIGNED USERS"
+                        <StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Assigned Users"
                                    FontSize="14"
                                    FontWeight="SemiLight"
                                    Margin="0,5"/>
-                        <AutoSuggestBox Width="300"
+                                <AutoSuggestBox Width="300"
                                         HorizontalAlignment="Left"
                                         CornerRadius="7"
                                         QueryIcon="Find"
@@ -212,65 +217,74 @@
                                         SuggestionChosen="AssignUserBox_SuggestionChosen"
                                         Margin="0,5"
                                         x:Name="AssignUserBox">
-                            <AutoSuggestBox.ItemTemplate>
-                                <DataTemplate x:DataType="library:UserBO">
-                                    <StackPanel>
-                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                    <AutoSuggestBox.ItemTemplate>
+                                        <DataTemplate x:DataType="library:UserBO">
+                                            <StackPanel>
+                                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"
                                                    FontSize="16"
                                                    FontWeight="Black"
                                                    Margin="0,0,3,0"/>
-                                        <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                <TextBlock Text="{x:Bind Email,Mode=OneWay}"
                                                    FontSize="13"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </AutoSuggestBox.ItemTemplate>
-                        </AutoSuggestBox>
-                    </StackPanel>
-                    <Grid>
-                        <TextBlock Text="{x:Bind _issueViewModel.ResponseString,Mode=OneWay}"
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </AutoSuggestBox.ItemTemplate>
+                                    <AutoSuggestBox.ItemContainerStyle>
+                                        <Style TargetType="AutoSuggestBox">
+                                            <Setter Property="FocusVisualMargin" Value="5,2"/>
+                                            <Setter Property="CornerRadius" Value="2"/>
+                                            <Setter Property="Padding" Value="10,2"/>
+                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                            <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
+                                        </Style>
+                                    </AutoSuggestBox.ItemContainerStyle>
+                                </AutoSuggestBox>
+                            </StackPanel>
+                            <Grid>
+                                <TextBlock Text="{x:Bind _issueViewModel.ResponseString,Mode=OneWay}"
                                Padding="5"
                                Margin="0"
                                Grid.Row="0"
                                Visibility="{x:Bind _issueViewModel.TextVisibility,Mode=OneWay}"/>
-                        <ListView x:Name="UsersForTasks"
+                                <ListView x:Name="UsersForTasks"
                                     Margin="0,5"
-                                    MaxHeight="120"
                                     Width="300"
                                     ItemsSource="{x:Bind _issueViewModel.AssignedUsersList,Mode=OneWay}"
                                     HorizontalAlignment="Left"
                                     ScrollViewer.VerticalScrollMode="Enabled"
                                     ScrollViewer.VerticalScrollBarVisibility="Visible">
-                            <ListView.Resources>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="IsFocusEngaged" Value="False"/>
-                                </Style>
-                            </ListView.Resources>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="library:UserBO">
-                                    <usercontrol:ListViewItems HorizontalAlignment="Stretch"
+                                    <ListView.Resources>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="IsFocusEngaged" Value="False"/>
+                                        </Style>
+                                    </ListView.Resources>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="library:UserBO">
+                                            <usercontrol:ListViewItems HorizontalAlignment="Stretch"
                                                                Height="40"
                                                                Width="300"
                                                                Margin="0"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="DataContext" Value="{Binding}"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemContainerTransitions>
-                                <TransitionCollection/>
-                            </ListView.ItemContainerTransitions>
-                        </ListView>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="DataContext" Value="{Binding}"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemContainerTransitions>
+                                        <TransitionCollection/>
+                                    </ListView.ItemContainerTransitions>
+                                </ListView>
+                            </Grid>
+                        </StackPanel>
                     </Grid>
-                </StackPanel>
-            </Grid>
 
-            <controls:InAppNotification Grid.Row="4"                                      
+                    <controls:InAppNotification Grid.Row="4"                                      
                                         Name="NotificationControl"
                                         HorizontalAlignment="Stretch"
                                         ShowDismissButton="False"/>
-        </Grid>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
-    
 </UserControl>

@@ -13,8 +13,11 @@
     d:DesignWidth="400"
     Loaded="UserControl_Loaded"
     SizeChanged="UserControl_SizeChanged"
-    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
-
+    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" 
+    xmlns:converter="using:TaskManagementCleanArchitecture.Converter">
+    <UserControl.Resources>
+        <converter:EnumConverter x:Key="ConvertEnum"/>
+    </UserControl.Resources>
     <Grid Background="{ThemeResource AppForegroundBg}"
           CornerRadius="10"
           x:Name="TaskPage"
@@ -143,7 +146,7 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="11,0,5,0" 
-                                               Text="{x:Bind Status}"                           
+                                               Text="{x:Bind Status,Converter={StaticResource ConvertEnum}}"                           
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
@@ -170,7 +173,7 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="12,0,5,0" 
-                                               Text="{x:Bind Priority}"                           
+                                               Text="{x:Bind Priority,Converter={StaticResource ConvertEnum}}"                           
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>

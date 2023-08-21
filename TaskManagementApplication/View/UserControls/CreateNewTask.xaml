@@ -32,7 +32,7 @@
         <TextBox x:Name="DescriptionBox"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
-                     MaxHeight="120" 
+                     Height="120" 
                      HorizontalAlignment="Stretch"
                      Grid.Row="1"
                      Margin="5"
@@ -60,6 +60,8 @@
                   Header="Select Priority"
                   PlaceholderText="Choose a priority"
                   Name="prioritybox"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   HorizontalAlignment="Stretch"
                   SelectionChanged="Priority_Selectionchanged"
                   Margin="5">
@@ -73,6 +75,8 @@
                   PlaceholderText="Choose a status"
                   HorizontalAlignment="Stretch"
                   Name="statusbox"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   SelectionChanged="Status_Selectionchanged"
                   Margin="5">
             <!--<x:String>Open</x:String>

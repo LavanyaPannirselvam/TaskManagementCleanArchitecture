@@ -1,9 +1,11 @@
 ﻿using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Notifications;
 using Windows.Storage;
@@ -12,6 +14,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
+using Color = Windows.UI.Color;
 
 namespace TaskManagementCleanArchitecture
 {
@@ -20,54 +23,69 @@ namespace TaskManagementCleanArchitecture
         static ChangeAccent()
         {
             UIUpdation.AccentColorChange += UIUpdation_AccentColorChange;
+            
+            var uiSettings = new UISettings();
+            var rgba = uiSettings.GetColorValue(UIColorType.Accent);
         }
 
-        private static Color _appAccentColor;
+
+        private static Color _appAccentColor;//= rgba;
         public static Color AppAccentColor
         {
             get => _appAccentColor;
             set
             {
                 _appAccentColor = value;
-                UIUpdation.OnAccentColorChanged(_appAccentColor);
-                ApplicationData.Current.LocalSettings.Values["AppAccentColorHexStr"] = value.ToHex();
+                UIUpdation.OnAccentColorChanged();
             }
         }
 
-        private async static void UIUpdation_AccentColorChange(Color obj)
+        public async static void UIUpdation_AccentColorChange()
         {
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
-                SetRequestedAccentColor();
+                SetAccentColor();
             });
         }
 
-        private static void UpdateSystemAccentColor(Color color)
+        public static void UpdateSystemAccentColor(Color color)
         {
-            //Color customAccent = (Color)Application.Current.Resources["SystemAccentColor"];
-            //customAccent = color;
-            //Application.Current.Resources["SystemAccentColor"] = color;
             if (!new AccessibilitySettings().HighContrast)
             {
-                SolidColorBrush customAccent = (SolidColorBrush)Application.Current.Resources["CustomAccentColor"];
-                customAccent.Color = color;
+                //SolidColorBrush customAccent = (SolidColorBrush)Application.Current.Resources["CustomAccentColor"];
+                if (SwitchTheme.CurrentTheme == ElementTheme.Light)
+                {
+                    UpdateAccentBasedOnTheme(ElementTheme.Light);
+                }
+
+                else if (SwitchTheme.CurrentTheme == ElementTheme.Dark)
+                {
+                    UpdateAccentBasedOnTheme(ElementTheme.Dark);
+                }
             }
+
             var brushes = new string[]
             {
-                "SystemControlBackgroundAccentBrush",
-                "SystemControlDisabledAccentBrush",
-                "SystemControlForegroundAccentBrush",
-                "SystemControlHighlightAccentBrush",
-                "SystemControlHighlightAltAccentBrush",
-                "SystemControlHighlightAltListAccentHighBrush",
-                "SystemControlHighlightAltListAccentLowBrush",
-                "SystemControlHighlightAltListAccentMediumBrush",
-                "SystemControlHighlightListAccentHighBrush",
-                "SystemControlHighlightListAccentLowBrush",
-                "SystemControlHighlightListAccentMediumBrush",
-                "SystemControlHyperlinkTextBrush",
-                "ContentDialogBorderThemeBrush",
-                "JumpListDefaultEnabledBackground",
+                //"SystemControlBackgroundAccentBrush",
+                //"SystemControlDisabledAccentBrush",
+                //"SystemControlForegroundAccentBrush",
+                //"SystemControlHighlightAccentBrush",
+                //"SystemControlHighlightAltAccentBrush",
+                //"SystemControlHighlightAltListAccentHighBrush",
+                //"SystemControlHighlightAltListAccentLowBrush",
+                //"SystemControlHighlightAltListAccentMediumBrush",
+                //"SystemControlHighlightListAccentHighBrush",
+                //"SystemControlHighlightListAccentLowBrush",
+                //"SystemControlHighlightListAccentMediumBrush",
+                //"SystemControlHyperlinkTextBrush",
+                //"ContentDialogBorderThemeBrush",
+                //"JumpListDefaultEnabledBackground",
+                "SystemAccentColorLight1",
+                "SystemAccentColorLight2",
+                "SystemAccentColorLight3",
+                "SystemAccentColorDark1" , 
+                "SystemAccentColorDark2" ,
+                "SystemAccentColorDark3" ,
             };
 
             foreach (var brush in brushes)
@@ -78,17 +96,56 @@ namespace TaskManagementCleanArchitecture
                 }
                 catch { }
             }
-            //try
-            //{
-            //    ((RevealBackgroundBrush)Application.Current.Resources["SystemControlHighlightAccent3RevealBackgroundBrush"]).Color = color;
-            //}
-            //catch { }
+            
         }
 
-        public static void SetRequestedAccentColor()
+        public static void SetAccentColor()
         {
-            UpdateSystemAccentColor(AppAccentColor);
+             UpdateSystemAccentColor(AppAccentColor);
         }
 
+        public static void UpdateAccentBasedOnTheme(ElementTheme currentTheme)
+        {
+            //var check = ApplicationData.Current.LocalSettings.Values["accent"];
+            //if (check == null)
+            //{
+            //    ApplicationData.Current.LocalSettings.Values["accent"] = AppAccentColor.ToString();
+            //}
+
+            if (currentTheme == ElementTheme.Light)
+            {
+                SolidColorBrush customAccent = (SolidColorBrush)Application.Current.Resources["CustomAccentColor"];
+                customAccent.Color = AppAccentColor;
+            }
+
+            else if(currentTheme == ElementTheme.Dark)
+            {
+                SolidColorBrush customAccent = (SolidColorBrush)Application.Current.Resources["CustomAccentColor"];
+                if (AppAccentColor == ColorsHelper.GetSolidColorBrush("#FFBA4273").Color)
+                {
+                    customAccent.Color = ColorsHelper.GetSolidColorBrush("#AABA4273").Color;
+                }
+                else if (AppAccentColor == ColorsHelper.GetSolidColorBrush("FF6A3F73").Color)
+                {
+                    customAccent.Color = ColorsHelper.GetSolidColorBrush("AA6A3F73").Color;
+                }
+                else if (AppAccentColor == ColorsHelper.GetSolidColorBrush("FF0078D4").Color)
+                {
+                    customAccent.Color = ColorsHelper.GetSolidColorBrush("AA0078D4").Color;
+                }
+                else if (AppAccentColor == ColorsHelper.GetSolidColorBrush("FF3666CD").Color)
+                {
+                    customAccent.Color = ColorsHelper.GetSolidColorBrush("AA3666CD").Color;
+                }
+                else if (AppAccentColor == ColorsHelper.GetSolidColorBrush("FF6E6FD8").Color)
+                {
+                    customAccent.Color = ColorsHelper.GetSolidColorBrush("AA6E6FD8").Color;
+                }
+                else if (AppAccentColor == ColorsHelper.GetSolidColorBrush("FF488FA5").Color)
+                {
+                    customAccent.Color = ColorsHelper.GetSolidColorBrush("AA488FA5").Color;
+                }
+            }
+        }
     }
 }

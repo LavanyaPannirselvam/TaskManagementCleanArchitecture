@@ -15,6 +15,9 @@
     Unloaded="UserControl_Unloaded"
     xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" xmlns:locals1="using:TaskManagementCleanArchitecture">
+    <UserControl.Resources>
+        <converter:EnumConverter x:Key="ConvertEnum"/>
+    </UserControl.Resources>
     <Grid>
         <Grid CornerRadius="10"
               Background="{ThemeResource AppForegroundBg}"
@@ -45,7 +48,7 @@
                     CornerRadius="5"
                     Margin="10"
                     Padding="7"
-                    Style="{StaticResource AccentButtonStyleCustom}"
+                    Style="{ThemeResource AccentButtonStyleCustom}"
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
@@ -229,7 +232,7 @@
                         </RelativePanel>
                         <RelativePanel HorizontalAlignment="Right"
                                 Grid.Column="1">
-                            <Button CornerRadius="5"
+                            <!--<Button CornerRadius="5"
                                     Margin="10,0,0,0"
                                     Background="Transparent"
                                     BorderThickness="0"
@@ -241,7 +244,7 @@
                                     x:Name="PopoutButton"
                                     ToolTipService.ToolTip="New Window"
                                     Click="PopoutButton_Click">
-                            </Button>
+                            </Button>-->
                             <Button RelativePanel.LeftOf="CloseButton"
                                     Click="DeleteIssue_Click" 
                                     Style="{ThemeResource MyDeleteButtonStyle}"

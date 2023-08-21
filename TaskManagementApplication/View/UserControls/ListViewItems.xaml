@@ -27,7 +27,7 @@
                            Padding="0"
                            TextWrapping="Wrap"
                            FontWeight="Normal"
-                           MaxWidth="250"
+                           MaxWidth="230"
                            TextTrimming="CharacterEllipsis"
                            HorizontalAlignment="Left"
                            HorizontalTextAlignment="Start"

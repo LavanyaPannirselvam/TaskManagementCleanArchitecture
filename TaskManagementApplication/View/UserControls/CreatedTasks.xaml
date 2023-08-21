@@ -9,12 +9,16 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:viewmodel="using:TaskManagementCleanArchitecture.ViewModel" 
     xmlns:library="using:TaskManagementLibrary.Models"
-    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" 
+    xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     d:DesignHeight="300"
     d:DesignWidth="400"
     SizeChanged="UserControl_SizeChanged"
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded">
+    <UserControl.Resources>
+        <converter:EnumConverter x:Key="ConvertEnum"/>
+    </UserControl.Resources>
     <Grid Background="{ThemeResource AppForegroundBg}"
           x:Name="TaskPage"
           CornerRadius="10"
@@ -143,7 +147,7 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="11,0,5,0" 
-                                               Text="{x:Bind Status}"
+                                               Text="{x:Bind Status,Converter={StaticResource ConvertEnum}}"
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
@@ -170,7 +174,7 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="12,0,5,0" 
-                                               Text="{x:Bind Priority}"
+                                               Text="{x:Bind Priority,Converter={StaticResource ConvertEnum}}"
                                                VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>

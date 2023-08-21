@@ -30,11 +30,10 @@
                  CornerRadius="5"
                  Style="{ThemeResource TextBoxCustomstyle}"
                  Header="Issue Name"/>
-            <!--Style="{ThemeResource InputFieldTextBox}"/>-->
             <TextBox x:Name="DescriptionBox"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
-                     MaxHeight="120" 
+                     Height="120" 
                      CornerRadius="5"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      HorizontalAlignment="Stretch"
@@ -65,31 +64,24 @@
                   Name="prioritybox"
                   HorizontalAlignment="Stretch"
                   SelectionChanged="Priority_Selectionchanged"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   Margin="5">
-            <!--<x:String>High</x:String>
-            <x:String>Medium</x:String>
-            <x:String>Low</x:String>
-            <x:String>None</x:String>-->
         </ComboBox>
         <ComboBox Grid.Row="5"
                   Header="Select Status"
                   PlaceholderText="Choose a status"
                   HorizontalAlignment="Stretch"
                   Name="statusbox"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   SelectionChanged="Status_Selectionchanged"
                   Margin="5">
-            <!--<x:String>Open</x:String>
-            <x:String>In Progress</x:String>
-            <x:String>On Hold</x:String>
-            <x:String>Closed</x:String>-->
         </ComboBox>
-        <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"
-                                   Visibility="Collapsed"
-                                   FontSize="14"
-                                   Grid.Row="6"
-                                   Style="{ThemeResource ErrorMessageStyle}"
-                                   x:Name="ErrorMessage"/>
-
+        <TextBlock Grid.Row="6"
+                   Visibility="Collapsed"
+                   Style="{ThemeResource ErrorMessageStyle}"
+                   x:Name="ErrorMessage"/>
     </Grid>
 
 </UserControl>

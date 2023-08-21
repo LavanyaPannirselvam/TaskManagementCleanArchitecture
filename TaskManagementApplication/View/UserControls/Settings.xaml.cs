@@ -48,5 +48,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
         }
+
+        private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            SolidColorBrush selectedBrush = (sender as Grid).DataContext as SolidColorBrush;
+            var color = selectedBrush.Color;
+            ChangeAccent.AppAccentColor = color;
+        }
     }
 }

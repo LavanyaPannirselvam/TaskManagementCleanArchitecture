@@ -998,7 +998,7 @@
                                     <Rectangle x:Name="SelectionIndicator"
                                                Width="2"
                                                Height="24"
-                                               Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
+                                               Fill="{ThemeResource CustomAccentColor}"
                                                Opacity="0.0" />
 
                                 </Grid>
@@ -1116,7 +1116,7 @@
                                     <Rectangle x:Name="SelectionIndicator"
                                                Width="2"
                                                Height="24"
-                                               Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
+                                               Fill="{ThemeResource CustomAccentColor}"
                                                Opacity="0.0" />
 
                                 </Grid>
@@ -1522,9 +1522,9 @@
             <NavigationView.PaneFooter>
                 <StackPanel>
                     <NavigationViewItem Margin="-7,0,0,0">
-                        <ToggleSwitch Margin="-2,0,0,0"
-                                      Padding="2"
+                        <ToggleSwitch Style="{ThemeResource ToggleSwitchStyleCustom}"
                                       x:Name="ThemeChange"
+                                      Margin="-2,0,-2,0"
                                       OnContent="Dark Theme" 
                                   OffContent="Light Theme"
                                   ToolTipService.ToolTip="Theme">

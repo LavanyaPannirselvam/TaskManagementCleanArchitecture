@@ -256,9 +256,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksDetailGrid.Visibility = Visibility.Collapsed;
             Grid.SetColumn(TasksList, 0);
             Grid.SetColumnSpan(TasksList, 3);
-            if (_taskViewModel.TasksList.Count >= 1)
+            if (_taskViewModel.TasksList.Count >= 20)
             {
-                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }
             _itemSelected = false;
         }
@@ -286,7 +286,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UpdateNewTask(Tasks tasks)
         {
             _taskViewModel.TasksList.Add(tasks);
-            if (_taskViewModel.TasksList.Count >= 1)
+            if (_taskViewModel.TasksList.Count >= 20)
             {
                 GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }

@@ -52,9 +52,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 if (response.Data.Data.Count!=0)
                 {
                     PopulateData(response.Data.Data);
-                    if(_viewModel.IssuesList.Count >=1)
+                    if(_viewModel.IssuesList.Count >=20)
                     {
-                        _viewModel.DataGridHeight = new GridLength(700,GridUnitType.Pixel);
+                        _viewModel.DataGridHeight = new GridLength(750,GridUnitType.Pixel);
                     }
                     else
                     {

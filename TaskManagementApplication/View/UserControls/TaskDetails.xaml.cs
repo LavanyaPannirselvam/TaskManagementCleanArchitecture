@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
+using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Enums;
@@ -218,7 +218,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
         {
-            PriorityCombo.ItemsSource = Enum.GetValues(typeof(PriorityType)).Cast<PriorityType>();
+            PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             PriorityCombo.SelectedIndex = 0;
         }
 
@@ -233,7 +233,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
         {
-            StatusCombo.ItemsSource = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
+            StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
             StatusCombo.SelectedIndex = 0;
         }
 

@@ -269,9 +269,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumn(IssuesList, 0);
             Grid.SetColumnSpan(IssuesList, 3);
             _itemSelected = false;
-            if(_issueViewModel.IssuesList.Count >= 1)
+            if(_issueViewModel.IssuesList.Count >= 20)
             {
-                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }
         }
 
@@ -299,7 +299,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UIUpdation_IssueCreated(Issue obj)
         {
             _issueViewModel.IssuesList.Add(obj);
-            if (_issueViewModel.IssuesList.Count >= 1)
+            if (_issueViewModel.IssuesList.Count >= 20)
             {
                 GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }

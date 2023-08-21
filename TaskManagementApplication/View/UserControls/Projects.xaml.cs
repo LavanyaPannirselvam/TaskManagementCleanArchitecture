@@ -100,10 +100,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             //this.FindName("ProjectPageGrid");
             //_projectsPageViewModel.ProjectsList.Clear();
             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
-            //if(_projectsPageViewModel.ProjectsList.Count >= 20)
-            //{
-            //    GridRow.Height;
-            //}
+            if (_projectsPageViewModel.ProjectsList.Count >= 20)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
             Notification += ShowNotification;
             UIUpdation.ProjectCreated += UpdateNewProject;
         }
@@ -117,7 +117,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 {
                     if (_projectsPageViewModel.ProjectsList.Count >= 20)
                     {
-                        GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                        ProjectsList.Height = 750;
                     }
                 }
             }

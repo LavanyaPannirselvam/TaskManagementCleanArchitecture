@@ -54,7 +54,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 if (response.Data.Data.Count != 0)
                 {
                     PopulateData(response.Data.Data);
-                    if(_viewModel.TasksList.Count >= 1)
+                    if(_viewModel.TasksList.Count >= 20)
                     {
                         _viewModel.DataGridHeight = new GridLength(750, GridUnitType.Pixel);
                     }

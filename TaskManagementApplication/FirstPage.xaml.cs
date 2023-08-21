@@ -121,11 +121,15 @@ namespace TaskManagementCleanArchitecture
             {
                 await SwitchTheme.ChangeTheme(ElementTheme.Dark);
                 SwitchTheme.CurrentTheme = ElementTheme.Dark;
+                //ChangeAccent.UpdateSystemAccentColor(null);
+                ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
             }
             else
             {
                 await SwitchTheme.ChangeTheme(ElementTheme.Light);
                 SwitchTheme.CurrentTheme = ElementTheme.Light;
+                ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
+
             }
         }
 
