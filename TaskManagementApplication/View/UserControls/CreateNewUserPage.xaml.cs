@@ -77,7 +77,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             CredentialsGrid.Visibility = Visibility.Collapsed;
             ErrorMessage.Text = string.Empty;
-            //UserRoleEnter.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             UserRoleEnter.SelectionChanged += UserRoleEnter_SelectionChanged;
         }
     }

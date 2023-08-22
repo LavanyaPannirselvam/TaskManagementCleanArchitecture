@@ -34,8 +34,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTimeOffset _startDate;
         private DateTimeOffset _endDate;
-        EnumConverter _enumConverter;
-        
+        private EnumConverter _enumConverter;
+        private ResourceLoader resourceLoader;
+
         public CreateNewIssue()
         {
             this.InitializeComponent();
@@ -43,11 +44,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             enddate.Date = DateTime.Now;
             prioritybox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             statusbox.ItemsSource = Converter.EnumConverter.EnumToStringConverter(typeof(StatusType));
-           // prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-           // statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             _enumConverter = new EnumConverter();
             statusbox.SelectedIndex = 0;
-            ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
+            resourceLoader = ResourceLoader.GetForCurrentView();
             prioritybox.SelectedIndex = 0;
         }
 
@@ -62,7 +61,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var text = (TextBox)sender;//should do empty and invalid data check
             if (text.Text == string.Empty || text.Text == null)
             {
-                ErrorMessage.Text = "Issue name cannot be empty";
+                ErrorMessage.Text = resourceLoader.GetString("IssueNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -95,7 +94,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _endDate = (DateTimeOffset)date.Date;//.Value.DateTime;
             if (_endDate < _startDate)
             {
-                ErrorMessage.Text = "End date should be greater than start date";
+                ErrorMessage.Text = resourceLoader.GetString("EndDateErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -122,7 +121,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (name == null || name == "" || name == string.Empty)
             {
-                ErrorMessage.Text = "Issue name cannot be empty";
+                ErrorMessage.Text = resourceLoader.GetString("IssueNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
                 return true;
             }
@@ -139,7 +138,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueName = string.Empty;
             DescriptionBox.Text = string.Empty;
             _description = string.Empty;
-            startdate.Date = DateTimeOffset.Now.Date;//.ToShortDateString();
+            startdate.Date = DateTimeOffset.Now.Date;
             _startDate = DateTimeOffset.Now.Date;
             enddate.Date = DateTimeOffset.Now.Date;
             _endDate = DateTimeOffset.Now.Date;

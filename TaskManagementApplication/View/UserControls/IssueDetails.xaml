@@ -11,11 +11,13 @@
     mc:Ignorable="d"
     xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls"
     Loaded="UserControl_Loaded"
+    SizeChanged="UserControl_SizeChanged"
     Unloaded="UserControl_Unloaded">
     <Grid>
         <ScrollViewer VerticalScrollMode="Auto"
                       VerticalScrollBarVisibility="Visible"
-                      Height="680">
+                      Height="680"
+                      x:Name="Scroller">
             <Grid Padding="5"
           Background="{ThemeResource AppForegroundBg}">
                 <Grid.RowDefinitions>
@@ -52,15 +54,15 @@
                 </StackPanel>
 
                 <Grid Grid.Row="1" 
-            Margin="5,3"
-              CornerRadius="3"
-              Padding="10"
-              Background="{ThemeResource SupportingColor}">
+                      Margin="5,3"
+                      CornerRadius="3"
+                      Padding="10"
+                      Background="{ThemeResource SupportingColor}">
                     <StackPanel>
-                        <TextBlock Text="Current Priority"
+                        <TextBlock x:Uid="CurrentPriorityLabel"
                                    FontSize="14"
                                    Margin="0,0,0,7"
-                       FontWeight="SemiLight"/>
+                                   FontWeight="SemiLight"/>
                         <ComboBox FontSize="16"
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay}"
@@ -79,7 +81,7 @@
               Background="{ThemeResource SupportingColor}"
               CornerRadius="3">
                     <StackPanel>
-                        <TextBlock Text="Description"
+                        <TextBlock x:Uid="DescriptionTextLabel"
                            FontWeight="SemiLight"
                            Margin="0,3"/>
                         <TextBox x:Name="DescriptionBox"
@@ -108,7 +110,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" 
-                       Text="Issue Information"
+                       x:Uid="IssueInformationLabel"
                        FontSize="18"
                        FontWeight="SemiBold"
                        CharacterSpacing="50"
@@ -118,7 +120,7 @@
                         Margin="0,5,0,0">
                         <StackPanel Orientation="Horizontal"
                         Grid.Row="1">
-                            <TextBlock Text="Current Status"
+                            <TextBlock x:Uid="CurrentStatusLabel"
                        FontSize="14"
                        FontWeight="SemiLight"
                        Margin="0,0,10,0"
@@ -156,7 +158,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Grid.Row="0">
-                            <TextBlock Text="Start Date "
+                            <TextBlock x:Uid="StartDateTextLabel"
                                FontSize="14"
                                FontWeight="SemiLight"
                            Margin="0,0,20,0"
@@ -175,7 +177,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Grid.Row="0">
-                            <TextBlock Text="End Date"
+                            <TextBlock x:Uid="EndDateTextLabel"
                        FontSize="14"
                        FontWeight="SemiLight"
                            Margin="2,0,20,0"
@@ -200,7 +202,7 @@
                   Margin="0,5,0,0">
                         <StackPanel>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Assigned Users"
+                                <TextBlock x:Uid="AssignedUsersLabel"
                                    FontSize="14"
                                    FontWeight="SemiLight"
                                    Margin="0,5"/>
@@ -208,7 +210,7 @@
                                         HorizontalAlignment="Left"
                                         CornerRadius="7"
                                         QueryIcon="Find"
-                                        PlaceholderText="Assign User"
+                                        x:Uid="AssignUserPlaceholder"
                                         IsSuggestionListOpen="False"
                                         QuerySubmitted="AssignUserBox_QuerySubmitted"
                                         TextMemberPath="Name"
@@ -219,17 +221,30 @@
                                         x:Name="AssignUserBox">
                                     <AutoSuggestBox.ItemTemplate>
                                         <DataTemplate x:DataType="library:UserBO">
-                                            <StackPanel>
+                                            <StackPanel Height="40"
+                                                Margin="0,5"
+                                                VerticalAlignment="Center">
                                                 <TextBlock Text="{x:Bind Name,Mode=OneWay}"
-                                                   FontSize="16"
-                                                   FontWeight="Black"
+                                                  FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   MaxWidth="290"
+                                                   HorizontalAlignment="Left"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="1"
+                                                   TextTrimming="CharacterEllipsis"
                                                    Margin="0,0,3,0"/>
                                                 <TextBlock Text="{x:Bind Email,Mode=OneWay}"
-                                                   FontSize="13"/>
+                                                   FontSize="13"
+                                                   MaxWidth="290"
+                                                   HorizontalAlignment="Left"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="1"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </AutoSuggestBox.ItemTemplate>
-                                    <AutoSuggestBox.ItemContainerStyle>
+                                    <!--<AutoSuggestBox.ItemContainerStyle>
                                         <Style TargetType="AutoSuggestBox">
                                             <Setter Property="FocusVisualMargin" Value="5,2"/>
                                             <Setter Property="CornerRadius" Value="2"/>
@@ -237,7 +252,7 @@
                                             <Setter Property="VerticalContentAlignment" Value="Center"/>
                                             <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
                                         </Style>
-                                    </AutoSuggestBox.ItemContainerStyle>
+                                    </AutoSuggestBox.ItemContainerStyle>-->
                                 </AutoSuggestBox>
                             </StackPanel>
                             <Grid>

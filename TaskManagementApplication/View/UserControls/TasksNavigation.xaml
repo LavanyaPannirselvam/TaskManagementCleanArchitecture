@@ -1021,12 +1021,12 @@
                         SelectionChanged="TopNV_SelectionChanged"
                         Grid.Row="0">
                 <NavigationView.MenuItems>
-                    <NavigationViewItem Content="Assigned Tasks"
+                    <NavigationViewItem x:Uid="AssignedTasksHeaderLabel"
                                     x:Name="assignedtasksTab"
                                     FontSize="16"
                                     Margin="2.5,0">
                     </NavigationViewItem>
-                    <NavigationViewItem Content="Created Tasks"
+                    <NavigationViewItem x:Uid="CreatedTasksHeaderLabel"
                                     x:Name="createdtasksTab"
                                     FontSize="16"
                                     Margin="2.5,0">

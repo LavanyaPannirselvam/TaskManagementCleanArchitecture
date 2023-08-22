@@ -1487,7 +1487,7 @@
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Projects" 
+                <NavigationViewItem x:Uid="ProjectsHeaderLabel" 
                                 x:Name="ProjectsTab">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" 
@@ -1495,7 +1495,7 @@
                               FontSize="12" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Tasks" 
+                <NavigationViewItem x:Uid="TasksHeaderLabel" 
                                 x:Name="TasksTab">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" 
@@ -1504,7 +1504,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Visibility="{x:Bind AdminTabVisibility,Mode=OneWay}"
-                                    Content="User Management"
+                                    x:Uid="UserManagementHeaderLabel"
                                     x:Name="Admintab">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -1513,7 +1513,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Name="SettingsTab"
-                                    Content="Settings">
+                                    x:Uid="SettingsHeaderLabel">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE115;"></FontIcon>
                     </NavigationViewItem.Icon>
@@ -1525,13 +1525,12 @@
                         <ToggleSwitch Style="{ThemeResource ToggleSwitchStyleCustom}"
                                       x:Name="ThemeChange"
                                       Margin="-2,0,-2,0"
-                                      OnContent="Dark Theme" 
-                                  OffContent="Light Theme"
+                                      x:Uid="ThemeLabel"
                                   ToolTipService.ToolTip="Theme">
                         </ToggleSwitch>
                     </NavigationViewItem>
                     <NavigationViewItem x:Name="Logout"
-                                        Content="Logout"
+                                        x:Uid="LogoutLabel"
                                         Tapped="Logout_Tapped"
                                         Tag="Logout">
                         <NavigationViewItem.Icon>

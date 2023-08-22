@@ -14,27 +14,24 @@
     Unloaded="UserControl_Unloaded">
 
     <Grid>
-        <!--<ScrollViewer VerticalScrollBarVisibility="Visible" 
-                      VerticalScrollMode="Enabled">-->
-        <!--<Grid ScrollViewer.VerticalScrollMode="Enabled">-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <!--<RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>-->
         </Grid.RowDefinitions>
         <RelativePanel>
             <AutoSuggestBox x:Name="FindUserBox"
                                     RelativePanel.LeftOf="AddUserButton"
                                     Width="300"
-                                    PlaceholderText="Search for user"
+                                    x:Uid="SearchUserPlaceholder"
                                     CornerRadius="7"
+                            
+                                    Style="{ThemeResource AutoSuggestBoxCustomStyle}"
                                     RelativePanel.AlignVerticalCenterWithPanel="True"
                                     Margin="0,0,10,0"
                                     TextChanged="FindUsersBox_TextChanged"
                                     QueryIcon="Find"/>
             <Button x:Name="AddUserButton"
-                    Content="Add User"
+                    x:Uid="AddUserButton"
                     Grid.Row="0"
                     Margin="10"
                     HorizontalAlignment="Right"
@@ -43,13 +40,14 @@
                     Click="AddUserButton_Click"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
-                    Style="{ThemeResource AccentButtonStyle}"/>
+                    Style="{ThemeResource AccentButtonStyleCustom}"/>
         </RelativePanel>
 
         <Grid Grid.Row="1">
-            <TextBlock Text="No suitable user available"
+            <TextBlock x:Uid="NoUserMsg"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
+                       Style="{ThemeResource BasicTextBlock}"
                        Visibility="Collapsed"
                        x:Name="NoUsersText"/>
             <ScrollViewer VerticalScrollBarVisibility="Visible" 
@@ -81,9 +79,5 @@
                                         HorizontalAlignment="Stretch"
                                         ShowDismissButton="False"/>
 
-        <!--</ScrollViewer>
-    </Grid>-->
-        <!--
-        </Grid>-->
     </Grid>
 </UserControl>

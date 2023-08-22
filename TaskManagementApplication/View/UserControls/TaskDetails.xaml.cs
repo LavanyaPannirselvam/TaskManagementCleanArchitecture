@@ -1,30 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.ServiceModel.Channels;
-using System.Threading.Tasks;
-using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
-using TaskManagementLibrary.Domain.Usecase;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
 using TaskManagementLibrary.Notifications;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using EnumConverter = TaskManagementCleanArchitecture.Converter.EnumConverter;
 using User = TaskManagementLibrary.Models.User;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -41,6 +25,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private ObservableCollection<UserBO> _suggestedItems;
         private ObservableCollection<UserBO> _assignedUsers;
         public TaskDetailsViewModelBase _taskDetailsViewModel;
+        EnumConverter _enumConverter;
+        private double _windowWidth;
+        private double _windowHeight;
 
         public TaskDetails()
         {
@@ -52,6 +39,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _userOption = new ObservableCollection<UserBO>();
             _suggestedItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
+            _enumConverter = new EnumConverter();
         }
 
         public TaskDetails(int id)
@@ -89,10 +77,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             StartdateCalender.DateChanged += StartdateCalender_DateChanged;
             EnddateCalender.DateChanged += EnddateCalender_DateChanged;
         }
- 
+
         private void UIUpdation_UserSelected(UserBO obj)
         {
-            _taskDetailsViewModel.RemoveTask(obj.Email,_taskDetailsViewModel.SelectedTask.Id);
+            _taskDetailsViewModel.RemoveTask(obj.Email, _taskDetailsViewModel.SelectedTask.Id);
         }
 
         private void TaskDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
@@ -183,8 +171,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (args.ChosenSuggestion != null && args.ChosenSuggestion is UserBO user)
             {
-                // _suggestedItems.Remove();
-                //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
                 AssignUserBox.Text = string.Empty;
                 AssignUserBox.IsSuggestionListOpen = false;
                 _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
@@ -210,9 +196,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_taskDetailsViewModel.SelectedTask != null && _taskDetailsViewModel.SelectedTask.Priority != (PriorityType)e.AddedItems[0])
+            var selectedOption = (PriorityType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(PriorityType), null, null);
+            if (_taskDetailsViewModel.SelectedTask != null && _taskDetailsViewModel.SelectedTask.Priority != selectedOption)
             {
-                _taskDetailsViewModel.ChangePriority(_taskDetailsViewModel.SelectedTask.Id, (PriorityType)PriorityCombo.SelectedItem);
+                _taskDetailsViewModel.ChangePriority(_taskDetailsViewModel.SelectedTask.Id, selectedOption);
             }
         }
 
@@ -239,9 +226,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_taskDetailsViewModel.SelectedTask != null && _taskDetailsViewModel.SelectedTask.Status != (StatusType)e.AddedItems[0])
+            var selectedOption = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(StatusType), null, null);
+            if (_taskDetailsViewModel.SelectedTask != null && _taskDetailsViewModel.SelectedTask.Status != selectedOption)
             {
-                _taskDetailsViewModel.ChangeStatus(_taskDetailsViewModel.SelectedTask.Id, (StatusType)StatusCombo.SelectedItem);
+                _taskDetailsViewModel.ChangeStatus(_taskDetailsViewModel.SelectedTask.Id, selectedOption);
             }
         }
 
@@ -257,10 +245,25 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            if(date.Date > _taskDetailsViewModel.SelectedTask.EndDate)
+            if (date.Date > _taskDetailsViewModel.SelectedTask.EndDate)
             {
                 _taskDetailsViewModel.ChangeEndDate(_taskDetailsViewModel.SelectedTask.Id, (DateTimeOffset)date.Date);
             }
         }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _windowHeight = e.NewSize.Height;
+            _windowWidth = e.NewSize.Width;
+            if(_windowWidth < 750)
+            {
+                Scroller.Height = 670;
+            }
+            else if( _windowWidth > 750 && _windowHeight < 900)
+            {
+                Scroller.Height = 600;
+            }
+        }
     }
 }
+

@@ -117,201 +117,184 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccentColorLabel.Text" xml:space="preserve">
-    <value>Choose Accent color</value>
-  </data>
   <data name="AddActivityButton.Content" xml:space="preserve">
-    <value>Add</value>
+    <value>Добавлять</value>
   </data>
   <data name="AddIssueHeadingLabel.Text" xml:space="preserve">
-    <value>Add Issue</value>
+    <value>Добавить проблему</value>
   </data>
   <data name="AddProjectHeadingLabel.Text" xml:space="preserve">
-    <value>Add Project</value>
-  </data>
-  <data name="AddTaskHeadingLabel.Text" xml:space="preserve">
-    <value>Add Task</value>
+    <value>Добавить проект</value>
   </data>
   <data name="AddUserButton.Content" xml:space="preserve">
-    <value>Add User</value>
+    <value>Добавить пользователя</value>
   </data>
   <data name="AssignedTasksHeaderLabel.Content" xml:space="preserve">
-    <value>Assigned Tasks</value>
+    <value>Назначенные задачи</value>
   </data>
   <data name="AssignedUsersLabel.Text" xml:space="preserve">
-    <value>Assigned Users</value>
+    <value>Назначенные пользователи</value>
   </data>
   <data name="AssignUserPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>Assign User</value>
+    <value>Назначить пользователя</value>
   </data>
   <data name="CreatedTasksHeaderLabel.Content" xml:space="preserve">
-    <value>Created Tasks</value>
+    <value>Созданные задачи</value>
   </data>
   <data name="CurrentPriorityLabel.Text" xml:space="preserve">
-    <value>Current Priority</value>
+    <value>Текущий приоритет</value>
   </data>
   <data name="CurrentStatusLabel.Text" xml:space="preserve">
-    <value>Current Status</value>
+    <value>Текущее состояние</value>
   </data>
   <data name="DescriptionLabel.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>Описание</value>
   </data>
   <data name="DescriptionTextLabel.Text" xml:space="preserve">
-    <value>Description</value>
+    <value>Описание</value>
   </data>
   <data name="EndDateErrorMessage" xml:space="preserve">
-    <value>End date should be greater than start date</value>
-    <comment>End date being before than start date</comment>
+    <value>Дата окончания должна быть больше даты начала</value>
   </data>
   <data name="EndDateLabel.Header" xml:space="preserve">
-    <value>End Date</value>
+    <value>Дата окончания</value>
   </data>
   <data name="EndDateTextLabel.Text" xml:space="preserve">
-    <value>End Date</value>
+    <value>Дата окончания</value>
   </data>
   <data name="IdLabel.Header" xml:space="preserve">
-    <value>Id</value>
+    <value>Идентификатор</value>
   </data>
   <data name="IssueDetailsHeadingLabel.Text" xml:space="preserve">
-    <value>Issue Details</value>
+    <value>Сведения о проблеме</value>
   </data>
   <data name="IssueInformationLabel.Text" xml:space="preserve">
-    <value>Issue Information</value>
+    <value>Информация о выпуске</value>
   </data>
   <data name="IssueNameEmptyErrorMsg" xml:space="preserve">
-    <value>Issue name cannot be empty</value>
+    <value>Название проблемы не может быть пустым.</value>
   </data>
   <data name="IssueNameLabel.Header" xml:space="preserve">
-    <value>Issue Name</value>
+    <value>Название выпуска</value>
   </data>
   <data name="IssuesHeaderLabel.Content" xml:space="preserve">
-    <value>Issues</value>
+    <value>Проблемы</value>
   </data>
   <data name="IssuesTitleLabel.Text" xml:space="preserve">
-    <value>Issues</value>
+    <value>Проблемы</value>
   </data>
   <data name="LoginPasswordLabel.Header" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
   <data name="LoginTitleLabel.Text" xml:space="preserve">
-    <value>Log in to your account</value>
+    <value>Войдите в свой аккаунт</value>
   </data>
   <data name="LogoutLabel.Content" xml:space="preserve">
-    <value>Logout</value>
+    <value>Выйти</value>
   </data>
   <data name="NameLabel.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>Имя</value>
   </data>
   <data name="NewIssueButton.Content" xml:space="preserve">
-    <value>New Issue</value>
+    <value>Новый выпуск</value>
   </data>
   <data name="NewProjectButton.Content" xml:space="preserve">
-    <value>New Project</value>
-  </data>
-  <data name="NewTaskButton.Content" xml:space="preserve">
-    <value>New Task</value>
+    <value>Новый проект</value>
   </data>
   <data name="NewUserCredentialLabel.Text" xml:space="preserve">
-    <value>New User Credential</value>
+    <value>Новые учетные данные пользователя</value>
   </data>
   <data name="NewUserIdLabel.Text" xml:space="preserve">
-    <value>User Id</value>
+    <value>Идентификатор пользователя</value>
   </data>
   <data name="NewUserPasswordLabel.Text" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
   <data name="NoUserMsg.Text" xml:space="preserve">
-    <value>No suitable users available</value>
+    <value>Нет подходящих пользователей</value>
   </data>
   <data name="OwnerLabel.Header" xml:space="preserve">
-    <value>Owner</value>
+    <value>Владелец</value>
   </data>
   <data name="PriorityGridLabel.Header" xml:space="preserve">
-    <value>Priority</value>
+    <value>Приоритет</value>
   </data>
   <data name="PriorityLabel.Header" xml:space="preserve">
-    <value>Select Priority</value>
+    <value>Выберите приоритет</value>
   </data>
   <data name="ProjectIdLabel.Header" xml:space="preserve">
-    <value>Project Id</value>
+    <value>Идентификатор проекта</value>
   </data>
   <data name="ProjectNameEmptyErrorMsg" xml:space="preserve">
-    <value>Project name cannot be empty</value>
+    <value>Название проекта не может быть пустым.</value>
   </data>
   <data name="ProjectNameLabel.Header" xml:space="preserve">
-    <value>Project Name</value>
+    <value>название проекта</value>
   </data>
   <data name="ProjectsHeaderLabel.Content" xml:space="preserve">
-    <value>Projects</value>
+    <value>Проекты</value>
   </data>
   <data name="ProjectsTitleLabel.Text" xml:space="preserve">
-    <value>Projects</value>
-  </data>
-  <data name="SearchUserPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>Search for user</value>
+    <value>Проекты</value>
   </data>
   <data name="SettingsHeaderLabel.Content" xml:space="preserve">
-    <value>Settings</value>
+    <value>Настройки</value>
   </data>
   <data name="ShowPasswordLabel.Content" xml:space="preserve">
-    <value>Show password</value>
+    <value>Показать пароль</value>
   </data>
   <data name="StartDateErrorMessage" xml:space="preserve">
-    <value>Start date cannot be yesterday</value>
-    <comment>Start date is smaller than today's date</comment>
+    <value>Дата начала не может быть вчера</value>
   </data>
   <data name="StartDateLabel.Header" xml:space="preserve">
-    <value>Start Date</value>
+    <value>Дата начала</value>
   </data>
   <data name="StartDateTextLabel.Text" xml:space="preserve">
-    <value>Start Date</value>
+    <value>Дата начала</value>
   </data>
   <data name="StatusGridLabel.Header" xml:space="preserve">
-    <value>Status</value>
+    <value>Положение дел</value>
   </data>
   <data name="StatusLabel.Header" xml:space="preserve">
-    <value>Select Status</value>
+    <value>Выберите статус</value>
   </data>
   <data name="SubmitButtonLabel.Content" xml:space="preserve">
-    <value>Log in</value>
+    <value>Авторизоваться</value>
   </data>
   <data name="TaskInformationLabel.Text" xml:space="preserve">
-    <value>Task Information</value>
+    <value>Информация о задаче</value>
   </data>
   <data name="TaskNameEmptyErrorMsg" xml:space="preserve">
-    <value>Task name cannot be empty</value>
+    <value>Имя задачи не может быть пустым</value>
   </data>
   <data name="TaskNameLabel.Header" xml:space="preserve">
-    <value>Task Name</value>
+    <value>Название задачи</value>
   </data>
   <data name="TasksHeaderLabel.Content" xml:space="preserve">
-    <value>Tasks</value>
-  </data>
-  <data name="TaskTitleLabel.Text" xml:space="preserve">
-    <value>Tasks</value>
+    <value>Задания</value>
   </data>
   <data name="ThemeLabel.OffContent" xml:space="preserve">
-    <value>Light Theme</value>
+    <value>Светлая тема</value>
   </data>
   <data name="ThemeLabel.OnContent" xml:space="preserve">
-    <value>Dark Theme</value>
+    <value>Темная тема</value>
   </data>
   <data name="UserDetailsPageHeading.Text" xml:space="preserve">
-    <value>User Details</value>
+    <value>Данные пользователя</value>
   </data>
   <data name="UserEmailLabel.Text" xml:space="preserve">
-    <value>User Email</value>
+    <value>Электронная почта пользователя</value>
   </data>
   <data name="UserIdLabel.Header" xml:space="preserve">
-    <value>User ID</value>
+    <value>ID пользователя</value>
   </data>
   <data name="UserManagementHeaderLabel.Content" xml:space="preserve">
-    <value>User Management</value>
+    <value>Управление пользователями</value>
   </data>
   <data name="UserNameLabel.Text" xml:space="preserve">
-    <value>User Name</value>
+    <value>Имя пользователя</value>
   </data>
   <data name="UserRoleLabel.Text" xml:space="preserve">
-    <value>User Role</value>
+    <value>Роль пользователя</value>
   </data>
 </root>

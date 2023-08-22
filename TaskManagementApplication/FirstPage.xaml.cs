@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using TaskManagementCleanArchitecture.View.UserControls;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
@@ -18,10 +19,12 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Input;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -37,7 +40,7 @@ namespace TaskManagementCleanArchitecture
     public sealed partial class FirstPage : Page, INotifyPropertyChanged
     {        
         public event PropertyChangedEventHandler PropertyChanged;
-        
+        private AppWindow settingPage;
         public FirstPage()
         {
             this.InitializeComponent();
@@ -82,7 +85,7 @@ namespace TaskManagementCleanArchitecture
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void FirstPageNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private async void FirstPageNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             NavigationContentControl.DataContext = this;
             if (args.SelectedItem == ProjectsTab)
@@ -102,9 +105,33 @@ namespace TaskManagementCleanArchitecture
             }
             else if(args.SelectedItem == SettingsTab)
             {
-                NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate4"]).LoadContent();
-                MainPageNV.AlwaysShowHeader = true;
+                //NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate4"]).LoadContent();
+                //MainPageNV.AlwaysShowHeader = true;
+                await PopoutButton_Click();
             }
+        }
+
+        private async Task PopoutButton_Click()
+        {
+            if (settingPage == null)
+            {
+                settingPage = await AppWindow.TryCreateAsync();
+                Frame appWindowContentFrame = new Frame();
+                settingPage.Closed += SettingPage_Closed;
+                appWindowContentFrame.Navigate(typeof(Settings));
+                ElementCompositionPreview.SetAppWindowContent(settingPage, appWindowContentFrame);
+                SwitchTheme.AddUIRootElement(appWindowContentFrame);
+                await settingPage.TryShowAsync();
+            }
+            else
+            {
+                await settingPage.TryShowAsync();
+            }
+        }
+
+        private void SettingPage_Closed(AppWindow sender, AppWindowClosedEventArgs args)
+        {
+            settingPage = null;
         }
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
@@ -121,7 +148,6 @@ namespace TaskManagementCleanArchitecture
             {
                 await SwitchTheme.ChangeTheme(ElementTheme.Dark);
                 SwitchTheme.CurrentTheme = ElementTheme.Dark;
-                //ChangeAccent.UpdateSystemAccentColor(null);
                 ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
             }
             else

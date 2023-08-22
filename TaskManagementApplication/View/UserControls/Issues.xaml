@@ -40,11 +40,11 @@
                     Style="{ThemeResource NavigateBackButtonStyle}"
                     Visibility="Visible"
                     Click="BackButton_Click"/>
-                <TextBlock Text="Issues"
+                <TextBlock x:Uid="IssuesTitleLabel"
                            Style="{ThemeResource TitleTextBlock}"
                            RelativePanel.RightOf="BackButton"/>
             <Button x:Name="NewIssueButton"
-                    Content="New Issue"
+                    x:Uid="NewIssueButton"
                     CornerRadius="5"
                     Margin="10"
                     Padding="7"
@@ -61,7 +61,7 @@
               Grid.Column="0"
               Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="500" MaxWidth="600"/>
+                    <ColumnDefinition x:Name="SplitterColumn"  MinWidth="500" MaxWidth="600"/>
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
@@ -95,7 +95,8 @@
                        SelectionChanged="IssueOfAProject_SelectionChanged"
                        Background="{ThemeResource AppForegroundBg}">
                         <controls:DataGrid.Columns>
-                            <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
+                            <controls:DataGridTemplateColumn Width="80" MinWidth="40"
+                                                             x:Uid="IdLabel">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue">
                                         <TextBlock Padding="10,0,5,0" 
@@ -104,7 +105,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Name" Width="150" MinWidth="75" >
+                            <controls:DataGridTemplateColumn x:Uid="NameLabel" Width="150" MinWidth="75" >
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -115,7 +116,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Project Id" Width="110" MinWidth="50">
+                            <controls:DataGridTemplateColumn x:Uid="ProjectIdLabel" Width="110" MinWidth="50">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue">
                                         <TextBlock Padding="10,0,5,0" 
@@ -125,7 +126,7 @@
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
 
-                            <controls:DataGridTemplateColumn Header="Description" Width="200" MinWidth="100" >
+                            <controls:DataGridTemplateColumn x:Uid="DescriptionLabel" Width="200" MinWidth="100" >
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -137,7 +138,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Owner" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn x:Uid="OwnerLabel" Width="200" MinWidth="100">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -148,7 +149,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Status" Width="130" MinWidth="65" >
+                            <controls:DataGridTemplateColumn x:Uid="StatusGridLabel" Width="130" MinWidth="65" >
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="11,0,5,0" 
@@ -157,7 +158,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Start Date" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn x:Uid="StartDateLabel" Width="200" MinWidth="100">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="11,0,5,0" 
@@ -166,7 +167,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="End Date" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn x:Uid="EndDateLabel" Width="200" MinWidth="100">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="11,0,5,0" 
@@ -175,7 +176,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Priority" Width="130" MinWidth="65">
+                            <controls:DataGridTemplateColumn x:Uid="PriorityGridLabel" Width="130" MinWidth="65">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="12,0,5,0" 
@@ -226,25 +227,12 @@
                                      Visibility="Collapsed"
                                      Style="{ThemeResource BackToListButtonStyle}"
                                      Click="BackToList_Click"></Button>
-                            <TextBlock Text="Issue Details" 
+                            <TextBlock x:Uid="IssueDetailsHeadingLabel" 
                                RelativePanel.RightOf="BackToList"
                                Style="{ThemeResource DetailsHeadingTextblockStyle}" ></TextBlock>
                         </RelativePanel>
                         <RelativePanel HorizontalAlignment="Right"
                                 Grid.Column="1">
-                            <!--<Button CornerRadius="5"
-                                    Margin="10,0,0,0"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    FontFamily="{ThemeResource SymbolThemeFontFamily}" 
-                                    Content="&#xE8A7;"
-                                    FontSize="15"
-                                    HorizontalAlignment="Right"
-                                    RelativePanel.LeftOf="DeleteIssue"
-                                    x:Name="PopoutButton"
-                                    ToolTipService.ToolTip="New Window"
-                                    Click="PopoutButton_Click">
-                            </Button>-->
                             <Button RelativePanel.LeftOf="CloseButton"
                                     Click="DeleteIssue_Click" 
                                     Style="{ThemeResource MyDeleteButtonStyle}"
@@ -267,11 +255,6 @@
                    Grid.Row="1"
                    Grid.Column="1"
                    Name="AddIssueForm">
-                <!--<Popup.ChildTransitions>
-                <TransitionCollection>
-                    <PaneThemeTransition Edge="Right"/>
-                </TransitionCollection>
-            </Popup.ChildTransitions>-->
                 <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
@@ -293,7 +276,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <RelativePanel>
-                        <TextBlock Text="Add Issue" 
+                        <TextBlock x:Uid="AddIssueHeadingLabel" 
                             RelativePanel.AlignHorizontalCenterWithPanel="True"
                             Style="{ThemeResource PopUpTextblockStyle}"/>
                             <Button  RelativePanel.AlignRightWithPanel="True"
@@ -313,7 +296,7 @@
                                    x:Name="ErrorMessage"/>
                         <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyleCustom}"
-                                    Content="Add"
+                                    x:Uid="AddActivityButton"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"

@@ -19,7 +19,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
            
-            <TextBlock Text="User Details"
+            <TextBlock x:Uid="UserDetailsPageHeading"
                            FontSize="18"
                            FontWeight="Bold"
                            HorizontalTextAlignment="Center"
@@ -39,14 +39,12 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock HorizontalAlignment="Center"
                        x:Name="UserNameDetail"
-                       Margin="10">
-                <Run Text="User Name"/>
-                <Run Text="*"
-                     Foreground="Red"/>
-                </TextBlock>
+                       Margin="10"
+                       x:Uid="UserNameLabel"/>
+
                 <TextBox x:Name="UserNameEnter"
                      HorizontalAlignment="Center"
                      Width="340"
@@ -55,16 +53,14 @@
                      CornerRadius="10"
                      Grid.Row="0"
                      Grid.Column="1"/>
-                
+
                 <TextBlock HorizontalAlignment="Center"
                        x:Name="UserEmailDetail"
                        Margin="10"
                        Grid.Row="1"
-                       Grid.Column="0">
-                <Run Text="User Email"/>
-                <Run Text="*"
-                     Foreground="Red"/>
-                </TextBlock>
+                       Grid.Column="0"
+                       x:Uid="UserEmailLabel"/>
+
                 <TextBox x:Name="UserEmailEnter"
                      HorizontalAlignment="Center"
                      Width="340"
@@ -74,17 +70,14 @@
                      Grid.Row="1"
                      Grid.Column="1">
                 </TextBox>
-                
+
                 <TextBlock HorizontalAlignment="Center"
                        x:Name="UserRoleDetail"
                        Margin="10"
                        Grid.Row="2"
-                       Grid.Column="0">
-                <Run Text="User Role"/>
-                <Run Text="*"
-                     Foreground="Red"
-                     />
-                </TextBlock>
+                       Grid.Column="0"
+                       x:Uid="UserRoleLabel"/>
+
                 <ComboBox 
                   PlaceholderText="Choose Role"
                   HorizontalAlignment="Center"
@@ -103,7 +96,7 @@
                        Style="{ThemeResource ErrorMessageStyle}"/>
             
             <Button x:Name="AddUserButton"
-                    Content="Add User"
+                   x:Uid="AddUserButton"
                     Grid.Row="3"
                     Margin="10"
                     HorizontalAlignment="Center"
@@ -123,7 +116,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <RelativePanel>
-                    <TextBlock Text="New User Credentials"
+                    <TextBlock x:Uid="NewUserCredentialLabel"
                                FontSize="18"
                            FontWeight="Bold"
                            HorizontalTextAlignment="Center"
@@ -155,7 +148,7 @@
                                 Margin="10"
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Text="User Id :">
+                                x:Uid="NewUserIdLabel">
                             </TextBlock>
                             <TextBlock x:Name="UserIdEnter"
                                    Style="{ThemeResource InputFieldTextBlock}"
@@ -171,9 +164,9 @@
                             <TextBlock HorizontalAlignment="Center"
                                         x:Name="PasswordDetail"
                                         Margin="10"
-                                       Grid.Row="1"
-                                     Grid.Column="0"
-                                       Text="Password :"/>
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                      x:Uid="NewUserPasswordLabel"/>
                     <TextBlock x:Name="PasswordEnter"
                                    Style="{ThemeResource InputFieldTextBlock}"
                                    HorizontalAlignment="Center"

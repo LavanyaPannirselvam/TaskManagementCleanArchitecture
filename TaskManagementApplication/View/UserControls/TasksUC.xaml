@@ -28,7 +28,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="750"/>
-            <!--<RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -40,11 +39,11 @@
                     Style="{ThemeResource NavigateBackButtonStyle}"
                     Visibility="Visible"
                     Click="BackButton_Click"/>
-                <TextBlock Text="Tasks"
+                <TextBlock x:Uid="TaskTitleLabel"
                            Style="{ThemeResource TitleTextBlock}"
                        RelativePanel.RightOf="BackButton"/>
                 <Button x:Name="NewTaskButton"
-                    Content="New Task"
+                    x:Uid="NewTaskButton"
                     CornerRadius="5"
                     Margin="10"
                     Padding="7"
@@ -62,7 +61,7 @@
               Height="750"
               Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="500" MaxWidth="600"/>
+                    <ColumnDefinition x:Name="SplitterColumn" MinWidth="500" MaxWidth="600"/>
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -95,7 +94,7 @@
                        ColumnHeaderStyle ="{ThemeResource ColumnHeader}"
                        Background="{ThemeResource AppForegroundBg}">
                         <controls:DataGrid.Columns>
-                            <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
+                            <controls:DataGridTemplateColumn x:Uid="IdLabel" Width="80" MinWidth="40">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks">
                                         <TextBlock Padding="10,0,5,0" 
@@ -104,7 +103,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Name" Width="150" MinWidth="75" >
+                            <controls:DataGridTemplateColumn x:Uid="NameLabel" Width="150" MinWidth="75" >
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -115,7 +114,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Project Id" Width="110" MinWidth="50">
+                            <controls:DataGridTemplateColumn x:Uid="ProjectIdLabel" Width="110" MinWidth="50">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -124,7 +123,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Description" Width="200" MinWidth="100" >
+                            <controls:DataGridTemplateColumn x:Uid="DescriptionLabel" Width="200" MinWidth="100" >
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -136,7 +135,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Owner" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn x:Uid="OwnerLabel" Width="200" MinWidth="100">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="10,0,5,0" 
@@ -147,7 +146,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Status" Width="130" MinWidth="65" >
+                            <controls:DataGridTemplateColumn x:Uid="StatusGridLabel" Width="130" MinWidth="65" >
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="11,0,5,0" 
@@ -156,7 +155,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Start Date" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn x:Uid="StartDateLabel" Width="200" MinWidth="100">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="11,0,5,0" 
@@ -165,7 +164,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="End Date" Width="200" MinWidth="100">
+                            <controls:DataGridTemplateColumn x:Uid="EndDateLabel" Width="200" MinWidth="100">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="11,0,5,0" 
@@ -174,7 +173,7 @@
                                     </DataTemplate>
                                 </controls:DataGridTemplateColumn.CellTemplate>
                             </controls:DataGridTemplateColumn>
-                            <controls:DataGridTemplateColumn Header="Priority" Width="130" MinWidth="65">
+                            <controls:DataGridTemplateColumn x:Uid="PriorityGridLabel" Width="130" MinWidth="65">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="12,0,5,0" 
@@ -279,7 +278,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <RelativePanel>
-                            <TextBlock Text="Add Task" 
+                            <TextBlock x:Uid="AddTaskHeadingLabel" 
                             RelativePanel.AlignHorizontalCenterWithPanel="True"
                             Style="{ThemeResource PopUpTextblockStyle}"/>
                             <Button Style="{ThemeResource ClosePopUpButtonStyle}"
@@ -297,7 +296,7 @@
                                    Style="{ThemeResource ErrorMessageStyle}"/>
                         <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyleCustom}"
-                                    Content="Add"
+                                    x:Uid="AddActivityButton"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"

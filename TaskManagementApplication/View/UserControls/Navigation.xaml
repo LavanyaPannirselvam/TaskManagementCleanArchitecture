@@ -1022,12 +1022,12 @@
                         SelectionChanged="NavigationView_SelectionChanged"
                         Grid.Row="0">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Tasks"
+                <NavigationViewItem x:Uid="TasksHeaderLabel"
                                     x:Name="tasksTab"
                                     FontSize="16"
                                     Margin="2.5,0">
                 </NavigationViewItem>
-                <NavigationViewItem Content="Issues"
+                <NavigationViewItem x:Uid="IssuesHeaderLabel"
                                     x:Name="issuesTab"
                                     FontSize="16"
                                     Margin="2.5,0">

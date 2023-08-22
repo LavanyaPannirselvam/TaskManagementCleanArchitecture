@@ -43,11 +43,11 @@
             <RelativePanel Margin="0,0,0,20"
                            Grid.ColumnSpan="2"
                            Name="TopOptions">
-                <TextBlock Text="Projects"
+                <TextBlock x:Uid="ProjectsTitleLabel"
                            Style="{ThemeResource TitleTextBlock}"
                            RelativePanel.AlignLeftWithPanel="True"/>
                 <Button x:Name="NewProjectButton"
-                    Content="New Project"
+                    x:Uid="NewProjectButton"
                     CornerRadius="5"
                     Margin="10"
                     Padding="7"
@@ -91,7 +91,7 @@
                        ColumnHeaderStyle ="{ThemeResource ColumnHeader}"
                        Background="{ThemeResource AppForegroundBg}">
                     <controls:DataGrid.Columns>
-                        <controls:DataGridTemplateColumn Header="Id" Width="80" MinWidth="40">
+                        <controls:DataGridTemplateColumn x:Uid="IdLabel" Width="80" MinWidth="40">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project">
                                     <TextBlock Padding="10,0,5,0" 
@@ -100,7 +100,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Name" Width="350" MinWidth="75">
+                        <controls:DataGridTemplateColumn x:Uid="NameLabel" Width="350" MinWidth="75">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -111,7 +111,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Description" Width="200" MinWidth="100">
+                        <controls:DataGridTemplateColumn x:Uid="DescriptionLabel" Width="200" MinWidth="100">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -122,7 +122,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Owner" Width="200" MinWidth="100">
+                        <controls:DataGridTemplateColumn x:Uid="OwnerLabel" Width="200" MinWidth="100">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -133,7 +133,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Status" Width="130" MinWidth="65">
+                        <controls:DataGridTemplateColumn x:Uid="StatusGridLabel" Width="130" MinWidth="65">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -142,7 +142,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Start Date" Width="200" MinWidth="100">
+                        <controls:DataGridTemplateColumn x:Uid="StartDateLabel" Width="200" MinWidth="100">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -151,7 +151,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="End Date" Width="200" MinWidth="100">
+                        <controls:DataGridTemplateColumn x:Uid="EndDateLabel" Width="200" MinWidth="100">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -160,7 +160,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTemplateColumn Header="Priority" Width="130" MinWidth="65">
+                        <controls:DataGridTemplateColumn x:Uid="PriorityGridLabel" Width="130" MinWidth="65">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Project" >
                                     <TextBlock Padding="10,0,5,0" 
@@ -203,7 +203,7 @@
                             RelativePanel.AlignRightWithPanel="True"
                             x:Name="CloseButton"
                             Click="CloseButton_Click"/>
-                            <TextBlock Text="Add Project" 
+                            <TextBlock x:Uid="AddProjectHeadingLabel" 
                                Grid.Row="0"
                                RelativePanel.AlignHorizontalCenterWithPanel="True"
                                Style="{ThemeResource PopUpTextblockStyle}"/>
@@ -219,7 +219,7 @@
                                    Style="{ThemeResource ErrorMessageStyle}"/>
                         <Button x:Name="AddButton"
                                     Style="{StaticResource AccentButtonStyleCustom}"
-                                    Content="Add"
+                                    x:Uid="AddActivityButton"
                                     Grid.Row="3"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,20"

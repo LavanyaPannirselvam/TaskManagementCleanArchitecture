@@ -161,7 +161,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width < 950)
+            if (e.NewSize.Width < 950 || e.NewSize.Height < 980)
             {
                 GridViewScroller.Height = 680;
             }

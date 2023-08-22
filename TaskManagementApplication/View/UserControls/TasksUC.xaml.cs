@@ -221,12 +221,36 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                     BackToList.Visibility = Visibility.Visible;
                 }
             }
+            else if(_windowWidth >= 900 && _windowWidth <= 1200)
+            {
+                TasksOfAProject.FrozenColumnCount = 2;
+                _narrowLayout = false;
+                NewTaskButton.Visibility = Visibility.Visible;
+                CloseButton.Visibility = Visibility.Visible;
+                SplitterColumn.MaxWidth = 400;
+                SplitterColumn.MinWidth = 300;
+                if (_itemSelected)
+                {
+                    Grid.SetColumn(TasksList, 0);
+                    Grid.SetColumn(TasksGridSplitter, 1);
+                    Grid.SetColumn(TasksDetailGrid, 2);
+                    Grid.SetColumnSpan(TasksList, 1);
+                    Grid.SetColumnSpan(TasksGridSplitter, 1);
+                    Grid.SetColumnSpan(TasksDetailGrid, 1);
+                    TasksList.Visibility = Visibility.Visible;
+                    TasksGridSplitter.Visibility = Visibility.Visible;
+                    TasksDetailGrid.Visibility = Visibility.Visible;
+                    BackToList.Visibility = Visibility.Collapsed;
+                }
+            }
             else
             {
                 TasksOfAProject.FrozenColumnCount = 2;
                 _narrowLayout = false;
                 NewTaskButton.Visibility = Visibility.Visible;
                 CloseButton.Visibility = Visibility.Visible;
+                SplitterColumn.MaxWidth = 600;
+                SplitterColumn.MinWidth = 500;
                 if (_itemSelected)
                 {
                     Grid.SetColumn(TasksList, 0);

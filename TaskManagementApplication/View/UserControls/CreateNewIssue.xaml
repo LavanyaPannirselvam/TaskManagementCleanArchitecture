@@ -29,7 +29,7 @@
                  Grid.Row="0"
                  CornerRadius="5"
                  Style="{ThemeResource TextBoxCustomstyle}"
-                 Header="Issue Name"/>
+                 x:Uid="IssueNameLabel"/>
             <TextBox x:Name="DescriptionBox"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
@@ -39,19 +39,19 @@
                      HorizontalAlignment="Stretch"
                      Grid.Row="1"
                      Margin="5"
-                     Header="Description"
+                     x:Uid="DescriptionLabel"
                      TextChanged="descriptionBox_TextChanged"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <CalendarDatePicker Grid.Row="2"
-                            Header="Start Date"
                             Name="startdate"
+                            x:Uid="StartDateLabel"
                             PlaceholderText=""
                             HorizontalAlignment="Stretch"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             DateChanged="StartDate_DataChanged"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
-                            Header="End Date"
+                            x:Uid="EndDateLabel"
                             Name="enddate"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             PlaceholderText=""
@@ -59,8 +59,7 @@
                             DateChanged="EndDate_DataChanged"
                             Margin="5"/>
         <ComboBox Grid.Row="4"
-                  Header="Select Priority"
-                  PlaceholderText="Choose a priority"
+                  x:Uid="PriorityLabel"
                   Name="prioritybox"
                   HorizontalAlignment="Stretch"
                   SelectionChanged="Priority_Selectionchanged"
@@ -69,8 +68,7 @@
                   Margin="5">
         </ComboBox>
         <ComboBox Grid.Row="5"
-                  Header="Select Status"
-                  PlaceholderText="Choose a status"
+                  x:Uid="StatusLabel"
                   HorizontalAlignment="Stretch"
                   Name="statusbox"
                   Style="{ThemeResource ComboBoxCustomStyle}"

@@ -11,6 +11,7 @@ using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -34,7 +35,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTimeOffset _startDate;
         private DateTimeOffset _endDate;
-        EnumConverter _enumConverter;
+        private EnumConverter _enumConverter;
+        private ResourceLoader _resourceLoader;
         public CreateNewTask()
         {
             this.InitializeComponent();
@@ -69,7 +71,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var text = (TextBox)sender;//should do empty and invalid data check
             if (text.Text == string.Empty || text.Text == null)
             {
-                ErrorMessage.Text = "Task name cannot be empty";
+                ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -82,7 +84,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _startDate = (DateTimeOffset)date.Date;//.Value.DateT;
             if (_startDate < DateTime.Today)
             {
-                ErrorMessage.Text = "Start date cannot be yesterday";
+                ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else
@@ -95,7 +97,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _endDate = (DateTimeOffset)date.Date;
             if (_endDate < _startDate)
             {
-                ErrorMessage.Text = "End date should be greater than start date";
+                ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -122,7 +124,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (name == null || name == "" || name == string.Empty)
             {
-                ErrorMessage.Text = "Task name cannot be empty";
+                ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
                 return false;
             }

@@ -41,22 +41,22 @@
                 <TextBlock HorizontalAlignment="Left" 
                            Grid.Row="1"  
                            Padding="40,0,0,0" 
-                           Text="Log in to your account" 
+                           x:Uid="LoginTitleLabel" 
                            Style="{ThemeResource BasicTextBlock}"
                            Margin="5,15,10,10" 
                            Grid.ColumnSpan="2"/>
                 <TextBox MaxWidth="220"  
                          Grid.Row="2" 
-                         Header="User ID"  
+                         x:Uid="UserIdLabel"  
                          Style="{ThemeResource TextBoxCustomstyle}"
                          x:Name="UserId"/>
                 <StackPanel  Grid.Row="3">
                     <PasswordBox MaxLength="100"
                                      MaxWidth="220" 
                                      CornerRadius="5"
-                                     Header="Password"
+                                     x:Uid="LoginPasswordLabel"
                                      PasswordRevealMode="Hidden"
-                                 Style="{ThemeResource PasswordBoxCustomStyle}"
+                                     Style="{ThemeResource PasswordBoxCustomStyle}"
                                      Foreground="Black"
                                      PasswordChanged="PasswordChanged"
                                      x:Name="Password" >
@@ -71,9 +71,9 @@
                     <CheckBox  CornerRadius="5"
                                    Margin="45,0,0,0"
                                    Name="revealModeCheckBox"
-                                   Content="Show password"
+                                   x:Uid="ShowPasswordLabel"
                                    IsChecked="False"
-                               Style="{ThemeResource CheckboxCustomStyle}"
+                                   Style="{ThemeResource CheckboxCustomStyle}"
                                    Checked="RevealModeCheckbox_Changed"
                                    Unchecked="RevealModeCheckbox_Changed"/>
                 </StackPanel>
@@ -98,7 +98,8 @@
                                 IsEnabled="False"
                                 Foreground="Black"
                                 Style="{StaticResource AccentButtonStyleCustom}"
-                                Content="Submit" Click="Verify_Click"/>
+                                x:Uid="SubmitButtonLabel" 
+                            Click="Verify_Click"/>
                 </StackPanel>
             </Grid>
         </controls:DropShadowPanel>

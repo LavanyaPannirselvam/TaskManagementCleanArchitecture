@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using static System.Net.Mime.MediaTypeNames;
+using EnumConverter = TaskManagementCleanArchitecture.Converter.EnumConverter;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -36,6 +38,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private ObservableCollection<UserBO> _assignedUsers;
         public static event Action<string> Notification;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
+        EnumConverter _enumConverter;
+        private double _windowWidth;
+        private double _windowHeight;
 
         public IssueDetails()
         {
@@ -46,6 +51,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _userOption = new ObservableCollection<UserBO>();
             _suggestedItems = new ObservableCollection<UserBO>();
             _assignedUsers = new ObservableCollection<UserBO>();
+            _enumConverter = new EnumConverter();
         }
 
         public IssueDetails(int id)
@@ -209,19 +215,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //StatusCombo.SelectedItem = _issueViewModel.SelectedIssue.Status;
-           
-            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Status != (StatusType)e.AddedItems[0])
+            var selectedOption = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(StatusType), null, null);
+            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Status != selectedOption)
             {
-                _issueViewModel.ChangeStatus(_issueViewModel.SelectedIssue.Id, (StatusType)StatusCombo.SelectedItem);
+                _issueViewModel.ChangeStatus(_issueViewModel.SelectedIssue.Id, selectedOption);
             }
         }
 
         private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //PriorityCombo.SelectedItem = _issueViewModel?.SelectedIssue.Priority;
-            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Priority != (PriorityType)e.AddedItems[0])
+            var selectedOption = (PriorityType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(PriorityType), null, null);
+            if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Priority != selectedOption)
             {
-                _issueViewModel.ChangePriority(_issueViewModel.SelectedIssue.Id, (PriorityType)PriorityCombo.SelectedItem);
+                _issueViewModel.ChangePriority(_issueViewModel.SelectedIssue.Id, selectedOption);
             }
         }
 
@@ -266,6 +273,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if(args.SelectedItem is UserBO user)
             {
                 sender.Text = user.Name;
+            }
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _windowHeight = e.NewSize.Height;
+            _windowWidth = e.NewSize.Width;
+            if (_windowWidth < 750)
+            {
+                Scroller.Height = 670;
+            }
+            else if (_windowWidth > 750 && _windowHeight < 900)
+            {
+                Scroller.Height = 600;
             }
         }
     }

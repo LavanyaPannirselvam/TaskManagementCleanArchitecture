@@ -10,6 +10,7 @@ using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Models;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -33,18 +34,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private StatusType _statusType;
         private DateTimeOffset _startDate;
         private DateTimeOffset _endDate;
-        EnumConverter _enumConverter;
+        private EnumConverter _enumConverter;
+        private ResourceLoader _resourceLoader;
+
         public CreateNewProject()
         {
             this.InitializeComponent();
             startdate.Date = DateTime.Now;
             enddate.Date = DateTime.Now;
-            //statusbox.SelectedIndex = -1;
             prioritybox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             statusbox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
-           // prioritybox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-            //statusbox.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             _enumConverter = new EnumConverter();
+            _resourceLoader = new ResourceLoader();
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
         }
@@ -54,7 +55,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var text = (TextBox)sender;//should do empty and invalid data check
             if (text.Text == string.Empty || text.Text == null)
             {
-                ErrorMessage.Text = "Project name cannot be empty";
+                ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -69,7 +70,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
             _priorityType = (PriorityType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(PriorityType), null, null);
-            // _priorityType = (PriorityType)Enum.Parse(typeof(PriorityType), value.ToUpper().Replace(" ", ""));
         }
 
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
@@ -78,7 +78,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _startDate = (DateTimeOffset)date.Date;
             if(_startDate < DateTime.Today)
             {
-                ErrorMessage.Text = "Start date cannot be yesterday";
+                ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else
@@ -91,7 +91,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _endDate = (DateTimeOffset)date.Date;
             if (_endDate < _startDate)
             {
-                ErrorMessage.Text = "End date should be greater than start date";
+                ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -108,7 +108,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (name == null || name == "" || name == string.Empty)
             {
-                ErrorMessage.Text = "Project name cannot be empty";
+                ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
                 return true;
             }
@@ -131,7 +131,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _endDate = DateTimeOffset.Now.Date;
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
-          
             ErrorMessage.Text = string.Empty;
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
