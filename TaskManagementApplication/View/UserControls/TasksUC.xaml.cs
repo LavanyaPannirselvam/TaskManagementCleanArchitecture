@@ -51,6 +51,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _taskViewModel = PresenterService.GetInstance().Services.GetService<TasksPageViewModelBase>();
             _taskViewModel.updation = this;
+            taskDetailsPage = new TaskDetails();
         }
 
         private void TasksList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
@@ -117,7 +118,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if ((sender as DataGrid).SelectedItem is Tasks task)
             {
-                taskDetailsPage = new TaskDetails(task.Id);
+                taskDetailsPage._taskDetailsViewModel.GetATask(task.Id);
                 taskDetailsPage.DataContext = task;
                 TasksList.DataContext = _task;
                 TasksOfAProject.SelectedIndex = -1;

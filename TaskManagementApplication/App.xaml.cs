@@ -89,6 +89,7 @@ namespace TaskManagementCleanArchitecture
             ChangeAccent.AppAccentColor = rgba;
             ////    object value = ApplicationData.Current.LocalSettings.Values["SystemAccentColor"];
             //ChangeAccent.AppAccentColor = rgba;
+            //ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
             UIUpdation.OnAccentColorChanged();
             LibraryInitialization libraryInitialization;
             libraryInitialization = LibraryInitialization.GetInstance();

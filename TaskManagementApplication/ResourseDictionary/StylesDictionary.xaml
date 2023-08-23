@@ -1459,7 +1459,7 @@
         <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
-        <Setter Property="Padding" Value="0,0,0,0" />
+        <Setter Property="Padding" Value="10,0,0,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
@@ -1490,6 +1490,7 @@
                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                         PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
+                        SelectionIndicatorBrush="{ThemeResource CustomAccentColor}"
                         PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
                         SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
@@ -2226,10 +2227,10 @@
                                     DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                     IsItemClickEnabled="True"
                                     CornerRadius="5"
-                                    Padding="0"
+                                    Padding="5"
                                     ItemTemplate="{TemplateBinding ItemTemplate}"
                                     ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                    ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                    ItemContainerStyle="{ThemeResource DefaultListViewItemStyle}"
                                     MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
                                     Margin="0">
                                 </ListView>

@@ -8,10 +8,16 @@
     mc:Ignorable="d"
     xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:library="using:TaskManagementLibrary.Models"
-    xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls" 
+    xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     Loaded="UserControl_Loaded"
     SizeChanged="UserControl_SizeChanged"
     Unloaded="UserControl_Unloaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:EnumConverter x:Key="ConvertEnum"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer VerticalScrollMode="Enabled"
                   VerticalScrollBarVisibility="Visible"
@@ -64,8 +70,7 @@
                        FontWeight="SemiLight"/>
                         <ComboBox FontSize="16"
                   FontWeight="SemiBold"
-                  SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Priority,Mode=OneWay}"
-                  Loaded="PriorityCBox_Loaded"
+                  SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Priority,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="PriorityCombo">
@@ -127,8 +132,7 @@
                     <ComboBox Margin="0"
                   FontSize="16"
                   FontWeight="SemiBold"
-                  SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Status,Mode=OneWay}"
-                  Loaded="StatusCombo_Loaded"
+                  SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Status,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="StatusCombo"/>

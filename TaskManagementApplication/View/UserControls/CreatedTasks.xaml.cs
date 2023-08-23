@@ -37,12 +37,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             this.InitializeComponent();
             _createdTask = PresenterService.GetInstance().Services.GetService<CreatedTasksPageViewModelBase>();
-            _createdTask.TasksList.Clear();
-            _createdTask.GetTasks(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
+            taskDetailsPage = new TaskDetails();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            UIUpdation.TaskUpdated += UIUpdation_TaskUpdated;
+            UIUpdation.TaskDeleted += UIUpdation_TaskDeleted;
+            _createdTask.TasksList.Clear();
+            _createdTask.GetTasks(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
             TasksList.Visibility = Visibility.Visible;
             TasksGridSplitter.Visibility = Visibility.Collapsed;
             TasksDetailGrid.Visibility = Visibility.Collapsed;
@@ -50,6 +53,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumn(TasksList, 0);
             Grid.SetColumnSpan(TasksList, 3);
             _itemSelected = false;
+        }
+
+        private void UIUpdation_TaskUpdated(Tasks obj)
+        {
+            var issue = _createdTask.TasksList.Where(i => i.Id == obj.Id).FirstOrDefault();
+            var index = _createdTask.TasksList.IndexOf(issue);
+            _createdTask.TasksList.Remove(issue);
+            _createdTask.TasksList.Insert(index, obj);
+            taskDetailsPage._taskDetailsViewModel.GetATask(obj.Id);
         }
 
         private void UIUpdation_TaskDeleted(Tasks obj)
@@ -91,7 +103,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if ((sender as DataGrid).SelectedItem is Tasks task)
             {
-                taskDetailsPage = new TaskDetails(task.Id);
+                taskDetailsPage._taskDetailsViewModel.GetATask(task.Id);
                 taskDetailsPage.DataContext = task;
                 TasksList.DataContext = _task;
                 TasksOfAProject.SelectedIndex = -1;
@@ -101,7 +113,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void BackToList_Click(object sender, RoutedEventArgs e)
         {
             TasksOfAProject.Visibility = Visibility.Visible;
-            //TasksList.Visibility = Visible
             BackToList.Visibility = Visibility.Collapsed;
             _itemSelected = false;
             Grid.SetColumn(TasksList, 0);
@@ -138,7 +149,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private async void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             int result = await ConfirmtionDialogue();
-            //TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
                
@@ -169,7 +179,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (_windowWidth < 900)
             {
                 TasksOfAProject.FrozenColumnCount = 1;
-                //NewTaskButton.Visibility = Visibility.Collapsed;
                 _narrowLayout = true;
                 CloseButton.Visibility = Visibility.Collapsed;
                 if (_itemSelected)
@@ -185,11 +194,34 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                     BackToList.Visibility = Visibility.Visible;
                 }
             }
+            else if (_windowWidth >= 900 && _windowWidth <= 1200)
+            {
+                TasksOfAProject.FrozenColumnCount = 2;
+                _narrowLayout = false;
+                CloseButton.Visibility = Visibility.Visible;
+                SplitterColumn.MaxWidth = 400;
+                SplitterColumn.MinWidth = 300;
+                if (_itemSelected)
+                {
+                    Grid.SetColumn(TasksList, 0);
+                    Grid.SetColumn(TasksGridSplitter, 1);
+                    Grid.SetColumn(TasksDetailGrid, 2);
+                    Grid.SetColumnSpan(TasksList, 1);
+                    Grid.SetColumnSpan(TasksGridSplitter, 1);
+                    Grid.SetColumnSpan(TasksDetailGrid, 1);
+                    TasksList.Visibility = Visibility.Visible;
+                    TasksGridSplitter.Visibility = Visibility.Visible;
+                    TasksDetailGrid.Visibility = Visibility.Visible;
+                    BackToList.Visibility = Visibility.Collapsed;
+                }
+            }
             else
             {
                 TasksOfAProject.FrozenColumnCount = 2;
                 _narrowLayout = false;
                 CloseButton.Visibility = Visibility.Visible;
+                SplitterColumn.MaxWidth = 600;
+                SplitterColumn.MinWidth = 500;
                 if (_itemSelected)
                 {
                     Grid.SetColumn(TasksList, 0);
@@ -209,11 +241,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             _createdTask.TasksList.Clear();
+            UIUpdation.TaskDeleted -= UIUpdation_TaskDeleted;
+            UIUpdation.TaskUpdated -= UIUpdation_TaskUpdated;
         }
 
-        //private void NewTaskButton_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //}
     }
 }

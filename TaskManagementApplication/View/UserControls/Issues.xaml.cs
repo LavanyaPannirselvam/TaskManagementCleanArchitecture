@@ -34,10 +34,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private static bool _itemSelected; 
         private Issue _issue = new Issue();
         public IssuesViewModelBase _issueViewModel;
-        public IssueDetails issueDetailsPage1;
         public IssueDetails issueDetailsPage;
         public static event Action<string> IssuePageNotification;
-        private static Dictionary<int, AppWindow> _appWindows = new Dictionary<int, AppWindow>();
         private double _windowHeight;
         static int issueID;
         private double _windowWidth;
@@ -48,7 +46,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             _issueViewModel = PresenterService.GetInstance().Services.GetService<IssuesViewModelBase>();
             _issueViewModel.Notification = this;
-           // issueDetailsPage = new IssueDetails();
+            issueDetailsPage = new IssueDetails();
         }
 
         private void NewIssueButton_Click(object sender, RoutedEventArgs e)
@@ -129,7 +127,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if ((sender as DataGrid).SelectedItem is Issue issue)
             {
-                issueDetailsPage = new IssueDetails(issue.Id);
+                issueDetailsPage._issueViewModel.GetAIssue(issue.Id);
                 issueDetailsPage.DataContext = issue;
                 IssuesList.DataContext = _issue;
                 IssueOfAProject.SelectedIndex = -1;

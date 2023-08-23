@@ -66,7 +66,6 @@
                         <ComboBox FontSize="16"
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay}"
-                  Loaded="PriorityCBox_Loaded"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="PriorityCombo">
@@ -130,7 +129,6 @@
                   FontSize="16"
                   FontWeight="SemiBold"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay}"
-                  Loaded="StatusCombo_Loaded"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="StatusCombo"/>

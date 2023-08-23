@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.CustomAttributes;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using TaskManagementCleanArchitecture.Converter;
+using Windows.Globalization;
 using Windows.UI.Xaml.Media;
 
 namespace TaskManagementCleanArchitecture.ViewModel
@@ -12,6 +15,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
         public SettingsViewModel() 
         {
             InitializeColors();
+            Languages = new ObservableCollection<Language>
+            {
+                new Language("en-US"),
+                new Language("ru-RU")
+            };
+
         }
         private void InitializeColors()
         {
@@ -26,5 +35,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
         }
 
         public IEnumerable<SolidColorBrush> AccentColors { get; set; }
+
+        public IReadOnlyList<string> userLanguages = Windows.Globalization.ApplicationLanguages.ManifestLanguages;
+        
+        private ObservableCollection<Language> _languages;
+        public ObservableCollection<Language> Languages 
+        { 
+            get { return _languages; }
+            set 
+            { 
+                _languages = value; 
+                OnPropertyChanged(nameof(Languages));
+            }
+        }
     }
 }

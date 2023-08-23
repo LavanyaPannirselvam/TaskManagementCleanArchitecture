@@ -82,6 +82,8 @@
                   PlaceholderText="Choose Role"
                   HorizontalAlignment="Center"
                   x:Name="UserRoleEnter"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   CornerRadius="10"
                   Margin="5"
                   Width="340"
@@ -151,8 +153,8 @@
                                 x:Uid="NewUserIdLabel">
                             </TextBlock>
                             <TextBlock x:Name="UserIdEnter"
-                                   Style="{ThemeResource InputFieldTextBlock}"
                                    HorizontalAlignment="Center"
+                                   Style="{ThemeResource BasicTextBlock}"
                                    Width="400"
                                    TextWrapping="Wrap"
                                    Grid.Row="0"
@@ -168,9 +170,9 @@
                                         Grid.Column="0"
                                       x:Uid="NewUserPasswordLabel"/>
                     <TextBlock x:Name="PasswordEnter"
-                                   Style="{ThemeResource InputFieldTextBlock}"
                                    HorizontalAlignment="Center"
                                    Width="400"
+                                   Style="{ThemeResource BasicTextBlock}"
                                    TextWrapping="Wrap"
                                    Grid.Row="1"
                                    Grid.Column="1"

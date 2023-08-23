@@ -23,9 +23,6 @@ namespace TaskManagementCleanArchitecture
         static ChangeAccent()
         {
             UIUpdation.AccentColorChange += UIUpdation_AccentColorChange;
-            
-            var uiSettings = new UISettings();
-            var rgba = uiSettings.GetColorValue(UIColorType.Accent);
         }
 
 
@@ -63,40 +60,6 @@ namespace TaskManagementCleanArchitecture
                     UpdateAccentBasedOnTheme(ElementTheme.Dark);
                 }
             }
-
-            var brushes = new string[]
-            {
-                //"SystemControlBackgroundAccentBrush",
-                //"SystemControlDisabledAccentBrush",
-                //"SystemControlForegroundAccentBrush",
-                //"SystemControlHighlightAccentBrush",
-                //"SystemControlHighlightAltAccentBrush",
-                //"SystemControlHighlightAltListAccentHighBrush",
-                //"SystemControlHighlightAltListAccentLowBrush",
-                //"SystemControlHighlightAltListAccentMediumBrush",
-                //"SystemControlHighlightListAccentHighBrush",
-                //"SystemControlHighlightListAccentLowBrush",
-                //"SystemControlHighlightListAccentMediumBrush",
-                //"SystemControlHyperlinkTextBrush",
-                //"ContentDialogBorderThemeBrush",
-                //"JumpListDefaultEnabledBackground",
-                "SystemAccentColorLight1",
-                "SystemAccentColorLight2",
-                "SystemAccentColorLight3",
-                "SystemAccentColorDark1" , 
-                "SystemAccentColorDark2" ,
-                "SystemAccentColorDark3" ,
-            };
-
-            foreach (var brush in brushes)
-            {
-                try
-                {
-                    ((SolidColorBrush)Application.Current.Resources[brush]).Color = color;
-                }
-                catch { }
-            }
-            
         }
 
         public static void SetAccentColor()
@@ -110,6 +73,22 @@ namespace TaskManagementCleanArchitecture
             //if (check == null)
             //{
             //    ApplicationData.Current.LocalSettings.Values["accent"] = AppAccentColor.ToString();
+            //}
+            //var uiSettings = new UISettings();
+            //var rgba = uiSettings.GetColorValue(UIColorType.Accent);
+            //try
+            //{
+            //    var check = ApplicationData.Current.LocalSettings.Values["accent"];
+            //    if (check == null)
+            //    {
+            //        ApplicationData.Current.LocalSettings.Values["accent"] = rgba.ToString();
+            //    }
+            //    AppAccentColor = rgba;
+
+            //}
+            //catch (KeyNotFoundException)
+            //{
+            //    ApplicationData.Current.LocalSettings.Values["accent"] = rgba.ToString();
             //}
 
             if (currentTheme == ElementTheme.Light)

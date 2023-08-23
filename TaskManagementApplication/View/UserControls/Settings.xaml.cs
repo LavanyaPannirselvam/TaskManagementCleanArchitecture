@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TaskManagementCleanArchitecture.Converter;
 using TaskManagementCleanArchitecture.ViewModel;
+using TaskManagementLibrary.Enums;
 using TaskManagementLibrary.Notifications;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,6 +35,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             this.InitializeComponent();
             viewModel= PresenterService.GetInstance().Services.GetService<SettingsViewModel>();
+            var item = viewModel.Languages.FirstOrDefault().NativeName;
         }
 
         private void AccentButton_Click(object sender, RoutedEventArgs e)
@@ -41,19 +45,18 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ChangeAccent.AppAccentColor = color;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             SolidColorBrush selectedBrush = (sender as Grid).DataContext as SolidColorBrush;
             var color = selectedBrush.Color;
             ChangeAccent.AppAccentColor = color;
+        }
+
+        private void LanguageRButton_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RadioButton item = (RadioButton)e.AddedItems[0];
+            ApplicationLanguages.PrimaryLanguageOverride = item.Tag.ToString();
+            e.AddedItems.Clear();
         }
     }
 }

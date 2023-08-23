@@ -65,6 +65,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
+            PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             UIUpdation.UserAdded += UserAdded;
             UIUpdation.UserRemoved += UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
@@ -76,6 +78,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
             StartdateCalender.DateChanged += StartdateCalender_DateChanged;
             EnddateCalender.DateChanged += EnddateCalender_DateChanged;
+            //PriorityCombo.Loaded += PriorityCBox_Loaded;
+            //StatusCombo.Loaded += StatusCombo_Loaded;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -139,6 +143,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
             StartdateCalender.DateChanged -= StartdateCalender_DateChanged;
             EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
+            //PriorityCombo.Loaded -= PriorityCBox_Loaded;
+            //StatusCombo.Loaded -= StatusCombo_Loaded;
         }
 
         public void UpdateMatchingUsers()
@@ -206,7 +212,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
         {
             PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
-            PriorityCombo.SelectedIndex = 0;
+            if (_taskDetailsViewModel.SelectedTask != null)
+            {
+                PriorityCombo.SelectedIndex = (int)_taskDetailsViewModel.SelectedTask.Priority;
+            }
         }
 
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -221,7 +230,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
         {
             StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
-            StatusCombo.SelectedIndex = 0;
+            if (_taskDetailsViewModel.SelectedTask != null)
+            {
+                StatusCombo.SelectedIndex = (int)_taskDetailsViewModel.SelectedTask.Status;
+            }
         }
 
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)

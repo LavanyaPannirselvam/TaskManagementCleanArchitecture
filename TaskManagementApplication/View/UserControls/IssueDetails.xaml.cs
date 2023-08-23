@@ -73,14 +73,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (args.ChosenSuggestion != null && args.ChosenSuggestion is UserBO user)
             {
-                // _suggestedItems.Remove();
-                //removeUser.Invoke(_suggestedItems.Where(i => i.Email == user.Email).FirstOrDefault());
-                //AssignUserBox.Text = string.Empty;
                 AssignUserBox.Text = string.Empty;
                 AssignUserBox.IsSuggestionListOpen = false;
                 _issueViewModel.AssignUserToIssue(user.Email, _issueViewModel.SelectedIssue.Id);
             }
-            //AssignUserBox.Text = args.QueryText;
         }
 
         public void IssueDetailsPageNotification()
@@ -91,6 +87,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            //PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
+            //StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
             Notification += ShowNotification;
             UpdateUsers += IssueDetailsPage_UpdateUsers;
             UIUpdation.UserAdded += UIUpdation_UserAdded;
@@ -102,6 +100,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             EnddateCalender.DateChanged += EnddateCalender_DateChanged;
             PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
             StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
+            PriorityCombo.Loaded += PriorityCBox_Loaded;
+            StatusCombo.Loaded += StatusCombo_Loaded;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -165,6 +165,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
             PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
             StatusCombo.SelectionChanged -= StatusCombo_SelectionChanged;
+            PriorityCombo.Loaded -= PriorityCBox_Loaded;
+            StatusCombo.Loaded -= StatusCombo_Loaded;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -193,28 +195,26 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UpdateUsers.Invoke(_issueViewModel.MatchingUsers);
         }
 
-        //private void AssignUserBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        //{
-        //    _selectedUser = args.SelectedItem as UserBO;
-        //    //AssignUserBox.TextMemberPath = _selectedUser.Name.ToString();
-        //}
-
         private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
         {
             PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
-            PriorityCombo.SelectedIndex = 0;
+            if (_issueViewModel.SelectedIssue != null)
+            {
+                StatusCombo.SelectedIndex = (int)_issueViewModel.SelectedIssue.Status;
+            }
         }
 
         private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
         {
             StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
-            StatusCombo.SelectedIndex = 0;
-            //StatusCombo.SelectedItem = null;
+            if (_issueViewModel.SelectedIssue != null)
+            {
+                StatusCombo.SelectedIndex = (int)_issueViewModel.SelectedIssue.Status;
+            }
         }
 
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //StatusCombo.SelectedItem = _issueViewModel.SelectedIssue.Status;
             var selectedOption = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(StatusType), null, null);
             if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Status != selectedOption)
             {
@@ -224,7 +224,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void PriorityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //PriorityCombo.SelectedItem = _issueViewModel?.SelectedIssue.Priority;
             var selectedOption = (PriorityType)_enumConverter.ConvertBack(e.AddedItems[0], typeof(PriorityType), null, null);
             if (_issueViewModel.SelectedIssue != null && _issueViewModel.SelectedIssue.Priority != selectedOption)
             {
@@ -262,7 +261,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var text = ((TextBox)sender).Text;
-            if (text != null && text!= _issueViewModel.SelectedIssue.Name)// && text != _issueViewModel.SelectedIssue.Name)
+            if (text != null && text!= _issueViewModel.SelectedIssue.Name)
             {
                 _issueViewModel.ChangeName(_issueViewModel.SelectedIssue.Id, text);
             }
