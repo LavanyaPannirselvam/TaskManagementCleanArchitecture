@@ -8,28 +8,28 @@ using TaskManagementLibrary.Data;
 
 namespace TaskManagementLibrary
 {
-    public class LibraryInitialization
+    public sealed class LibraryInitialization
     {
-        CreateTables createTableInstance;
-        private static LibraryInitialization _instance;
-
+        private static LibraryInitialization _instance ;
+        
         private LibraryInitialization() { }
+
+        static LibraryInitialization ()
+        {
+            _instance = new LibraryInitialization();
+        }
 
         public static LibraryInitialization GetInstance()
         {
-            if (_instance == null)
-            {
-                _instance = new LibraryInitialization();
-            }
             return _instance;
         }
+
         public void InitializeDb()
         {
             CreateTables createTables = Domain.ServiceProvider.GetInstance().Services.GetService<CreateTables>();
-            if (createTableInstance == null)
-            {
-                createTableInstance = createTables;
-            }
         }
     }
+
+
+   
 }

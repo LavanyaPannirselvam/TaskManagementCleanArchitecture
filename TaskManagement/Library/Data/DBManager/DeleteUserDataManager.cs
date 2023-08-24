@@ -20,7 +20,7 @@ namespace TaskManagementLibrary.Data.DBManager
             var email = request.UserEmail;
             var user = DBhandler.GetUser(email);
             var assignmentsList = DBhandler.AssignmentsList(user.Email);
-            if (assignmentsList != null)
+            if (assignmentsList.Count != 0)
             {
                 DBhandler.RemoveAllAssignments(assignmentsList);
             }
@@ -28,7 +28,6 @@ namespace TaskManagementLibrary.Data.DBManager
             DeleteUserResponse userResponse = new DeleteUserResponse();
             userResponse.Data = user;
             DBhandler.DeleteUser(email);
-           // DeleteUserResponse deleteUser = new DeleteUserResponse();
             ZResponse<DeleteUserResponse> zResponse = new ZResponse<DeleteUserResponse>();
             zResponse.Data = userResponse;
             zResponse.Response = "User deleted Successfully";

@@ -11,51 +11,14 @@ using TaskManagementLibrary;
 
 namespace TaskManagementLibrary.Data.DBAdapter
 {
-    public class DBAdapter : IDBAdapter
+    public sealed class DBAdapter : IDBAdapter
     {
-        //private static SQLiteConnection connection = null;
-        ////public DBAdapter(DatabaseConnection connection)
-        //public DBAdapter(SQLiteConnection dbConn)
-        //{
-        //    //if (connection == null)
-        //    //{
-        //    //    var conn = dbConn;
-        //        //connection = conn.GetDbConnection();
-        //        lock (connection)
-        //        {
-        //            if (connection == null)
-        //            {
-        //                connection = dbConn;
-        //                //LibraryInitialization libraryInitialization;
-        //                //libraryInitialization = LibraryInitialization.GetInstance();
-        //                //libraryInitialization.InitializeDb();
-        //            }
-        //        }
-        //    //}
-        //}
         private static SQLiteConnection connection = null;
-        private static readonly object ConnectionLock = new object();
-        public DBAdapter()
-        {
-            if (connection == null)
-            {
-                //var conn = dbConn;
-                //connection = DatabaseConnection.GetDbConnection();
-                lock (ConnectionLock)
-                {
-                    if (connection == null)
-                    {
-                        connection = DatabaseConnection.GetDBConnection();
-                        //LibraryInitialization libraryInitialization;
-                        //libraryInitialization = LibraryInitialization.GetInstance();
-                        //libraryInitialization.InitializeDb();
-                    }
-                }
-            }
-        }
-
-
         
+        static DBAdapter()
+        {
+            connection = DatabaseConnection.GetDBConnection();
+        }
 
         public void Create<T>(T value) where T : new()
         {

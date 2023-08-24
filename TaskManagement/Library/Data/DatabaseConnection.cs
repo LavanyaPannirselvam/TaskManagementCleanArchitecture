@@ -10,42 +10,20 @@ using Windows.Storage;
 
 namespace TaskManagementLibrary.Data
 {
-    public class DatabaseConnection
+    public sealed class DatabaseConnection
     {
-       // public static string DbPath;
         private static SQLiteConnection DbConnection;
-        //DatabasePath dbPathConnection;
-        
-        //public DatabaseConnection(DatabasePath _dbpath)
-        //{
-        //    dbPathConnection = _dbpath;
-        //    EstablishConnection();
-        //}
 
-        private DatabaseConnection()
+        private DatabaseConnection() { }
+        
+        static DatabaseConnection()
         {
-            //EstablishConnection();
+            DbConnection = new SQLiteConnection(GetPath());
         }
 
-        //private void EstablishConnection()
-        //{
-        //    DbConnection = new SQLiteConnection(GetPath());
-        //}
-
-        private static readonly object Instancelock = new object();
         public static SQLiteConnection GetDBConnection()
         {
-            if (DbConnection == null)
-            {
-                lock (Instancelock)
-                {
-                    if (DbConnection == null)
-                    {
-                        DbConnection = new SQLiteConnection(GetPath());
-                    }
-                }
-            }
-            return DbConnection;
+             return DbConnection;
         }
 
         private static string GetPath()
