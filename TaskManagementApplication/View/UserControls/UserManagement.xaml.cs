@@ -66,7 +66,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _matchingUsers = obj;
             if (_matchingUsers.Count == 0)
             {
-                //UsersGridView.ItemsSource = _viewModel.UsersList;
                 UsersGridView.Visibility = Visibility.Collapsed;
                 NoUsersText.Visibility = Visibility.Visible;
             }
@@ -76,7 +75,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 UsersGridView.Visibility = Visibility.Visible;
                 NoUsersText.Visibility = Visibility.Collapsed;
             }
-            //UsersGridView.ItemsSource = _matchingUsers;
         }
 
         private void UIUpdation_UserLogout()
@@ -92,18 +90,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void UIUpdation_UserDeleted(User obj)
         {
             _viewModel.UsersList.Remove(_viewModel.UsersList.Where(u => u.Email == obj.Email).FirstOrDefault());
-            //_toViewUsers = _viewModel.UsersList;
         }
 
         private void NewUserCreated(User obj)
         {
             _viewModel.UsersList.Add(obj);
-           // _toViewUsers = _viewModel.UsersList;
         }
 
         private void ShowNotification(string msg)
         {
-            //NotificationControl.Show(msg, 3000);
+            NotificationControl.Show(msg, 3000);
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -138,11 +134,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 var text = sender.Text;
                 if (text.Length > 0)
-                {
-                    //    UsersGridView.ItemsSource = _matchingUsers;
-                    //    _matchingUsers.Clear();
-                    //    _matchingUsers = CheckForUser(_viewModel.UsersList, text);
-                    //    
+                { 
                     _viewModel.GetMatchingUsers(text);
                 }
                 else
@@ -156,22 +148,30 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            _viewModel.GetAllUsersList(9, _viewModel.UsersList.Count);
+            _viewModel.GetAllUsersList(12, _viewModel.UsersList.Count);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width < 950 || e.NewSize.Height < 980)
+            if (e.NewSize.Width < 950 )
             {
-                GridViewScroller.Height = 680;
+                GridViewScroller.Height = 670;
             }
             else if (e.NewSize.Width >= 950 && e.NewSize.Width < 1200)
             {
                 GridViewScroller.Height = 690;
             }
-            else
+            else if(e.NewSize.Width >= 1200 && e.NewSize.Width <= 1310)
+            {
+                GridViewScroller.Height = 715;
+            }
+            else if( e.NewSize.Width <= 1400)
             {
                 GridViewScroller.Height = 780;
+            }
+            else if(e.NewSize.Width <= 1475)
+            {
+                GridViewScroller.Height = 730;
             }
         }
 
@@ -181,42 +181,3 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         }
     }
 }
-
-//if(_matchingUsers.Count == 0) 
-//{
-//    //UsersGridView.ItemsSource = _viewModel.UsersList;
-//    UsersGridView.Visibility = Visibility.Collapsed;
-//    NoUsersText.Visibility = Visibility.Visible;
-//}
-//else
-//{
-//    UsersGridView.Visibility = Visibility.Visible;
-//    NoUsersText.Visibility = Visibility.Collapsed;
-//}
-//private ObservableCollection<User> CheckForUser(ObservableCollection<User> usersList, string[] input)
-//{
-//    ObservableCollection<User> matchedUsers = new ObservableCollection<User>();
-//    foreach (var u in usersList)
-//    {
-//        var found = input.All((key) =>
-//        {
-//            return u.Name.ToLower().Contains(key);
-//        });
-//        if (found)
-//        {
-//            matchedUsers.Add(u);
-//        }
-//    }
-//    if (matchedUsers.Count == 0)
-//    {
-//        ObservableCollection<User> fromCollectionUsers;//= new ObservableCollection<User>();
-//        _viewModel.GetAllUsersList(9, usersList.Count);
-//        fromCollectionUsers = new ObservableCollection<User>(_viewModel.UsersList.Except(usersList));
-//        if (fromCollectionUsers.Count == 0)
-//        {
-//            return matchedUsers;
-//        }
-//        return CheckForUser(fromCollectionUsers, input);
-//    }
-//    return matchedUsers;
-//}

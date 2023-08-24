@@ -68,12 +68,11 @@
                                       Content="Must be mininum of 5 characters with one lowercase, uppercase and special charater." />
                         </ToolTipService.ToolTip>
                     </PasswordBox>
-                    <CheckBox  CornerRadius="5"
-                                   Margin="45,0,0,0"
-                                   Name="revealModeCheckBox"
+                    <CheckBox  Margin="45,0,0,0"
+                               Name="revealModeCheckBox"
                                    x:Uid="ShowPasswordLabel"
                                    IsChecked="False"
-                                   Style="{ThemeResource CheckboxCustomStyle}"
+                                   Style="{ThemeResource DefaultCheckBoxStyle}"
                                    Checked="RevealModeCheckbox_Changed"
                                    Unchecked="RevealModeCheckbox_Changed"/>
                 </StackPanel>

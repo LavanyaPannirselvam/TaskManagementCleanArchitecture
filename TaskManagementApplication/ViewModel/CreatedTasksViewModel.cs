@@ -53,6 +53,14 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 if (response.Data.Data != null)
                 {
                     PopulateData(response.Data.Data);
+                    if (_viewModel.TasksList.Count >= 20)
+                    {
+                        _viewModel.DataGridHeight = new GridLength(750, GridUnitType.Pixel);
+                    }
+                    else
+                    {
+                        _viewModel.DataGridHeight = new GridLength(0, GridUnitType.Auto);
+                    }
                     _viewModel.TextVisibility = Visibility.Collapsed;
                     _viewModel.DataGridVisibility = Visibility.Visible;
                 }
@@ -76,7 +84,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public ObservableCollection<Tasks> TasksList = new ObservableCollection<Tasks>();
         public int userId { get; set; }
-        //public ITaskUpdation updation { get; set; }
         public abstract void GetTasks(string name,string email);
 
         public void DeleteTask(int taskId)
@@ -94,6 +101,17 @@ namespace TaskManagementCleanArchitecture.ViewModel
             {
                 _textVisibility = value;
                 OnPropertyChanged(nameof(TextVisibility));
+            }
+        }
+
+        private GridLength _dataGridHeight;//= 700;
+        public GridLength DataGridHeight
+        {
+            get { return _dataGridHeight; }
+            set
+            {
+                _dataGridHeight = value;
+                OnPropertyChanged(nameof(DataGridHeight));
             }
         }
 
@@ -144,7 +162,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             await SwitchToMainUIThread.SwitchToMainThread(() =>
             {
                 _deleteTask.ResponseString = response.Response.ToString();
-                //_deleteTask.updation.TaskUpdationNotification();
                 UIUpdation.OnTaskDeleted(response.Data.Data);
                 if (_deleteTask.TasksList.Count != 0)
                 {
@@ -160,9 +177,4 @@ namespace TaskManagementCleanArchitecture.ViewModel
             });
         }
     }
-    //public interface ITaskUpdation
-    //{
-    //    void TaskUpdationNotification();
-    //}
-
 }

@@ -125,7 +125,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ShowNotification(string obj)
         {
-            //NoitificationBox.Show(obj, 3000);
+            NoitificationBox.Show(obj, 3000);
         }
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)

@@ -40,7 +40,6 @@
                     Background="{ThemeResource SupportingColor}"
                     Padding="10">
             <TextBox Grid.Row="0"
-                   Padding="2"
                    Margin="0,2"
                    FontSize="18"
                    FontStretch="Normal"
@@ -93,7 +92,8 @@
                      TextWrapping="Wrap"
                      HorizontalAlignment="Stretch"
                      Grid.Row="1"
-                     Height="120"
+                     MinHeight="60"
+                     MaxHeight="120"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      Text="{x:Bind _taskDetailsViewModel.SelectedTask.Desc,Mode=OneWay}"
                      Margin="0,0,10,0"
@@ -102,6 +102,7 @@
                 </Grid>
                 <Grid Grid.Row="3"
               Margin="5,3"
+              MinHeight="365"
               Background="{ThemeResource SupportingColor}"
               CornerRadius="3"
               VerticalAlignment="Top"

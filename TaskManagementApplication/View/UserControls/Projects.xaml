@@ -228,8 +228,8 @@
                 </controls:DropShadowPanel>
             </Popup>
          
-                <controls:InAppNotification x:Name="NoitificationBox"
-                                        Grid.Row="1"
+            <controls:InAppNotification x:Name="NoitificationBox"
+                                        Grid.Row="2"
                                         Style="{ThemeResource NotificationStyle}"
                                         Grid.ColumnSpan="2"/>
         </Grid>

@@ -19,7 +19,8 @@
                       Height="680"
                       x:Name="Scroller">
             <Grid Padding="5"
-          Background="{ThemeResource AppForegroundBg}">
+          Background="{ThemeResource AppForegroundBg}"
+                  MinHeight="680">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -35,7 +36,6 @@
                     Background="{ThemeResource SupportingColor}"
                     Padding="10">
                     <TextBox Grid.Row="0"
-                   Padding="2"
                    FontSize="18"
                    FontStretch="Normal"
                    FontWeight="SemiBold"
@@ -86,7 +86,8 @@
                         <TextBox x:Name="DescriptionBox"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
-                     Height="120" 
+                     MinHeight="60"
+                     MaxHeight="120" 
                      HorizontalAlignment="Stretch"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      Grid.Row="1"
@@ -100,6 +101,7 @@
               Margin="5,3"
               Background="{ThemeResource SupportingColor}"
               CornerRadius="3"
+              MinHeight="375"
               VerticalAlignment="Top"
               Padding="10">
                     <Grid.RowDefinitions>

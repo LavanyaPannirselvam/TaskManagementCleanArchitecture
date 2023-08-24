@@ -52,6 +52,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.TaskDeleted += UIUpdation_TaskDeleted;
             Grid.SetColumn(TasksList, 0);
             Grid.SetColumnSpan(TasksList, 3);
+            if (_createdTask.TasksList.Count >= 20)
+            {
+                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+            }
             _itemSelected = false;
         }
 
@@ -152,7 +156,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (result == 1)
             {
                
-                _itemSelected = false;//TODO
+                _itemSelected = false;
                 _createdTask.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
         }

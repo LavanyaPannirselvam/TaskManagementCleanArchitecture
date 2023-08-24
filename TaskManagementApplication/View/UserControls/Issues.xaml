@@ -21,8 +21,8 @@
     <Grid>
         <Grid CornerRadius="10"
               Background="{ThemeResource AppForegroundBg}"
-          x:Name="IssuePage"
-          x:Load="True">
+              x:Name="IssuePage"
+              x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="700"/>
@@ -72,10 +72,9 @@
                         <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" 
+                    <TextBlock
                            Text="{x:Bind _issueViewModel.ResponseString,Mode=OneWay}" 
                            Style="{ThemeResource BasicTextBlock}"
-                           Grid.ColumnSpan="3"
                            Visibility="{x:Bind _issueViewModel.TextVisibility,Mode=OneWay}"/>
                     <controls:DataGrid x:Name="IssueOfAProject"
                        ItemsSource="{x:Bind _issueViewModel.IssuesList}"
@@ -187,9 +186,6 @@
                             </controls:DataGridTemplateColumn>
                         </controls:DataGrid.Columns>
                     </controls:DataGrid>
-                    <controls:InAppNotification x:Name="NoitificationBox"
-                                                Grid.Row="3"
-                                                Style="{ThemeResource NotificationStyle}"/>
                 </Grid>
                 <controls:GridSplitter Visibility="Collapsed" 
                                    x:Name="IssueGridSplitter" 
@@ -304,11 +300,14 @@
                     </Grid>
                 </controls:DropShadowPanel>
             </Popup>
-
+            <controls:InAppNotification x:Name="NoitificationBox"
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="2"
+                                                Style="{ThemeResource NotificationStyle}"/>
 
         </Grid>
     <Grid x:Load="False"
-              x:Name="Projectpage">
+          x:Name="Projectpage">
             <locals:Projects />
         </Grid>
     </Grid>

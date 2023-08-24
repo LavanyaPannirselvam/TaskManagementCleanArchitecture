@@ -25,14 +25,15 @@
           x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="750"/>
         </Grid.RowDefinitions>
         <RelativePanel Margin="0,0,0,20">
             <TextBlock Text="Created Tasks"
                        Style="{ThemeResource TitleTextBlock}"
                        RelativePanel.AlignLeftWithPanel="True"/>
         </RelativePanel>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+               Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="SplitterColumn" MinWidth="500" MaxWidth="600"/>
                 <ColumnDefinition Width="5" />
@@ -41,7 +42,8 @@
 
             <Grid x:Name="TasksList" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="{x:Bind _createdTask.DataGridHeight,Mode=OneWay}" x:Name="GridRow"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" 
@@ -216,8 +218,6 @@
                 </Grid>
             </Grid>
         </Grid>
-        <controls:InAppNotification x:Name="NoitificationBox"
-                                    Style="{ThemeResource NotificationStyle}"/>
-    </Grid>
+        </Grid>
 
 </UserControl>

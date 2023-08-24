@@ -27,9 +27,11 @@
           x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="750"/>
+            <RowDefinition Height="700"/>
+            <!--<RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>-->
         </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="430"/>
             </Grid.ColumnDefinitions>
@@ -41,7 +43,7 @@
                     Click="BackButton_Click"/>
                 <TextBlock x:Uid="TaskTitleLabel"
                            Style="{ThemeResource TitleTextBlock}"
-                       RelativePanel.RightOf="BackButton"/>
+                           RelativePanel.RightOf="BackButton"/>
                 <Button x:Name="NewTaskButton"
                     x:Uid="NewTaskButton"
                     CornerRadius="5"
@@ -58,7 +60,6 @@
            
             <Grid Grid.Row="1"
               Grid.Column="0"
-              Height="750"
               Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="SplitterColumn" MinWidth="500" MaxWidth="600"/>
@@ -184,9 +185,6 @@
                             </controls:DataGridTemplateColumn>
                         </controls:DataGrid.Columns>
                     </controls:DataGrid>
-                    <controls:InAppNotification x:Name="NoitificationBox"
-                                   Style="{ThemeResource NotificationStyle}"
-                                    Grid.Row="1"/>
                 </Grid>
                 <controls:GridSplitter Visibility="Collapsed" 
                                    x:Name="TasksGridSplitter"
@@ -194,8 +192,7 @@
                                    Style="{ThemeResource GridSplitterStyle}">
                     <controls:GridSplitter.Element>
                         <Grid>
-                            <TextBlock Style="{ThemeResource GridSplitterElementStyle}">
-                            </TextBlock>
+                            <TextBlock Style="{ThemeResource GridSplitterElementStyle}"/>
                         </Grid>
                     </controls:GridSplitter.Element>
                 </controls:GridSplitter>
@@ -246,17 +243,11 @@
                         <local:TaskDetails x:Name="TaskDetailsPage"/>
                     </Grid>
                 </Grid>
-
             </Grid>
             <Popup IsOpen="False"
                    Name="AddTaskForm"
                    Grid.Row="1"
                    Grid.Column="1">
-                <!--<Popup.ChildTransitions>
-                <TransitionCollection>
-                    <PaneThemeTransition Edge="Right"/>
-                </TransitionCollection>
-            </Popup.ChildTransitions>-->
                 <controls:DropShadowPanel Color="Black"
                                       OffsetX="-25"
                                       OffsetY="25"
@@ -304,6 +295,10 @@
                     </Grid>
                 </controls:DropShadowPanel>
             </Popup>
+            <controls:InAppNotification x:Name="NotificationBox"
+                                   Style="{ThemeResource NotificationStyle}"
+                                   Grid.Row="2"
+                                    Grid.ColumnSpan="2"/>
         </Grid>
         <Grid x:Load="False"
               x:Name="Projectpage">

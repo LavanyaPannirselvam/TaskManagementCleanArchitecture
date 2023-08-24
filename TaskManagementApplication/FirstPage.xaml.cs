@@ -105,8 +105,6 @@ namespace TaskManagementCleanArchitecture
             }
             else if(args.SelectedItem == SettingsTab)
             {
-                //NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate4"]).LoadContent();
-                //MainPageNV.AlwaysShowHeader = true;
                 await PopoutButton_Click();
             }
         }

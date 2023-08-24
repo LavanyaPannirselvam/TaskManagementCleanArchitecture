@@ -10,7 +10,7 @@ using TaskManagementLibrary.Domain.Usecase;
 
 namespace TaskManagementCleanArchitecture
 {
-    public class PresenterService
+    public sealed class PresenterService
     {
         public IServiceProvider Services { get; }
         //singleton so constructor called and ConfigureServices is called only once
@@ -18,15 +18,13 @@ namespace TaskManagementCleanArchitecture
         {
             Services = ConfigureServices();
         }
-        public static PresenterService _instance;
+        public static PresenterService _instance = new PresenterService();
+        
         public static PresenterService GetInstance()
         {
-            if (_instance == null)
-            {
-                _instance = new PresenterService();
-            }
             return _instance;
         }
+
         private static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();

@@ -49,7 +49,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             TasksGridSplitter.Visibility = Visibility.Collapsed;
             TasksDetailGrid.Visibility = Visibility.Collapsed;
             Grid.SetColumn(TasksList, 0);
-            Grid.SetColumnSpan(TasksList, 3);
+            Grid.SetColumnSpan(TasksList, 3); 
+            if (_assignedTasksPageViewModelBase.TasksList.Count >= 20)
+            {
+                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
+            }
             _itemSelected = false;
         }
 

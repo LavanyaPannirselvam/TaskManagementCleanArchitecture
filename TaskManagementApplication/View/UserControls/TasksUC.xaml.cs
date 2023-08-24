@@ -137,10 +137,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 _itemSelected = false;
             }
             AddTaskForm.IsOpen = true;
-            //double horizontalOffset = Window.Current.Bounds.Width / 2 - AddTaskForm.ActualWidth / 4 + 420;
-            //double verticalOffset = Window.Current.Bounds.Height / 2 - AddTaskForm.ActualHeight / 2 - 300;
-            //AddTaskForm.HorizontalOffset = horizontalOffset;
-            //AddTaskForm.VerticalOffset = verticalOffset;
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
@@ -164,14 +160,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private async void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             int result = await ConfirmtionDialogue();
-            //TasksDetailGrid.Visibility = Visibility.Collapsed;
             if (result == 1)
             {
-                //TasksList.Visibility = Visibility.Visible;
-                //TasksGridSplitter.Visibility = Visibility.Collapsed;
-                //TasksDetailGrid.Visibility = Visibility.Collapsed;
-                //Grid.SetColumn(TasksList, 0);
-                //Grid.SetColumnSpan(TasksList, 3);
                 _itemSelected = false;//TODO
                 _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
@@ -196,7 +186,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         
         public void ShowTaskPageNotiifcation(string msg)
         {
-            NoitificationBox.Show(msg, 3000);
+            NotificationBox.Show(msg, 3000);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -283,7 +273,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumnSpan(TasksList, 3);
             if (_taskViewModel.TasksList.Count >= 20)
             {
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
             }
             _itemSelected = false;
         }
@@ -313,7 +303,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _taskViewModel.TasksList.Add(tasks);
             if (_taskViewModel.TasksList.Count >= 20)
             {
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(700, GridUnitType.Pixel);
             }
         }
 
@@ -341,21 +331,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             AddTaskForm.IsOpen = false;
             CreateTaskForm.ClearFormData();
         }
-
-        //private async Task PopoutButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    AppWindow appWindow = await AppWindow.TryCreateAsync();
-        //    Frame appWindowContentFrame = new Frame();
-        //    //IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
-        //    appWindowContentFrame.Navigate(typeof(TaskDetailsPage));
-        //    ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-        //    await appWindow.TryShowAsync();
-        //}
-
-        //private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        //{
-        //    _taskViewModel.GetTasks(_taskViewModel.TasksList.First().ProjectId,20,_taskViewModel.TasksList.Count);
-        //}
     }
 }
 
