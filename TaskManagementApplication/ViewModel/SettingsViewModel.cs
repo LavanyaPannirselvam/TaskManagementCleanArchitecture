@@ -11,17 +11,24 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class SettingsViewModel : NotifyPropertyBase
     {
-        
+        public IEnumerable<Language> Languages { get; set; }
+        public IEnumerable<SolidColorBrush> AccentColors { get; set; }
+
         public SettingsViewModel() 
         {
             InitializeColors();
-            Languages = new ObservableCollection<Language>
+            InitializeLanguages();
+        }
+
+        private void InitializeLanguages()
+        {
+            Languages = new List<Language>
             {
                 new Language("en-US"),
                 new Language("ru-RU")
             };
-
         }
+
         private void InitializeColors()
         {
             AccentColors = new List<SolidColorBrush>(){
@@ -34,19 +41,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
             };
         }
 
-        public IEnumerable<SolidColorBrush> AccentColors { get; set; }
 
-        public IReadOnlyList<string> userLanguages = Windows.Globalization.ApplicationLanguages.ManifestLanguages;
-        
-        private ObservableCollection<Language> _languages;
-        public ObservableCollection<Language> Languages 
-        { 
-            get { return _languages; }
-            set 
-            { 
-                _languages = value; 
-                OnPropertyChanged(nameof(Languages));
-            }
-        }
     }
 }

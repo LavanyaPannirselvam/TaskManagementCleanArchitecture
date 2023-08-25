@@ -7,10 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary>
-        </ResourceDictionary>
-    </Page.Resources>
     <Page.Background>
         <ImageBrush ImageSource="/Assets/AppBackdrop-Light.png" />
     </Page.Background>
@@ -72,7 +68,7 @@
                                Name="revealModeCheckBox"
                                    x:Uid="ShowPasswordLabel"
                                    IsChecked="False"
-                                   Style="{ThemeResource DefaultCheckBoxStyle}"
+                                   Style="{ThemeResource CheckBoxCustom}"
                                    Checked="RevealModeCheckbox_Changed"
                                    Unchecked="RevealModeCheckbox_Changed"/>
                 </StackPanel>

@@ -33,13 +33,6 @@ namespace TaskManagementCleanArchitecture
         public App()
         {
             this.InitializeComponent();
-            //object value = ApplicationData.Current.LocalSettings.Values["themeSetting"];
-
-            //if (value != null)
-            //{
-            //    // Apply theme choice.
-            //    App.Current.RequestedTheme = (ApplicationTheme)(int)value;
-            //}
             this.Suspending += OnSuspending;
         }
 
@@ -83,14 +76,8 @@ namespace TaskManagementCleanArchitecture
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
-            SwitchTheme.AddUIRootElement(rootFrame);
-            var uiSettings = new Windows.UI.ViewManagement.UISettings();
-            var rgba = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
-            ChangeAccent.AppAccentColor = rgba;
-            ////    object value = ApplicationData.Current.LocalSettings.Values["SystemAccentColor"];
-            //ChangeAccent.AppAccentColor = rgba;
-            //ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
-            UIUpdation.OnAccentColorChanged();
+            ThemeSwitch.AddUIRootElement(rootFrame);
+            AccentChange.SetAccentColor();
             LibraryInitialization libraryInitialization;
             libraryInitialization = LibraryInitialization.GetInstance();
             libraryInitialization.InitializeDb();
@@ -119,8 +106,5 @@ namespace TaskManagementCleanArchitecture
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-        //static string databaseName = "TaskManagementApplication.db";
-        //static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        //public static string DatabasePath = Path.Combine(folderPath, databaseName);
     }
 }

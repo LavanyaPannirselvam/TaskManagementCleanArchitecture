@@ -48,17 +48,6 @@ namespace TaskManagementCleanArchitecture
         }
 
         public LoggedInUserBO CurrentUser = CurrentUserClass.CurrentUser;
-       
-        private String _headerTitle = "Projects";
-        public String HeaderTitle
-        {
-            get { return _headerTitle; }
-            set
-            {
-                _headerTitle = value;
-                NotifyPropertyChanged(nameof(HeaderTitle));
-            }
-        }
 
         private Visibility _adminTabVisibility = Visibility.Collapsed;
         public Visibility AdminTabVisibility
@@ -116,9 +105,9 @@ namespace TaskManagementCleanArchitecture
                 settingPage = await AppWindow.TryCreateAsync();
                 Frame appWindowContentFrame = new Frame();
                 settingPage.Closed += SettingPage_Closed;
-                appWindowContentFrame.Navigate(typeof(Settings));
+                appWindowContentFrame.Navigate(typeof(SettingsPage));
                 ElementCompositionPreview.SetAppWindowContent(settingPage, appWindowContentFrame);
-                SwitchTheme.AddUIRootElement(appWindowContentFrame);
+                ThemeSwitch.AddUIRootElement(appWindowContentFrame);
                 await settingPage.TryShowAsync();
             }
             else
@@ -144,15 +133,15 @@ namespace TaskManagementCleanArchitecture
         {
             if (value == 0)
             {
-                await SwitchTheme.ChangeTheme(ElementTheme.Dark);
-                SwitchTheme.CurrentTheme = ElementTheme.Dark;
-                ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
+                await ThemeSwitch.ChangeTheme(ElementTheme.Dark);
+                ThemeSwitch.CurrentTheme = ElementTheme.Dark;
+                AccentChange.UpdateAccentBasedOnTheme(ThemeSwitch.CurrentTheme);
             }
             else
             {
-                await SwitchTheme.ChangeTheme(ElementTheme.Light);
-                SwitchTheme.CurrentTheme = ElementTheme.Light;
-                ChangeAccent.UpdateAccentBasedOnTheme(SwitchTheme.CurrentTheme);
+                await ThemeSwitch.ChangeTheme(ElementTheme.Light);
+                ThemeSwitch.CurrentTheme = ElementTheme.Light;
+                AccentChange.UpdateAccentBasedOnTheme(ThemeSwitch.CurrentTheme);
 
             }
         }
@@ -161,7 +150,7 @@ namespace TaskManagementCleanArchitecture
         {
             MainPageNV.SelectedItem = ProjectsTab;
             ThemeChange.Toggled += ToggleSwitch_Toggled;
-            ThemeChange.IsOn = SwitchTheme.CurrentTheme == ElementTheme.Dark;
+            ThemeChange.IsOn = ThemeSwitch.CurrentTheme == ElementTheme.Dark;
         }
 
         private void Logout_Tapped(object sender, TappedRoutedEventArgs e)

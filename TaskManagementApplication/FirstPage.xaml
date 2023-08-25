@@ -16,9 +16,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <ResourceDictionary>
-            <!--<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///ResourseDictionary/StylesDictionary"></ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>-->
             <DataTemplate x:Key="UserControlTemplate1">
                 <usercontrols:Projects/>
             </DataTemplate>
@@ -29,11 +26,9 @@
                 <usercontrols:UserManagement/>
             </DataTemplate>
             <DataTemplate x:Key="UserControlTemplate4">
-                <usercontrols:Settings/>
+                <usercontrols:SettingsPage/>
             </DataTemplate>
             <x:Double x:Key="ControlContentThemeFontSize">14</x:Double>
-            <!--<x:Double x:Key="ToggleSwitchThemeMinWidth">100</x:Double>-->
-            <!--<x:Double x:Key="ToggleSwitchThemeMinWidth">154</x:Double>-->
             <x:Double x:Key="ToggleSwitchThemeMinWidth">154</x:Double>
 
             <Style x:Key="PaneToggleButtonStyle" TargetType="Button">
@@ -1463,7 +1458,7 @@
             <NavigationView.PaneHeader>
                 <TextBlock Margin="6"
                            FontSize="18"
-                           Text="{x:Bind HeaderTitle,Mode=OneWay}"></TextBlock>
+                           x:Uid="OverviewLabel"></TextBlock>
             </NavigationView.PaneHeader>
             <NavigationView.HeaderTemplate>
                 <DataTemplate x:Name="Welcome" x:DataType="library:LoggedInUserBO">
@@ -1573,28 +1568,8 @@
     </Grid>
 </Page>
 <!--//9222208888--> 
-    <!--1.util for id creation -> done
-    2.encrypted password
-    1.Projects Page
-                1.adaptive -> button visisbility - off -> done
-    2.Tasks Page
-                3.create & delete notification position -> done
-    3.Issues Page
-                3.create & delete notification position -> done
-                4.change priority and status
-    4.Full app
-                3.ascent
-                4.search -> done
-                5.load data on horizontal scrolling -> done
-    Problems:
-    4.on any activity deleted its details page should close before popup -> done
-    5.on adding projects the new item is getting added by how times times it get navigated (from back)
-    6.singleton class in db -> to be done by static constructor
-    7.assign and remove users list -> on hover should retain at any point of the data template
-    8.user management - grid view - not scrolling till last item
-    12.zresponse data will be setted in its <> part itself -> done
-    13.
-    TODO:
-    1.remove all dependency property for current user -> done
-    -->
+    <!--
+    4.language should be selected on app launch
+    5.scrollviewer height change in projects,tasks,and issues page
+-->
     

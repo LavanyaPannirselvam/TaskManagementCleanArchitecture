@@ -29,11 +29,11 @@ namespace TaskManagementCleanArchitecture
         {
             var services = new ServiceCollection();
             services.AddSingleton<ProjectsViewModelBase, ProjectsViewModel>();
-            services.AddSingleton<IssuesViewModelBase,IssuePageViewModel>();
+            services.AddSingleton<IssuesViewModelBase,IssueViewModel>();
             services.AddSingleton<LoginViewModelBase, LoginViewModel>();
             services.AddSingleton<UserViewModelBase,UserViewModel>();
             services.AddSingleton<IssueDetailsViewModelBase, IssueDetailsViewModel>();
-            services.AddSingleton<TasksPageViewModelBase,TaskPageViewModel>();
+            services.AddSingleton<TasksPageViewModelBase,TaskViewModel>();
             services.AddSingleton<TaskDetailsViewModelBase, TaskDetailsViewModel>();
             services.AddSingleton<AssignedTasksPageViewModelBase, AssignedTaskPageViewModel>();
             services.AddSingleton<CreatedTasksPageViewModelBase,CreatedTasksPageViewModel>();
