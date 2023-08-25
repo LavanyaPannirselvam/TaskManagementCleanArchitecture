@@ -141,6 +141,9 @@
   <data name="AssignUserPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Назначить пользователя</value>
   </data>
+  <data name="ByLabel.Text" xml:space="preserve">
+    <value>К</value>
+  </data>
   <data name="CreatedTasksHeaderLabel.Content" xml:space="preserve">
     <value>Созданные задачи</value>
   </data>
@@ -218,6 +221,9 @@
   </data>
   <data name="NoUserMsg.Text" xml:space="preserve">
     <value>Нет подходящих пользователей</value>
+  </data>
+  <data name="OverviewLabel.Text" xml:space="preserve">
+    <value>Обзор</value>
   </data>
   <data name="OwnerLabel.Header" xml:space="preserve">
     <value>Владелец</value>

@@ -144,6 +144,9 @@
   <data name="AssignUserPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Assign User</value>
   </data>
+  <data name="ByLabel.Text" xml:space="preserve">
+    <value>By</value>
+  </data>
   <data name="CreatedTasksHeaderLabel.Content" xml:space="preserve">
     <value>Created Tasks</value>
   </data>
@@ -222,6 +225,9 @@
   </data>
   <data name="NoUserMsg.Text" xml:space="preserve">
     <value>No suitable users available</value>
+  </data>
+  <data name="OverviewLabel.Text" xml:space="preserve">
+    <value>Overview</value>
   </data>
   <data name="OwnerLabel.Header" xml:space="preserve">
     <value>Owner</value>
