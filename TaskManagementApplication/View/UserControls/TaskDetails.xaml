@@ -41,9 +41,7 @@
                     Padding="10">
             <TextBox Grid.Row="0"
                    Margin="0,2"
-                   FontSize="18"
                    FontStretch="Normal"
-                   FontWeight="SemiBold"
                    x:Name="NameBox"
                    Style="{ThemeResource TextBoxCustomstyle}"  
                    Text="{x:Bind _taskDetailsViewModel.SelectedTask.Name,Mode=OneWay}"
@@ -51,7 +49,7 @@
                    HorizontalTextAlignment="Left"
                    VerticalAlignment="Center"/>
             <TextBlock FontSize="14">
-                <Run Text="By "
+                <Run x:Uid="ByLabel"
                      FontWeight="SemiLight"/>
                 <Run Text="{x:Bind _taskDetailsViewModel.SelectedTask.CreatedBy,Mode=OneWay}"/>
             </TextBlock>
@@ -68,7 +66,6 @@
                        Margin="0,0,0,7"
                        FontWeight="SemiLight"/>
                         <ComboBox FontSize="16"
-                  FontWeight="SemiBold"
                   SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Priority,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
@@ -116,7 +113,6 @@
             <TextBlock Grid.Row="0" 
                        x:Uid="TaskInformationLabel"
                        FontSize="18"
-                       FontWeight="SemiBold"
                        CharacterSpacing="50"
                        Margin="0,10"/>
 
@@ -132,7 +128,6 @@
                        VerticalAlignment="Center"/>
                     <ComboBox Margin="0"
                   FontSize="16"
-                  FontWeight="SemiBold"
                   SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Status,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
@@ -171,7 +166,6 @@
                                   FontSize="16"
                                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.StartDate,Mode=OneWay}"
-                                  FontWeight="SemiBold"
                                   x:Name="StartdateCalender"/>
                 </StackPanel>
 
@@ -188,7 +182,6 @@
                            VerticalAlignment="Center"/>
                     <CalendarDatePicker Margin="2"
                   FontSize="16"
-                  FontWeight="SemiBold"
                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.EndDate,Mode=OneWay}"
                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                   x:Name="EnddateCalender"/>
@@ -201,14 +194,14 @@
                         StrokeThickness="0.4"/>
             </Grid>
 
-            <StackPanel Grid.Row="3"
+                    <StackPanel Grid.Row="3"
                   Margin="0,5,0,0">
-                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical">
                             <TextBlock x:Uid="AssignedUsersLabel"
                                    FontSize="14"
                                    FontWeight="SemiLight"
                                    Margin="0,5"/>
-                        <AutoSuggestBox Width="300"
+                            <AutoSuggestBox Width="300"
                                         HorizontalAlignment="Left"
                                         QueryIcon="Find"
                                         x:Uid="AssignUserPlaceholder"
@@ -218,14 +211,14 @@
                                         TextChanged="AutoSuggestBox_TextChanged"
                                         SuggestionChosen="AssignUserBox_SuggestionChosen"
                                         Margin="0,5"
-                                        Style="{ThemeResource AutoSuggestBoxCustomStyle}"
+                                        Style="{ThemeResource AutoSuggestBoxCustom}"
                                         x:Name="AssignUserBox">
-                            <AutoSuggestBox.ItemTemplate>
-                                <DataTemplate x:DataType="library:UserBO">
-                                    <StackPanel Height="40"
+                                <AutoSuggestBox.ItemTemplate>
+                                    <DataTemplate x:DataType="library:UserBO">
+                                        <StackPanel Height="40"
                                                 Margin="0,5"
                                                 VerticalAlignment="Center">
-                                        <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"
                                                    FontSize="16"
                                                    FontWeight="SemiBold"
                                                    MaxWidth="290"
@@ -234,7 +227,7 @@
                                                    MaxLines="1"
                                                    TextTrimming="CharacterEllipsis"
                                                    Margin="0,0,3,0"/>
-                                        <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                            <TextBlock Text="{x:Bind Email,Mode=OneWay}"
                                                    FontSize="13"
                                                    MaxWidth="290"
                                                    HorizontalAlignment="Left"
@@ -242,57 +235,49 @@
                                                    MaxLines="1"
                                                    TextTrimming="CharacterEllipsis"
                                                    Margin="0,0,0,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </AutoSuggestBox.ItemTemplate>
-                                <!--<AutoSuggestBox.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </AutoSuggestBox.ItemContainerStyle>-->
-                        </AutoSuggestBox>
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind _taskDetailsViewModel.ResponseString,Mode=OneWay}"
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </AutoSuggestBox.ItemTemplate>
+                            </AutoSuggestBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind _taskDetailsViewModel.ResponseString,Mode=OneWay}"
                                Padding="5"
                                Margin="0"
+                               Foreground="{ThemeResource HorizontalSeperator}"
+                               FontSize="12"
                                Grid.Row="0"
                                Visibility="{x:Bind _taskDetailsViewModel.TextVisibility,Mode=OneWay}"/>
-                        <ListView x:Name="UsersForTasks"
+                            <ListView x:Name="UsersForTasks"
                                     Margin="0,5"
                                     Width="300"
                                     ItemsSource="{x:Bind _taskDetailsViewModel.AssignedUsersList,Mode=OneWay}"
                                     HorizontalAlignment="Left">
-                            <ListView.Resources>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="IsFocusEngaged" Value="False"/>
-                                </Style>
-                            </ListView.Resources>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="library:UserBO">
-                                    <usercontrol:ListViewItems HorizontalAlignment="Stretch"
+                                <ListView.Resources>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="IsFocusEngaged" Value="False"/>
+                                    </Style>
+                                </ListView.Resources>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="library:UserBO">
+                                        <usercontrol:ListViewItemsDataTemplate HorizontalAlignment="Stretch"
                                                                Height="40"
                                                                Width="300"
                                                                Margin="0"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                     <Setter Property="DataContext" Value="{Binding}"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemContainerTransitions>
-                                <TransitionCollection/>
-                            </ListView.ItemContainerTransitions>
-                        </ListView>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="DataContext" Value="{Binding}"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemContainerTransitions>
+                                    <TransitionCollection/>
+                                </ListView.ItemContainerTransitions>
+                            </ListView>
+                        </StackPanel>
                     </StackPanel>
-            </StackPanel>
-
-            <!--<controls:InAppNotification Grid.Row="4"                                      
-                                        Name="NotificationControl"
-                                        HorizontalAlignment="Stretch"
-                                        ShowDismissButton="False"/>-->
-        </Grid>
+                </Grid>
     </Grid>
         </ScrollViewer>
     </Grid>

@@ -75,9 +75,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                 issuePage._issueViewModel.IssuesList.Clear();
                 issuePage._issueViewModel.GetIssues(projectId);
                 ProjectsList.SelectedIndex = -1;
-                //ProjectPageGrid.Visibility = Visibility.Collapsed; //this
                 _projectsPageViewModel.ProjectsList.Clear();
-               // taskofaproject.Visibility = Visibility.Visible; //this
                 this.FindName("taskofaproject");
                 this.UnloadObject(ProjectPageGrid);
             }
@@ -96,9 +94,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //this.UnloadObject(taskofaproject);
-            //this.FindName("ProjectPageGrid");
-            //_projectsPageViewModel.ProjectsList.Clear();
+            //this.FindName("NotificationBox");
             _projectsPageViewModel.GetProjectsList(CurrentUserClass.CurrentUser.Name, CurrentUserClass.CurrentUser.Email);
             if (_projectsPageViewModel.ProjectsList.Count >= 20)
             {
@@ -125,7 +121,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ShowNotification(string obj)
         {
-            NoitificationBox.Show(obj, 3000);
+            if (NotificationBox != null)
+            {
+                NotificationBox.Show(obj, 3000);
+            }
+            else
+            {}
         }
 
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)

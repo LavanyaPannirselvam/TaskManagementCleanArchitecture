@@ -1,0 +1,99 @@
+﻿<UserControl
+    x:Class="TaskManagementCleanArchitecture.View.UserControls.GridViewItemsDataTemplate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <Grid Padding="30,20,2,20"
+              Margin="10"
+              Height="190"
+              x:Name="UsersDataTemplate"  
+              CornerRadius="10"
+              MinWidth="400"
+              PointerEntered="Grid_PointerEntered"
+              PointerExited="Grid_PointerExited"
+              Background="{ThemeResource SupportingColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="3*"/>
+            <ColumnDefinition  Width="1*"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="{Binding Name}"
+                           FontSize="22"
+                           MaxWidth="290"
+                           Width="225"
+                           x:Name="NameTextblock"
+                           MaxLines="1"
+                           Margin="0,0,0,5"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           TextWrapping="Wrap"
+                           FontWeight="SemiBold"
+                           CharacterSpacing="80"
+                           TextTrimming="CharacterEllipsis"
+                           PointerEntered="NameTextblock_PointerEntered"
+                           HorizontalAlignment="Left"/>
+        
+        <PersonPicture Width="50"
+                                   Height="45"
+                                   HorizontalAlignment="Right" 
+                                   VerticalAlignment="Center"
+                                   DisplayName="{Binding Name}"
+                                   Grid.Column="1"
+                                    Margin="0,0,40,0"
+                                    Grid.Row="0">
+        </PersonPicture>
+        
+        <TextBlock Text="{Binding Role}"
+                           TextWrapping="Wrap"
+                           Width="120"
+                           Margin="0,15,0,5"
+                           FontFamily="Consolas"
+                           FontSize="22" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           FontWeight="SemiBold" 
+                           CharacterSpacing="80"
+                           HorizontalAlignment="Left"/>
+
+        <TextBlock Text="{Binding Email}"
+                               FontSize="22"
+                               x:Name="EmailTextblock"
+                               Width="290"
+                               MaxLines="1"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="0,0,0,5"
+                               TextWrapping="Wrap"
+                               FontWeight="SemiBold"
+                               CharacterSpacing="80"
+                               TextTrimming="CharacterEllipsis"
+                               PointerEntered="EmailTextblock_PointerEntered"
+                               HorizontalAlignment="Left"/>
+        
+        <Button x:Name="DeleteUserButton"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Margin="0,0,20,0"
+                            FontSize="13"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Visibility="Collapsed"
+                            Content="&#xE107;" 
+                            Foreground="Red"
+                            Click="DeleteUserButton_Click"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

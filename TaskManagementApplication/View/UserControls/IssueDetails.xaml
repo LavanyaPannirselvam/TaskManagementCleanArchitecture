@@ -9,10 +9,15 @@
     xmlns:library="using:TaskManagementLibrary.Models"
     xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
     mc:Ignorable="d"
-    xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls" xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     Loaded="UserControl_Loaded"
     SizeChanged="UserControl_SizeChanged"
     Unloaded="UserControl_Unloaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:EnumConverter x:Key="ConvertEnum"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer VerticalScrollMode="Auto"
                       VerticalScrollBarVisibility="Visible"
@@ -36,9 +41,7 @@
                     Background="{ThemeResource SupportingColor}"
                     Padding="10">
                     <TextBox Grid.Row="0"
-                   FontSize="18"
                    FontStretch="Normal"
-                   FontWeight="SemiBold"
                    Style="{ThemeResource TextBoxCustomstyle}"
                    x:Name="NameBox"
                    HorizontalAlignment="Stretch"
@@ -64,8 +67,7 @@
                                    Margin="0,0,0,7"
                                    FontWeight="SemiLight"/>
                         <ComboBox FontSize="16"
-                  FontWeight="SemiBold"
-                  SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay}"
+                  SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="PriorityCombo">
@@ -129,8 +131,7 @@
                        VerticalAlignment="Center"/>
                             <ComboBox Margin="0"
                   FontSize="16"
-                  FontWeight="SemiBold"
-                  SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay}"
+                  SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="StatusCombo"/>
@@ -168,7 +169,6 @@
                                   FontSize="16"
                                    Style="{ThemeResource CalendarDatePickerCustomStyle}"
                                   Date="{x:Bind _issueViewModel.SelectedIssue.StartDate,Mode=OneWay}"
-                                  FontWeight="SemiBold"
                                   x:Name="StartdateCalender"/>
                         </StackPanel>
 
@@ -185,7 +185,6 @@
                            VerticalAlignment="Center"/>
                             <CalendarDatePicker Margin="2"
                   FontSize="16"
-                  FontWeight="SemiBold"
                   Date="{x:Bind _issueViewModel.SelectedIssue.EndDate,Mode=OneWay}"
                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                   x:Name="EnddateCalender"/>
@@ -215,7 +214,7 @@
                                         QuerySubmitted="AssignUserBox_QuerySubmitted"
                                         TextMemberPath="Name"
                                         TextChanged="AutoSuggestBox_TextChanged"
-                                        Style="{ThemeResource AutoSuggestBoxCustomStyle}"
+                                        Style="{ThemeResource AutoSuggestBoxCustom}"
                                         SuggestionChosen="AssignUserBox_SuggestionChosen"
                                         Margin="0,5"
                                         x:Name="AssignUserBox">
@@ -244,15 +243,6 @@
                                             </StackPanel>
                                         </DataTemplate>
                                     </AutoSuggestBox.ItemTemplate>
-                                    <!--<AutoSuggestBox.ItemContainerStyle>
-                                        <Style TargetType="AutoSuggestBox">
-                                            <Setter Property="FocusVisualMargin" Value="5,2"/>
-                                            <Setter Property="CornerRadius" Value="2"/>
-                                            <Setter Property="Padding" Value="10,2"/>
-                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                            <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
-                                        </Style>
-                                    </AutoSuggestBox.ItemContainerStyle>-->
                                 </AutoSuggestBox>
                             </StackPanel>
                             <Grid>
@@ -260,6 +250,8 @@
                                Padding="5"
                                Margin="0"
                                Grid.Row="0"
+                               Foreground="{ThemeResource HorizontalSeperator}"
+                               FontSize="14"
                                Visibility="{x:Bind _issueViewModel.TextVisibility,Mode=OneWay}"/>
                                 <ListView x:Name="UsersForTasks"
                                     Margin="0,5"
@@ -275,7 +267,7 @@
                                     </ListView.Resources>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="library:UserBO">
-                                            <usercontrol:ListViewItems HorizontalAlignment="Stretch"
+                                            <usercontrol:ListViewItemsDataTemplate HorizontalAlignment="Stretch"
                                                                Height="40"
                                                                Width="300"
                                                                Margin="0"/>

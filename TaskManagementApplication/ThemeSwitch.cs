@@ -3,17 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementLibrary.Notifications;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace TaskManagementCleanArchitecture
 {
     public static class ThemeSwitch
     {
+        static ThemeSwitch()
+        {
+            UIUpdation.ThemeSwitched += UIUpdation_ThemeSwitched;
+        }
+
+        public static void UIUpdation_ThemeSwitched()
+        {
+            ChangeTheme();
+        }
+
         public static ElementTheme CurrentTheme { get; set; }
         private static Dictionary<UIContext, FrameworkElement> XamlRootCollections { get; } = new Dictionary<UIContext, FrameworkElement>();
 
@@ -72,10 +84,10 @@ namespace TaskManagementCleanArchitecture
             return ElementTheme.Default;
         }
 
-        public async static Task ChangeTheme(ElementTheme theme)
+        public async static void ChangeTheme()
         {
+            ElementTheme theme = CurrentTheme;
             ApplicationData.Current.LocalSettings.Values["themeSetting"] = (int)theme;
-            CurrentTheme = theme;
             foreach (var rootCollection in XamlRootCollections)
             {
                 await rootCollection.Value.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>

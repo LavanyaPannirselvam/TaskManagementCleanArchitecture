@@ -35,18 +35,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private DateTimeOffset _startDate;
         private DateTimeOffset _endDate;
         private EnumConverter _enumConverter;
-        private ResourceLoader resourceLoader;
+        private ResourceLoader _resourceLoader;
 
         public CreateNewIssue()
         {
             this.InitializeComponent();
             startdate.Date = DateTime.Now;
             enddate.Date = DateTime.Now;
+            _startDate = DateTimeOffset.Now;
+            _endDate = DateTimeOffset.Now;
             prioritybox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             statusbox.ItemsSource = Converter.EnumConverter.EnumToStringConverter(typeof(StatusType));
             _enumConverter = new EnumConverter();
             statusbox.SelectedIndex = 0;
-            resourceLoader = ResourceLoader.GetForCurrentView();
+            _resourceLoader = ResourceLoader.GetForCurrentView();
             prioritybox.SelectedIndex = 0;
         }
 
@@ -61,7 +63,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var text = (TextBox)sender;//should do empty and invalid data check
             if (text.Text == string.Empty || text.Text == null)
             {
-                ErrorMessage.Text = resourceLoader.GetString("IssueNameEmptyErrorMsg");
+                ErrorMessage.Text = _resourceLoader.GetString("IssueNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
             }
             else ErrorMessage.Visibility = Visibility.Collapsed;
@@ -76,28 +78,45 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _startDate = (DateTimeOffset)date.Date;//.Value.DateTime;
-            if (_startDate < DateTime.Today)
+            if (date.Date != null)
             {
-                //ErrorMessage.Text = "Start date cannot be yesterday";
-                //ErrorMessage.Visibility = Visibility.Visible;
-                ErrorMessage.Text = resourceLoader.GetString("StartDateErrorMessage");
-                ErrorMessage.Visibility = Visibility.Visible;
+                if (date.Date < DateTimeOffset.Now.Date)
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorMessage.Visibility = Visibility.Collapsed;
+                    _startDate = (DateTimeOffset)date.Date;
+                }
             }
             else
-                ErrorMessage.Visibility = Visibility.Collapsed;
+            {
+                startdate.Date = _startDate;
+            }
         }
 
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _endDate = (DateTimeOffset)date.Date;//.Value.DateTime;
-            if (_endDate < _startDate)
+            if (date.Date != null)
             {
-                ErrorMessage.Text = resourceLoader.GetString("EndDateErrorMessage");
-                ErrorMessage.Visibility = Visibility.Visible;
+                if (date.Date < DateTimeOffset.Now.Date)
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorMessage.Visibility = Visibility.Collapsed;
+                    _endDate = (DateTimeOffset)date.Date;
+                }
             }
-            else ErrorMessage.Visibility = Visibility.Collapsed;
+            else
+            {
+                enddate.Date = _endDate;
+            }
         }
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
@@ -112,8 +131,28 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         public Issue GetFormData(string ownerName, int id)
         {
-            if (!IsIssueNameEmpty(_issueName))
-                return new Issue(_issueName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate,id);
+            if (IsIssueNameEmpty(_issueName))
+            {
+                if (_endDate >= _startDate)
+                {
+                    if (_startDate >= DateTimeOffset.Now.Date)
+                    {
+                        return new Issue(_issueName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate,id);
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
+                        ErrorMessage.Visibility = Visibility.Visible;
+                        return null;
+                    }
+                }
+                else
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                    return null;
+                }
+            }
             else return null;
         }
 
@@ -121,14 +160,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (name == null || name == "" || name == string.Empty)
             {
-                ErrorMessage.Text = resourceLoader.GetString("IssueNameEmptyErrorMsg");
+                ErrorMessage.Text = _resourceLoader.GetString("IssueNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
-                return true;
+                return false;
             }
             else
             {
                 ErrorMessage.Visibility = Visibility.Collapsed;
-                return false;
+                return true;
             }
         }
 
@@ -138,14 +177,34 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _issueName = string.Empty;
             DescriptionBox.Text = string.Empty;
             _description = string.Empty;
-            startdate.Date = DateTimeOffset.Now.Date;
-            _startDate = DateTimeOffset.Now.Date;
-            enddate.Date = DateTimeOffset.Now.Date;
-            _endDate = DateTimeOffset.Now.Date;
+            startdate.Date = DateTimeOffset.Now;
+            enddate.Date = DateTimeOffset.Now;
+            _startDate = DateTimeOffset.Now;//.Date;
+            _endDate = DateTimeOffset.Now;//.Date;
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
             ErrorMessage.Text = string.Empty;
             ErrorMessage.Visibility = Visibility.Collapsed;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            IssueName.TextChanged += IssueName_TextChanged;
+            DescriptionBox.TextChanged += descriptionBox_TextChanged;
+            startdate.DateChanged += StartDate_DataChanged;
+            enddate.DateChanged += EndDate_DataChanged;
+            prioritybox.SelectionChanged += Priority_Selectionchanged;
+            statusbox.SelectionChanged += Status_Selectionchanged;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            IssueName.TextChanged -= IssueName_TextChanged;
+            DescriptionBox.TextChanged -= descriptionBox_TextChanged;
+            startdate.DateChanged -= StartDate_DataChanged;
+            enddate.DateChanged -= EndDate_DataChanged;
+            prioritybox.SelectionChanged -= Priority_Selectionchanged;
+            statusbox.SelectionChanged -= Status_Selectionchanged;
         }
     }
 }

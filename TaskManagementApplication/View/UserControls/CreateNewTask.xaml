@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded">
     <Grid Background="{ThemeResource AppForegroundBg}"
           CornerRadius="10"
           Width="400">
@@ -25,7 +27,6 @@
         <TextBox Name="TaskName" 
                  x:Uid="TaskNameLabel"
                  HorizontalAlignment="Stretch"
-                 TextChanged="TaskName_TextChanged"
                  Style="{ThemeResource TextBoxCustomstyle}"
                  Margin="5"></TextBox>
 
@@ -39,7 +40,6 @@
                      Margin="5"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      x:Uid="DescriptionLabel"
-                     TextChanged="DescriptionBox_TextChanged"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <CalendarDatePicker Grid.Row="2"
                             x:Uid="StartDateLabel"
@@ -47,7 +47,6 @@
                             PlaceholderText=""
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             HorizontalAlignment="Stretch"
-                            DateChanged="StartDate_DataChanged"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             x:Uid="EndDateLabel"
@@ -55,7 +54,6 @@
                             PlaceholderText=""
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             HorizontalAlignment="Stretch"
-                            DateChanged="EndDate_DataChanged"
                             Margin="5"/>
         <ComboBox Grid.Row="4"
                   x:Uid="PriorityLabel"
@@ -64,7 +62,6 @@
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   HorizontalAlignment="Stretch"
-                  SelectionChanged="Priority_Selectionchanged"
                   Margin="5">
         </ComboBox>
         <ComboBox Grid.Row="5"
@@ -74,7 +71,6 @@
                   Name="statusbox"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
-                  SelectionChanged="Status_Selectionchanged"
                   Margin="5">
         </ComboBox>
         <TextBlock Text="{x:Bind ErrorMessage,Mode=OneWay}"

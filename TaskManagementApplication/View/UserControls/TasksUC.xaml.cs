@@ -177,6 +177,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             dialog.Content = "Once deleted, task cannot be retrieved";
             dialog.PrimaryButtonText = "Delete";
             dialog.CloseButtonText = "Cancel";
+            dialog.CloseButtonStyle = Application.Current.Resources["AccentButtonStyleCustom"] as Style;
             dialog.DefaultButton = ContentDialogButton.Close;
             dialog.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             var result = await dialog.ShowAsync();

@@ -54,7 +54,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumnSpan(TasksList, 3);
             if (_createdTask.TasksList.Count >= 20)
             {
-                GridRow.Height = new GridLength(750, GridUnitType.Pixel);
+                GridRow.Height = new GridLength(720, GridUnitType.Pixel);
             }
             _itemSelected = false;
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManagementCleanArchitecture.Converter;
@@ -26,7 +27,7 @@ using EnumConverter = TaskManagementCleanArchitecture.Converter.EnumConverter;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class CreateNewProject : UserControl 
+    public sealed partial class CreateNewProject : UserControl
     {
         private string _projectName;
         private string _description;
@@ -40,8 +41,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public CreateNewProject()
         {
             this.InitializeComponent();
-            startdate.Date = DateTime.Now;
-            enddate.Date = DateTime.Now;
+            startdate.Date = DateTimeOffset.Now;
+            enddate.Date = DateTimeOffset.Now;
+            _startDate = DateTimeOffset.Now;//.Date;
+            _endDate = DateTimeOffset.Now;//.Date;
             prioritybox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             statusbox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
             _enumConverter = new EnumConverter();
@@ -52,7 +55,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ProjectName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var text = (TextBox)sender;//should do empty and invalid data check
+            var text = (TextBox)sender;
             if (text.Text == string.Empty || text.Text == null)
             {
                 ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
@@ -64,7 +67,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void Status_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
-            _statusType = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(StatusType),null,null);
+            _statusType = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(StatusType), null, null);
         }
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
@@ -75,32 +78,72 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _startDate = (DateTimeOffset)date.Date;
-            if(_startDate < DateTime.Today)
+            if(date.Date != null)
             {
-                ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
-                ErrorMessage.Visibility = Visibility.Visible;
+                if(date.Date < DateTimeOffset.Now.Date)
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorMessage.Visibility = Visibility.Collapsed;
+                    _startDate = (DateTimeOffset)date.Date;
+                }
             }
             else
-                ErrorMessage.Visibility = Visibility.Collapsed;
+            {
+                startdate.Date = _startDate;
+            }
         }
 
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _endDate = (DateTimeOffset)date.Date;
-            if (_endDate < _startDate)
+            if (date.Date != null)
             {
-                ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
-                ErrorMessage.Visibility = Visibility.Visible;
+                if (date.Date < DateTimeOffset.Now.Date)
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorMessage.Visibility = Visibility.Collapsed;
+                    _endDate = (DateTimeOffset)date.Date;
+                }
             }
-            else ErrorMessage.Visibility = Visibility.Collapsed;
+            else
+            {
+                enddate.Date = _endDate;
+            }
+
         }
 
         public Project GetFormData(string ownerName)
         {
-            if (!IsProjectNameEmpty(_projectName))
-                return new Project(_projectName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate);
+            if (IsProjectNameEmpty(_projectName))
+            {
+                if (_endDate >= _startDate)
+                {
+                    if(_startDate >= DateTimeOffset.Now.Date)
+                    {
+                        return new Project(_projectName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate);
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
+                        ErrorMessage.Visibility = Visibility.Visible;
+                        return null;
+                    }
+                }
+                else
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                    return null;
+                }
+            }
             else return null;
         }
 
@@ -110,12 +153,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
-                return true;
+                return false;
             }
             else
             {
                 ErrorMessage.Visibility = Visibility.Collapsed;
-                return false;
+                return true;
             }
         }
 
@@ -125,10 +168,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _projectName = string.Empty;
             DescriptionBox.Text = string.Empty;
             _description = string.Empty;
-            startdate.Date = DateTimeOffset.Now.Date;
-            _startDate = DateTimeOffset.Now.Date;
-            enddate.Date = DateTimeOffset.Now.Date;
-            _endDate = DateTimeOffset.Now.Date;
+            startdate.Date = DateTimeOffset.Now;
+            enddate.Date = DateTimeOffset.Now;
+            _startDate = DateTimeOffset.Now;//.Date;
+            _endDate = DateTimeOffset.Now;//.Date;
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
             ErrorMessage.Text = string.Empty;
@@ -138,6 +181,27 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _description = ((TextBox)sender).Text;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //startdate.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
+            startdate.DateChanged += StartDate_DataChanged;
+            enddate.DateChanged += EndDate_DataChanged;
+            prioritybox.SelectionChanged += Priority_Selectionchanged;
+            statusbox.SelectionChanged += Status_Selectionchanged;
+            ProjectName.TextChanged += ProjectName_TextChanged;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
+            startdate.DateChanged -= StartDate_DataChanged;
+            enddate.DateChanged -= EndDate_DataChanged;
+            prioritybox.SelectionChanged -= Priority_Selectionchanged;
+            statusbox.SelectionChanged -= Status_Selectionchanged;
+            ProjectName.TextChanged -= ProjectName_TextChanged;
         }
     }
 }

@@ -123,6 +123,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserAdded(ObservableCollection<UserBO> bO)
         {
+            AssignUserBox.IsSuggestionListOpen = false;
             _taskDetailsViewModel.AssignedUsersList.Clear();
             foreach (var user in bO)
             {
@@ -179,6 +180,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 AssignUserBox.Text = string.Empty;
                 AssignUserBox.IsSuggestionListOpen = false;
+               // AssignUserBox.
                 _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
             }
         }

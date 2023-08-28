@@ -25,7 +25,7 @@
           x:Load="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="750"/>
+            <RowDefinition Height="720"/>
         </Grid.RowDefinitions>
         <RelativePanel Margin="0,0,0,20">
             <TextBlock Text="Created Tasks"

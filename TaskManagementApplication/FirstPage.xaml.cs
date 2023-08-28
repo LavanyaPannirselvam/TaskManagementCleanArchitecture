@@ -74,7 +74,7 @@ namespace TaskManagementCleanArchitecture
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void FirstPageNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void FirstPageNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             NavigationContentControl.DataContext = this;
             if (args.SelectedItem == ProjectsTab)
@@ -94,7 +94,7 @@ namespace TaskManagementCleanArchitecture
             }
             else if(args.SelectedItem == SettingsTab)
             {
-                await PopoutButton_Click();
+                //await PopoutButton_Click();
             }
         }
 
@@ -107,6 +107,7 @@ namespace TaskManagementCleanArchitecture
                 settingPage.Closed += SettingPage_Closed;
                 appWindowContentFrame.Navigate(typeof(SettingsPage));
                 ElementCompositionPreview.SetAppWindowContent(settingPage, appWindowContentFrame);
+                appWindowContentFrame.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
                 ThemeSwitch.AddUIRootElement(appWindowContentFrame);
                 await settingPage.TryShowAsync();
             }
@@ -129,18 +130,21 @@ namespace TaskManagementCleanArchitecture
             ThemeChange_Tapped(theme);
         }
 
-        private async void ThemeChange_Tapped(int value)
+        private void ThemeChange_Tapped(int value)
         {
             if (value == 0)
             {
-                await ThemeSwitch.ChangeTheme(ElementTheme.Dark);
+                //await ThemeSwitch.ChangeTheme(ElementTheme.Dark);
+                //ThemeSwitch.CurrentTheme = ElementTheme.Dark;
                 ThemeSwitch.CurrentTheme = ElementTheme.Dark;
+                ThemeSwitch.UIUpdation_ThemeSwitched();
                 AccentChange.UpdateAccentBasedOnTheme(ThemeSwitch.CurrentTheme);
             }
             else
             {
-                await ThemeSwitch.ChangeTheme(ElementTheme.Light);
+               // await ThemeSwitch.ChangeTheme(ElementTheme.Light);
                 ThemeSwitch.CurrentTheme = ElementTheme.Light;
+                ThemeSwitch.UIUpdation_ThemeSwitched();
                 AccentChange.UpdateAccentBasedOnTheme(ThemeSwitch.CurrentTheme);
 
             }
@@ -161,6 +165,11 @@ namespace TaskManagementCleanArchitecture
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             ThemeChange.Toggled -= ToggleSwitch_Toggled;
+        }
+
+        private async void SettingsTab_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await PopoutButton_Click();
         }
     }
 }

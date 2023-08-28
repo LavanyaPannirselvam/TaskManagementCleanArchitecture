@@ -87,8 +87,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
-            //StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
+            PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
+            StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
             Notification += ShowNotification;
             UpdateUsers += IssueDetailsPage_UpdateUsers;
             UIUpdation.UserAdded += UIUpdation_UserAdded;
@@ -100,8 +100,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             EnddateCalender.DateChanged += EnddateCalender_DateChanged;
             PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
             StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
-            PriorityCombo.Loaded += PriorityCBox_Loaded;
-            StatusCombo.Loaded += StatusCombo_Loaded;
+            //PriorityCombo.Loaded += PriorityCBox_Loaded;
+            //StatusCombo.Loaded += StatusCombo_Loaded;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -165,8 +165,8 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
             PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
             StatusCombo.SelectionChanged -= StatusCombo_SelectionChanged;
-            PriorityCombo.Loaded -= PriorityCBox_Loaded;
-            StatusCombo.Loaded -= StatusCombo_Loaded;
+            //PriorityCombo.Loaded -= PriorityCBox_Loaded;
+            //StatusCombo.Loaded -= StatusCombo_Loaded;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

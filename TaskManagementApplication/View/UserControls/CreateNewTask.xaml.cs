@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Linq;
@@ -42,9 +43,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             this.InitializeComponent();
             startdate.Date = DateTimeOffset.Now.Date;
             enddate.Date = DateTimeOffset.Now.Date;
+            _startDate = DateTimeOffset.Now;
+            _endDate = DateTimeOffset.Now;
             prioritybox.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
             statusbox.ItemsSource = Converter.EnumConverter.EnumToStringConverter(typeof(StatusType));
             _enumConverter = new EnumConverter();
+            _resourceLoader = new ResourceLoader();
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
         }
@@ -81,26 +85,45 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _startDate = (DateTimeOffset)date.Date;//.Value.DateT;
-            if (_startDate < DateTime.Today)
+            if (date.Date != null)
             {
-                ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
-                ErrorMessage.Visibility = Visibility.Visible;
+                if (date.Date < DateTimeOffset.Now.Date)
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorMessage.Visibility = Visibility.Collapsed;
+                    _startDate = (DateTimeOffset)date.Date;
+                }
             }
             else
-                ErrorMessage.Visibility = Visibility.Collapsed;
+            {
+                startdate.Date = _startDate;
+            }
         }
 
         private void EndDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            _endDate = (DateTimeOffset)date.Date;
-            if (_endDate < _startDate)
+            if (date.Date != null)
             {
-                ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
-                ErrorMessage.Visibility = Visibility.Visible;
+                if (date.Date < DateTimeOffset.Now.Date)
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorMessage.Visibility = Visibility.Collapsed;
+                    _endDate = (DateTimeOffset)date.Date;
+                }
             }
-            else ErrorMessage.Visibility = Visibility.Collapsed;
+            else
+            {
+                enddate.Date = _startDate;
+            }
         }
 
         private void Priority_Selectionchanged(object sender, SelectionChangedEventArgs e)
@@ -116,7 +139,27 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         public Tasks GetFormData(string ownerName,int id)
         {
             if (IsTaskNameEmpty(_taskName))
-                return new Tasks(_taskName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate, id);
+            {
+                if (_endDate >= _startDate)
+                {
+                    if (_startDate >= DateTimeOffset.Now.Date)
+                    {
+                        return new Tasks(_taskName, _description, ownerName, _statusType, _priorityType, _startDate, _endDate,id);
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = _resourceLoader.GetString("StartDateErrorMessage");
+                        ErrorMessage.Visibility = Visibility.Visible;
+                        return null;
+                    }
+                }
+                else
+                {
+                    ErrorMessage.Text = _resourceLoader.GetString("EndDateErrorMessage");
+                    ErrorMessage.Visibility = Visibility.Visible;
+                    return null;
+                }
+            }
             else return null;
         }
 
@@ -124,7 +167,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             if (name == null || name == "" || name == string.Empty)
             {
-                ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMessage");
+                ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
                 return false;
             }
@@ -141,10 +184,10 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _taskName = string.Empty;
             DescriptionBox.Text = string.Empty;
             _description = string.Empty;
-            startdate.Date = DateTimeOffset.Now.Date;
-            _startDate = DateTimeOffset.Now.Date;
-            enddate.Date = DateTimeOffset.Now.Date;
-            _endDate = DateTimeOffset.Now.Date;
+            startdate.Date = DateTimeOffset.Now;
+            enddate.Date = DateTimeOffset.Now;
+            _startDate = DateTimeOffset.Now;//.Date;
+            _endDate = DateTimeOffset.Now;//.Date;
             statusbox.SelectedIndex = 0;
             prioritybox.SelectedIndex = 0;
             ErrorMessage.Text = string.Empty;
@@ -154,6 +197,26 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _description = ((TextBox)sender).Text;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            TaskName.TextChanged += TaskName_TextChanged;
+            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
+            startdate.DateChanged += StartDate_DataChanged;
+            enddate.DateChanged += EndDate_DataChanged;
+            prioritybox.SelectionChanged += Priority_Selectionchanged;
+            statusbox.SelectionChanged += Status_Selectionchanged;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TaskName.TextChanged -= TaskName_TextChanged;
+            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
+            startdate.DateChanged -= StartDate_DataChanged;
+            enddate.DateChanged -= EndDate_DataChanged;
+            prioritybox.SelectionChanged -= Priority_Selectionchanged;
+            statusbox.SelectionChanged -= Status_Selectionchanged;
         }
     }
 }

@@ -24,7 +24,7 @@
                                     Width="300"
                                     x:Uid="SearchUserPlaceholder"
                                     CornerRadius="7"
-                                    Style="{ThemeResource AutoSuggestBoxCustomStyle}"
+                                    Style="{ThemeResource AutoSuggestBoxCustom}"
                                     RelativePanel.AlignVerticalCenterWithPanel="True"
                                     Margin="0,0,10,0"
                                     TextChanged="FindUsersBox_TextChanged"
@@ -60,7 +60,7 @@
                                    Margin="5">
                     <GridView.ItemTemplate>
                         <DataTemplate x:Name="UsersList" x:DataType="library:User">
-                            <usercontrol:GridViewItems/>
+                            <usercontrol:GridViewItemsDataTemplate/>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                     <GridView.ItemContainerStyle>
