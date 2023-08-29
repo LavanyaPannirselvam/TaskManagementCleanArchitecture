@@ -1043,63 +1043,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultListViewItemStyle" TargetType="ListViewItem">
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-        <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
-        <Setter Property="TabNavigation" Value="Local" />
-        <Setter Property="IsHoldingEnabled" Value="True" />
-        <Setter Property="Padding" Value="10,0,0,0" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
-        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
-        <Setter Property="AllowDrop" Value="False" />
-        <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="FocusVisualMargin" Value="0" />
-        <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
-        <Setter Property="FocusVisualPrimaryThickness" Value="2" />
-        <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
-        <Setter Property="FocusVisualSecondaryThickness" Value="1" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListViewItem">
-                    <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        Control.IsTemplateFocusTarget="True"
-                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
-                        FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
-                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
-                        FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
-                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
-                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
-                        CheckBrush="{ThemeResource ListViewItemCheckBrush}"
-                        CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
-                        DragBackground="{ThemeResource ListViewItemDragBackground}"
-                        DragForeground="{ThemeResource ListViewItemDragForeground}"
-                        FocusBorderBrush="{ThemeResource CustomAccentColor}"
-                        FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
-                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
-                        SelectionIndicatorBrush="{ThemeResource CustomAccentColor}"
-                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-                        SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
-                        SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
-                        SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
-                        PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
-                        SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
-                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                        ContentMargin="{TemplateBinding Padding}"
-                        CheckMode="{ThemeResource ListViewItemCheckMode}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style TargetType="CheckBox" x:Key="CheckBoxCustom">
         <Setter Property="Background"
                         Value="{ThemeResource CheckBoxBackgroundUnchecked}" />
@@ -1674,6 +1617,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
 
     <!--combo box style-->
     <Style x:Key="ComboBoxItemPill" TargetType="Rectangle">
@@ -2554,7 +2499,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlPlaceholderForegroundFocused}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        
+
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomAccentColor}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -2690,7 +2635,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+   
     <Style TargetType="AutoSuggestBox" x:Key="AutoSuggestBoxCustom">
         <Setter Property="VerticalAlignment"
                         Value="Top" />
@@ -2751,7 +2696,7 @@
                                                   DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                   IsItemClickEnabled="True"
                                                   ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                  ItemContainerStyle="{ThemeResource DefaultListViewItemStyle}" 
+                                                  ItemContainerStyle="{StaticResource DefaultListViewItemStyle}" 
                                                   ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                                   MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
                                                   Margin="{ThemeResource AutoSuggestListMargin}"
@@ -2759,9 +2704,63 @@
                                 </ListView>
                             </Border>
                         </Popup>
-
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
+    <Style x:Key="DefaultListViewItemStyle" TargetType="ListViewItem">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+        <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+        <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
+        <Setter Property="TabNavigation" Value="Local" />
+        <Setter Property="IsHoldingEnabled" Value="True" />
+        <Setter Property="Padding" Value="10,0,0,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
+        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
+        <Setter Property="AllowDrop" Value="False" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="FocusVisualMargin" Value="0" />
+        <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
+        <Setter Property="FocusVisualPrimaryThickness" Value="2" />
+        <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
+        <Setter Property="FocusVisualSecondaryThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                        Control.IsTemplateFocusTarget="True"
+                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                        FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                        FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                        CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                        CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                        DragBackground="{ThemeResource ListViewItemDragBackground}"
+                        DragForeground="{ThemeResource ListViewItemDragForeground}"
+                        FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
+                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
+                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                        SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
+                        SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
+                        SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
+                        PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
+                        SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        SelectionIndicatorBrush="{ThemeResource CustomAccentColor}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="{ThemeResource ListViewItemCheckMode}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -2774,10 +2773,11 @@
         <Setter Property="Background" Value="{ThemeResource CalendarDatePickerBackground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource HorizontalSeperator}" />
         <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="CalendarViewStyle" Value="{StaticResource DefaultCalendarViewStyle}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource CalendarDatePickerBorderThemeThickness}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="UseSystemFocusVisuals" Value="False"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CalendarDatePicker">
@@ -2786,17 +2786,17 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
 
-                                <VisualState x:Name="PointerOver"/>
+                                <VisualState x:Name="PointerOver">
 
-                                <!--<Storyboard>
+                                    <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HorizontalSeperator}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBackgroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>-->
-
+                                    </Storyboard>
+                                </VisualState>
 
                                 <VisualState x:Name="Pressed">
 
@@ -2806,27 +2806,6 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomAccentColor}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-
-                                <VisualState x:Name="Disabled">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBackgroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBorderBrushDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerHeaderForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DateText" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerTextForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CalendarGlyph" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerCalendarGlyphForegroundDisabled}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -2897,7 +2876,7 @@
                                     </Style>
                                 </Flyout.FlyoutPresenterStyle>
                                 <CalendarView x:Name="CalendarView"
-                    Style="{ThemeResource CalendarViewRevealStyle}"
+                    Style="{TemplateBinding CalendarViewStyle}"
                     MinDate="{TemplateBinding MinDate}"
                     MaxDate="{TemplateBinding MaxDate}"
                     IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
@@ -2967,511 +2946,72 @@
                 x:Load="False"
                 Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}"
                 AutomationProperties.AccessibilityView="Raw" />
-
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="CalendarViewRevealStyle" TargetType="CalendarView">
-        <Setter Property="IsOutOfScopeEnabled" Value="True"/>
+    <Style x:Key="DefaultCalendarViewStyle" TargetType="CalendarView">
+        <Setter Property="BlackoutStrikethroughBrush" Value="{ThemeResource CalendarViewBlackoutStrikethroughBrush}" />
+        <Setter Property="SelectedHoverBorderBrush" Value="{ThemeResource CustomAccentColor}" />
+        <Setter Property="SelectedPressedBorderBrush" Value="{ThemeResource CustomAccentColor}" />
+        <Setter Property="SelectedDisabledBorderBrush" Value="{ThemeResource CalendarViewSelectedDisabledBorderBrush}" />
         <Setter Property="SelectedBorderBrush" Value="{ThemeResource CustomAccentColor}" />
+        <Setter Property="HoverBorderBrush" Value="{ThemeResource CalendarViewHoverBorderBrush}" />
         <Setter Property="PressedBorderBrush" Value="{ThemeResource CalendarViewPressedBorderBrush}" />
+        <Setter Property="CalendarItemBorderBrush" Value="{ThemeResource  CalendarViewCalendarItemBorderBrush}" />
+        <Setter Property="TodaySelectedInnerBorderBrush" Value="{ThemeResource  CustomAccentColor}" />
         <Setter Property="TodayForeground" Value="{ThemeResource CustomAccentColor}" />
+        <Setter Property="DisabledForeground" Value="{ThemeResource CalendarViewDisabledForeground}" />
         <Setter Property="BlackoutForeground" Value="{ThemeResource CalendarViewBlackoutForeground}" />
         <Setter Property="SelectedForeground" Value="{ThemeResource CustomAccentColor}" />
-        <Setter Property="SelectedHoverForeground" Value="{ThemeResource CustomAccentColor}"/>
-        <Setter Property="SelectedHoverBorderBrush" Value="{ThemeResource CustomAccentColor}"/>
+        <Setter Property="SelectedHoverForeground" Value="{ThemeResource CustomAccentColor}" />
+        <Setter Property="SelectedPressedForeground" Value="{ThemeResource CustomAccentColor}" />
+        <Setter Property="SelectedDisabledForeground" Value="{ThemeResource CalendarViewSelectedDisabledForeground}" />
         <Setter Property="PressedForeground" Value="{ThemeResource CalendarViewPressedForeground}" />
         <Setter Property="OutOfScopeForeground" Value="{ThemeResource CalendarViewOutOfScopeForeground}" />
+        <Setter Property="OutOfScopeHoverForeground" Value="{ThemeResource CalendarViewOutOfScopeHoverForeground}" />
+        <Setter Property="OutOfScopePressedForeground" Value="{ThemeResource CalendarViewOutOfScopePressedForeground}" />
         <Setter Property="CalendarItemForeground" Value="{ThemeResource CalendarViewCalendarItemForeground}" />
+        <Setter Property="TodayBackground" Value="{ThemeResource CalendarViewCalendarItemBackground}" />
+        <Setter Property="TodayBlackoutBackground" Value="{ThemeResource CalendarViewTodayBlackoutBackground}" />
+        <Setter Property="TodayBlackoutForeground" Value="{ThemeResource CalendarViewTodayBlackoutForeground}" />
+        <Setter Property="TodayHoverBackground" Value="{ThemeResource CalendarViewCalendarItemHoverBackground}" />
+        <Setter Property="TodayDisabledBackground" Value="{ThemeResource CalendarViewTodayDisabledBackground}" />
+        <Setter Property="BlackoutBackground" Value="{ThemeResource CalendarViewBlackoutBackground}" />
         <Setter Property="OutOfScopeBackground" Value="{ThemeResource CalendarViewOutOfScopeBackground}" />
-        <Setter Property="OutOfScopeHoverForeground" Value="{ThemeResource CalendarViewOutOfScopeForeground}"/>
+        <Setter Property="CalendarItemBackground" Value="{ThemeResource CalendarViewCalendarItemBackground}" />
+        <Setter Property="CalendarItemHoverBackground" Value="{ThemeResource CalendarViewCalendarItemHoverBackground}" />
+        <Setter Property="CalendarItemPressedBackground" Value="{ThemeResource CalendarViewCalendarItemPressedBackground}" />
+        <Setter Property="CalendarItemDisabledBackground" Value="{ThemeResource CalendarViewCalendarItemDisabledBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource CalendarViewForeground}" />
         <Setter Property="Background" Value="{ThemeResource CalendarViewBackground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource CalendarViewBorderBrush}" />
         <Setter Property="DayItemFontFamily" Value="XamlAutoFontFamily" />
+        <Setter Property="DayItemFontSize" Value="{ThemeResource CalendarViewDayItemFontSize}" />
+        <Setter Property="DayItemMargin" Value="{ThemeResource CalendarViewDayItemMargin}" />
         <Setter Property="FirstOfMonthLabelFontFamily" Value="XamlAutoFontFamily" />
+        <Setter Property="FirstOfMonthLabelFontSize" Value="{ThemeResource CalendarViewFirstOfMonthLabelFontSize}" />
+        <Setter Property="FirstOfMonthLabelMargin" Value="{ThemeResource CalendarViewFirstOfMonthLabelMargin}" />
         <Setter Property="MonthYearItemFontFamily" Value="XamlAutoFontFamily" />
+        <Setter Property="MonthYearItemFontSize" Value="{ThemeResource CalendarViewMonthYearItemFontSize}" />
+        <Setter Property="MonthYearItemMargin" Value="{ThemeResource CalendarViewMonthYearItemMargin}" />
         <Setter Property="FirstOfYearDecadeLabelFontFamily" Value="XamlAutoFontFamily" />
-        <Setter Property="CalendarItemBorderThickness" Value="2" />
+        <Setter Property="FirstOfYearDecadeLabelFontSize" Value="{ThemeResource CalendarViewFirstOfYearDecadeLabelFontSize}" />
+        <Setter Property="FirstOfYearDecadeLabelMargin" Value="{ThemeResource CalendarViewFirstOfYearDecadeLabelMargin}" />
+        <Setter Property="TodayFontWeight" Value="{ThemeResource CalendarViewTodayFontWeight}" />
+        <Setter Property="CalendarItemBorderThickness" Value="1" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="DayItemFontSize" Value="15"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="TodaySelectedInnerBorderBrush" Value="{ThemeResource CustomAccentColor}"/>
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="UseSystemFocusVisuals" Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="CalendarView">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            Background="{TemplateBinding Background}" 
-                            CornerRadius="{TemplateBinding CornerRadius}">
-                        <Border.Resources>
-                            <Style TargetType="TextBlock" x:Key="WeekDayNameStyle" BasedOn="{StaticResource CaptionTextBlockStyle}">
-                                <Setter Property="HorizontalAlignment" Value="Center" />
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-                            <Style TargetType="Button" x:Key="NavigationButtonStyle">
-                                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                <Setter Property="VerticalAlignment" Value="Stretch" />
-                                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-                                <Setter Property="FontSize" Value="16" />
-                                <Setter Property="Background" Value="{ThemeResource CalendarViewBackground}" />
-                                <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <ContentPresenter x:Name="Text"
-                          Background="{TemplateBinding Background}"
-                          BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                          BorderBrush="{ThemeResource CalendarViewNavigationButtonBorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          Content="{TemplateBinding Content}"
-                          Margin="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                          AutomationProperties.AccessibilityView="Raw">
-
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup x:Name="CommonStates">
-                                                        <VisualState x:Name="Normal" />
-
-                                                        <VisualState x:Name="PointerOver"/>
-                                                        <!--<VisualState.Setters>
-                                                                <Setter Target="Text.BorderBrush" Value="{ThemeResource CalendarViewNavigationButtonBorderBrushPointerOver}" />
-                                                                <Setter Target="Text.Foreground" Value="{ThemeResource CalendarViewNavigationButtonForegroundPointerOver}" />
-                                                            </VisualState.Setters>-->
-
-
-                                                        <VisualState x:Name="Pressed">
-                                                            <VisualState.Setters>
-                                                                <Setter Target="Text.Foreground" Value="{ThemeResource CalendarViewNavigationButtonForegroundPressed}" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-                                                        <VisualState x:Name="Disabled" />
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                            </ContentPresenter>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                            <Style TargetType="ScrollViewer" x:Key="ScrollViewerStyle">
-                                <Setter Property="HorizontalScrollMode" Value="Disabled" />
-                                <Setter Property="VerticalScrollMode" Value="Enabled" />
-                                <Setter Property="VerticalSnapPointsType" Value="Optional" />
-                                <Setter Property="ZoomMode" Value="Disabled" />
-                                <Setter Property="TabNavigation" Value="Once" />
-                                <Setter Property="BringIntoViewOnFocusChange" Value="False" />
-                                <Setter Property="Template" Value="{StaticResource ScrollViewerScrollBarlessTemplate}" />
-                            </Style>
-                        </Border.Resources>
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="Disabled">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay1" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay2" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay3" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay4" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay5" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay6" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WeekDay7" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarViewWeekDayForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="HeaderButtonStates">
-                                <VisualState x:Name="ViewChanged" />
-                                <VisualState x:Name="ViewChanging">
-
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HeaderButton"
-                    Storyboard.TargetProperty="Opacity"
-                    From="0"
-                    To="1"
-                    Duration="0:0:0.167" />
-                                    </Storyboard>
-                                </VisualState>
-
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="DisplayModeStates">
-                                <VisualState x:Name="Month" />
-                                <VisualState x:Name="Year">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MonthViewScrollViewer" Storyboard.TargetProperty="IsEnabled">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="False" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MonthView" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Decade">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MonthViewScrollViewer" Storyboard.TargetProperty="IsEnabled">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="False" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MonthView" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition From="Month" To="Year">
-
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthView" Storyboard.TargetProperty="Opacity">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundLayer" Storyboard.TargetProperty="Opacity">
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.000" Value="0" />
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.250" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.15,0.64,0.25,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                    <VisualTransition From="Year" To="Month">
-
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="IsHitTestVisible">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="False" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Opacity">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthView" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundTransform" Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundTransform" Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundLayer" Storyboard.TargetProperty="Opacity">
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.000" Value="0" />
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.250" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.15,0.64,0.25,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                    <VisualTransition From="Year" To="Decade">
-
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthView" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Opacity">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewScrollViewer" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundLayer" Storyboard.TargetProperty="Opacity">
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.000" Value="0" />
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.250" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.15,0.64,0.25,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                    <VisualTransition From="Decade" To="Year">
-
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MonthView" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewScrollViewer" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewScrollViewer" Storyboard.TargetProperty="IsHitTestVisible">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="False" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewScrollViewer" Storyboard.TargetProperty="Opacity">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="0" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewScrollViewer" Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DecadeViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.233" Value="1.29" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="YearViewTransform" Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundTransform" Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundTransform" Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.233" Value="0.84" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.1,0.9,0.2,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="BackgroundLayer" Storyboard.TargetProperty="Opacity">
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.000" Value="0" />
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.250" Value="0" />
-                                                <SplineDoubleKeyFrame KeyTime="0:0:0.733" Value="1" KeySpline="0.15,0.64,0.25,1" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                </VisualStateGroup.Transitions>
-
-                            </VisualStateGroup>
-
-                        </VisualStateManager.VisualStateGroups>
-                        <Grid VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                              MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.MinViewWidth}">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Button x:Name="HeaderButton"
-                    Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.HeaderText}"
-                    IsEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.HasMoreViews}"
-                    Style="{StaticResource NavigationButtonStyle}"
-                    Foreground="{TemplateBinding Foreground}"
-                    Padding="12,0,0,0"
-                    HorizontalContentAlignment="Left" />
-                                <Button x:Name="PreviousButton"
-                    Grid.Column="1"
-                    Content="&#xE0E4;"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    IsTabStop="True"
-                    Padding="1"
-                    Foreground="{TemplateBinding Foreground}"
-                    HorizontalContentAlignment="Center"
-                    IsEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.HasMoreContentBefore}"
-                    Style="{StaticResource NavigationButtonStyle}" />
-                                <Button x:Name="NextButton"
-                    Grid.Column="2"
-                    Content="&#xE0E5;"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    IsTabStop="True"
-                    Padding="1"
-                    Foreground="{TemplateBinding Foreground}"
-                    HorizontalContentAlignment="Center"
-                    IsEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.HasMoreContentAfter}"
-                    Style="{StaticResource NavigationButtonStyle}" />
-                            </Grid>
-                            <Grid x:Name="Views" Grid.Row="1">
-                                <Grid.Clip>
-                                    <RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClipRect}" />
-                                </Grid.Clip>
-                                <Border x:Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}">
-                                    <Border.RenderTransform>
-                                        <ScaleTransform x:Name="BackgroundTransform" CenterX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterX}" CenterY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterY}" />
-                                    </Border.RenderTransform>
-                                </Border>
-                                <Grid x:Name="MonthView">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="38" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.RenderTransform>
-                                        <ScaleTransform x:Name="MonthViewTransform" CenterX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterX}" CenterY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterY}" />
-                                    </Grid.RenderTransform>
-                                    <Grid x:Name="WeekDayNames" Background="{TemplateBinding Background}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay1}"
-                        x:Name="WeekDay1"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                        <TextBlock Grid.Column="1"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay2}"
-                        x:Name="WeekDay2"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                        <TextBlock Grid.Column="2"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay3}"
-                        x:Name="WeekDay3"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                        <TextBlock Grid.Column="3"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay4}"
-                        x:Name="WeekDay4"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                        <TextBlock Grid.Column="4"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay5}"
-                        x:Name="WeekDay5"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                        <TextBlock Grid.Column="5"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay6}"
-                        x:Name="WeekDay6"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                        <TextBlock Grid.Column="6"
-                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.WeekDay7}"
-                        x:Name="WeekDay7"
-                        Foreground="{TemplateBinding CalendarItemForeground}"
-                        Style="{StaticResource WeekDayNameStyle}" />
-                                    </Grid>
-                                    <ScrollViewer x:Name="MonthViewScrollViewer" Grid.Row="1" Style="{StaticResource ScrollViewerStyle}" IsFocusEngagementEnabled="True">
-                                        <CalendarPanel x:Name="MonthViewPanel" />
-                                    </ScrollViewer>
-
-                                </Grid>
-                                <ScrollViewer x:Name="YearViewScrollViewer"
-                    UseLayoutRounding="False"
-                    Visibility="Collapsed"
-                    IsFocusEngagementEnabled="True"
-                    Style="{StaticResource ScrollViewerStyle}">
-                                    <ScrollViewer.RenderTransform>
-                                        <ScaleTransform x:Name="YearViewTransform" CenterX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterX}" CenterY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterY}" />
-                                    </ScrollViewer.RenderTransform>
-                                    <CalendarPanel x:Name="YearViewPanel" />
-                                </ScrollViewer>
-                                <ScrollViewer x:Name="DecadeViewScrollViewer"
-                    UseLayoutRounding="False"
-                    IsFocusEngagementEnabled="True"
-                    Visibility="Collapsed"
-                    Style="{StaticResource ScrollViewerStyle}">
-                                    <ScrollViewer.RenderTransform>
-                                        <ScaleTransform x:Name="DecadeViewTransform" CenterX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterX}" CenterY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CenterY}" />
-                                    </ScrollViewer.RenderTransform>
-                                    <CalendarPanel x:Name="DecadeViewPanel" />
-                                </ScrollViewer>
-                            </Grid>
-
-                        </Grid>
-                    </Border>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
     </Style>
 
-    <!--no to touch-->
+    <!--not to touch-->
     <Style TargetType="controls:DataGridCell" x:Key="DataGridStyle">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="0"/>
@@ -3713,7 +3253,6 @@
     <ResourceDictionary.ThemeDictionaries>
 
         <ResourceDictionary x:Name="Light" >
-
             <AcrylicBrush x:Key="MyAcrylicBrush"
             BackgroundSource="Backdrop"
             TintColor="#eaf3fa"
@@ -3784,6 +3323,7 @@
         </ResourceDictionary>
 
         <ResourceDictionary x:Name="Dark">
+
 
             <AcrylicBrush x:Key="MyAcrylicBrush"
             BackgroundSource="Backdrop"
@@ -3856,3 +3396,293 @@
     </ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>
+
+<!--<Style x:Key="CalendarViewRevealStyle" TargetType="CalendarView">
+    <Setter Property="IsOutOfScopeEnabled" Value="True"/>
+    <Setter Property="SelectedBorderBrush" Value="{ThemeResource CustomAccentColor}" />
+    <Setter Property="PressedBorderBrush" Value="{ThemeResource CalendarViewPressedBorderBrush}" />
+    <Setter Property="TodayForeground" Value="{ThemeResource CustomAccentColor}" />
+    <Setter Property="BlackoutForeground" Value="{ThemeResource CalendarViewBlackoutForeground}" />
+    <Setter Property="SelectedForeground" Value="{ThemeResource CustomAccentColor}" />
+    <Setter Property="SelectedHoverForeground" Value="{ThemeResource CustomAccentColor}"/>
+    <Setter Property="SelectedHoverBorderBrush" Value="{ThemeResource CustomAccentColor}"/>
+    <Setter Property="PressedForeground" Value="{ThemeResource CalendarViewPressedForeground}" />
+    <Setter Property="OutOfScopeForeground" Value="{ThemeResource CalendarViewOutOfScopeForeground}" />
+    <Setter Property="CalendarItemForeground" Value="{ThemeResource CalendarViewCalendarItemForeground}" />
+    <Setter Property="OutOfScopeBackground" Value="{ThemeResource CalendarViewOutOfScopeBackground}" />
+    <Setter Property="OutOfScopeHoverForeground" Value="{ThemeResource CalendarViewOutOfScopeForeground}"/>
+    <Setter Property="Foreground" Value="{ThemeResource CalendarViewForeground}" />
+    <Setter Property="Background" Value="{ThemeResource CalendarViewBackground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource CalendarViewBorderBrush}" />
+    <Setter Property="DayItemFontFamily" Value="XamlAutoFontFamily" />
+    <Setter Property="FirstOfMonthLabelFontFamily" Value="XamlAutoFontFamily" />
+    <Setter Property="MonthYearItemFontFamily" Value="XamlAutoFontFamily" />
+    <Setter Property="FirstOfYearDecadeLabelFontFamily" Value="XamlAutoFontFamily" />
+    <Setter Property="CalendarItemBorderThickness" Value="2" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="DayItemFontSize" Value="15"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="TodaySelectedInnerBorderBrush" Value="{ThemeResource CustomAccentColor}"/>
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="UseSystemFocusVisuals" Value="True"/>
+    <Setter Property="CalendarViewDayItemStyle" Value="{StaticResource CalendarViewDayItemRevealStyle}"/>
+
+</Style>
+
+<Style x:Key="CalendarViewDayItemRevealStyle" TargetType="CalendarViewDayItem">
+    <Setter Property="MinWidth" Value="40" />
+    <Setter Property="MinHeight" Value="40" />
+    <Setter Property="Margin" Value="1" />
+    <Setter Property="Padding" Value="0, 0, 0, 4" />
+    <Setter Property="UseSystemFocusVisuals" Value="False" />
+    <Setter Property="FocusVisualMargin" Value="-2" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="CalendarViewDayItem">
+                --><!-- For CalendarViewDayItem, TextBlock visual is created and handled by code and we can't see it from the style. -->
+                <!-- CCalendarViewBaseItemChrome creates and appends a TextBlock in the visual after the ControlTemplate is applied -->
+                <!-- VSM needs a container and that's why Grid is added. But we don't need the rendering of Grid so We set width to 0 --><!--
+                <Grid x:Name="Root" Width="0">
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+
+                            <VisualState x:Name="PointerOver"/>
+                            --><!--<VisualState.Setters>
+                                    <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
+                                </VisualState.Setters>--><!--
+
+
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </Grid>
+
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+
+<Style x:Key="DefaultCalendarDatePicker" TargetType="CalendarDatePicker">
+    <Setter Property="Foreground" Value="{ThemeResource CalendarDatePickerForeground}" />
+    <Setter Property="Background" Value="{ThemeResource CalendarDatePickerBackground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource CalendarDatePickerBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{ThemeResource CalendarDatePickerBorderThemeThickness}" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+    <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="CalendarDatePicker">
+                <Grid x:Name="Root">
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+
+                            <VisualState x:Name="PointerOver">
+
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBorderBrushPointerOver}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBackgroundPointerOver}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+
+                            <VisualState x:Name="Pressed">
+
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBackgroundPressed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBorderBrushPressed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+
+                            <VisualState x:Name="Disabled">
+
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBackgroundDisabled}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="BorderBrush">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBorderBrushDisabled}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerHeaderForegroundDisabled}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DateText" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerTextForegroundDisabled}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CalendarGlyph" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerCalendarGlyphForegroundDisabled}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="FocusStates">
+                            <VisualState x:Name="Unfocused" />
+                            <VisualState x:Name="PointerFocused" />
+                            <VisualState x:Name="Focused">
+
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerBackgroundFocused}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="SelectionStates">
+                            <VisualState x:Name="Unselected" />
+
+                            <VisualState x:Name="Selected">
+
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DateText" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CalendarDatePickerTextForegroundSelected}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="HeaderStates">
+                            <VisualState x:Name="TopHeader" />
+                            <VisualState x:Name="LeftHeader">
+                                <VisualState.Setters>
+                                    <Setter Target="HeaderContentPresenter.(Grid.Row)" Value="1" />
+                                    <Setter Target="HeaderContentPresenter.(Grid.Column)" Value="0" />
+                                    <Setter Target="HeaderContentPresenter.(Grid.ColumnSpan)" Value="1" />
+                                    <Setter Target="HeaderContentPresenter.Margin" Value="{StaticResource CalendarDatePickerLeftHeaderMargin}" />
+                                    <Setter Target="HeaderContentPresenter.MaxWidth" Value="{StaticResource CalendarDatePickerLeftHeaderMaxWidth}" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout Placement="Bottom">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="IsDefaultShadowEnabled" Value="True" />
+                                    <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="FlyoutPresenter">
+                                                <ContentPresenter Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Content="{TemplateBinding Content}"
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                        Margin="{TemplateBinding Padding}"
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+                                                        contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <CalendarView x:Name="CalendarView"
+                                    Style="{TemplateBinding CalendarViewStyle}"
+                                    MinDate="{TemplateBinding MinDate}"
+                                    MaxDate="{TemplateBinding MaxDate}"
+                                    IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                    DisplayMode="{TemplateBinding DisplayMode}"
+                                    FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                    DayOfWeekFormat="{TemplateBinding DayOfWeekFormat}"
+                                    CalendarIdentifier="{TemplateBinding CalendarIdentifier}"
+                                    IsOutOfScopeEnabled="{TemplateBinding IsOutOfScopeEnabled}"
+                                    IsGroupLabelVisible="{TemplateBinding IsGroupLabelVisible}"
+                                    contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}" />
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="32" />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter x:Name="HeaderContentPresenter"
+                            x:DeferLoadStrategy="Lazy"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            Margin="{StaticResource CalendarDatePickerTopHeaderMargin}"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Top"
+                            Visibility="Collapsed" />
+                    <Border x:Name="Background"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+                            contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}"
+                            Control.IsTemplateFocusTarget="True"
+                            MinHeight="32"/>
+                    <TextBlock x:Name="DateText"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Foreground="{ThemeResource CalendarDatePickerTextForeground}"
+                            Text="{TemplateBinding PlaceholderText}"
+                            Padding="12, 0, 0, 2"
+                            VerticalAlignment="Center" />
+                    <FontIcon x:Name="CalendarGlyph"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Glyph="&#xE787;"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Foreground="{ThemeResource CalendarDatePickerCalendarGlyphForeground}"
+                            FontSize="12"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    <contract7Present:ContentPresenter x:Name="DescriptionPresenter"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Content="{TemplateBinding Description}"
+                            x:Load="False"
+                            Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}"
+                            AutomationProperties.AccessibilityView="Raw" />
+
+                </Grid>
+
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>-->

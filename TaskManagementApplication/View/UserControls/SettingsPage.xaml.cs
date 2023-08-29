@@ -67,9 +67,5 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             AccentChange.AppAccentColor = color.Color;
         }
 
-        private void LanguageRButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            LanguageRButton.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-        }
     }
 }

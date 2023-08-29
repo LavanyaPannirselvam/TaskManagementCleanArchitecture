@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TaskManagementCleanArchitecture.ViewModel;
@@ -25,7 +26,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private ObservableCollection<UserBO> _suggestedItems;
         private ObservableCollection<UserBO> _assignedUsers;
         public TaskDetailsViewModelBase _taskDetailsViewModel;
-        EnumConverter _enumConverter;
+        private EnumConverter _enumConverter;
         private double _windowWidth;
         private double _windowHeight;
 
@@ -54,7 +55,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void ShowNotification(string msg)
         {
-            //NotificationControl.Show(msg, 3000);
         }
 
         public void TaskDetailsNotification()
@@ -78,8 +78,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
             StartdateCalender.DateChanged += StartdateCalender_DateChanged;
             EnddateCalender.DateChanged += EnddateCalender_DateChanged;
-            //PriorityCombo.Loaded += PriorityCBox_Loaded;
-            //StatusCombo.Loaded += StatusCombo_Loaded;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -101,15 +99,24 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             if (_suggestedItems.Count == 0)
             {
                 _suggestedItems.Add(new UserBO("No results found", string.Empty));
+                //List<string> noItem = new List<string>
+                //{
+                //    "No results found"
+                //};
+                //AssignUserBox.ItemsSource = noItem;
             }
-            if (AssignUserBox.Text != string.Empty)
+            if (AssignUserBox.Text != string.Empty && _suggestedItems.Count != 0)
             {
                 AssignUserBox.ItemsSource = _suggestedItems;
             }
-            else
+            else if(AssignUserBox.Text == string.Empty)
             {
                 AssignUserBox.ItemsSource = null;
             }
+            //else
+            //{
+            //    AssignUserBox.ItemsSource = noItem;
+            //}
         }
 
         private void UserRemoved(ObservableCollection<UserBO> bO)
@@ -180,7 +187,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 AssignUserBox.Text = string.Empty;
                 AssignUserBox.IsSuggestionListOpen = false;
-               // AssignUserBox.
                 _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
             }
         }
@@ -250,8 +256,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            if (date.Date > _taskDetailsViewModel.SelectedTask.StartDate)
+            if (date.Date != _taskDetailsViewModel.SelectedTask.StartDate && date.Date >= DateTimeOffset.Now.Date)
             {
+                EnddateCalender.MinDate= (DateTimeOffset)date.Date;
                 _taskDetailsViewModel.ChangeStartDate(_taskDetailsViewModel.SelectedTask.Id, (DateTimeOffset)date.Date);
             }
         }
@@ -259,7 +266,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            if (date.Date > _taskDetailsViewModel.SelectedTask.EndDate)
+            if (date.Date != _taskDetailsViewModel.SelectedTask.EndDate && date.Date >= DateTimeOffset.Now.Date)
             {
                 _taskDetailsViewModel.ChangeEndDate(_taskDetailsViewModel.SelectedTask.Id, (DateTimeOffset)date.Date);
             }

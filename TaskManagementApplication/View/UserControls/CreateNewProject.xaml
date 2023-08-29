@@ -44,14 +44,12 @@
         <CalendarDatePicker Grid.Row="2"
                             x:Uid="StartDateLabel"
                             Name="startdate"
-                            PlaceholderText=""
                             HorizontalAlignment="Stretch"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             x:Uid="EndDateLabel"
                             Name="enddate"
-                            PlaceholderText=""
                             HorizontalAlignment="Stretch"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             Margin="5"/>

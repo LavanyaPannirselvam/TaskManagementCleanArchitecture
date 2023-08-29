@@ -37,9 +37,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private double _windowWidth;
         private double _windowHeight;
         TaskDetails taskDetailsPage;
+        private TaskDetails taskDetailsPg2;
         private bool _narrowLayout;
+        private Style myStyle;
+
         public static event Action<string> TaskPageNotification;
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
@@ -92,42 +95,42 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void TasksOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _itemSelected = true;
-            if (_narrowLayout)
+            if (TasksOfAProject.SelectedIndex != -1)
             {
-                _narrowLayout = true;
-                TasksList.Visibility = Visibility.Collapsed;
-                TasksGridSplitter.Visibility = Visibility.Collapsed;
-                TasksDetailGrid.Visibility = Visibility.Visible;
-                Grid.SetColumn(TasksDetailGrid, 0);
-                Grid.SetColumnSpan(TasksDetailGrid, 3);
-                BackToList.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                _narrowLayout = false;
-                Grid.SetColumn(TasksList, 0);
-                Grid.SetColumn(TasksGridSplitter, 1);
-                Grid.SetColumn(TasksDetailGrid, 2);
-                Grid.SetColumnSpan(TasksList, 1);
-                Grid.SetColumnSpan(TasksGridSplitter, 1);
-                Grid.SetColumnSpan(TasksDetailGrid, 1);
-                TasksList.Visibility = Visibility.Visible;
-                TasksGridSplitter.Visibility = Visibility.Visible;
-                TasksDetailGrid.Visibility = Visibility.Visible;
-            }
-            if ((sender as DataGrid).SelectedItem is Tasks task)
-            {
-                taskDetailsPage._taskDetailsViewModel.GetATask(task.Id);
-                taskDetailsPage.DataContext = task;
-                TasksList.DataContext = _task;
-                TasksOfAProject.SelectedIndex = -1;
+                if (_narrowLayout)
+                {
+                    _narrowLayout = true;
+                    TasksList.Visibility = Visibility.Collapsed;
+                    TasksGridSplitter.Visibility = Visibility.Collapsed;
+                    TasksDetailGrid.Visibility = Visibility.Visible;
+                    Grid.SetColumn(TasksDetailGrid, 0);
+                    Grid.SetColumnSpan(TasksDetailGrid, 3);
+                    BackToList.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    _narrowLayout = false;
+                    Grid.SetColumn(TasksList, 0);
+                    Grid.SetColumn(TasksGridSplitter, 1);
+                    Grid.SetColumn(TasksDetailGrid, 2);
+                    Grid.SetColumnSpan(TasksList, 1);
+                    Grid.SetColumnSpan(TasksGridSplitter, 1);
+                    Grid.SetColumnSpan(TasksDetailGrid, 1);
+                    TasksList.Visibility = Visibility.Visible;
+                    TasksGridSplitter.Visibility = Visibility.Visible;
+                    TasksDetailGrid.Visibility = Visibility.Visible;
+                }
+                if ((sender as DataGrid).SelectedItem is Tasks task)
+                {
+                    taskDetailsPage._taskDetailsViewModel.GetATask(task.Id); 
+                    TasksOfAProject.SelectedIndex = -1;
+                }
             }
         }
 
         private void NewTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            if(TasksDetailGrid.Visibility == Visibility.Visible)
+            if (TasksDetailGrid.Visibility == Visibility.Visible)
             {
                 TasksList.Visibility = Visibility.Visible;
                 TasksGridSplitter.Visibility = Visibility.Collapsed;
@@ -162,7 +165,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             int result = await ConfirmtionDialogue();
             if (result == 1)
             {
-                _itemSelected = false;//TODO
+                _itemSelected = false;
                 _taskViewModel.DeleteTask(taskDetailsPage._taskDetailsViewModel.SelectedTask.Id);
             }
         }
@@ -172,19 +175,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ContentDialog dialog = new ContentDialog();
 
             dialog.XamlRoot = this.XamlRoot;
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            // dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
             dialog.Title = "Delete Task?";
             dialog.Content = "Once deleted, task cannot be retrieved";
             dialog.PrimaryButtonText = "Delete";
             dialog.CloseButtonText = "Cancel";
-            dialog.CloseButtonStyle = Application.Current.Resources["AccentButtonStyleCustom"] as Style;
+            myStyle = (Style)Application.Current.Resources["AccentButtonStyleCustom"];
+            dialog.CloseButtonStyle = myStyle;
             dialog.DefaultButton = ContentDialogButton.Close;
             dialog.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             var result = await dialog.ShowAsync();
             return (int)result;
         }
 
-        
+
         public void ShowTaskPageNotiifcation(string msg)
         {
             NotificationBox.Show(msg, 3000);
@@ -213,7 +217,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                     BackToList.Visibility = Visibility.Visible;
                 }
             }
-            else if(_windowWidth >= 900 && _windowWidth <= 1200)
+            else if (_windowWidth >= 900 && _windowWidth <= 1200)
             {
                 TasksOfAProject.FrozenColumnCount = 2;
                 _narrowLayout = false;
@@ -312,7 +316,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             TaskPageNotification -= ShowTaskPageNotiifcation;
             UIUpdation.TaskCreated -= UpdateNewTask;
-            UIUpdation .TaskDeleted -= UpdateDeleteTask;
+            UIUpdation.TaskDeleted -= UpdateDeleteTask;
             UIUpdation.TaskUpdated -= UIUpdation_TaskUpdated;
         }
 

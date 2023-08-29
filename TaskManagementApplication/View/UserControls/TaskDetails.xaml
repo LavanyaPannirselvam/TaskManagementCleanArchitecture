@@ -182,6 +182,7 @@
                            VerticalAlignment="Center"/>
                     <CalendarDatePicker Margin="2"
                   FontSize="16"
+                  MinDate="{x:Bind _taskDetailsViewModel.SelectedTask.StartDate,Mode=OneWay}"
                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.EndDate,Mode=OneWay}"
                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                   x:Name="EnddateCalender"/>

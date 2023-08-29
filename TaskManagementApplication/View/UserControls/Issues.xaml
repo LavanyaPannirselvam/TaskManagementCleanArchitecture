@@ -14,9 +14,11 @@
     Loaded="UserControl_Loaded"
     Unloaded="UserControl_Unloaded"
     xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
-    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives" xmlns:locals1="using:TaskManagementCleanArchitecture">
+    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"  
+    xmlns:locals1="using:TaskManagementCleanArchitecture">
     <UserControl.Resources>
         <converter:EnumConverter x:Key="ConvertEnum"/>
+        <converter:StringConverter x:Key="ConvertString" />
     </UserControl.Resources>
     <Grid>
         <Grid CornerRadius="10"

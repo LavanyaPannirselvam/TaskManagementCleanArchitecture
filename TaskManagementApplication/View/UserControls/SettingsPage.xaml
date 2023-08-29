@@ -27,14 +27,14 @@
                    Margin="10"
                    Style="{ThemeResource TitleTextBlock}"
                    HorizontalAlignment="Left"/>
-        <GridView HorizontalAlignment="Left"
+            <GridView HorizontalAlignment="Left"
                   x:Name="AccentColorList"
                   SelectionMode="Single"
                   Margin="5,5"
                   Grid.Row="1"
                   SelectionChanged="AccentColorList_SelectionChanged"
                   ItemsSource="{x:Bind viewModel.AccentColors}">
-            <GridView.ItemsPanel>
+                <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid
                             ItemWidth="70"
@@ -90,7 +90,7 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Stroke">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                        <!--<PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />-->
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="Pressed">
@@ -108,7 +108,7 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualBlack" Storyboard.TargetProperty="Stroke">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                                        <!--<PointerDownThemeAnimation TargetName="ContentPresenter" />-->
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="Selected">
@@ -133,7 +133,7 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Background">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                        <!--<PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />-->
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="PointerOverSelected">
@@ -158,7 +158,7 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Background">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                        <!--<PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />-->
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="PressedSelected">
@@ -183,7 +183,7 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Background">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                                        <!--<PointerDownThemeAnimation TargetName="ContentPresenter" />-->
                                                     </Storyboard>
                                                 </VisualState>
                                             </VisualStateGroup>
@@ -368,24 +368,28 @@
                 </GridView.ItemContainerStyle>
             </GridView>
         </StackPanel>
-        <Grid Grid.Row="1"
+        <StackPanel Grid.Row="1"
               Margin="10"
               Background="{ThemeResource AppBackground}"
               CornerRadius="10">
+            <TextBlock x:Uid="PreferredLanguageLabel"
+                   FontWeight="SemiBold"
+                   FontSize="16"
+                   Margin="10"
+                   Style="{ThemeResource TitleTextBlock}"
+                   HorizontalAlignment="Left"/>
             <ComboBox x:Name="LanguageRButton"
-                      x:Uid="PreferredLanguageLabel"
                       Margin="10"
-                      Loaded="LanguageRButton_Loaded"
                       ItemsSource="{x:Bind viewModel.Languages}"
                       SelectionChanged="LanguageRButton_SelectionChanged"
                       Style="{ThemeResource ComboBoxCustomStyle}"
-                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}">
+                      ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="globalization:Language">
                         <TextBlock Text="{Binding DisplayName}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </Grid>
+        </StackPanel>
     </Grid>
 </Page>

@@ -29,9 +29,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TaskManagementCleanArchitecture.View.UserControls
 {
-    public sealed partial class Issues : UserControl , IIssuePageUpdateNotification
+    public sealed partial class Issues : UserControl, IIssuePageUpdateNotification
     {
-        private static bool _itemSelected; 
+        private static bool _itemSelected;
+        private static bool _isProcessed = false;
         private Issue _issue = new Issue();
         public IssuesViewModelBase _issueViewModel;
         public IssueDetails issueDetailsPage;
@@ -51,7 +52,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void NewIssueButton_Click(object sender, RoutedEventArgs e)
         {
-            if(IssueDetailGrid.Visibility == Visibility.Visible)
+            if (IssueDetailGrid.Visibility == Visibility.Visible)
             {
                 IssuesList.Visibility = Visibility.Visible;
                 IssueGridSplitter.Visibility = Visibility.Collapsed;
@@ -84,53 +85,37 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private void IssueOfAProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //_itemSelected = true;
-            //Grid.SetColumn(IssuesList, 0);
-            //Grid.SetColumn(IssueGridSplitter, 1);
-            //Grid.SetColumn(IssueDetailGrid, 2);  
-            //Grid.SetColumnSpan(IssuesList, 1);
-            //Grid.SetColumnSpan(IssueGridSplitter, 1);
-            //Grid.SetColumnSpan(IssueDetailGrid, 1);
-            //IssuesList.Visibility = Visibility.Visible;
-            //IssueGridSplitter.Visibility = Visibility.Visible;
-            //IssueDetailGrid.Visibility = Visibility.Visible;
-            //if ((sender as DataGrid).SelectedItem is Issue issue)
-            //{
-            //    _aIssueViewModel.GetAIssue(issue.Id);
-            //    _aIssueViewModel.CanAssignUsersList.Clear();
-            //    _aIssueViewModel.CanRemoveUsersList.Clear();
-            //    //TasksList.DataContext = _task;
-            //}
-            _itemSelected = true;
-            if (_narrowLayout)
+            if (IssueOfAProject.SelectedIndex != -1)
             {
-                _narrowLayout = true;
-                IssuesList.Visibility = Visibility.Collapsed;
-                IssueGridSplitter.Visibility = Visibility.Collapsed;
-                IssueDetailGrid.Visibility = Visibility.Visible;
-                Grid.SetColumn(IssueDetailGrid, 0);
-                Grid.SetColumnSpan(IssueDetailGrid, 3);
-                BackToList.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                _narrowLayout = false;
-                Grid.SetColumn(IssuesList, 0);
-                Grid.SetColumn(IssueGridSplitter, 1);
-                Grid.SetColumn(IssueDetailGrid, 2);
-                Grid.SetColumnSpan(IssuesList, 1);
-                Grid.SetColumnSpan(IssueGridSplitter, 1);
-                Grid.SetColumnSpan(IssueDetailGrid, 1);
-                IssuesList.Visibility = Visibility.Visible;
-                IssueGridSplitter.Visibility = Visibility.Visible;
-                IssueDetailGrid.Visibility = Visibility.Visible;
-            }
-            if ((sender as DataGrid).SelectedItem is Issue issue)
-            {
-                issueDetailsPage._issueViewModel.GetAIssue(issue.Id);
-                issueDetailsPage.DataContext = issue;
-                IssuesList.DataContext = _issue;
-                IssueOfAProject.SelectedIndex = -1;
+                _itemSelected = true;
+                if (_narrowLayout)
+                {
+                    _narrowLayout = true;
+                    IssuesList.Visibility = Visibility.Collapsed;
+                    IssueGridSplitter.Visibility = Visibility.Collapsed;
+                    IssueDetailGrid.Visibility = Visibility.Visible;
+                    Grid.SetColumn(IssueDetailGrid, 0);
+                    Grid.SetColumnSpan(IssueDetailGrid, 3);
+                    BackToList.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    _narrowLayout = false;
+                    Grid.SetColumn(IssuesList, 0);
+                    Grid.SetColumn(IssueGridSplitter, 1);
+                    Grid.SetColumn(IssueDetailGrid, 2);
+                    Grid.SetColumnSpan(IssuesList, 1);
+                    Grid.SetColumnSpan(IssueGridSplitter, 1);
+                    Grid.SetColumnSpan(IssueDetailGrid, 1);
+                    IssuesList.Visibility = Visibility.Visible;
+                    IssueGridSplitter.Visibility = Visibility.Visible;
+                    IssueDetailGrid.Visibility = Visibility.Visible;
+                }
+                if ((sender as DataGrid).SelectedItem is Issue issue)
+                {
+                    issueDetailsPage._issueViewModel.GetAIssue(issue.Id);
+                    IssueOfAProject.SelectedIndex = -1;
+                }
             }
         }
 
@@ -207,7 +192,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             IssueGridSplitter.Visibility = Visibility.Collapsed;
             IssueDetailGrid.Visibility = Visibility.Collapsed;
         }
-      
+
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _windowHeight = e.NewSize.Height;
@@ -231,7 +216,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
                     BackToList.Visibility = Visibility.Visible;
                 }
             }
-            else if(_windowWidth >= 900 && _windowWidth <= 1200)
+            else if (_windowWidth >= 900 && _windowWidth <= 1200)
             {
                 IssueOfAProject.FrozenColumnCount = 2;
                 _narrowLayout = false;
@@ -291,7 +276,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             Grid.SetColumn(IssuesList, 0);
             Grid.SetColumnSpan(IssuesList, 3);
             _itemSelected = false;
-            if(_issueViewModel.IssuesList.Count >= 20)
+            if (_issueViewModel.IssuesList.Count >= 20)
             {
                 GridRow.Height = new GridLength(750, GridUnitType.Pixel);
             }
@@ -302,13 +287,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var issue = _issueViewModel.IssuesList.Where(i => i.Id == obj.Id).FirstOrDefault();
             var index = _issueViewModel.IssuesList.IndexOf(issue);
             _issueViewModel.IssuesList.Remove(issue);
-           _issueViewModel.IssuesList.Insert(index, obj);
+            _issueViewModel.IssuesList.Insert(index, obj);
             issueDetailsPage._issueViewModel.GetAIssue(obj.Id);
         }
 
         private void UIUpdation_IssueDeleted(Issue issue)
         {
-            
+
             var delete = _issueViewModel.IssuesList.Where(i => i.Id == issue.Id);
             _issueViewModel.IssuesList.Remove(delete.FirstOrDefault());
             IssuesList.Visibility = Visibility.Visible;

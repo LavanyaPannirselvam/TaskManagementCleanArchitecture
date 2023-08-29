@@ -202,7 +202,8 @@
                       HorizontalAlignment="Stretch" 
                       Grid.Column="2" 
                       x:Name="TasksDetailGrid" 
-                      ScrollViewer.VerticalScrollMode="Enabled" >
+                      ScrollViewer.VerticalScrollMode="Enabled">
+                 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>

@@ -234,8 +234,9 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void StartdateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            if (date.Date > _issueViewModel.SelectedIssue.StartDate)
+            if (date.Date != _issueViewModel.SelectedIssue.StartDate && date.Date >= DateTimeOffset.Now.Date)
             {
+                EnddateCalender.MinDate = (DateTimeOffset)date.Date;
                 _issueViewModel.ChangeStartDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
             }
         }
@@ -243,7 +244,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private void EnddateCalender_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
-            if (date.Date > _issueViewModel.SelectedIssue.EndDate)
+            if (date.Date != _issueViewModel.SelectedIssue.EndDate && date.Date >= DateTimeOffset.Now.Date)
             {
                 _issueViewModel.ChangeEndDate(_issueViewModel.SelectedIssue.Id, (DateTimeOffset)date.Date);
             }
