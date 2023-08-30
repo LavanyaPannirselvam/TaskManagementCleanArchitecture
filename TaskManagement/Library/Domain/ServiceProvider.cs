@@ -8,7 +8,7 @@ using TaskManagementLibrary.Data;
 
 namespace TaskManagementLibrary.Domain
 {
-    public class ServiceProvider
+    public sealed class ServiceProvider
     {
         public IServiceProvider Services { get; }
         
@@ -17,17 +17,10 @@ namespace TaskManagementLibrary.Domain
             Services = ConfigureServices();
         }
 
-        private static ServiceProvider _instance;
-        private static readonly object Instancelock = new object();
+        private static ServiceProvider _instance = new ServiceProvider();
+        
         public static ServiceProvider GetInstance()
         {
-            lock (Instancelock)
-            {
-                if (_instance == null)
-                {
-                    _instance = new ServiceProvider();
-                }
-            }
             return _instance;
         }
 
@@ -71,10 +64,8 @@ namespace TaskManagementLibrary.Domain
             services.AddSingleton<IChangeStartDateofTaskDataManager, ChangeStartDateOfTaskDataManager>();
             services.AddSingleton<IChangeEndDateofTaskDataManager,ChangeEndDateOfTaskDataManager>();
             services.AddSingleton<IDBHandler, DBHandler>();
-           // services.AddSingleton<DatabasePath>();
             services.AddSingleton<DatabaseConnection>();
             services.AddSingleton<CreateTables>();
-            //services.AddSingleton<DBHandler>();
             services.AddSingleton<IDBAdapter, DBAdapter>();
             return services.BuildServiceProvider();
         }
