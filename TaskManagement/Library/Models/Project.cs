@@ -32,5 +32,12 @@ namespace TaskManagementLibrary.Models
             EndDate = endDate;
         }
         public Project() { }
+
+        public override bool Equals(object other)
+        {
+            if (other == null) return false;
+            Project obj = other as Project;
+            return Id == obj.Id;
+        }
     }
 }

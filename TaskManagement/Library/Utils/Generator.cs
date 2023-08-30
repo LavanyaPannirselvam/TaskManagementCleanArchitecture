@@ -11,12 +11,12 @@ namespace TaskManagementLibrary.Utils
         public static string GeneratePassword()
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(RandomString(3, true));
+            builder.Append(RandomString(3,true));
             builder.Append(RandomNumber(100, 999));
             builder.Append(SpecialCharacter());
             return builder.ToString();
         }
-        private static string RandomString(int size, bool lowerCase)
+        private static string RandomString(int size,bool lower)
         {
             StringBuilder builder = new StringBuilder();
             Random random = new Random();
@@ -26,8 +26,12 @@ namespace TaskManagementLibrary.Utils
                 ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
                 builder.Append(ch);
             }
-            if (lowerCase)
-                return builder.ToString().ToLower();
+            if (lower)
+            {
+                var str = builder.ToString();
+                string mostLower = str.Substring(0, 1) + str.Substring(1).ToLower();
+                return mostLower;
+            }
             return builder.ToString();
         }
         private static int RandomNumber(int min, int max)
@@ -38,7 +42,7 @@ namespace TaskManagementLibrary.Utils
 
         private static char SpecialCharacter()
         {
-            string spl = "%!@#$%^&*()?/>.<,:;'}]{[_~`+=-";
+            string spl = "%!@#$%&*";
             Random random = new Random();
             return spl[random.Next(0, spl.Length)];
         }
