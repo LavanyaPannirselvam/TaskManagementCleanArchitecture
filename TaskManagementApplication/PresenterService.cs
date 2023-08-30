@@ -13,7 +13,6 @@ namespace TaskManagementCleanArchitecture
     public sealed class PresenterService
     {
         public IServiceProvider Services { get; }
-        //singleton so constructor called and ConfigureServices is called only once
         private PresenterService()
         {
             Services = ConfigureServices();
@@ -29,8 +28,8 @@ namespace TaskManagementCleanArchitecture
         {
             var services = new ServiceCollection();
             services.AddSingleton<ProjectsViewModelBase, ProjectsViewModel>();
-            services.AddSingleton<IssuesViewModelBase,IssueViewModel>();
-            services.AddSingleton<LoginViewModelBase, LoginViewModel>();
+            services.AddSingleton<IssueViewModelBase, IssueViewModel>();
+            services.AddSingleton<LoginViewModelBase,LoginViewModel>();
             services.AddSingleton<UserViewModelBase,UserViewModel>();
             services.AddSingleton<IssueDetailsViewModelBase, IssueDetailsViewModel>();
             services.AddSingleton<TasksPageViewModelBase,TaskViewModel>();
@@ -38,7 +37,6 @@ namespace TaskManagementCleanArchitecture
             services.AddSingleton<AssignedTasksPageViewModelBase, AssignedTaskPageViewModel>();
             services.AddSingleton<CreatedTasksPageViewModelBase,CreatedTasksPageViewModel>();
             services.AddSingleton<CreateUserViewModelBase, CreateUserViewModel>();
-            services.AddSingleton<UserViewModelBase,UserViewModel>();
             services.AddSingleton<SettingsViewModel>();
             return services.BuildServiceProvider();
         }

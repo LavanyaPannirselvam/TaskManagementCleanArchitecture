@@ -59,29 +59,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private Visibility _nameTextBoxVisibility;
-        public Visibility NameTextBoxVisibility
-        {
-            get { return _nameTextBoxVisibility; }
-            set
-            {
-                _nameTextBoxVisibility = value;
-                NotifyPropertyChanged(nameof(NameTextBoxVisibility));
-            }
-        }
-
-        private void TaskName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var text = (TextBox)sender;//should do empty and invalid data check
-            if (text.Text == string.Empty || text.Text == null)
-            {
-                ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMsg");
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            else ErrorMessage.Visibility = Visibility.Collapsed;
-            _taskName = text.Text;
-        }
-
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
@@ -165,7 +142,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private bool IsTaskNameEmpty(string name)
         {
-            if (name == null || name == "" || name == string.Empty)
+            if (string.IsNullOrEmpty(_taskName))
             {
                 ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
@@ -194,29 +171,21 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
-        private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void TaskName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var text = (TextBox)sender;//should do empty and invalid data check
+            if (text.Text == string.Empty || text.Text == null)
+            {
+                ErrorMessage.Text = _resourceLoader.GetString("TaskNameEmptyErrorMsg");
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
+            _taskName = text.Text;
+        }
+
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
         {
             _description = ((TextBox)sender).Text;
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            TaskName.TextChanged += TaskName_TextChanged;
-            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
-            startdate.DateChanged += StartDate_DataChanged;
-            enddate.DateChanged += EndDate_DataChanged;
-            prioritybox.SelectionChanged += Priority_Selectionchanged;
-            statusbox.SelectionChanged += Status_Selectionchanged;
-        }
-
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            TaskName.TextChanged -= TaskName_TextChanged;
-            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
-            startdate.DateChanged -= StartDate_DataChanged;
-            enddate.DateChanged -= EndDate_DataChanged;
-            prioritybox.SelectionChanged -= Priority_Selectionchanged;
-            statusbox.SelectionChanged -= Status_Selectionchanged;
         }
     }
 }

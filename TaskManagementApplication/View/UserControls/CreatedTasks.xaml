@@ -18,6 +18,7 @@
     Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
         <converter:EnumConverter x:Key="ConvertEnum"/>
+        <converter:StringConverter x:Key="ConvertString" />
     </UserControl.Resources>
     <Grid Background="{ThemeResource AppForegroundBg}"
           x:Name="TaskPage"
@@ -101,7 +102,7 @@
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate x:DataType="library:Tasks" >
                                     <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Desc}"
+                                               Text="{x:Bind Desc,Converter={StaticResource ConvertString}}"
                                                TextWrapping="Wrap"
                                                TextTrimming="CharacterEllipsis"
                                                VerticalAlignment="Center"/>

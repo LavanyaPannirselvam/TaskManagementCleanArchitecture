@@ -72,17 +72,11 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
             UpdateUsers += TaskDetailsPage_UpdateUsers;
             Notification += ShowNotification;
-            NameBox.TextChanged += NameBox_TextChanged;
-            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
-            StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
-            PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
-            StartdateCalender.DateChanged += StartdateCalender_DateChanged;
-            EnddateCalender.DateChanged += EnddateCalender_DateChanged;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
         {
-            _taskDetailsViewModel.RemoveTask(obj.Email, _taskDetailsViewModel.SelectedTask.Id);
+            _taskDetailsViewModel.RemoveTaskFromUser(obj.Email, _taskDetailsViewModel.SelectedTask.Id);
         }
 
         private void TaskDetailsPage_UpdateUsers(ObservableCollection<UserBO> obj)
@@ -98,25 +92,16 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if (_suggestedItems.Count == 0)
             {
-                _suggestedItems.Add(new UserBO("No results found", string.Empty));
-                //List<string> noItem = new List<string>
-                //{
-                //    "No results found"
-                //};
-                //AssignUserBox.ItemsSource = noItem;
+                AssignUserBox.ItemsSource = new List<string> { "No results found" };
             }
             if (AssignUserBox.Text != string.Empty && _suggestedItems.Count != 0)
             {
                 AssignUserBox.ItemsSource = _suggestedItems;
             }
-            else if(AssignUserBox.Text == string.Empty)
+            else if (AssignUserBox.Text == string.Empty)
             {
                 AssignUserBox.ItemsSource = null;
             }
-            //else
-            //{
-            //    AssignUserBox.ItemsSource = noItem;
-            //}
         }
 
         private void UserRemoved(ObservableCollection<UserBO> bO)
@@ -144,15 +129,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserRemoved -= UserRemoved;
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
             Notification -= ShowNotification;
-            UpdateUsers -= TaskDetailsPage_UpdateUsers;
-            NameBox.TextChanged -= NameBox_TextChanged;
-            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
-            StatusCombo.SelectionChanged -= StatusCombo_SelectionChanged;
-            PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
-            StartdateCalender.DateChanged -= StartdateCalender_DateChanged;
-            EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
-            //PriorityCombo.Loaded -= PriorityCBox_Loaded;
-            //StatusCombo.Loaded -= StatusCombo_Loaded;
+            UpdateUsers -= TaskDetailsPage_UpdateUsers;        
         }
 
         public void UpdateMatchingUsers()
@@ -187,7 +164,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 AssignUserBox.Text = string.Empty;
                 AssignUserBox.IsSuggestionListOpen = false;
-                _taskDetailsViewModel.AssignTask(user.Email, _taskDetailsViewModel.SelectedTask.Id);
+                _taskDetailsViewModel.AssignTaskToUser(user.Email, _taskDetailsViewModel.SelectedTask.Id);
             }
         }
 
@@ -217,14 +194,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
         }
 
-        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
-            if (_taskDetailsViewModel.SelectedTask != null)
-            {
-                PriorityCombo.SelectedIndex = (int)_taskDetailsViewModel.SelectedTask.Priority;
-            }
-        }
+        //private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
+        //    if (_taskDetailsViewModel.SelectedTask != null)
+        //    {
+        //        PriorityCombo.SelectedIndex = (int)_taskDetailsViewModel.SelectedTask.Priority;
+        //    }
+        //}
 
         private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -235,14 +212,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
         }
 
-        private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
-        {
-            StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
-            if (_taskDetailsViewModel.SelectedTask != null)
-            {
-                StatusCombo.SelectedIndex = (int)_taskDetailsViewModel.SelectedTask.Status;
-            }
-        }
+        //private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
+        //    if (_taskDetailsViewModel.SelectedTask != null)
+        //    {
+        //        StatusCombo.SelectedIndex = (int)_taskDetailsViewModel.SelectedTask.Status;
+        //    }
+        //}
 
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -258,7 +235,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             var date = (CalendarDatePicker)sender;
             if (date.Date != _taskDetailsViewModel.SelectedTask.StartDate && date.Date >= DateTimeOffset.Now.Date)
             {
-                EnddateCalender.MinDate= (DateTimeOffset)date.Date;
+                EnddateCalender.MinDate = (DateTimeOffset)date.Date;
                 _taskDetailsViewModel.ChangeStartDate(_taskDetailsViewModel.SelectedTask.Id, (DateTimeOffset)date.Date);
             }
         }
@@ -276,14 +253,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             _windowHeight = e.NewSize.Height;
             _windowWidth = e.NewSize.Width;
-            if(_windowWidth < 750)
+            if (_windowWidth < 750)
             {
                 Scroller.Height = 670;
             }
-            else if( _windowWidth > 750 && _windowHeight < 900)
+            else if (_windowWidth > 750 && _windowHeight < 900)
             {
-                Scroller.Height = 600;
+                Scroller.Height = 670;
             }
+        }
+
+        private void AssignUserBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            AssignUserBox.Text = string.Empty;
+            AssignUserBox.IsSuggestionListOpen = false;
         }
     }
 }

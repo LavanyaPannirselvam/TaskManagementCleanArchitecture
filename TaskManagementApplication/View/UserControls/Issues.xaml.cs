@@ -32,20 +32,20 @@ namespace TaskManagementCleanArchitecture.View.UserControls
     public sealed partial class Issues : UserControl, IIssuePageUpdateNotification
     {
         private static bool _itemSelected;
-        private static bool _isProcessed = false;
         private Issue _issue = new Issue();
-        public IssuesViewModelBase _issueViewModel;
-        public IssueDetails issueDetailsPage;
+        public IssueViewModelBase _issueViewModel;
+        private IssueDetails issueDetailsPage;
         public static event Action<string> IssuePageNotification;
         private double _windowHeight;
-        static int issueID;
+        private static int issueID;
         private double _windowWidth;
         private bool _narrowLayout;
+        private Style _myStyle;
 
         public Issues()
         {
             this.InitializeComponent();
-            _issueViewModel = PresenterService.GetInstance().Services.GetService<IssuesViewModelBase>();
+            _issueViewModel = PresenterService.GetInstance().Services.GetService<IssueViewModelBase>();
             _issueViewModel.Notification = this;
             issueDetailsPage = new IssueDetails();
         }
@@ -138,11 +138,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         {
             ContentDialog dialog = new ContentDialog();
             dialog.XamlRoot = this.XamlRoot;
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            //dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
             dialog.Title = "Delete Issue?";
             dialog.Content = "Once deleted, issue cannot be retrieved";
             dialog.PrimaryButtonText = "Delete";
             dialog.CloseButtonText = "Cancel";
+            _myStyle = (Style)Application.Current.Resources["AccentButtonStyleCustom"];
+            dialog.CloseButtonStyle = _myStyle;
             dialog.DefaultButton = ContentDialogButton.Close;
             dialog.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             var result = await dialog.ShowAsync();
@@ -331,15 +333,5 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             AddIssueForm.IsOpen = false;
             CreateIssueForm.ClearFormData();
         }
-
-        private void PopoutButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        //private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        //{
-        //    _issueViewModel.GetIssues(_issueViewModel.IssuesList.First().ProjectId, 20, _issueViewModel.IssuesList.Count);
-        //}
     }
 }

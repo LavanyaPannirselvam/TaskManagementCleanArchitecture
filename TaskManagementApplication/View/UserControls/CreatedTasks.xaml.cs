@@ -29,10 +29,12 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         CreatedTasksPageViewModelBase _createdTask;
         private static bool _itemSelected;
         private bool _narrowLayout;
-        TaskDetails taskDetailsPage;
+        private TaskDetails taskDetailsPage;
         private double _windowWidth;
         private double _windowHeight;
         private Tasks _task = new Tasks();
+        private Style myStyle;
+
         public CreatedTasks()
         {
             this.InitializeComponent();
@@ -136,7 +138,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             _itemSelected = false;
         }
 
-        private void TasksList_AutoGeneratingColumn(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridAutoGeneratingColumnEventArgs e)
+        private void TasksList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.Column.Header.ToString() == "Id")
                 e.Column.Header = "Task Id";
@@ -166,12 +168,15 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ContentDialog dialog = new ContentDialog();
 
             dialog.XamlRoot = this.XamlRoot;
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            // dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
             dialog.Title = "Delete Task?";
             dialog.Content = "Once deleted, task cannot be retrieved";
             dialog.PrimaryButtonText = "Delete";
             dialog.CloseButtonText = "Cancel";
+            myStyle = (Style)Application.Current.Resources["AccentButtonStyleCustom"];
+            dialog.CloseButtonStyle = myStyle;
             dialog.DefaultButton = ContentDialogButton.Close;
+            dialog.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             var result = await dialog.ShowAsync();
             return (int)result;
         }

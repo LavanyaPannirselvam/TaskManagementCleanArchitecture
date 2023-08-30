@@ -53,18 +53,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             prioritybox.SelectedIndex = 0;
         }
 
-        private void ProjectName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var text = (TextBox)sender;
-            if (text.Text == string.Empty || text.Text == null)
-            {
-                ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            else ErrorMessage.Visibility = Visibility.Collapsed;
-            _projectName = text.Text;
-        }
-
         private void Status_Selectionchanged(object sender, SelectionChangedEventArgs e)
         {
             _statusType = (StatusType)_enumConverter.ConvertBack(e.AddedItems[0].ToString(), typeof(StatusType), null, null);
@@ -149,7 +137,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private bool IsProjectNameEmpty(string name)
         {
-            if (name == null || name == "" || name == string.Empty)
+            if (string.IsNullOrEmpty(name))
             {
                 ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
@@ -178,30 +166,21 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
-        private void DescriptionBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
         {
             _description = ((TextBox)sender).Text;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void ProjectName_LostFocus(object sender, RoutedEventArgs e)
         {
-            //startdate.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
-            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
-            startdate.DateChanged += StartDate_DataChanged;
-            enddate.DateChanged += EndDate_DataChanged;
-            prioritybox.SelectionChanged += Priority_Selectionchanged;
-            statusbox.SelectionChanged += Status_Selectionchanged;
-            ProjectName.TextChanged += ProjectName_TextChanged;
-        }
-
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
-            startdate.DateChanged -= StartDate_DataChanged;
-            enddate.DateChanged -= EndDate_DataChanged;
-            prioritybox.SelectionChanged -= Priority_Selectionchanged;
-            statusbox.SelectionChanged -= Status_Selectionchanged;
-            ProjectName.TextChanged -= ProjectName_TextChanged;
+            var text = (TextBox)sender;
+            if (text.Text == string.Empty || text.Text == null)
+            {
+                ErrorMessage.Text = _resourceLoader.GetString("ProjectNameEmptyErrorMsg");
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
+            _projectName = text.Text;
         }
     }
 }

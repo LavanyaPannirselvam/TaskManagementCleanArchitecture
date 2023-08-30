@@ -17,12 +17,76 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class TaskDetailsViewModel : TaskDetailsViewModelBase
     {
-        private GetATask _getATask;
         public override void GetATask(int projectId)
         {
+            GetATask _getATask;
             _getATask = new GetATask(new GetATaskRequest(projectId, new CancellationTokenSource()), new PresenterGetTaskDetails(this));
             _getATask.Execute();
         }
+
+        public override void RemoveTaskFromUser(string userEmail, int taskId)
+        {
+            RemoveTaskFromUser _removeTask;
+            _removeTask = new RemoveTaskFromUser(new RemoveTaskRequest(new CancellationTokenSource(), userEmail, taskId), new PresenterRemoveTaskFromUserCallback(this));
+            _removeTask.Execute();
+        }
+
+        public override void AssignTaskToUser(string userEmail, int taskId)
+        {
+            AssignTaskToUser _assignTaskToUser;
+            _assignTaskToUser = new AssignTaskToUser(new AssignTaskRequest(taskId, userEmail, new CancellationTokenSource()), new PresenterAssignTaskCallback(this));
+            _assignTaskToUser.Execute();
+        }
+
+        public override void GetMatchingUsers(string input)
+        {
+            GetAllMatchingUsersBO _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfTaskCallback(this));
+            _getAllUsers.Execute();
+        }
+
+        public override void ChangePriority(int issueId, PriorityType priorityType)
+        {
+            ChangeTaskPriority _changePriority;
+            _changePriority = new ChangeTaskPriority(new ChangeTaskPriorityRequest(new CancellationTokenSource(), issueId, priorityType), new PresenterChangeTaskPriorityCallback(this));
+            _changePriority.Execute();
+        }
+
+        public override void ChangeStatus(int issueId, StatusType status)
+        {
+            ChangeTaskStatus _changeStatus;
+            _changeStatus = new ChangeTaskStatus(new ChangeTaskStatusRequest(issueId, status, new CancellationTokenSource()), new PresenterChangeTaskStatusCallback(this));
+            _changeStatus.Execute();
+        }
+
+        public override void ChangeName(int issueId, string name)
+        {
+            ChangeTaskName _changeName;
+            _changeName = new ChangeTaskName(new ChangeTaskNameRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeNameOfTaskCallback(this));
+            _changeName.Execute();
+        }
+
+        public override void ChangeDescription(int issueId, string name)
+        {
+            ChangeTaskDescription _changeDescription;
+            _changeDescription = new ChangeTaskDescription(new ChangeTaskDescriptionRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeDescriptionOfTaskCallback(this));
+            _changeDescription.Execute();
+        }
+
+        public override void ChangeStartDate(int issueId, DateTimeOffset date)
+        {
+            ChangeStartDateofTask _changeStartDateofTask;
+            _changeStartDateofTask = new ChangeStartDateofTask(new ChangeStartDateofTaskRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeStartDateOfTaskCallback(this));
+            _changeStartDateofTask.Execute();
+        }
+
+        public override void ChangeEndDate(int issueId, DateTimeOffset date)
+        {
+            ChangeEndDateofTask _changeEndDateofTask;
+            _changeEndDateofTask = new ChangeEndDateofTask(new ChangeEndDateofTaskRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeEndDateOfTaskCallback(this));
+            _changeEndDateofTask.Execute();
+        }
+
     }
 
 
@@ -74,73 +138,21 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
     }
+    
     public abstract class TaskDetailsViewModelBase : NotifyPropertyBase
     {
         public abstract void GetATask(int taskId);
+        public abstract void RemoveTaskFromUser(string userEmail,int taskId);
+        public abstract void AssignTaskToUser(string userEmail,int taskId);
+        public abstract void GetMatchingUsers(string input);
+        public abstract void ChangePriority(int issueId, PriorityType priorityType);
+        public abstract void ChangeStatus(int issueId, StatusType statusType);
+        public abstract void ChangeName(int issueId, string name);
+        public abstract void ChangeDescription(int issueId, string description);
+        public abstract void ChangeStartDate(int issueId, DateTimeOffset date);
+        public abstract void ChangeEndDate(int issueId, DateTimeOffset date);
 
-        public void RemoveTask(string userEmail, int taskId)
-        {
-            RemoveTaskFromUser _removeTask;
-             _removeTask = new RemoveTaskFromUser(new RemoveTaskRequest(new CancellationTokenSource(), userEmail, taskId), new PresenterRemoveTaskFromUserCallback(this));
-            _removeTask.Execute();
-        }
-
-        internal void AssignTask(string userEmail, int taskId)
-        {
-            AssignTaskToUser _assignTaskToUser;
-            _assignTaskToUser = new AssignTaskToUser(new AssignTaskRequest(taskId, userEmail, new CancellationTokenSource()), new PresenterAssignTaskCallback(this));
-            _assignTaskToUser.Execute();
-        }
-
-        public void GetMatchingUsers(string input)
-        {
-            GetAllMatchingUsersBO _getAllUsers;
-            _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfTaskCallback(this));
-            _getAllUsers.Execute();
-        }
-
-        public void ChangePriority(int issueId, PriorityType priorityType)
-        {
-            ChangeTaskPriority _changePriority;
-            _changePriority = new ChangeTaskPriority(new ChangeTaskPriorityRequest(new CancellationTokenSource(), issueId, priorityType), new PresenterChangeTaskPriorityCallback(this));
-            _changePriority.Execute();
-        }
-
-        public void ChangeStatus(int issueId, StatusType status)
-        {
-            ChangeTaskStatus _changeStatus;
-            _changeStatus = new ChangeTaskStatus(new ChangeTaskStatusRequest(issueId, status, new CancellationTokenSource()), new PresenterChangeTaskStatusCallback(this));
-            _changeStatus.Execute();
-        }
-
-        public void ChangeName(int issueId, string name)
-        {
-            ChangeTaskName _changeName;
-            _changeName = new ChangeTaskName(new ChangeTaskNameRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeNameOfTaskCallback(this));
-            _changeName.Execute();
-        }
-
-        public void ChangeDescription(int issueId, string name)
-        {
-            ChangeTaskDescription _changeDescription;
-            _changeDescription = new ChangeTaskDescription(new ChangeTaskDescriptionRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeDescriptionOfTaskCallback(this));
-            _changeDescription.Execute();
-        }
-
-        public void ChangeStartDate(int issueId, DateTimeOffset date)
-        {
-            ChangeStartDateofTask _changeStartDateofTask;
-            _changeStartDateofTask = new ChangeStartDateofTask(new ChangeStartDateofTaskRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeStartDateOfTaskCallback(this));
-            _changeStartDateofTask.Execute();
-        }
-
-        public void ChangeEndDate(int issueId, DateTimeOffset date)
-        {
-            ChangeEndDateofTask _changeEndDateofTask;
-            _changeEndDateofTask = new ChangeEndDateofTask(new ChangeEndDateofTaskRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeEndDateOfTaskCallback(this));
-            _changeEndDateofTask.Execute();
-        }
-
+        
         public ITaskDetailsNotification taskDetailsNotification { get; set; }
         public IUpdateMatchingUsersOfTask updateMatchingUsers { get; set; }
 

@@ -17,12 +17,18 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class CreatedTasksPageViewModel : CreatedTasksPageViewModelBase
     {
-        private GetCreatedTasksList _getTasksList;
-
         public override void GetTasks(string name,string email)
         {
+            GetCreatedTasksList _getTasksList;
             _getTasksList = new GetCreatedTasksList(new GetCreatedTasksListRequest(name,email, new CancellationTokenSource()), new PresenterGetCreatedTasksList(this));
             _getTasksList.Execute();
+        }
+
+        public override void DeleteTask(int taskId)
+        {
+            DeleteTask _deleteTask;
+            _deleteTask = new DeleteTask(new DeleteTaskRequest(taskId, new CancellationTokenSource()), new PresenterDeleteTaskofCreatedTasksCallback(this));
+            _deleteTask.Execute();
         }
     }
 
@@ -85,13 +91,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
         public ObservableCollection<Tasks> TasksList = new ObservableCollection<Tasks>();
         public int userId { get; set; }
         public abstract void GetTasks(string name,string email);
-
-        public void DeleteTask(int taskId)
-        {
-            DeleteTask _deleteTask;
-            _deleteTask = new DeleteTask(new DeleteTaskRequest(taskId, new CancellationTokenSource()), new PresenterDeleteTaskofCreatedTasksCallback(this));
-            _deleteTask.Execute();
-        }
+        public abstract void DeleteTask(int taskId);
+        
 
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility

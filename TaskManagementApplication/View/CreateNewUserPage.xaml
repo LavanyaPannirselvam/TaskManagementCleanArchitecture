@@ -1,0 +1,187 @@
+﻿<Page
+    x:Class="TaskManagementCleanArchitecture.View.CreateNewUserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+    <Grid Background="{ThemeResource AppBackground}">
+        <Grid x:Name="UserDataGrid"
+              Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+           
+            <TextBlock x:Uid="UserDetailsPageHeading"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalTextAlignment="Center"
+                           Grid.ColumnSpan="2"/>
+            <Grid Grid.Row ="1"
+                  HorizontalAlignment="Center"
+                  Margin="20"
+                  Width="450"
+                  VerticalAlignment="Center"
+                  BorderThickness="0.5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock HorizontalAlignment="Center"
+                       x:Name="UserNameDetail"
+                       Margin="10"
+                       x:Uid="UserNameLabel"/>
+
+                <TextBox x:Name="UserNameEnter"
+                     HorizontalAlignment="Center"
+                     Width="340"
+                     Margin="5"
+                     Style="{ThemeResource TextBoxCustomstyle}"
+                     CornerRadius="10"
+                     Grid.Row="0"
+                     Grid.Column="1"/>
+
+                <TextBlock HorizontalAlignment="Center"
+                       x:Name="UserEmailDetail"
+                       Margin="10"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       x:Uid="UserEmailLabel"/>
+
+                <TextBox x:Name="UserEmailEnter"
+                     HorizontalAlignment="Center"
+                     Width="340"
+                     Margin="5"
+                     Style="{ThemeResource TextBoxCustomstyle}"
+                     CornerRadius="10"
+                     Grid.Row="1"
+                     Grid.Column="1">
+                </TextBox>
+
+                <TextBlock HorizontalAlignment="Center"
+                       x:Name="UserRoleDetail"
+                       Margin="10"
+                       Grid.Row="2"
+                       Grid.Column="0"
+                       x:Uid="UserRoleLabel"/>
+
+                <ComboBox 
+                  PlaceholderText="Choose Role"
+                  HorizontalAlignment="Center"
+                  x:Name="UserRoleEnter"
+                  Style="{ThemeResource ComboBoxCustomStyle}"
+                  ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
+                  CornerRadius="10"
+                  Margin="5"
+                  Width="340"
+                  Grid.Row="2"
+                  Grid.Column="1"/>
+            </Grid>
+            
+            <TextBlock Text="{x:Bind _createUser.ResponseString,Mode=OneWay}"
+                       Visibility="{x:Bind _createUser.ResponseStringVisibility,Mode=OneWay}"
+                       Grid.Row="2"
+                       x:Name="ErrorMessage"
+                       Style="{ThemeResource ErrorMessageStyle}"/>
+            
+            <Button x:Name="AddUserButton"
+                   x:Uid="AddUserButton"
+                    Grid.Row="3"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource AccentButtonStyleCustom}"
+                    Click="AddUserButton_Click"/>
+
+            <Grid Grid.Row="4"
+                  HorizontalAlignment="Center"
+                  x:Name="CredentialsGrid"
+                  Visibility="{x:Bind _createUser.CredentialsGridVisibility,Mode=OneWay}"
+                  Background="{ThemeResource AppForegroundBg}"
+                  CornerRadius="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <RelativePanel>
+                    <TextBlock x:Uid="NewUserCredentialLabel"
+                               FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalTextAlignment="Center"
+                           x:Name="TitleBox"
+                           VerticalAlignment="Center"
+                           RelativePanel.AlignHorizontalCenterWithPanel="True"
+                           Margin="10"/>
+                    <Button FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            RelativePanel.AlignRightWithPanel="True"
+                            Name="CloseButton"
+                            CornerRadius="5"
+                            Margin="0"
+                            Style="{ThemeResource CloseButtonStyle}"
+                            Click="CloseButton_Click"/>
+                </RelativePanel>
+                <Grid Grid.Row="1"
+                      HorizontalAlignment="Center"
+                      Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center"
+                                x:Name="UserIdDetail"
+                                Margin="10"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                x:Uid="NewUserIdLabel">
+                            </TextBlock>
+                            <TextBlock x:Name="UserIdEnter"
+                                   HorizontalAlignment="Center"
+                                   Style="{ThemeResource BasicTextBlock}"
+                                   Width="400"
+                                   TextWrapping="Wrap"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind _createUser.UserId,Mode=OneWay}">
+                            </TextBlock>
+                       
+                            <TextBlock HorizontalAlignment="Center"
+                                        x:Name="PasswordDetail"
+                                        Margin="10"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                      x:Uid="NewUserPasswordLabel"/>
+                    <TextBlock x:Name="PasswordEnter"
+                                   HorizontalAlignment="Center"
+                                   Width="400"
+                                   Style="{ThemeResource BasicTextBlock}"
+                                   TextWrapping="Wrap"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind _createUser.Password,Mode=OneWay}">
+                    </TextBlock>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

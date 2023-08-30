@@ -8,9 +8,7 @@
     mc:Ignorable="d"
     xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    Loaded="UserControl_Loaded"
-    Unloaded="UserControl_Unloaded">
+    d:DesignWidth="400">
     <Grid Background="{ThemeResource AppForegroundBg}"
           Width="400"
           CornerRadius="10">
@@ -28,12 +26,14 @@
         <TextBox Name="ProjectName" 
                  x:Uid="ProjectNameLabel"
                  Margin="5"
+                 LostFocus="ProjectName_LostFocus"
                  Style="{ThemeResource TextBoxCustomstyle}"
                  HorizontalAlignment="Stretch"></TextBox>
         <TextBox x:Name="DescriptionBox"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
                      MinHeight="60"
+                     LostFocus="DescriptionBox_LostFocus"
                      MaxHeight="120"
                      HorizontalAlignment="Stretch"
                      Grid.Row="1"                 
@@ -45,11 +45,13 @@
                             x:Uid="StartDateLabel"
                             Name="startdate"
                             HorizontalAlignment="Stretch"
+                            DateChanged="StartDate_DataChanged"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             x:Uid="EndDateLabel"
                             Name="enddate"
+                            DateChanged="EndDate_DataChanged"
                             HorizontalAlignment="Stretch"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             Margin="5"/>
@@ -57,6 +59,7 @@
                   x:Uid="PriorityLabel"
                   PlaceholderText="Choose priority"
                   Name="prioritybox"
+                  SelectionChanged="Priority_Selectionchanged"
                   HorizontalAlignment="Stretch"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
@@ -67,6 +70,7 @@
                   PlaceholderText="Choose status"
                   HorizontalAlignment="Stretch"
                   Name="statusbox"
+                  SelectionChanged="Status_Selectionchanged"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   Margin="5">

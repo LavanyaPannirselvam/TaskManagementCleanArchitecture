@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:library="using:TaskManagementLibrary.Models"
+    xmlns:l="using:TaskManagementCleanArchitecture"
     xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls" 
     xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     Loaded="UserControl_Loaded"
@@ -16,6 +17,40 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:EnumConverter x:Key="ConvertEnum"/>
+            <DataTemplate x:Key="UsersListTemplate" x:DataType="library:UserBO">
+                <StackPanel Height="40"
+                                                Margin="0,5"
+                                                VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   MaxWidth="290"
+                                                   HorizontalAlignment="Left"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="1"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0,0,3,0"/>
+                    <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                   FontSize="13"
+                                                   MaxWidth="290"
+                                                   HorizontalAlignment="Left"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="1"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0,0,0,0"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="NoItemTemplate" x:DataType="x:String">
+                <TextBlock Text="{x:Bind}"
+                           Style="{ThemeResource BasicTextBlock}"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Left"/>
+            </DataTemplate>
+
+            <l:AutoSuggestBoxDataTemplateSelector x:Key="MyDataTemplateSelector"
+                                            UsersListTemplate="{StaticResource UsersListTemplate}"
+                                            NoItemTemplate="{StaticResource NoItemTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -43,6 +78,7 @@
                    Margin="0,2"
                    FontStretch="Normal"
                    x:Name="NameBox"
+                   TextChanged="NameBox_TextChanged"
                    Style="{ThemeResource TextBoxCustomstyle}"  
                    Text="{x:Bind _taskDetailsViewModel.SelectedTask.Name,Mode=OneWay}"
                    HorizontalAlignment="Stretch"
@@ -68,6 +104,7 @@
                         <ComboBox FontSize="16"
                   SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Priority,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
+                  SelectionChanged="PriorityCombo_SelectionChanged"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="PriorityCombo">
                 </ComboBox>
@@ -91,6 +128,7 @@
                      Grid.Row="1"
                      MinHeight="60"
                      MaxHeight="120"
+                     TextChanged="DescriptionBox_TextChanged"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      Text="{x:Bind _taskDetailsViewModel.SelectedTask.Desc,Mode=OneWay}"
                      Margin="0,0,10,0"
@@ -128,6 +166,7 @@
                        VerticalAlignment="Center"/>
                     <ComboBox Margin="0"
                   FontSize="16"
+                  SelectionChanged="StatusCombo_SelectionChanged"
                   SelectedItem="{x:Bind _taskDetailsViewModel.SelectedTask.Status,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
@@ -164,6 +203,7 @@
                            VerticalAlignment="Center"/>
                     <CalendarDatePicker Margin="2"
                                   FontSize="16"
+                                  DateChanged="StartdateCalender_DateChanged"
                                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.StartDate,Mode=OneWay}"
                                   x:Name="StartdateCalender"/>
@@ -182,6 +222,7 @@
                            VerticalAlignment="Center"/>
                     <CalendarDatePicker Margin="2"
                   FontSize="16"
+                  DateChanged="EnddateCalender_DateChanged"
                   MinDate="{x:Bind _taskDetailsViewModel.SelectedTask.StartDate,Mode=OneWay}"
                   Date="{x:Bind _taskDetailsViewModel.SelectedTask.EndDate,Mode=OneWay}"
                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
@@ -209,36 +250,13 @@
                                         IsSuggestionListOpen="False"
                                         QuerySubmitted="AssignUserBox_QuerySubmitted"
                                         TextMemberPath="Name"
+                                        LostFocus="AssignUserBox_LostFocus"
                                         TextChanged="AutoSuggestBox_TextChanged"
                                         SuggestionChosen="AssignUserBox_SuggestionChosen"
                                         Margin="0,5"
                                         Style="{ThemeResource AutoSuggestBoxCustom}"
+                                        ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                                         x:Name="AssignUserBox">
-                                <AutoSuggestBox.ItemTemplate>
-                                    <DataTemplate x:DataType="library:UserBO">
-                                        <StackPanel Height="40"
-                                                Margin="0,5"
-                                                VerticalAlignment="Center">
-                                            <TextBlock Text="{x:Bind Name,Mode=OneWay}"
-                                                   FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   MaxWidth="290"
-                                                   HorizontalAlignment="Left"
-                                                   TextWrapping="Wrap"
-                                                   MaxLines="1"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Margin="0,0,3,0"/>
-                                            <TextBlock Text="{x:Bind Email,Mode=OneWay}"
-                                                   FontSize="13"
-                                                   MaxWidth="290"
-                                                   HorizontalAlignment="Left"
-                                                   TextWrapping="Wrap"
-                                                   MaxLines="1"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Margin="0,0,0,0"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </AutoSuggestBox.ItemTemplate>
                             </AutoSuggestBox>
                         </StackPanel>
                         <StackPanel>

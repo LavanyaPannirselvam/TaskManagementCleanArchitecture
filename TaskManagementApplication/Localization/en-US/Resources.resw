@@ -232,7 +232,7 @@
   <data name="OwnerLabel.Header" xml:space="preserve">
     <value>Owner</value>
   </data>
-  <data name="PreferredLanguageLabel.Header" xml:space="preserve">
+  <data name="PreferredLanguageLabel.Text" xml:space="preserve">
     <value>Preferred Language</value>
   </data>
   <data name="PriorityGridLabel.Header" xml:space="preserve">

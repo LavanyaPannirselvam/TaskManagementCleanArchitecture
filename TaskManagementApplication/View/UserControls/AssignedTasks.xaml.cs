@@ -29,7 +29,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         AssignedTasksPageViewModelBase _assignedTasksPageViewModelBase;
         private static bool _itemSelected;
         private bool _narrowLayout;
-        TaskDetails taskDetailsPage; 
+        private TaskDetails taskDetailsPage; 
         private double _windowWidth;
         private double _windowHeight;
         private Tasks _task = new Tasks();

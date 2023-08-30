@@ -25,10 +25,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         public class AssignedTaskPageViewModel : AssignedTasksPageViewModelBase
         {
-            private GetAssignedTasksList _getTasksList;
-
             public override void GetTasks(string email)
             {
+                GetAssignedTasksList _getTasksList;
                 _getTasksList = new GetAssignedTasksList(new GetAssignedTasksListRequest(email, new CancellationTokenSource()), new PresenterGetAssignedTasksList(this));
                 _getTasksList.Execute();
             }

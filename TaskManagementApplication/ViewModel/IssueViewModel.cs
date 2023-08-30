@@ -14,90 +14,39 @@ using TaskManagementLibrary.Notifications;
 
 namespace TaskManagementCleanArchitecture.ViewModel
 {
-    internal class IssueViewModel : IssuesViewModelBase
+    public class IssueViewModel : IssueViewModelBase
     {
-        private GetIssuesList _getIssuesList;
-
         public override void GetIssues(int projectId)//, int count, int skipCount)
         {
+            GetIssuesList _getIssuesList;
             _getIssuesList = new GetIssuesList(new GetIssuesListRequest(projectId, new CancellationTokenSource()), new PresenterGetIssuesList(this));
             _getIssuesList.Execute();
         }
-    }
 
-
-    public class PresenterGetIssuesList : IPresenterGetIssuesListCallback
-    {
-        private IssuesViewModelBase _viewModel;
-
-        public PresenterGetIssuesList(IssuesViewModelBase viewModel)
-        {
-            _viewModel = viewModel;
-        }
-
-        public void OnError(BaseException errorMessage)
-        {
-
-        }
-
-        public void OnFailure(ZResponse<GetIssuesListResponse> response)
-        {
-
-        }
-
-        public async void OnSuccessAsync(ZResponse<GetIssuesListResponse> response)
-        {
-            await SwitchToMainUIThread.SwitchToMainThread(() =>
-            {
-                if (response.Data.Data.Count!=0)
-                {
-                    PopulateData(response.Data.Data);
-                    if(_viewModel.IssuesList.Count >=20)
-                    {
-                        _viewModel.DataGridHeight = new GridLength(750,GridUnitType.Pixel);
-                    }
-                    else
-                    {
-                        _viewModel.DataGridHeight = new GridLength(0, GridUnitType.Auto);
-                    }
-                    _viewModel.TextVisibility = Visibility.Collapsed;
-                    _viewModel.DataGridVisibility = Visibility.Visible;
-                }
-                else
-                {
-                    _viewModel.TextVisibility = Visibility.Visible;
-                    _viewModel.DataGridVisibility = Visibility.Collapsed;
-                    _viewModel.ResponseString = response.Response;
-                }
-            });
-        }
-
-        private void PopulateData(List<Issue> data)
-        {
-            foreach (var p in data)
-                _viewModel.IssuesList.Add(p);
-        }
-    }
-    public abstract class IssuesViewModelBase : NotifyPropertyBase
-    {
-        public ObservableCollection<Issue> IssuesList = new ObservableCollection<Issue>();
-        public int projectId { get; set; }
-        public abstract void GetIssues(int projectId);//, int count, int skipCount);
-        public IIssuePageUpdateNotification Notification { get; set; }
-
-        public void CreateIssue(Issue issue)
+        public override void CreateIssue(Issue issue)
         {
             CreateIssue _createIssue;
             _createIssue = new CreateIssue(new CreateIssueRequest(issue, new CancellationTokenSource()), new PresenterCreateIssueCallback(this));
             _createIssue.Execute();
         }
 
-        public void DeleteIssue(int issueId)
+        public override void DeleteIssue(int issueId)
         {
             DeleteIssue _deleteIssue;
             _deleteIssue = new DeleteIssue(new DeleteIssueRequest(issueId, new CancellationTokenSource()), new PresenterDeleteIssueCallback(this));
             _deleteIssue.Execute();
         }
+    }
+
+
+    public abstract class IssueViewModelBase : NotifyPropertyBase
+    {
+        public ObservableCollection<Issue> IssuesList = new ObservableCollection<Issue>();
+        public int projectId { get; set; }
+        public abstract void GetIssues(int projectId);
+        public abstract void CreateIssue(Issue issue);
+        public abstract void DeleteIssue(int issueId);
+        public IIssuePageUpdateNotification Notification { get; set; }
 
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility
@@ -144,7 +93,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        private GridLength _dataGridHeight;//= 700;
+        private GridLength _dataGridHeight;
         public GridLength DataGridHeight
         {
             get { return _dataGridHeight; }
@@ -165,8 +114,8 @@ namespace TaskManagementCleanArchitecture.ViewModel
 
     public class PresenterDeleteIssueCallback : IPresenterDeleteIssueCallback
     {
-        IssuesViewModelBase _deleteIssue;
-        public PresenterDeleteIssueCallback(IssuesViewModelBase deleteTask)
+        IssueViewModelBase _deleteIssue;
+        public PresenterDeleteIssueCallback(IssueViewModelBase deleteTask)
         {
             _deleteIssue = deleteTask;
         }
@@ -204,11 +153,12 @@ namespace TaskManagementCleanArchitecture.ViewModel
         }
     }
 
+    
     public class PresenterCreateIssueCallback : IPresenterCreateIssueCallback
     {
-        private IssuesViewModelBase _viewModel;
+        private IssueViewModelBase _viewModel;
 
-        public PresenterCreateIssueCallback(IssuesViewModelBase viewModel)
+        public PresenterCreateIssueCallback(IssueViewModelBase viewModel)
         {
             _viewModel = viewModel;
         }
@@ -245,4 +195,59 @@ namespace TaskManagementCleanArchitecture.ViewModel
             });
         }
     }
+
+
+    public class PresenterGetIssuesList : IPresenterGetIssuesListCallback
+    {
+        private IssueViewModelBase _viewModel;
+
+        public PresenterGetIssuesList(IssueViewModelBase viewModel)
+        {
+            _viewModel = viewModel;
+        }
+
+        public void OnError(BaseException errorMessage)
+        {
+
+        }
+
+        public void OnFailure(ZResponse<GetIssuesListResponse> response)
+        {
+
+        }
+
+        public async void OnSuccessAsync(ZResponse<GetIssuesListResponse> response)
+        {
+            await SwitchToMainUIThread.SwitchToMainThread(() =>
+            {
+                if (response.Data.Data.Count != 0)
+                {
+                    PopulateData(response.Data.Data);
+                    if (_viewModel.IssuesList.Count >= 20)
+                    {
+                        _viewModel.DataGridHeight = new GridLength(750, GridUnitType.Pixel);
+                    }
+                    else
+                    {
+                        _viewModel.DataGridHeight = new GridLength(0, GridUnitType.Auto);
+                    }
+                    _viewModel.TextVisibility = Visibility.Collapsed;
+                    _viewModel.DataGridVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _viewModel.TextVisibility = Visibility.Visible;
+                    _viewModel.DataGridVisibility = Visibility.Collapsed;
+                    _viewModel.ResponseString = response.Response;
+                }
+            });
+        }
+
+        private void PopulateData(List<Issue> data)
+        {
+            foreach (var p in data)
+                _viewModel.IssuesList.Add(p);
+        }
+    }
+
 }

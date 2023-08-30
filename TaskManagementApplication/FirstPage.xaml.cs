@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using TaskManagementCleanArchitecture.View;
 using TaskManagementCleanArchitecture.View.UserControls;
 using TaskManagementCleanArchitecture.ViewModel;
 using TaskManagementLibrary.Models;
@@ -92,10 +93,6 @@ namespace TaskManagementCleanArchitecture
                 NavigationContentControl.Content = ((DataTemplate)this.Resources["UserControlTemplate3"]).LoadContent();
                 MainPageNV.AlwaysShowHeader = true;
             }
-            else if(args.SelectedItem == SettingsTab)
-            {
-                //await PopoutButton_Click();
-            }
         }
 
         private async Task PopoutButton_Click()
@@ -104,11 +101,11 @@ namespace TaskManagementCleanArchitecture
             {
                 settingPage = await AppWindow.TryCreateAsync();
                 Frame appWindowContentFrame = new Frame();
-                settingPage.Closed += SettingPage_Closed;
                 appWindowContentFrame.Navigate(typeof(SettingsPage));
                 ElementCompositionPreview.SetAppWindowContent(settingPage, appWindowContentFrame);
                 appWindowContentFrame.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
                 ThemeSwitch.AddUIRootElement(appWindowContentFrame);
+                settingPage.Closed += SettingPage_Closed;
                 await settingPage.TryShowAsync();
             }
             else
@@ -134,19 +131,15 @@ namespace TaskManagementCleanArchitecture
         {
             if (value == 0)
             {
-                //await ThemeSwitch.ChangeTheme(ElementTheme.Dark);
-                //ThemeSwitch.CurrentTheme = ElementTheme.Dark;
                 ThemeSwitch.CurrentTheme = ElementTheme.Dark;
                 ThemeSwitch.UIUpdation_ThemeSwitched();
                 AccentChange.UpdateAccentBasedOnTheme(ThemeSwitch.CurrentTheme);
             }
             else
             {
-               // await ThemeSwitch.ChangeTheme(ElementTheme.Light);
                 ThemeSwitch.CurrentTheme = ElementTheme.Light;
                 ThemeSwitch.UIUpdation_ThemeSwitched();
                 AccentChange.UpdateAccentBasedOnTheme(ThemeSwitch.CurrentTheme);
-
             }
         }
 

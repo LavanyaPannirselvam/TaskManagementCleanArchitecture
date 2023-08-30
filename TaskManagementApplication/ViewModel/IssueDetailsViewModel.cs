@@ -18,11 +18,74 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class IssueDetailsViewModel : IssueDetailsViewModelBase
     {
-        private GetAIssue _getAIssue;
         public override void GetAIssue(int issueId)
         {
+            GetAIssue _getAIssue;
             _getAIssue = new GetAIssue(new GetAIssueRequest(issueId, new CancellationTokenSource()), new PresenterGetAIssue(this));
             _getAIssue.Execute();
+        }
+
+        public override void RemoveUserFromIssue(string userEmail, int issueId)
+        {
+            RemoveIssueFromUser _removeIssue;
+            _removeIssue = new RemoveIssueFromUser(new RemoveIssueRequest(new CancellationTokenSource(), userEmail, issueId), new PresenterRemoveIssueFromUserCallback(this));
+            _removeIssue.Execute();
+        }
+
+        public override void AssignIssueToUser(string email, int id)
+        {
+            AssignIssueToUser _assignIssueToUser;
+            _assignIssueToUser = new AssignIssueToUser(new AssignIssueRequest(id, email, new CancellationTokenSource()), new PresenterAssignIssueCallback(this));
+            _assignIssueToUser.Execute();
+        }
+
+        public override void GetMatchingUsers(string input)
+        {
+            GetAllMatchingUsersBO _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfIssueCallback(this));
+            _getAllUsers.Execute();
+        }
+
+        public override void ChangePriority(int issueId, PriorityType priorityType)
+        {
+            ChangeIssuePriority _changePriority;
+            _changePriority = new ChangeIssuePriority(new ChangeIssuePriorityRequest(new CancellationTokenSource(), issueId, priorityType), new PresenterChangeIssuePriorityCallback(this));
+            _changePriority.Execute();
+        }
+
+        public override void ChangeStatus(int issueId, StatusType status)
+        {
+            ChangeIssueStatus _changeIssueStatus;
+            _changeIssueStatus = new ChangeIssueStatus(new ChangeIssueStatusRequest(issueId, status, new CancellationTokenSource()), new PresenterChangeIssueStatusCallback(this));
+            _changeIssueStatus.Execute();
+        }
+
+        public override void ChangeName(int issueId, string name)
+        {
+            ChangeIssueName _changeName;
+            _changeName = new ChangeIssueName(new ChangeIssueNameRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeNameOfIssueCallback(this));
+            _changeName.Execute();
+        }
+
+        public override void ChangeDescription(int issueId, string name)
+        {
+            ChangeIssueDescription _changeDescription;
+            _changeDescription = new ChangeIssueDescription(new ChangeIssueDescriptionRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeDescriptionOfIssueCallback(this));
+            _changeDescription.Execute();
+        }
+
+        public override void ChangeStartDate(int issueId, DateTimeOffset date)
+        {
+            ChangeStartDateofIssue _changeStartDateofIssue;
+            _changeStartDateofIssue = new ChangeStartDateofIssue(new ChangeStartDateofIssueRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeStartDateOfIssueCallback(this));
+            _changeStartDateofIssue.Execute();
+        }
+
+        public override void ChangeEndDate(int issueId, DateTimeOffset date)
+        {
+            ChangeEndDateofIssue _changeEndDateofIssue;
+            _changeEndDateofIssue = new ChangeEndDateofIssue(new ChangeEndDateofIssueRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeEndDateOfIssueCallback(this));
+            _changeEndDateofIssue.Execute();
         }
     }
 
@@ -80,69 +143,15 @@ namespace TaskManagementCleanArchitecture.ViewModel
     public abstract class IssueDetailsViewModelBase : NotifyPropertyBase
     {
         public abstract void GetAIssue(int issueId);
-
-        public void RemoveUserFromIssue(string userEmail, int issueId)
-        {
-            RemoveIssueFromUser _removeIssue;
-            _removeIssue = new RemoveIssueFromUser(new RemoveIssueRequest(new CancellationTokenSource(), userEmail, issueId), new PresenterRemoveIssueFromUserCallback(this));
-            _removeIssue.Execute();
-        }
-
-        public void AssignUserToIssue(string email, int id)
-        {
-            AssignIssueToUser _assignIssueToUser;
-            _assignIssueToUser = new AssignIssueToUser(new AssignIssueRequest(id, email, new CancellationTokenSource()), new PresenterAssignIssueCallback(this));
-            _assignIssueToUser.Execute();
-        }
-
-        public void GetMatchingUsers(string input)
-        {
-            GetAllMatchingUsersBO _getAllUsers;
-            _getAllUsers = new GetAllMatchingUsersBO(new GetAllMatchingUsersBORequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersOfIssueCallback(this));
-            _getAllUsers.Execute();
-        }
-
-        public void ChangePriority(int issueId,PriorityType priorityType)
-        {
-            ChangeIssuePriority _changePriority;
-            _changePriority = new ChangeIssuePriority(new ChangeIssuePriorityRequest(new CancellationTokenSource(), issueId, priorityType), new PresenterChangeIssuePriorityCallback(this));
-            _changePriority.Execute();
-        }
-
-        public void ChangeStatus(int issueId,StatusType status)
-        {
-            ChangeIssueStatus _changeIssueStatus;
-            _changeIssueStatus = new ChangeIssueStatus(new ChangeIssueStatusRequest(issueId, status, new CancellationTokenSource()),new PresenterChangeIssueStatusCallback(this));
-            _changeIssueStatus.Execute();
-        }
-
-        public void ChangeName(int issueId,string name)
-        {
-            ChangeIssueName _changeName;
-            _changeName = new ChangeIssueName(new ChangeIssueNameRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeNameOfIssueCallback(this));
-            _changeName.Execute();
-        }
-
-        public void ChangeDescription(int issueId, string name)
-        {
-            ChangeIssueDescription _changeDescription;
-            _changeDescription = new ChangeIssueDescription(new ChangeIssueDescriptionRequest(name, issueId, new CancellationTokenSource()), new PresenterChangeDescriptionOfIssueCallback(this));
-            _changeDescription.Execute();
-        }
-
-        public void ChangeStartDate(int issueId,DateTimeOffset date)
-        {
-            ChangeStartDateofIssue _changeStartDateofIssue;
-            _changeStartDateofIssue = new ChangeStartDateofIssue(new ChangeStartDateofIssueRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeStartDateOfIssueCallback(this));
-            _changeStartDateofIssue.Execute();
-        }
-
-        public void ChangeEndDate(int issueId, DateTimeOffset date)
-        {
-            ChangeEndDateofIssue _changeEndDateofIssue;
-            _changeEndDateofIssue = new ChangeEndDateofIssue(new ChangeEndDateofIssueRequest(issueId, date, new CancellationTokenSource()), new PresenterChangeEndDateOfIssueCallback(this));
-            _changeEndDateofIssue.Execute();
-        }
+        public abstract void RemoveUserFromIssue(string userEmail, int issueId);
+        public abstract void AssignIssueToUser(string email, int id);
+        public abstract void GetMatchingUsers(string input);
+        public abstract void ChangePriority(int issueId, PriorityType priority);
+        public abstract void ChangeStatus(int issueId,StatusType status);
+        public abstract void ChangeName(int issueId,string name);
+        public abstract void ChangeDescription(int issueId, string description);
+        public abstract void ChangeStartDate(int issueId, DateTimeOffset startDate);
+        public abstract void ChangeEndDate(int issueId, DateTimeOffset endDate);
 
         public IIssueDetailsPageNotification issueDetailsPageNotification { get; set; }
         public IUpdateMatchingUsersOfIssue updateMatchingUsers { get; set; }

@@ -117,7 +117,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             appWindowContentFrame.Navigate(newUserPage.GetType());
             ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
             ThemeSwitch.AddUIRootElement(appWindowContentFrame);
-            appWindowContentFrame.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            //appWindowContentFrame.RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             await appWindow.TryShowAsync();
             appWindow.Closed += appWindowClosed;
         }

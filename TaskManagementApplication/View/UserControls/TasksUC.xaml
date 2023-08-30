@@ -18,6 +18,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:EnumConverter x:Key="ConvertEnum"/>
+            <converter:StringConverter x:Key="ConvertString" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -128,7 +129,7 @@
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Tasks" >
                                         <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Desc}"
+                                               Text="{x:Bind Desc,Converter={StaticResource ConvertString}}"
                                                MaxLines="3"
                                                TextWrapping="Wrap"
                                                TextTrimming="CharacterEllipsis"

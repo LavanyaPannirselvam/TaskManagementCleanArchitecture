@@ -8,6 +8,7 @@
     xmlns:controls ="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:library="using:TaskManagementLibrary.Models"
     xmlns:usercontrols ="using:TaskManagementCleanArchitecture.View.UserControls"
+    xmlns:l="using:TaskManagementCleanArchitecture"
     mc:Ignorable="d"
     xmlns:usercontrol ="using:TaskManagementCleanArchitecture.View.UserControls" xmlns:converter="using:TaskManagementCleanArchitecture.Converter"
     Loaded="UserControl_Loaded"
@@ -16,8 +17,43 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:EnumConverter x:Key="ConvertEnum"/>
+            <DataTemplate x:Key="UsersListTemplate" x:DataType="library:UserBO">
+                <StackPanel Height="40"
+                            Margin="0,5"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind Name,Mode=OneWay}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   MaxWidth="290"
+                                                   HorizontalAlignment="Left"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="1"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0,0,3,0"/>
+                    <TextBlock Text="{x:Bind Email,Mode=OneWay}"
+                                                   FontSize="13"
+                                                   MaxWidth="290"
+                                                   HorizontalAlignment="Left"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="1"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0,0,0,0"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="NoItemTemplate" x:DataType="x:String">
+                <TextBlock Text="{x:Bind}"
+                           Style="{ThemeResource BasicTextBlock}"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Left"/>
+            </DataTemplate>
+
+            <l:AutoSuggestBoxDataTemplateSelector x:Key="MyDataTemplateSelector"
+                                            UsersListTemplate="{StaticResource UsersListTemplate}"
+                                            NoItemTemplate="{StaticResource NoItemTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
+
     <Grid>
         <ScrollViewer VerticalScrollMode="Auto"
                       VerticalScrollBarVisibility="Visible"
@@ -68,6 +104,7 @@
                         <ComboBox FontSize="16"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Priority,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
+                  SelectionChanged="PriorityCombo_SelectionChanged"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   x:Name="PriorityCombo">
                         </ComboBox>
@@ -88,6 +125,7 @@
                      TextWrapping="Wrap"
                      MinHeight="60"
                      MaxHeight="120" 
+                     TextChanged="DescriptionBox_TextChanged"
                      HorizontalAlignment="Stretch"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      Grid.Row="1"
@@ -99,9 +137,9 @@
 
                 <Grid Grid.Row="3"
               Margin="5,3"
+              x:Name="InfoGridHeight"
               Background="{ThemeResource SupportingColor}"
               CornerRadius="3"
-              MinHeight="375"
               VerticalAlignment="Top"
               Padding="10">
                     <Grid.RowDefinitions>
@@ -128,6 +166,7 @@
                        VerticalAlignment="Center"/>
                             <ComboBox Margin="0"
                   FontSize="16"
+                  SelectionChanged="StatusCombo_SelectionChanged"
                   SelectedItem="{x:Bind _issueViewModel.SelectedIssue.Status,Mode=OneWay,Converter={StaticResource ConvertEnum}}"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
@@ -164,6 +203,7 @@
                            VerticalAlignment="Center"/>
                             <CalendarDatePicker Margin="2"
                                   FontSize="16"
+                                  DateChanged="StartdateCalender_DateChanged"
                                    Style="{ThemeResource CalendarDatePickerCustomStyle}"
                                   Date="{x:Bind _issueViewModel.SelectedIssue.StartDate,Mode=OneWay}"
                                   x:Name="StartdateCalender"/>
@@ -183,6 +223,7 @@
                             <CalendarDatePicker Margin="2"
                   FontSize="16"
                   MinDate="{x:Bind _issueViewModel.SelectedIssue.StartDate}"
+                  DateChanged="EnddateCalender_DateChanged"
                   Date="{x:Bind _issueViewModel.SelectedIssue.EndDate,Mode=OneWay}"
                   Style="{ThemeResource CalendarDatePickerCustomStyle}"
                   x:Name="EnddateCalender"/>
@@ -208,39 +249,15 @@
                                         QueryIcon="Find"
                                         x:Uid="AssignUserPlaceholder"
                                         IsSuggestionListOpen="False"
+                                        LostFocus="AssignUserBox_LostFocus"
                                         QuerySubmitted="AssignUserBox_QuerySubmitted"
                                         TextMemberPath="Name"
                                         TextChanged="AutoSuggestBox_TextChanged"
                                         Style="{ThemeResource AutoSuggestBoxCustom}"
+                                        ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                                         SuggestionChosen="AssignUserBox_SuggestionChosen"
                                         Margin="0,5"
                                         x:Name="AssignUserBox">
-                                  
-                                    <AutoSuggestBox.ItemTemplate>
-                                        <DataTemplate x:DataType="library:UserBO">
-                                            <StackPanel Height="40"
-                                                Margin="0,5"
-                                                VerticalAlignment="Center">
-                                                <TextBlock Text="{x:Bind Name,Mode=OneWay}"
-                                                  FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   MaxWidth="290"
-                                                   HorizontalAlignment="Left"
-                                                   TextWrapping="Wrap"
-                                                   MaxLines="1"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Margin="0,0,3,0"/>
-                                                <TextBlock Text="{x:Bind Email,Mode=OneWay}"
-                                                   FontSize="13"
-                                                   MaxWidth="290"
-                                                   HorizontalAlignment="Left"
-                                                   TextWrapping="Wrap"
-                                                   MaxLines="1"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Margin="0"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </AutoSuggestBox.ItemTemplate>
                                 </AutoSuggestBox>
                             </StackPanel>
                             <Grid>

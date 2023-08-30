@@ -17,14 +17,73 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class UserViewModel : UserViewModelBase
     {
-        private GetUsersList _getUsersList;
-
         public override void GetAllUsersList(int count,int skipCount)
         {
+            GetUsersList _getUsersList;
             _getUsersList = new GetUsersList(new GetUsersListRequest(count,skipCount,new CancellationTokenSource()), new PresenterGetUsersList(this));
             _getUsersList.Execute();
         }
+
+        public override void DeleteUser(string email)
+        {
+            DeleteUser _deleteUser;
+            _deleteUser = new DeleteUser(new DeleteUserRequest(email, new CancellationTokenSource()), new PresenterDeleteUserCallback(this));
+            _deleteUser.Execute();
+        }
+
+        public override void GetMatchingUsers(string input)
+        {
+            GetAllMatchingUsers _getAllUsers;
+            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersCallback(this));
+            _getAllUsers.Execute();
+        }
     }
+
+
+    public abstract class UserViewModelBase : NotifyPropertyBase
+    {
+        public ObservableCollection<User> UsersList = new ObservableCollection<User>();
+        public abstract void GetAllUsersList(int count,int skipCount);
+        public abstract void GetMatchingUsers(string input);
+        public abstract void DeleteUser(string email);
+        public IDeleteUserPageUpdateNotification deleteUserPageUpdateNotification { get; set; }
+        public IUpdateSearchedUser updateSearchedUser { get; set; }
+        
+        private string _responseString = string.Empty;
+        public string ResponseString
+        {
+            get { return _responseString; }
+            set
+            {
+                _responseString = value;
+                OnPropertyChanged(nameof(ResponseString));
+            }
+        }
+
+        private ObservableCollection<User> _matchingUsers = new ObservableCollection<User>();
+        public ObservableCollection<User> MatchingUsers
+        {
+            get { return _matchingUsers; }
+            set
+            {
+                _matchingUsers = value;
+                OnPropertyChanged(nameof(MatchingUsers));
+            }
+        }
+    }
+
+
+    public interface IDeleteUserPageUpdateNotification
+    {
+        void NotificationMessage();
+    }
+
+
+    public interface IUpdateSearchedUser
+    {
+        void UpdateSearchedUser();
+    }
+
 
     public class PresenterGetUsersList : IPresenterGetUsersListCallback
     {
@@ -33,7 +92,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
         private bool _hasMoreItems;
         private int _currentPage;
 
-        public PresenterGetUsersList(UserViewModelBase usersViewModel,int itemsPerpage = 10)
+        public PresenterGetUsersList(UserViewModelBase usersViewModel, int itemsPerpage = 10)
         {
             _usersViewModel = usersViewModel;
             _itemsPerPage = itemsPerpage;
@@ -65,63 +124,6 @@ namespace TaskManagementCleanArchitecture.ViewModel
                 _usersViewModel.UsersList.Add(p);
             }
         }
-    }
-
-
-    public abstract class UserViewModelBase : NotifyPropertyBase
-    {
-        public ObservableCollection<User> UsersList = new ObservableCollection<User>();
-        public abstract void GetAllUsersList(int count,int skipCount);
-        public IDeleteUserPageUpdateNotification deleteUserPageUpdateNotification { get; set; }
-        public IUpdateSearchedUser updateSearchedUser { get; set; }
-        
-        private string _responseString = string.Empty;
-        public string ResponseString
-        {
-            get { return _responseString; }
-            set
-            {
-                _responseString = value;
-                OnPropertyChanged(nameof(ResponseString));
-            }
-        }
-
-        private ObservableCollection<User> _matchingUsers = new ObservableCollection<User>();
-        public ObservableCollection<User> MatchingUsers
-        {
-            get { return _matchingUsers; }
-            set
-            {
-                _matchingUsers = value;
-                OnPropertyChanged(nameof(MatchingUsers));
-            }
-        }
-
-        public void DeleteUser(string email)
-        {
-            DeleteUser _deleteUser;
-            _deleteUser = new DeleteUser(new DeleteUserRequest(email,new CancellationTokenSource()),new PresenterDeleteUserCallback(this));
-            _deleteUser.Execute();
-        }
-
-        public void GetMatchingUsers(string input)
-        {
-            GetAllMatchingUsers _getAllUsers;
-            _getAllUsers = new GetAllMatchingUsers(new GetAllMatchingUsersRequest(input, new CancellationTokenSource()), new PresenterAllMatchingUsersCallback(this));
-            _getAllUsers.Execute();
-        }
-    }
-
-
-    public interface IDeleteUserPageUpdateNotification
-    {
-        void NotificationMessage();
-    }
-
-
-    public interface IUpdateSearchedUser
-    {
-        void UpdateSearchedUser();
     }
 
 

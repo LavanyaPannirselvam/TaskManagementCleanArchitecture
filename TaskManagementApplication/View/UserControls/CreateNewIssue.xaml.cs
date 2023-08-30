@@ -58,23 +58,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void IssueName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var text = (TextBox)sender;//should do empty and invalid data check
-            if (text.Text == string.Empty || text.Text == null)
-            {
-                ErrorMessage.Text = _resourceLoader.GetString("IssueNameEmptyErrorMsg");
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
-            else ErrorMessage.Visibility = Visibility.Collapsed;
-            _issueName = text.Text;
-        }
-
-        private void descriptionBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _description = ((TextBox)sender).Text;
-        }
-
         private void StartDate_DataChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             var date = (CalendarDatePicker)sender;
@@ -158,7 +141,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
 
         private bool IsIssueNameEmpty(string name)
         {
-            if (name == null || name == "" || name == string.Empty)
+            if (string.IsNullOrEmpty(name))
             {
                 ErrorMessage.Text = _resourceLoader.GetString("IssueNameEmptyErrorMsg");
                 ErrorMessage.Visibility = Visibility.Visible;
@@ -187,24 +170,21 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             ErrorMessage.Visibility = Visibility.Collapsed;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void IssueName_LostFocus(object sender, RoutedEventArgs e)
         {
-            IssueName.TextChanged += IssueName_TextChanged;
-            DescriptionBox.TextChanged += descriptionBox_TextChanged;
-            startdate.DateChanged += StartDate_DataChanged;
-            enddate.DateChanged += EndDate_DataChanged;
-            prioritybox.SelectionChanged += Priority_Selectionchanged;
-            statusbox.SelectionChanged += Status_Selectionchanged;
+            var text = (TextBox)sender;//should do empty and invalid data check
+            if (text.Text == string.Empty || text.Text == null)
+            {
+                ErrorMessage.Text = _resourceLoader.GetString("IssueNameEmptyErrorMsg");
+                ErrorMessage.Visibility = Visibility.Visible;
+            }
+            else ErrorMessage.Visibility = Visibility.Collapsed;
+            _issueName = text.Text;
         }
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            IssueName.TextChanged -= IssueName_TextChanged;
-            DescriptionBox.TextChanged -= descriptionBox_TextChanged;
-            startdate.DateChanged -= StartDate_DataChanged;
-            enddate.DateChanged -= EndDate_DataChanged;
-            prioritybox.SelectionChanged -= Priority_Selectionchanged;
-            statusbox.SelectionChanged -= Status_Selectionchanged;
+            _description = ((TextBox)sender).Text;
         }
     }
 }

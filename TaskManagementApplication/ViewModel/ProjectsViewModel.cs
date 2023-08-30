@@ -19,14 +19,20 @@ using Windows.UI.Xaml;
 namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class ProjectsViewModel : ProjectsViewModelBase
-    {
-        private GetProjectsList _getProjectsList;
-        //private GetUsersList _getUsersList; 
+    {        
         
         public override void GetProjectsList(string name,string email)
         {
+            GetProjectsList _getProjectsList;
             _getProjectsList = new GetProjectsList(new PresenterGetProjectsList(this),new GetProjectListRequest(name,email,new CancellationTokenSource()));
             _getProjectsList.Execute();
+        }
+
+        public override void CreateProject(Project project)
+        {
+            CreateProject _createProject;
+            _createProject = new CreateProject(new CreateProjectRequest(project, new CancellationTokenSource()), new PresenterCreateProjectCallback(this));
+            _createProject.Execute();
         }
     }
 
@@ -85,57 +91,13 @@ namespace TaskManagementCleanArchitecture.ViewModel
     }
 
 
-    //public class PresenterGetUsersList : IPresenterGetUsersListCallback
-    //{
-    //    private FirstPageViewModel _firstPageViewModel;
-
-    //    public PresenterGetUsersList(FirstPageViewModel firstPageViewModel)
-    //    {
-    //        _firstPageViewModel = firstPageViewModel;
-    //    }
-
-    //    public void OnError(BException errorMessage)
-    //    {
-            
-    //    }
-
-    //    public void OnFailure(ZResponse<GetUsersListResponse> response)
-    //    {
-            
-    //    }
-
-    //    public async void OnSuccessAsync(ZResponse<GetUsersListResponse> response)
-    //    {
-    //        await SwitchToMainUIThread.SwitchToMainThread(() =>
-    //        {
-    //            PopulateData(response.Data.AssignedUserList);
-    //            //_firstPageViewModel.projectWithUsersList.Add();
-    //        });
-    //    }
-
-    //    private void PopulateData(List<User> data)
-    //    {
-    //        //TODO : if no users,msg that no users were assigned yet
-    //        foreach (var p in data)
-    //        {
-    //            _firstPageViewModel.UsersList.Add(p);               
-    //        }
-    //    }
-    //}
-
-
     public abstract class ProjectsViewModelBase : NotifyPropertyBase
     {
         public ObservableCollection<Project> ProjectsList = new ObservableCollection<Project>();
         public IProjectPageUpdate projectPageUpdate { get; set; }
         public abstract void GetProjectsList(string name,string email);
-
-        public void CreateProject(Project project)
-        {
-            CreateProject _createProject;
-            _createProject = new CreateProject(new CreateProjectRequest(project, new CancellationTokenSource()), new PresenterCreateProjectCallback(this));
-            _createProject.Execute();
-        }
+        public abstract void CreateProject(Project project);
+        
 
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility

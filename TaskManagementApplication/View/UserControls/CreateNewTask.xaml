@@ -7,9 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    Loaded="UserControl_Loaded"
-    Unloaded="UserControl_Unloaded">
+    d:DesignWidth="400">
     <Grid Background="{ThemeResource AppForegroundBg}"
           CornerRadius="10"
           Width="400">
@@ -27,6 +25,7 @@
         <TextBox Name="TaskName" 
                  x:Uid="TaskNameLabel"
                  HorizontalAlignment="Stretch"
+                 LostFocus="TaskName_LostFocus"
                  Style="{ThemeResource TextBoxCustomstyle}"
                  Margin="5"></TextBox>
 
@@ -38,20 +37,21 @@
                      HorizontalAlignment="Stretch"
                      Grid.Row="1"
                      Margin="5"
+                     LostFocus="DescriptionBox_LostFocus"
                      Style="{ThemeResource TextBoxCustomstyle}"
                      x:Uid="DescriptionLabel"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <CalendarDatePicker Grid.Row="2"
                             x:Uid="StartDateLabel"
                             Name="startdate"
-                            PlaceholderText=""
+                            DateChanged="StartDate_DataChanged"                            
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             HorizontalAlignment="Stretch"
                             Margin="5"/>
         <CalendarDatePicker Grid.Row="3"
                             x:Uid="EndDateLabel"
                             Name="enddate"
-                            PlaceholderText=""
+                            DateChanged="EndDate_DataChanged"
                             Style="{ThemeResource CalendarDatePickerCustomStyle}"
                             HorizontalAlignment="Stretch"
                             Margin="5"/>
@@ -59,6 +59,7 @@
                   x:Uid="PriorityLabel"
                   PlaceholderText="Choose a priority"
                   Name="prioritybox"
+                  SelectionChanged="Priority_Selectionchanged"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   HorizontalAlignment="Stretch"
@@ -69,6 +70,7 @@
                   PlaceholderText="Choose a status"
                   HorizontalAlignment="Stretch"
                   Name="statusbox"
+                  SelectionChanged="Status_Selectionchanged"
                   Style="{ThemeResource ComboBoxCustomStyle}"
                   ItemContainerStyle="{ThemeResource ComboBoxItemcustomStyle}"
                   Margin="5">

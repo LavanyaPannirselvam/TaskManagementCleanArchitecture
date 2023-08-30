@@ -38,7 +38,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
         private ObservableCollection<UserBO> _assignedUsers;
         public static event Action<string> Notification;
         public static event Action<ObservableCollection<UserBO>> UpdateUsers;
-        EnumConverter _enumConverter;
+        private EnumConverter _enumConverter;
         private double _windowWidth;
         private double _windowHeight;
 
@@ -75,7 +75,7 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             {
                 AssignUserBox.Text = string.Empty;
                 AssignUserBox.IsSuggestionListOpen = false;
-                _issueViewModel.AssignUserToIssue(user.Email, _issueViewModel.SelectedIssue.Id);
+                _issueViewModel.AssignIssueToUser(user.Email, _issueViewModel.SelectedIssue.Id);
             }
         }
 
@@ -94,14 +94,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded += UIUpdation_UserAdded;
             UIUpdation.UserRemoved += UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove += UIUpdation_UserSelected;
-            NameBox.TextChanged += NameBox_TextChanged;
-            DescriptionBox.TextChanged += DescriptionBox_TextChanged;
-            StartdateCalender.DateChanged += StartdateCalender_DateChanged;
-            EnddateCalender.DateChanged += EnddateCalender_DateChanged;
-            PriorityCombo.SelectionChanged += PriorityCombo_SelectionChanged;
-            StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
-            //PriorityCombo.Loaded += PriorityCBox_Loaded;
-            //StatusCombo.Loaded += StatusCombo_Loaded;
         }
 
         private void UIUpdation_UserSelected(UserBO obj)
@@ -122,13 +114,13 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             if (_suggestedItems.Count == 0)
             {
-                _suggestedItems.Add(new UserBO("No results found", string.Empty));
+                AssignUserBox.ItemsSource = new List<string> { "No results found" };
             }
-            if (AssignUserBox.Text != string.Empty)
+            if (AssignUserBox.Text != string.Empty && _suggestedItems.Count != 0)
             {
                 AssignUserBox.ItemsSource = _suggestedItems;
             }
-            else
+            else if (AssignUserBox.Text == string.Empty)
             {
                 AssignUserBox.ItemsSource = null;
             }
@@ -159,14 +151,6 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UIUpdation.UserAdded -= UIUpdation_UserAdded;
             UIUpdation.UserRemoved -= UIUpdation_UserRemoved;
             UIUpdation.UserSelectedToRemove -= UIUpdation_UserSelected;
-            NameBox.TextChanged -= NameBox_TextChanged;
-            DescriptionBox.TextChanged -= DescriptionBox_TextChanged;
-            StartdateCalender.DateChanged -= StartdateCalender_DateChanged;
-            EnddateCalender.DateChanged -= EnddateCalender_DateChanged;
-            PriorityCombo.SelectionChanged -= PriorityCombo_SelectionChanged;
-            StatusCombo.SelectionChanged -= StatusCombo_SelectionChanged;
-            //PriorityCombo.Loaded -= PriorityCBox_Loaded;
-            //StatusCombo.Loaded -= StatusCombo_Loaded;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -195,23 +179,23 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             UpdateUsers.Invoke(_issueViewModel.MatchingUsers);
         }
 
-        private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
-            if (_issueViewModel.SelectedIssue != null)
-            {
-                StatusCombo.SelectedIndex = (int)_issueViewModel.SelectedIssue.Status;
-            }
-        }
+        //private void PriorityCBox_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    PriorityCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(PriorityType));
+        //    if (_issueViewModel.SelectedIssue != null)
+        //    {
+        //        StatusCombo.SelectedIndex = (int)_issueViewModel.SelectedIssue.Status;
+        //    }
+        //}
 
-        private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
-        {
-            StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
-            if (_issueViewModel.SelectedIssue != null)
-            {
-                StatusCombo.SelectedIndex = (int)_issueViewModel.SelectedIssue.Status;
-            }
-        }
+        //private void StatusCombo_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    StatusCombo.ItemsSource = EnumConverter.EnumToStringConverter(typeof(StatusType));
+        //    if (_issueViewModel.SelectedIssue != null)
+        //    {
+        //        StatusCombo.SelectedIndex = (int)_issueViewModel.SelectedIssue.Status;
+        //    }
+        //}
 
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -286,8 +270,14 @@ namespace TaskManagementCleanArchitecture.View.UserControls
             }
             else if (_windowWidth > 750 && _windowHeight < 900)
             {
-                Scroller.Height = 600;
+                Scroller.Height = 670;
             }
+        }
+
+        private void AssignUserBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            AssignUserBox.Text = string.Empty;
+            AssignUserBox.IsSuggestionListOpen = false;
         }
     }
 }

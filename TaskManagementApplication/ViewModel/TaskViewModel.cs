@@ -18,13 +18,27 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class TaskViewModel : TasksPageViewModelBase
     {
-        private GetTasksList _getTasksList;
-
         public override void GetTasks(int projectId)//, int count, int skipCount)
         {
+            GetTasksList _getTasksList;
             _getTasksList = new GetTasksList(new GetTasksListRequest(projectId ,new CancellationTokenSource()), new PresenterGetTasksList(this));
             _getTasksList.Execute();
         }
+
+        public override void CreateTask(Tasks task)
+        {
+            CreateTask _createTask;
+            _createTask = new CreateTask(new CreateTaskRequest(task, new CancellationTokenSource()), new PresenterCreateTaskCallback(this));
+            _createTask.Execute();
+        }
+
+        public override void DeleteTask(int taskId)
+        {
+            DeleteTask _deleteTask;
+            _deleteTask = new DeleteTask(new DeleteTaskRequest(taskId, new CancellationTokenSource()), new PresenterDeleteTaskCallback(this));
+            _deleteTask.Execute();
+        }
+
     }
 
 
@@ -87,21 +101,9 @@ namespace TaskManagementCleanArchitecture.ViewModel
         public int projectId { get; set; }
         public ITaskUpdation updation { get; set; }
         public abstract void GetTasks(int projectId);//,int count,int skipCount);
-
-        public void CreateNewTask(Tasks pro)
-        {
-            CreateTask _createTask;
-            _createTask = new CreateTask(new CreateTaskRequest(pro, new CancellationTokenSource()), new PresenterCreateTaskCallback(this));
-            _createTask.Execute();
-        }
-
-        public void DeleteTask(int taskId)
-        {
-            DeleteTask _deleteTask;
-            _deleteTask = new DeleteTask(new DeleteTaskRequest(taskId, new CancellationTokenSource()), new PresenterDeleteTaskCallback(this));
-            _deleteTask.Execute();
-        }
-
+        public abstract void CreateTask(Tasks tasks);
+        public abstract void DeleteTask(int taskId);
+       
         private Visibility _textVisibility = Visibility.Collapsed;
         public Visibility TextVisibility
         {

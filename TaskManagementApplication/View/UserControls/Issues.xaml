@@ -131,7 +131,7 @@
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate x:DataType="library:Issue" >
                                         <TextBlock Padding="10,0,5,0" 
-                                               Text="{x:Bind Desc}"
+                                               Text="{x:Bind Desc,Converter={StaticResource ConvertString}}"
                                                    MaxLines="3"
                                                    TextWrapping="Wrap"
                                                TextTrimming="CharacterEllipsis"

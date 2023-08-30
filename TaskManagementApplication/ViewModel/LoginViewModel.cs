@@ -16,10 +16,10 @@ namespace TaskManagementCleanArchitecture.ViewModel
 {
     public class LoginViewModel : LoginViewModelBase
     {
-        Login login;
         public override void ValidateUser(string userId, string password)
         {
-            login = new Login(new PresenterLoginCallback(this),new LoginRequest(new CancellationTokenSource(),userId, password));
+            Login login;
+            login = new Login(new PresenterLoginCallback(this), new LoginRequest(new CancellationTokenSource(), userId, password));
             login.Execute();
         }
     }
@@ -100,7 +100,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
             }
         }
 
-        public abstract void ValidateUser(string userId,string password);
+        public abstract void ValidateUser(string userId, string password);
         public ILoginView LoginView { get; set; }
     }
 
@@ -109,6 +109,7 @@ namespace TaskManagementCleanArchitecture.ViewModel
     {
         void UpdateLoginPage(LoggedInUserBO currentUser);
     }
+
 }
 //login view model's call back will have setuser method with current user -> loginViewModel
 //set user will invoke the event -> login.xaml.cs
